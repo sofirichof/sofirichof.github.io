@@ -13,7 +13,7 @@
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
-  body{background:var(--bg);color:var(--text);font-family:var(--sans);}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden;}
   body.modal-open{overflow:hidden;}
 
   /* ── LOADING ── */
@@ -124,18 +124,18 @@
     position:relative;
     z-index:2;
     margin-top:-10rem;
-    padding-bottom:5rem;
+    padding-bottom:4rem;
     overflow:visible;
   }
 
   .row{
-    margin:2.5rem 0 4.5rem;
+    margin:2.2rem 0 1.8rem;
     position:relative;
     z-index:1;
     overflow:visible;
   }
 
-  .row:hover{z-index:80;}
+  .row:hover{z-index:40;}
 
   .row-title{
     font-family:var(--font);
@@ -153,15 +153,14 @@
   .row-viewport{
     position:relative;
     overflow:visible;
-    padding:0 0 9rem;
-    margin-bottom:-3.5rem;
+    padding-bottom:6.5rem;
   }
 
   .row-scroller{
     overflow-x:auto;
     overflow-y:hidden;
-    padding:4rem 4% 0;
-    margin-top:-4rem;
+    padding:2.5rem 4% 0;
+    margin-top:-2.5rem;
     scrollbar-width:none;
     cursor:grab;
     -webkit-overflow-scrolling:touch;
@@ -177,38 +176,42 @@
 
   .row-track{
     display:flex;
-    gap:.4rem;
+    gap:.55rem;
     width:max-content;
     align-items:flex-start;
+    padding:0 3.8rem;
   }
 
   /* ── CARD ── */
   .card-wrap{
     flex:0 0 auto;
     width:22vw;
-    min-width:160px;
+    min-width:170px;
     max-width:280px;
     position:relative;
     z-index:1;
     overflow:visible;
   }
 
-  .row-scroller:not(.grabbing) .card-wrap:hover{z-index:120;}
+  .row-scroller:not(.grabbing) .card-wrap:hover{z-index:90;}
 
   .card{
     background:var(--bg3);
     border-radius:4px;
     cursor:pointer;
     position:relative;
-    transition:transform .25s ease, box-shadow .25s ease;
+    transition:transform .24s ease, box-shadow .24s ease;
     transform-origin:center top;
     overflow:visible;
   }
 
+  .card.origin-left{transform-origin:left top;}
+  .card.origin-right{transform-origin:right top;}
+
   .row-scroller:not(.grabbing) .card-wrap:hover .card{
-    transform:scale(1.4);
+    transform:translateY(-10px) scale(1.22);
     box-shadow:0 0 2rem rgba(0,0,0,.9),0 8px 16px rgba(0,0,0,.7);
-    transition:transform .25s ease .35s, box-shadow .25s ease .35s;
+    transition:transform .24s ease .18s, box-shadow .24s ease .18s;
     border-radius:4px 4px 0 0;
   }
 
@@ -227,10 +230,11 @@
     position:absolute;inset:0;width:100%;height:100%;
     object-fit:cover;z-index:0;
     transition:opacity .25s,transform .35s;
+    display:block;
   }
 
   .row-scroller:not(.grabbing) .card-wrap:hover .card-thumb-img{
-    transform:scale(1.04);
+    transform:scale(1.03);
   }
 
   .card-thumb video{
@@ -291,13 +295,13 @@
     pointer-events:none;
     z-index:10;
     box-shadow:0 8px 16px rgba(0,0,0,.8);
-    transition:opacity 0s;
+    transition:opacity .12s ease;
   }
 
   .row-scroller:not(.grabbing) .card-wrap:hover .card-details{
     opacity:1;
     pointer-events:auto;
-    transition:opacity .2s ease .35s;
+    transition:opacity .16s ease .18s;
   }
 
   .card-mini-title{font-weight:600;font-size:.78rem;margin-bottom:.2rem;color:#fff;}
@@ -380,10 +384,8 @@
     .row-title,.section-row-title{font-size:3.5vw;}
     .card-wrap{width:42vw;}
     .nav-links{display:none;}
-    .row-viewport{
-      padding-bottom:7rem;
-      margin-bottom:-2.5rem;
-    }
+    .row-viewport{padding-bottom:5.25rem;}
+    .row-track{padding:0 1.2rem;}
   }
 </style>
 </head>
@@ -617,15 +619,19 @@ function getThumbSource(p) {
   };
 }
 
-function makeCard(p) {
+function makeCard(p, index, total) {
   const id = cleanId(p.youtubeId);
   const watchable = Boolean(id);
   const thumb = getThumbSource(p);
   const hasThumb = Boolean(thumb.src);
 
+  let originClass = '';
+  if (index === 0 || index === 1) originClass = ' origin-left';
+  if (index === total - 1 || index === total - 2) originClass = ' origin-right';
+
   return `
   <div class="card-wrap">
-    <div class="card${hasThumb ? ' has-thumb' : ''}" data-youtube-id="${id}" tabindex="${watchable ? 0 : -1}">
+    <div class="card${hasThumb ? ' has-thumb' : ''}${originClass}" data-youtube-id="${id}" tabindex="${watchable ? 0 : -1}">
       <div class="card-thumb">
         ${
           hasThumb
@@ -636,8 +642,8 @@ function makeCard(p) {
                 loading="lazy"
                 ${
                   thumb.type === 'youtube'
-                    ? `onerror="this.src='${thumb.fallback}'"`
-                    : `onerror="this.style.display='none'; this.closest('.card').classList.remove('has-thumb');"`
+                    ? `onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='${thumb.fallback}';}else{this.remove();this.closest('.card').classList.remove('has-thumb');}"`
+                    : `onerror="this.remove(); this.closest('.card').classList.remove('has-thumb');"`
                 }
               >`
             : ''
@@ -677,12 +683,11 @@ function renderLolomo(reelType) {
       <div class="row-title">${r.title}</div>
       <div class="row-viewport">
         <div class="row-scroller" id="${r.id}">
-          <div class="row-track">${items.map(makeCard).join('')}</div>
+          <div class="row-track">${items.map((p, i) => makeCard(p, i, items.length)).join('')}</div>
         </div>
       </div>
     </div>`;
   }).join('');
-
   initDrag();
 }
 
@@ -767,7 +772,6 @@ const youtubePlayer = document.getElementById('youtube-player');
 
 function openVideo(id) {
   if (!id) return;
-
   youtubePlayer.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
   videoModal.classList.add('active');
   document.body.classList.add('modal-open');
