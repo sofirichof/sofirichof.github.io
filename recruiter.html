@@ -13,7 +13,7 @@
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
-  body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden;}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);}
   body.modal-open{overflow:hidden;}
 
   /* ── LOADING ── */
@@ -119,59 +119,58 @@
   }
   .btn-info:hover{background:rgba(109,109,110,.4);}
 
-  /* ── LOLOMO ROWS ── */
+  /* ── LOLOMO ── */
   #lolomo{position:relative;z-index:2;margin-top:-10rem;padding-bottom:5rem;}
-  .row{ margin-bottom:2.5vw; position:relative; z-index:1; }
-  .row:hover{ z-index:2; }
+  .row{margin:6rem 0;position:relative;}
+  .row:hover{z-index:50;}
   .row-title{
     font-family:var(--font);font-size:1.4vw;letter-spacing:.12em;
     color:#e5e5e5;padding:0 4%;margin-bottom:.5rem;
     transition:color .2s;cursor:default;
   }
   .row:hover .row-title{color:#fff;}
-  .row-track-wrap{
-    padding:1.5rem 0 3rem;margin-top:-1rem;
-    position:relative;
-  }
-  .row-track{
-    display:flex;padding:0 4%;gap:.35rem;
-    overflow-x:auto;
-    scroll-behavior:smooth;
-    cursor:grab;scrollbar-width:none;
+
+  /* Scroller — handles horizontal scroll, vertical visible for hover scale */
+  .row-scroller{
+    overflow-x:scroll;
+    overflow-y:visible;
+    padding:4rem 4%;
+    margin:-4rem 0;
+    scrollbar-width:none;
+    cursor:grab;
     -webkit-overflow-scrolling:touch;
     touch-action:pan-x;
-    /* Extra bottom padding so details panel has room */
-    padding-bottom:12rem;
-    margin-bottom:-12rem;
   }
-  .row-track::-webkit-scrollbar{display:none;}
-  .row-track.grabbing{cursor:grabbing;scroll-behavior:auto;}
+  .row-scroller::-webkit-scrollbar{display:none;}
+  .row-scroller.grabbing{cursor:grabbing;scroll-behavior:auto;}
+
+  /* Track holds the cards */
+  .row-track{
+    display:flex;
+    gap:.4rem;
+    width:max-content;
+  }
 
   /* ── CARD ── */
   .card-wrap{
     flex:0 0 auto;
-    width:calc((100% - 8%) / 4 - .35rem);
-    min-width:140px;
+    width:22vw;
+    min-width:160px;
+    max-width:280px;
     position:relative;
     z-index:1;
   }
-  /* On hover lift z-index and use absolute positioning for the scaled card */
-  .row-track:not(.grabbing) .card-wrap:hover{
-    z-index:50;
-  }
+  .row-scroller:not(.grabbing) .card-wrap:hover{z-index:99;}
+
   .card{
     background:var(--bg3);border-radius:4px;
     cursor:pointer;position:relative;
-  }
-  .card-inner{
-    border-radius:4px;overflow:hidden;
     transition:transform .25s ease,box-shadow .25s ease;
-    transform-origin:center center; /* scale from center so top isn't clipped */
-    position:relative;z-index:2;
+    transform-origin:center center;
   }
-  .row-track:not(.grabbing) .card-wrap:hover .card-inner{
-    transform:scale(1.35) translateY(-8%); /* nudge up slightly so details panel aligns */
-    box-shadow:0 0 1rem rgba(0,0,0,.75),0 6px 6px rgba(0,0,0,.5);
+  .row-scroller:not(.grabbing) .card-wrap:hover .card{
+    transform:scale(1.4);
+    box-shadow:0 0 2rem rgba(0,0,0,.9),0 8px 16px rgba(0,0,0,.7);
     transition:transform .25s ease .4s,box-shadow .25s ease .4s;
     border-radius:4px 4px 0 0;
   }
@@ -180,7 +179,7 @@
   .card-thumb{
     aspect-ratio:16/9;overflow:hidden;position:relative;
     display:flex;align-items:center;justify-content:center;
-    background:#000;
+    background:#000;border-radius:4px;
   }
   .card-thumb-img{
     position:absolute;inset:0;width:100%;height:100%;
@@ -190,9 +189,9 @@
   .card-thumb video{
     position:absolute;inset:0;width:100%;height:100%;
     object-fit:cover;opacity:0;z-index:1;
-    transition:opacity .25s,transform .35s;
+    transition:opacity .25s;
   }
-  .row-track:not(.grabbing) .card-wrap:hover .card-thumb video{opacity:1;}
+  .row-scroller:not(.grabbing) .card-wrap:hover .card-thumb video{opacity:1;}
   .card-thumb-label{
     font-family:var(--font);font-size:.75rem;letter-spacing:.06em;
     color:var(--muted);text-align:center;padding:.5rem;
@@ -200,24 +199,19 @@
     transition:opacity .2s;
   }
   .card.has-thumb .card-thumb-label{opacity:0;}
-
-  /* Overlay on hover */
   .card-thumb::after{
     content:'';position:absolute;inset:0;
-    background:
-      linear-gradient(to top,rgba(0,0,0,.65),transparent 60%),
-      linear-gradient(to right,rgba(0,0,0,.28),transparent 55%);
+    background:linear-gradient(to top,rgba(0,0,0,.65),transparent 60%);
     opacity:0;transition:opacity .25s;pointer-events:none;z-index:3;
   }
-  .row-track:not(.grabbing) .card-wrap:hover .card-thumb::after{opacity:1;}
+  .row-scroller:not(.grabbing) .card-wrap:hover .card-thumb::after{opacity:1;}
 
-  /* Play ring */
   .card-play{
     position:absolute;inset:0;
     display:flex;align-items:center;justify-content:center;
     opacity:0;transition:opacity .2s;z-index:4;
   }
-  .row-track:not(.grabbing) .card-wrap:hover .card-play{opacity:1;}
+  .row-scroller:not(.grabbing) .card-wrap:hover .card-play{opacity:1;}
   .play-ring{
     width:44px;height:44px;border-radius:50%;
     border:2px solid var(--terra);
@@ -226,22 +220,19 @@
     background:rgba(0,0,0,.5);
   }
 
+  /* Details panel — appears below card on hover, scales with card */
   .card-details{
-    position:absolute;
-    left:0;right:0;top:100%;
-    background:var(--bg2);
-    border-radius:0 0 4px 4px;
+    position:absolute;left:0;right:0;top:100%;
+    background:var(--bg2);border-radius:0 0 4px 4px;
     padding:.6rem .7rem .7rem;
-    opacity:0;
-    pointer-events:none;
+    opacity:0;pointer-events:none;
     z-index:3;
-    min-width:100%;
     box-shadow:0 8px 16px rgba(0,0,0,.8);
     transition:opacity 0s;
+    transform-origin:top center;
   }
   .row-scroller:not(.grabbing) .card-wrap:hover .card-details{
-    opacity:1;
-    pointer-events:auto;
+    opacity:1;pointer-events:auto;
     transition:opacity .2s ease .4s;
   }
   .card-mini-title{font-weight:600;font-size:.78rem;margin-bottom:.2rem;color:#fff;}
@@ -253,7 +244,6 @@
     background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);
     border-radius:2px;letter-spacing:.04em;
   }
-  .card-tag.new{background:#43a047;color:#fff;font-weight:700;}
 
   /* ── ABOUT ── */
   .about-section{padding:4rem 4%;border-top:1px solid var(--border);}
@@ -291,15 +281,12 @@
     display:none;align-items:center;justify-content:center;
     padding:2rem;background:rgba(0,0,0,.86);backdrop-filter:blur(8px);
   }
-  .video-modal.active{display:flex;animation:modalFadeIn .28s ease forwards;}
-  @keyframes modalFadeIn{from{opacity:0;transform:scale(1.015);}to{opacity:1;transform:scale(1);}}
+  .video-modal.active{display:flex;}
   .video-modal-content{
     position:relative;width:min(1100px,94vw);aspect-ratio:16/9;
     background:#000;border:1px solid rgba(255,255,255,.12);
     box-shadow:0 0 60px rgba(229,9,20,.22);
-    animation:playerRise .32s ease forwards;
   }
-  @keyframes playerRise{to{transform:translateY(0);}}
   .video-modal iframe{width:100%;height:100%;border:0;display:block;}
   .modal-close{
     position:absolute;top:-44px;right:0;
@@ -326,7 +313,7 @@
     .bill-content{max-width:75%;}
     .bill-desc{font-size:3.5vw;}
     .row-title,.section-row-title{font-size:3.5vw;}
-    .card-wrap{width:calc((100% - 8%) / 2 - .35rem);}
+    .card-wrap{width:42vw;}
     .nav-links{display:none;}
   }
 </style>
@@ -441,7 +428,6 @@
 </div>
 
 <script>
-// ── DATA ──
 const broadcast = [
   { cat:'Broadcast', title:'Acceso Total — Hollywood Premiere', role:'Interviewer', org:'Telemundo 52 / NBCUniversal', year:'2026', youtubeId:'b4WxJcoeT0c', preview:'assets/previews/hollywood-premiere.mp4', rows:['featured'] },
   { cat:'Broadcast', title:'Acceso Total — Independence Days', role:'Segment Producer', org:'Telemundo 52 / NBCUniversal', year:'2025', youtubeId:'kVxZsvJysHA', preview:'assets/previews/independence-days.mp4', rows:['featured'] },
@@ -459,7 +445,6 @@ const film = [
   { cat:'Music Video · 8 min', title:'The In Between', role:'1st AD', org:'Veritus Miller', year:'2024', youtubeId:'7aJZ3AvY3IU', preview:'assets/previews/the-in-between.mp4', rows:['doc'] },
 ];
 
-// ── ROW CONFIGS per reel ──
 const rowConfigs = {
   broadcast: [
     { id:'row-featured-b', title:'Featured — Broadcast & TV', key:'featured' },
@@ -478,7 +463,6 @@ const heroDescs = {
   film:"Narrative producer with SAG-AFTRA shorts, three seasons of scripted TV drama, and documentary work. I build shoots that run on time and sets where people actually want to be.",
 };
 
-// ── HELPERS ──
 function cleanId(v) {
   if (!v || v === 'PASTE_YOUTUBE_ID_HERE') return '';
   v = v.trim();
@@ -495,13 +479,11 @@ function makeCard(p) {
   return `
   <div class="card-wrap">
     <div class="card${watchable?' has-thumb':''}" data-youtube-id="${id}" tabindex="${watchable?0:-1}">
-      <div class="card-inner">
-        <div class="card-thumb">
-          ${watchable?`<img class="card-thumb-img" src="${thumbUrl}" alt="${p.title}" loading="lazy" onerror="this.src='https://img.youtube.com/vi/${id}/hqdefault.jpg'">`:''}
-          ${p.preview?`<video src="${p.preview}" muted loop playsinline preload="metadata"></video>`:''}
-          <span class="card-thumb-label">${p.cat}</span>
-          ${watchable?`<div class="card-play"><div class="play-ring">▶</div></div>`:''}
-        </div>
+      <div class="card-thumb">
+        ${watchable?`<img class="card-thumb-img" src="${thumbUrl}" alt="${p.title}" loading="lazy" onerror="this.src='https://img.youtube.com/vi/${id}/hqdefault.jpg'">`:''}
+        ${p.preview?`<video src="${p.preview}" muted loop playsinline preload="metadata"></video>`:''}
+        <span class="card-thumb-label">${p.cat}</span>
+        ${watchable?`<div class="card-play"><div class="play-ring">▶</div></div>`:''}
       </div>
       <div class="card-details">
         <div class="card-mini-title">${p.title}</div>
@@ -516,7 +498,6 @@ function makeCard(p) {
   </div>`;
 }
 
-// ── RENDER LOLOMO ──
 function renderLolomo(reelType) {
   const data = reelType === 'broadcast' ? broadcast : film;
   const rows = rowConfigs[reelType];
@@ -542,7 +523,6 @@ function switchReel(type, btn) {
   renderLolomo(type);
 }
 
-// ── DRAG SCROLL (on scroller, not track) ──
 function initDrag() {
   document.querySelectorAll('.row-scroller').forEach(scroller => {
     let isDown = false, startX = 0, startY = 0, scrollLeft = 0, locked = false, lockDir = '';
@@ -578,7 +558,6 @@ function initDrag() {
   });
 }
 
-// ── VIDEO MODAL ──
 const videoModal = document.getElementById('video-modal');
 const videoModalContent = document.getElementById('video-modal-content');
 const youtubePlayer = document.getElementById('youtube-player');
@@ -587,13 +566,11 @@ function openVideo(id) {
   if (!id) return;
   youtubePlayer.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
   videoModal.classList.add('active');
-  videoModal.setAttribute('aria-hidden','false');
   document.body.classList.add('modal-open');
 }
 function closeVideo() {
   youtubePlayer.src = '';
   videoModal.classList.remove('active');
-  videoModal.setAttribute('aria-hidden','true');
   document.body.classList.remove('modal-open');
 }
 
@@ -601,7 +578,6 @@ document.getElementById('modal-close').addEventListener('click', closeVideo);
 videoModal.addEventListener('click', e => { if (!videoModalContent.contains(e.target)) closeVideo(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVideo(); });
 
-// Card click — only fire if not dragging
 document.addEventListener('click', e => {
   const card = e.target.closest('.card');
   if (!card) return;
@@ -611,7 +587,6 @@ document.addEventListener('click', e => {
   if (id) openVideo(id);
 });
 
-// Preview video on hover
 document.addEventListener('mouseover', e => {
   const card = e.target.closest('.card');
   if (!card) return;
@@ -625,12 +600,10 @@ document.addEventListener('mouseout', e => {
   if (vid) { vid.pause(); vid.currentTime = 0; }
 });
 
-// ── NAV SOLID ON SCROLL ──
 window.addEventListener('scroll', () => {
   document.getElementById('nav').classList.toggle('solid', window.scrollY > 50);
 });
 
-// ── INIT ──
 renderLolomo('broadcast');
 window.addEventListener('load', () => {
   setTimeout(() => document.getElementById('loading').classList.add('done'), 800);
