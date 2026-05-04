@@ -130,7 +130,6 @@
   }
   .row:hover .row-title{color:#fff;}
 
-  /* Scroller — handles horizontal scroll, vertical visible for hover scale */
   .row-scroller{
     overflow-x:scroll;
     overflow-y:visible;
@@ -144,7 +143,6 @@
   .row-scroller::-webkit-scrollbar{display:none;}
   .row-scroller.grabbing{cursor:grabbing;scroll-behavior:auto;}
 
-  /* Track holds the cards */
   .row-track{
     display:flex;
     gap:.4rem;
@@ -175,7 +173,6 @@
     border-radius:4px 4px 0 0;
   }
 
-  /* Thumb */
   .card-thumb{
     aspect-ratio:16/9;overflow:hidden;position:relative;
     display:flex;align-items:center;justify-content:center;
@@ -185,6 +182,9 @@
     position:absolute;inset:0;width:100%;height:100%;
     object-fit:cover;z-index:0;
     transition:opacity .25s,transform .35s;
+  }
+  .row-scroller:not(.grabbing) .card-wrap:hover .card-thumb-img{
+    transform:scale(1.04);
   }
   .card-thumb video{
     position:absolute;inset:0;width:100%;height:100%;
@@ -220,7 +220,6 @@
     background:rgba(0,0,0,.5);
   }
 
-  /* Details panel — appears below card on hover, scales with card */
   .card-details{
     position:absolute;left:0;right:0;top:100%;
     background:var(--bg2);border-radius:0 0 4px 4px;
@@ -429,32 +428,82 @@
 
 <script>
 const broadcast = [
-  { cat:'Broadcast', title:'Acceso Total — Hollywood Premiere', role:'Interviewer', org:'Telemundo 52 / NBCUniversal', year:'2026', youtubeId:'b4WxJcoeT0c', preview:'assets/previews/hollywood-premiere.mp4', rows:['featured'] },
-  { cat:'Broadcast', title:'Acceso Total — Independence Days', role:'Segment Producer', org:'Telemundo 52 / NBCUniversal', year:'2025', youtubeId:'kVxZsvJysHA', preview:'assets/previews/independence-days.mp4', rows:['featured'] },
-  { cat:'Broadcast · NATAS Award', title:'Live With TY — S1 Ep.11', role:'Chief Editor', org:'BUTV', year:'2024', youtubeId:'g2gvMf2UDbQ', preview:'assets/previews/live-with-ty.mp4', rows:['featured','live'] },
-  { cat:'Broadcast · Santiago, Chile', title:'Zona de Estrellas', role:'Production Assistant', org:'Zona Latina · TVI America', year:'2024', youtubeId:'rz87SYmnLt4', preview:'assets/previews/zona-estrellas.mp4', rows:['live'] },
-  { cat:'Broadcast · Santiago, Chile', title:'Sabores', role:'Production Assistant', org:'Zona Latina · TVI America', year:'2024', youtubeId:'teAbd8zpJ8SfyAQg', preview:'assets/previews/sabores.mp4', rows:['live'] },
-  { cat:'TV Drama', title:'Baystate — Season 48–50', role:'Producer', org:'BUTV · Boston University', year:'2024–2026', youtubeId:'pLEuklMB0Xc', preview:'assets/previews/baystate.mp4', rows:['featured','tv'] },
+  { cat:'Broadcast', title:'Acceso Total — Hollywood Premiere', role:'Interviewer', org:'Telemundo 52 / NBCUniversal', year:'2026', youtubeId:'b4WxJcoeT0c', image:'', preview:'assets/previews/hollywood-premiere.mp4', rows:['featured'] },
+  { cat:'Broadcast', title:'Acceso Total — Independence Days', role:'Segment Producer', org:'Telemundo 52 / NBCUniversal', year:'2025', youtubeId:'kVxZsvJysHA', image:'', preview:'assets/previews/independence-days.mp4', rows:['featured'] },
+  { cat:'Broadcast · NATAS Award', title:'Live With TY — S1 Ep.11', role:'Chief Editor', org:'BUTV', year:'2024', youtubeId:'g2gvMf2UDbQ', image:'', preview:'assets/previews/live-with-ty.mp4', rows:['featured','live'] },
+  { cat:'Broadcast · Santiago, Chile', title:'Zona de Estrellas', role:'Production Assistant', org:'Zona Latina · TVI America', year:'2024', youtubeId:'rz87SYmnLt4', image:'', preview:'assets/previews/zona-estrellas.mp4', rows:['live'] },
+  { cat:'Broadcast · Santiago, Chile', title:'Sabores', role:'Production Assistant', org:'Zona Latina · TVI America', year:'2024', youtubeId:'teAbd8zpJ8SfyAQg', image:'', preview:'assets/previews/sabores.mp4', rows:['live'] },
+  { cat:'TV Drama', title:'Baystate — Season 48–50', role:'Producer', org:'BUTV · Boston University', year:'2024–2026', youtubeId:'pLEuklMB0Xc', image:'', preview:'assets/previews/baystate.mp4', rows:['featured','tv'] },
 ];
 
 const film = [
-  { cat:'Narrative Short · Drama · 15 min', title:'Si Solamente', role:'Producer', org:'Boston University', year:'2026', youtubeId:'PASTE_YOUTUBE_ID_HERE', preview:'assets/previews/si-solamente.mp4', rows:['featured'] },
-  { cat:'Narrative Short · Drama · 15 min', title:'The Stories We Tell Ourselves', role:'Producer', org:'Freelance', year:'2025', youtubeId:'Vp9FBdygTKM', preview:'assets/previews/stories-we-tell.mp4', rows:['featured','shorts'] },
-  { cat:'Documentary · 18 min', title:'Pajuyuk Ancestral Knowledge', role:'Exec. Production Assistant', org:'A Posteriori Entertainment', year:'2025', youtubeId:'PASTE_YOUTUBE_ID_HERE', preview:'assets/previews/pajuyuk.mp4', rows:['featured','doc'] },
-  { cat:'Drama Short · 5 min', title:"Bird's Eye View", role:'Producer & Editor', org:'Boston University', year:'2024', youtubeId:'ETdIUMwOOd0', preview:'assets/previews/birds-eye-view.mp4', rows:['shorts'] },
-  { cat:'Music Video · 8 min', title:'The In Between', role:'1st AD', org:'Veritus Miller', year:'2024', youtubeId:'7aJZ3AvY3IU', preview:'assets/previews/the-in-between.mp4', rows:['doc'] },
+  {
+    cat:'Narrative Short · Drama · 15 min',
+    title:'Si Solamente',
+    role:'Producer',
+    org:'Boston University',
+    year:'2026',
+    youtubeId:'',
+    image:'assets/thumbs/si-solamente.png',
+    preview:'assets/previews/si-solamente.mp4',
+    rows:['featured']
+  },
+  {
+    cat:'Narrative Short · Drama · 15 min',
+    title:'The Stories We Tell Ourselves',
+    role:'Producer',
+    org:'Freelance',
+    year:'2025',
+    youtubeId:'Vp9FBdygTKM',
+    image:'',
+    preview:'assets/previews/stories-we-tell.mp4',
+    rows:['featured','shorts']
+  },
+  {
+    cat:'Documentary · 18 min',
+    title:'Pajuyuk Ancestral Knowledge',
+    role:'Exec. Production Assistant',
+    org:'A Posteriori Entertainment',
+    year:'2025',
+    youtubeId:'',
+    image:'assets/thumbs/pajuyuk.png',
+    preview:'assets/previews/pajuyuk.mp4',
+    rows:['featured','doc']
+  },
+  {
+    cat:'Drama Short · 5 min',
+    title:"Bird's Eye View",
+    role:'Producer & Editor',
+    org:'Boston University',
+    year:'2024',
+    youtubeId:'ETdIUMwOOd0',
+    image:'',
+    preview:'assets/previews/birds-eye-view.mp4',
+    rows:['shorts']
+  },
+  {
+    cat:'Music Video · 8 min',
+    title:'The In Between',
+    role:'1st AD',
+    org:'Veritus Miller',
+    year:'2024',
+    youtubeId:'7aJZ3AvY3IU',
+    image:'',
+    preview:'assets/previews/the-in-between.mp4',
+    rows:['doc']
+  },
 ];
 
 const rowConfigs = {
   broadcast: [
     { id:'row-featured-b', title:'Featured — Broadcast & TV', key:'featured' },
-    { id:'row-live',       title:'Live Television',           key:'live' },
-    { id:'row-tv-b',       title:'TV Drama',                  key:'tv' },
+    { id:'row-live', title:'Live Television', key:'live' },
+    { id:'row-tv-b', title:'TV Drama', key:'tv' },
   ],
   film: [
     { id:'row-featured-f', title:'Featured — Film & Narrative', key:'featured' },
-    { id:'row-shorts',     title:'Short Films',                  key:'shorts' },
-    { id:'row-doc',        title:'Documentary & Other',          key:'doc' },
+    { id:'row-shorts', title:'Short Films', key:'shorts' },
+    { id:'row-doc', title:'Documentary & Other', key:'doc' },
   ],
 };
 
@@ -472,26 +521,72 @@ function cleanId(v) {
   return v.split('?')[0].split('&')[0].split('/')[0];
 }
 
+function getThumbSource(p) {
+  const id = cleanId(p.youtubeId);
+
+  if (id) {
+    return {
+      src: `https://img.youtube.com/vi/${id}/maxresdefault.jpg`,
+      fallback: `https://img.youtube.com/vi/${id}/hqdefault.jpg`,
+      type: 'youtube'
+    };
+  }
+
+  if (p.image) {
+    return {
+      src: p.image,
+      fallback: '',
+      type: 'local'
+    };
+  }
+
+  return {
+    src: '',
+    fallback: '',
+    type: ''
+  };
+}
+
 function makeCard(p) {
   const id = cleanId(p.youtubeId);
   const watchable = Boolean(id);
-  const thumbUrl = watchable ? `https://img.youtube.com/vi/${id}/maxresdefault.jpg` : '';
+  const thumb = getThumbSource(p);
+  const hasThumb = Boolean(thumb.src);
+
   return `
   <div class="card-wrap">
-    <div class="card${watchable?' has-thumb':''}" data-youtube-id="${id}" tabindex="${watchable?0:-1}">
+    <div class="card${hasThumb ? ' has-thumb' : ''}" data-youtube-id="${id}" tabindex="${watchable ? 0 : -1}">
       <div class="card-thumb">
-        ${watchable?`<img class="card-thumb-img" src="${thumbUrl}" alt="${p.title}" loading="lazy" onerror="this.src='https://img.youtube.com/vi/${id}/hqdefault.jpg'">`:''}
-        ${p.preview?`<video src="${p.preview}" muted loop playsinline preload="metadata"></video>`:''}
+        ${
+          hasThumb
+            ? `<img
+                class="card-thumb-img"
+                src="${thumb.src}"
+                alt="${p.title}"
+                loading="lazy"
+                ${
+                  thumb.type === 'youtube'
+                    ? `onerror="this.src='${thumb.fallback}'"`
+                    : `onerror="this.style.display='none'; this.closest('.card').classList.remove('has-thumb');"`
+                }
+              >`
+            : ''
+        }
+
+        ${p.preview ? `<video src="${p.preview}" muted loop playsinline preload="metadata"></video>` : ''}
+
         <span class="card-thumb-label">${p.cat}</span>
-        ${watchable?`<div class="card-play"><div class="play-ring">▶</div></div>`:''}
+
+        ${watchable ? `<div class="card-play"><div class="play-ring">▶</div></div>` : ''}
       </div>
+
       <div class="card-details">
         <div class="card-mini-title">${p.title}</div>
         <div class="card-role-text">${p.role}</div>
-        ${p.org?`<div class="card-org-text">${p.org}</div>`:''}
+        ${p.org ? `<div class="card-org-text">${p.org}</div>` : ''}
         <div class="card-tags">
           <span class="card-tag">${p.year}</span>
-          ${watchable?'<span class="card-tag">Watch ↗</span>':''}
+          ${watchable ? '<span class="card-tag">Watch ↗</span>' : '<span class="card-tag">Preview Only</span>'}
         </div>
       </div>
     </div>
@@ -502,9 +597,11 @@ function renderLolomo(reelType) {
   const data = reelType === 'broadcast' ? broadcast : film;
   const rows = rowConfigs[reelType];
   const lolomo = document.getElementById('lolomo');
+
   lolomo.innerHTML = rows.map(r => {
     const items = data.filter(p => p.rows.includes(r.key));
     if (!items.length) return '';
+
     return `
     <div class="row">
       <div class="row-title">${r.title}</div>
@@ -513,6 +610,7 @@ function renderLolomo(reelType) {
       </div>
     </div>`;
   }).join('');
+
   initDrag();
 }
 
@@ -526,35 +624,68 @@ function switchReel(type, btn) {
 function initDrag() {
   document.querySelectorAll('.row-scroller').forEach(scroller => {
     let isDown = false, startX = 0, startY = 0, scrollLeft = 0, locked = false, lockDir = '';
+
     scroller.addEventListener('mousedown', e => {
       isDown = true; locked = false; lockDir = '';
       startX = e.pageX; startY = e.pageY;
       scrollLeft = scroller.scrollLeft;
     });
-    scroller.addEventListener('mouseleave', () => { isDown = false; scroller.classList.remove('grabbing'); });
-    scroller.addEventListener('mouseup', () => { isDown = false; scroller.classList.remove('grabbing'); });
+
+    scroller.addEventListener('mouseleave', () => {
+      isDown = false;
+      scroller.classList.remove('grabbing');
+    });
+
+    scroller.addEventListener('mouseup', () => {
+      isDown = false;
+      scroller.classList.remove('grabbing');
+    });
+
     scroller.addEventListener('mousemove', e => {
       if (!isDown) return;
-      const dx = e.pageX - startX, dy = e.pageY - startY;
+
+      const dx = e.pageX - startX;
+      const dy = e.pageY - startY;
+
       if (!locked) {
-        if (Math.abs(dx) > Math.abs(dy)) { lockDir = 'h'; locked = true; }
-        else if (Math.abs(dy) > Math.abs(dx)) { lockDir = 'v'; locked = true; }
+        if (Math.abs(dx) > Math.abs(dy)) {
+          lockDir = 'h';
+          locked = true;
+        } else if (Math.abs(dy) > Math.abs(dx)) {
+          lockDir = 'v';
+          locked = true;
+        }
       }
+
       if (lockDir === 'h') {
         e.preventDefault();
         if (Math.abs(dx) > 5) scroller.classList.add('grabbing');
         scroller.scrollLeft = scrollLeft - dx * 1.5;
       }
     });
+
     scroller.addEventListener('touchstart', e => {
-      startX = e.touches[0].pageX; startY = e.touches[0].pageY;
-      scrollLeft = scroller.scrollLeft; locked = false; lockDir = '';
-    }, {passive:true});
+      startX = e.touches[0].pageX;
+      startY = e.touches[0].pageY;
+      scrollLeft = scroller.scrollLeft;
+      locked = false;
+      lockDir = '';
+    }, { passive:true });
+
     scroller.addEventListener('touchmove', e => {
-      const dx = e.touches[0].pageX - startX, dy = e.touches[0].pageY - startY;
-      if (!locked) { lockDir = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v'; locked = true; }
-      if (lockDir === 'h') { e.preventDefault(); scroller.scrollLeft = scrollLeft - dx; }
-    }, {passive:false});
+      const dx = e.touches[0].pageX - startX;
+      const dy = e.touches[0].pageY - startY;
+
+      if (!locked) {
+        lockDir = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
+        locked = true;
+      }
+
+      if (lockDir === 'h') {
+        e.preventDefault();
+        scroller.scrollLeft = scrollLeft - dx;
+      }
+    }, { passive:false });
   });
 }
 
@@ -564,10 +695,12 @@ const youtubePlayer = document.getElementById('youtube-player');
 
 function openVideo(id) {
   if (!id) return;
+
   youtubePlayer.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
   videoModal.classList.add('active');
   document.body.classList.add('modal-open');
 }
+
 function closeVideo() {
   youtubePlayer.src = '';
   videoModal.classList.remove('active');
@@ -575,14 +708,22 @@ function closeVideo() {
 }
 
 document.getElementById('modal-close').addEventListener('click', closeVideo);
-videoModal.addEventListener('click', e => { if (!videoModalContent.contains(e.target)) closeVideo(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVideo(); });
+
+videoModal.addEventListener('click', e => {
+  if (!videoModalContent.contains(e.target)) closeVideo();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeVideo();
+});
 
 document.addEventListener('click', e => {
   const card = e.target.closest('.card');
   if (!card) return;
+
   const scroller = card.closest('.row-scroller');
   if (scroller?.classList.contains('grabbing')) return;
+
   const id = card.dataset.youtubeId;
   if (id) openVideo(id);
 });
@@ -590,14 +731,23 @@ document.addEventListener('click', e => {
 document.addEventListener('mouseover', e => {
   const card = e.target.closest('.card');
   if (!card) return;
+
   const vid = card.querySelector('video');
-  if (vid) { vid.currentTime = 0; vid.play().catch(()=>{}); }
+  if (vid) {
+    vid.currentTime = 0;
+    vid.play().catch(() => {});
+  }
 });
+
 document.addEventListener('mouseout', e => {
   const card = e.target.closest('.card');
   if (!card) return;
+
   const vid = card.querySelector('video');
-  if (vid) { vid.pause(); vid.currentTime = 0; }
+  if (vid) {
+    vid.pause();
+    vid.currentTime = 0;
+  }
 });
 
 window.addEventListener('scroll', () => {
@@ -605,6 +755,7 @@ window.addEventListener('scroll', () => {
 });
 
 renderLolomo('broadcast');
+
 window.addEventListener('load', () => {
   setTimeout(() => document.getElementById('loading').classList.add('done'), 800);
 });
