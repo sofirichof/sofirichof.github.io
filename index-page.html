@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sofia González Irigoyen</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg:#0a0a0a; --bg2:#111; --bg3:#1a1a1a; --border:#2a2a2a;
+    --text:#fff; --muted:#999; --terra:#E50914; --terra-dark:#B20710;
+    --font:'Bebas Neue',sans-serif; --sans:'DM Sans','Helvetica Neue',Arial,sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:var(--sans); min-height:100vh; overflow-x:hidden; }
+
+  /* ── TAP SCREEN ── */
+  #tap-screen {
+    position:fixed; inset:0; z-index:200;
+    background:#000;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    cursor:pointer; transition:opacity .5s;
+  }
+  #tap-screen.fade-out { opacity:0; pointer-events:none; }
+  .tap-prompt { display:flex; flex-direction:column; align-items:center; gap:1.5rem; animation:pulse 2s ease-in-out infinite; }
+  .tap-logo { font-family:var(--font); font-size:clamp(2rem,6vw,3.5rem); letter-spacing:.08em; color:var(--terra); }
+  .tap-ring { width:64px; height:64px; border-radius:50%; border:1px solid rgba(229,9,20,.4); display:flex; align-items:center; justify-content:center; color:rgba(229,9,20,.6); font-size:1.4rem; }
+  .tap-hint { font-size:.72rem; letter-spacing:.25em; text-transform:uppercase; color:rgba(255,255,255,.3); }
+  @keyframes pulse { 0%,100%{opacity:.6;transform:scale(1);} 50%{opacity:1;transform:scale(1.04);} }
+
+  /* ── INTRO VIDEO SCREEN ── */
+  #intro-screen {
+    position:fixed; inset:0; z-index:100;
+    background:#000;
+    display:none; align-items:center; justify-content:center;
+  }
+  #intro-screen.active { display:flex; }
+  #intro-video { width:100%; height:100%; object-fit:contain; display:block; }
+  #intro-fade { position:absolute; inset:0; background:#000; opacity:0; pointer-events:none; transition:opacity .8s ease; }
+
+  /* ── PROFILE PICKER ── */
+  #profile-screen {
+    min-height:100vh;
+    display:none; flex-direction:column; align-items:center; justify-content:center;
+    padding:2rem;
+    background:linear-gradient(160deg,#0a0a0a 0%,#1a0000 100%);
+    opacity:0; transition:opacity .6s;
+  }
+  #profile-screen.active { display:flex; }
+  #profile-screen.visible { opacity:1; }
+
+  .ps-heading { font-family:var(--font); font-size:clamp(2rem,4vw,3rem); letter-spacing:.1em; color:var(--text); margin-bottom:.5rem; text-align:center; }
+  .ps-sub { font-size:.82rem; color:var(--muted); margin-bottom:3.5rem; text-align:center; letter-spacing:.08em; }
+
+  .profiles { display:flex; gap:2.5rem; flex-wrap:wrap; justify-content:center; max-width:780px; }
+  .profile-card { display:flex; flex-direction:column; align-items:center; gap:.9rem; cursor:pointer; transition:transform .2s; text-decoration:none; }
+  .profile-card:hover { transform:scale(1.08); }
+  .profile-card:hover .profile-avatar { outline:3px solid #fff; }
+  .profile-card:hover .profile-name { color:#fff; }
+
+  .profile-avatar { width:120px; height:120px; border-radius:6px; overflow:hidden; outline:3px solid transparent; transition:outline .2s; background:var(--bg2); }
+  .profile-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* Fallback if image not loaded yet */
+  .profile-avatar .fallback { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:3rem; }
+
+  .profile-name { font-family:var(--font); font-size:1rem; letter-spacing:.15em; color:var(--muted); text-transform:uppercase; transition:color .2s; }
+</style>
+</head>
+<body>
+
+<!-- TAP SCREEN -->
+<div id="tap-screen" onclick="startIntro()">
+  <div class="tap-prompt">
+    <div class="tap-logo">Sofia's Portfolio</div>
+    <div class="tap-ring">▶</div>
+    <div class="tap-hint">Tap anywhere to start</div>
+  </div>
+</div>
+
+<!-- INTRO VIDEO
+     1. Put your video file in the same folder as index.html
+     2. Replace YOUR-INTRO-FILE.mp4 with your filename
+     3. Set INTRO_DURATION below to your video's length in milliseconds -->
+<div id="intro-screen">
+  <video id="intro-video" src="YOUR-INTRO-FILE.mp4" muted playsinline></video>
+  <div id="intro-fade"></div>
+</div>
+
+<!-- PROFILE PICKER -->
+<div id="profile-screen">
+  <h2 class="ps-heading">WHO'S WATCHING?</h2>
+  <p class="ps-sub">Select a profile to continue</p>
+  <div class="profiles">
+
+    <!-- RECRUITER
+         Replace YOUR-IMAGE-1.png with your teal smiley filename -->
+    <a href="recruiter.html" class="profile-card">
+      <div class="profile-avatar">
+        <img src="YOUR-IMAGE-1.png" alt="Recruiter" onerror="this.style.display='none'"/>
+        <div class="fallback">🎬</div>
+      </div>
+      <span class="profile-name">Recruiter</span>
+    </a>
+
+    <!-- DIRECTOR
+         Replace YOUR-IMAGE-2.png with your red smiley filename -->
+    <a href="director.html" class="profile-card">
+      <div class="profile-avatar">
+        <img src="YOUR-IMAGE-2.png" alt="Director" onerror="this.style.display='none'"/>
+        <div class="fallback">🎥</div>
+      </div>
+      <span class="profile-name">Director</span>
+    </a>
+
+    <!-- AGENCY
+         Replace YOUR-IMAGE-3.png with your green smiley filename -->
+    <a href="agency.html" class="profile-card">
+      <div class="profile-avatar">
+        <img src="YOUR-IMAGE-3.png" alt="Agency" onerror="this.style.display='none'"/>
+        <div class="fallback">📋</div>
+      </div>
+      <span class="profile-name">Agency</span>
+    </a>
+
+    <!-- STALKER
+         Replace YOUR-IMAGE-4.png with your yellow smiley filename -->
+    <a href="stalker.html" class="profile-card">
+      <div class="profile-avatar">
+        <img src="YOUR-IMAGE-4.png" alt="Stalker" onerror="this.style.display='none'"/>
+        <div class="fallback">👀</div>
+      </div>
+      <span class="profile-name">Stalker</span>
+    </a>
+
+  </div>
+</div>
+
+<script>
+  const INTRO_DURATION = 4000; // ← change to your video's length in ms
+
+  function playTaDum() {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const master = ctx.createGain();
+    master.gain.setValueAtTime(0.7, ctx.currentTime);
+    master.connect(ctx.destination);
+    function boom(freq, start, dur, vol) {
+      const osc = ctx.createOscillator(), g = ctx.createGain();
+      osc.connect(g); g.connect(master);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + start);
+      osc.frequency.exponentialRampToValueAtTime(freq * 0.5, ctx.currentTime + start + dur);
+      g.gain.setValueAtTime(0, ctx.currentTime + start);
+      g.gain.linearRampToValueAtTime(vol, ctx.currentTime + start + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + start + dur);
+      osc.start(ctx.currentTime + start);
+      osc.stop(ctx.currentTime + start + dur + 0.1);
+      const osc2 = ctx.createOscillator(), g2 = ctx.createGain();
+      osc2.connect(g2); g2.connect(master);
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(freq * 2, ctx.currentTime + start);
+      osc2.frequency.exponentialRampToValueAtTime(freq, ctx.currentTime + start + dur);
+      g2.gain.setValueAtTime(0, ctx.currentTime + start);
+      g2.gain.linearRampToValueAtTime(vol * 0.3, ctx.currentTime + start + 0.03);
+      g2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + start + dur * 0.6);
+      osc2.start(ctx.currentTime + start);
+      osc2.stop(ctx.currentTime + start + dur);
+    }
+    boom(110, 0, 1.2, 0.8);
+    boom(146, 0.55, 1.6, 1.0);
+  }
+
+  function startIntro() {
+    // Fade out tap screen
+    const tap = document.getElementById('tap-screen');
+    tap.classList.add('fade-out');
+    setTimeout(() => tap.style.display = 'none', 500);
+
+    // Play sound
+    playTaDum();
+
+    // Play video
+    const intro = document.getElementById('intro-screen');
+    intro.classList.add('active');
+    document.getElementById('intro-video').play().catch(() => {});
+
+    // Fade to black near end
+    setTimeout(() => {
+      document.getElementById('intro-fade').style.opacity = '1';
+    }, INTRO_DURATION - 800);
+
+    // Show profile picker
+    setTimeout(() => {
+      intro.style.display = 'none';
+      const ps = document.getElementById('profile-screen');
+      ps.classList.add('active');
+      setTimeout(() => ps.classList.add('visible'), 50);
+    }, INTRO_DURATION + 100);
+  }
+</script>
+</body>
+</html>
