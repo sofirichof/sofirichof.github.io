@@ -14,6 +14,7 @@
   * { margin:0; padding:0; box-sizing:border-box; }
   html { scroll-behavior:smooth; }
   body { background:var(--bg); color:var(--text); font-family:var(--sans); }
+  body.modal-open { overflow:hidden; }
 
   /* NAV */
   nav {
@@ -44,11 +45,10 @@
     position:absolute; inset:0; z-index:0;
     background:#000;
   }
-  /* Hero background video */
   #hero-video {
     position:absolute; inset:0; z-index:0;
     width:100%; height:100%; object-fit:cover;
-    opacity:.36; /* dim it so text stays readable — adjust 0.0 to 1.0 */
+    opacity:.36;
     pointer-events:none;
   }
   .hero-bg-text {
@@ -129,16 +129,46 @@
   }
   .card:hover { border-color:var(--terra); transform:translateY(-3px); box-shadow:0 8px 28px rgba(229,9,20,.12); }
   .card:hover .card-play { opacity:1; }
+
   .card-thumb {
     aspect-ratio:16/9; background:var(--bg3);
     display:flex; align-items:center; justify-content:center;
     position:relative; overflow:hidden;
   }
-  .card-thumb-label { font-family:var(--font); font-size:.8rem; letter-spacing:.06em; color:var(--muted); }
+  .card-thumb video {
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    opacity:0;
+    transform:scale(1.04);
+    transition:opacity .25s ease, transform .35s ease;
+  }
+  .card:hover .card-thumb video {
+    opacity:1;
+    transform:scale(1);
+  }
+  .card-thumb::after {
+    content:"";
+    position:absolute; inset:0;
+    background:
+      linear-gradient(to top, rgba(0,0,0,.65), transparent 60%),
+      linear-gradient(to right, rgba(0,0,0,.28), transparent 55%);
+    opacity:0;
+    transition:opacity .25s;
+    pointer-events:none;
+  }
+  .card:hover .card-thumb::after { opacity:1; }
+  .card-thumb-label {
+    font-family:var(--font); font-size:.8rem; letter-spacing:.06em; color:var(--muted);
+    transition:opacity .2s;
+    z-index:1;
+  }
+  .card:hover .card-thumb-label { opacity:0; }
   .card-play {
     position:absolute; inset:0; background:rgba(10,10,10,.6);
     display:flex; align-items:center; justify-content:center;
     opacity:0; transition:opacity .2s;
+    z-index:2;
   }
   .play-ring {
     width:46px; height:46px; border-radius:50%;
@@ -152,7 +182,6 @@
   .card-foot { display:flex; justify-content:space-between; align-items:center; margin-top:.8rem; padding-top:.7rem; border-top:1px solid var(--border); }
   .card-year { font-size:.7rem; color:#444; }
   .card-tag { font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--terra); }
-  .ip-dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--terra); margin-right:.4rem; vertical-align:middle; }
 
   /* ABOUT */
   .about-grid { display:grid; grid-template-columns:3fr 2fr; gap:4rem; align-items:start; }
@@ -180,6 +209,66 @@
   .clink:hover { color:var(--terra); }
   .clink-label { font-size:.65rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); width:90px; }
 
+  /* NETFLIX-STYLE VIDEO MODAL */
+  .video-modal {
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:2rem;
+    background:rgba(0,0,0,.86);
+    backdrop-filter:blur(8px);
+    opacity:0;
+  }
+  .video-modal.active {
+    display:flex;
+    animation:modalFadeIn .28s ease forwards;
+  }
+  @keyframes modalFadeIn {
+    from { opacity:0; transform:scale(1.015); }
+    to { opacity:1; transform:scale(1); }
+  }
+  .video-modal-content {
+    position:relative;
+    width:min(1100px,94vw);
+    aspect-ratio:16/9;
+    background:#000;
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 0 60px rgba(229,9,20,.22);
+    transform:translateY(12px);
+    animation:playerRise .32s ease forwards;
+  }
+  @keyframes playerRise {
+    to { transform:translateY(0); }
+  }
+  .video-modal iframe {
+    width:100%;
+    height:100%;
+    border:0;
+    display:block;
+  }
+  .modal-close {
+    position:absolute;
+    top:-44px;
+    right:0;
+    width:36px;
+    height:36px;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    font-size:1.4rem;
+    line-height:1;
+    cursor:pointer;
+    border-radius:50%;
+    transition:all .2s;
+  }
+  .modal-close:hover {
+    background:var(--terra);
+    border-color:var(--terra);
+  }
+
   /* FOOTER */
   footer {
     padding:2rem 3rem; border-top:1px solid var(--border);
@@ -193,12 +282,13 @@
     nav { padding:1rem 1.5rem; }
     #hero, .section { padding-left:1.5rem; padding-right:1.5rem; }
     h1 { font-size:3.5rem; }
+    .video-modal { padding:1rem; }
+    .modal-close { top:-42px; }
   }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-left">
     <a href="index.html" class="nav-logo">Sofia's Portfolio</a>
@@ -213,37 +303,26 @@
   </div>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
   <div class="hero-bg"></div>
 
-  <!--
-    HERO BACKGROUND VIDEO
-    ─────────────────────
-    1. Put your video file in the same folder as recruiter.html
-    2. Replace YOUR-HERO-VIDEO.mp4 with your actual filename
-    3. Adjust opacity in the CSS above (currently .35) — lower = darker/more subtle
-    4. The video loops silently in the background automatically
-    Tips:
-    - Use a short loop (5–15 sec) for best performance
-    - Works great with a clip from one of your shoots
-    - MP4 with H.264 encoding is most compatible across browsers
-  -->
-  <video id="hero-video" src="YOUR-HERO-VIDEO.mp4" autoplay muted loop playsinline></video>
+  <!-- Rename your hero video file to hero-bg.mp4 and place it beside this HTML file -->
+  <video id="hero-video" src="hero-bg.mp4" autoplay muted loop playsinline></video>
 
   <div class="hero-bg-text">PRODUCER</div>
   <div class="hero-grad"></div>
+
   <div class="hero-inner">
     <div class="hero-badge">Production & Media · BU '26</div>
     <h1>SOFIA<br>GONZÁLEZ<br><em>IRIGOYEN</em></h1>
 
-    <!-- REEL TOGGLE — only on recruiter page -->
     <div class="reel-toggle">
       <button class="reel-btn active" onclick="switchReel('broadcast', this)">📺 Broadcast & TV</button>
       <button class="reel-btn" onclick="switchReel('film', this)">🎬 Film & Narrative</button>
     </div>
 
     <p class="hero-desc" id="hero-desc">Broadcast producer with experience at Telemundo 52 / NBCUniversal, Zona Latina in Santiago, and BU's live television program. Comfortable in fast-moving, live environments.</p>
+
     <div class="hero-actions">
       <a href="#work" class="btn-primary">▶ &nbsp;View Work</a>
       <a href="#contact" class="btn-ghost">Get in Touch</a>
@@ -251,7 +330,6 @@
   </div>
 </section>
 
-<!-- FEATURED -->
 <div class="section" id="work">
   <div class="section-inner">
     <div class="row-label">Featured <span>·</span> <span id="reel-label">Broadcast & TV</span></div>
@@ -259,7 +337,6 @@
   </div>
 </div>
 
-<!-- ALL PROJECTS -->
 <div class="section">
   <div class="section-inner">
     <div class="row-label">All Projects</div>
@@ -267,14 +344,14 @@
   </div>
 </div>
 
-<!-- ABOUT -->
 <div class="section" id="about">
   <div class="section-inner">
     <div class="row-label">About</div>
     <div class="about-grid">
       <div class="about-text">
         <p>I'm a film and television producer finishing a BS in Film & Television Production at Boston University — double major in Advertising, graduating August 2026. I've produced SAG-AFTRA short films, worked as a segment producer at Telemundo 52, gone on-set in Santiago, Chile for a live variety show, and spent the last year producing three seasons of Baystate TV Drama.</p>
-        <p>I'm bilingual in English and Spanish (working French too), which has shaped both the work I gravitate toward and the stories I want to tell. I learn fast, take notes, and care about doing things well.</p>
+        <p>I'm bilingual in English and Spanish, with working French too, which has shaped both the work I gravitate toward and the stories I want to tell. I learn fast, take notes, and care about doing things well.</p>
+
         <div class="skills">
           <span class="skill">Production Management</span>
           <span class="skill">DaVinci Resolve</span>
@@ -288,6 +365,7 @@
           <span class="skill">EN · ES · FR</span>
         </div>
       </div>
+
       <div>
         <div class="sidebar-item">
           <div class="si-org">NATAS · 2024</div>
@@ -314,17 +392,18 @@
   </div>
 </div>
 
-<!-- CONTACT -->
 <div class="section" id="contact">
   <div class="section-inner">
     <div class="row-label">Contact</div>
     <div class="contact-grid">
       <div class="contact-text">
         <p>I'm graduating in August 2026 and actively looking for my first full-time role in broadcast, network, or production. If you have something — I'd love to talk.</p>
-        <p style="margin-top:1rem;"><a href="General Resume Sofía González Irigoyen.pdf" class="btn-primary" style="display:inline-flex;" download>↓ &nbsp;Download Resume</a></p>
+        <p style="margin-top:1rem;">
+          <a href="General Resume Sofía González Irigoyen.pdf" class="btn-primary" style="display:inline-flex;" download>↓ &nbsp;Download Resume</a>
+        </p>
       </div>
+
       <div class="contact-links">
-        <!-- Replace with your actual email and LinkedIn -->
         <a href="mailto:sofiagi@bu.edu" class="clink"><span class="clink-label">Email</span><span>sofiagi@bu.edu</span></a>
         <a href="https://www.linkedin.com/in/sofia-gonzalez-irigoyen-/" target="_blank" class="clink"><span class="clink-label">LinkedIn</span><span>linkedin.com/in/sofia-gonzalez-irigoyen</span></a>
       </div>
@@ -337,28 +416,169 @@
   <a href="index.html">← Back to Profiles</a>
 </footer>
 
+<div class="video-modal" id="video-modal" aria-hidden="true">
+  <div class="video-modal-content" id="video-modal-content">
+    <button class="modal-close" id="modal-close" aria-label="Close video">×</button>
+    <iframe
+      id="youtube-player"
+      src=""
+      title="YouTube video player"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>
+
 <script>
   const broadcast = [
-    { cat:'Broadcast', title:'Acceso Total — Hollywood Premiere', role:'Interviewer', org:'Telemundo 52 / NBCUniversal', year:'2026', link:'https://youtu.be/b4WxJcoeT0c?si=N8jhZ-nFlX1fC5sQ', thumb:'Telemundo 52' },
-    { cat:'Broadcast', title:'Acceso Total — Independence Days', role:'Segment Producer', org:'Telemundo 52 / NBCUniversal', year:'2025', link:'https://youtu.be/kVxZsvJysHA?si=VFwFaNWD4J1o6Vk9', thumb:'Telemundo 52' },
-    { cat:'Broadcast · NATAS Award', title:'Live With TY — S1 Ep.11', role:'Chief Editor', org:'BUTV', year:'2024', link:'https://youtu.be/g2gvMf2UDbQ?si=zACqKtgW-ghABstG', thumb:'Live With TY' },
-    { cat:'Broadcast · Santiago, Chile', title:'Zona de Estrellas', role:'Production Assistant', org:'Zona Latina · TVI America', year:'2024', link:'https://youtu.be/rz87SYmnLt4', thumb:'Zona Latina' },
-    { cat:'Broadcast · Santiago, Chile', title:'Sabores', role:'Production Assistant', org:'Zona Latina · TVI America', year:'2024', link:'https://youtu.be/rz87SYmnLt4', thumb:'Zona Latina' },
-    { cat:'TV Drama', title:'Baystate — Season 48-50', role:'Producer', org:'Boston University', year:'2024-2025', link:'https://youtu.be/pLEuklMB0Xc?si=w6oT_TG9OPJBKXCE', thumb:'Baystate · BU' },
+    {
+      cat: 'Broadcast',
+      title: 'Acceso Total — Hollywood Premiere',
+      role: 'Interviewer',
+      org: 'Telemundo 52 / NBCUniversal',
+      year: '2026',
+      youtubeId: 'b4WxJcoeT0c',
+      preview: 'assets/previews/hollywood-premiere.mp4',
+      thumb: 'Telemundo 52'
+    },
+    {
+      cat: 'Broadcast',
+      title: 'Acceso Total — Independence Days',
+      role: 'Segment Producer',
+      org: 'Telemundo 52 / NBCUniversal',
+      year: '2025',
+      youtubeId: 'kVxZsvJysHA',
+      preview: 'assets/previews/independence-days.mp4',
+      thumb: 'Telemundo 52'
+    },
+    {
+      cat: 'Broadcast · NATAS Award',
+      title: 'Live With TY — S1 Ep.11',
+      role: 'Chief Editor',
+      org: 'BUTV',
+      year: '2024',
+      youtubeId: 'g2gvMf2UDbQ',
+      preview: 'assets/previews/live-with-ty.mp4',
+      thumb: 'Live With TY'
+    },
+    {
+      cat: 'Broadcast · Santiago, Chile',
+      title: 'Zona de Estrellas',
+      role: 'Production Assistant',
+      org: 'Zona Latina · TVI America',
+      year: '2024',
+      youtubeId: 'rz87SYmnLt4',
+      preview: 'assets/previews/zona-estrellas.mp4',
+      thumb: 'Zona Latina'
+    },
+    {
+      cat: 'Broadcast · Santiago, Chile',
+      title: 'Sabores',
+      role: 'Production Assistant',
+      org: 'Zona Latina · TVI America',
+      year: '2024',
+      youtubeId: 'rz87SYmnLt4',
+      preview: 'assets/previews/sabores.mp4',
+      thumb: 'Zona Latina'
+    },
+    {
+      cat: 'TV Drama',
+      title: 'Baystate — Season 48-50',
+      role: 'Producer',
+      org: 'Boston University',
+      year: '2024-2025',
+      youtubeId: 'pLEuklMB0Xc',
+      preview: 'assets/previews/baystate.mp4',
+      thumb: 'Baystate · BU'
+    },
   ];
 
   const film = [
-    { cat:'Narrative Short · Drama · 15 min', title:'Si Solamente', role:'Producer', org:'SAG-AFTRA', year:'2026', link:'#', thumb:'Drama · SAG-AFTRA' },
-    { cat:'Narrative Short · Drama · 15 min', title:'The Stories We Tell Ourselves', role:'Producer', org:'SAG-AFTRA', year:'2025', link:'#', thumb:'Drama · SAG-AFTRA' },
-    { cat:'Documentary · 18 min', title:'Pajuyuk Ancestral Knowledge', role:'Exec. Production Assistant', org:'NED Media Works', year:'2025', link:'#', thumb:'Documentary' },
-    { cat:'Drama Short · 5 min', title:"Bird's Eye View", role:'Producer & Editor', org:'End of Year Showcase', year:'2024', link:'#', thumb:'Drama' },
-    { cat:'Music Video · 8 min', title:'The In Between', role:'1st AD', org:'dir. Veritus Miller', year:'2024', link:'#', thumb:'Music Video' },
-    { cat:'TV Drama', title:'Baystate — Season 50', role:'Producer', org:'Boston University', year:'Spring 2026', link:'#', thumb:'Baystate · BU' },
-    { cat:'TV Drama', title:'Baystate — Season 49', role:'Producer', org:'Boston University', year:'Fall 2025', link:'#', thumb:'Baystate · BU' },
+    {
+      cat: 'Narrative Short · Drama · 15 min',
+      title: 'Si Solamente',
+      role: 'Producer',
+      org: 'SAG-AFTRA',
+      year: '2026',
+      youtubeId: null,
+      preview: 'assets/previews/si-solamente.mp4',
+      thumb: 'Drama · SAG-AFTRA'
+    },
+    {
+      cat: 'Narrative Short · Drama · 15 min',
+      title: 'The Stories We Tell Ourselves',
+      role: 'Producer',
+      org: 'SAG-AFTRA',
+      year: '2025',
+      youtubeId: null,
+      preview: 'assets/previews/stories-we-tell.mp4',
+      thumb: 'Drama · SAG-AFTRA'
+    },
+    {
+      cat: 'Documentary · 18 min',
+      title: 'Pajuyuk Ancestral Knowledge',
+      role: 'Exec. Production Assistant',
+      org: 'NED Media Works',
+      year: '2025',
+      youtubeId: null,
+      preview: 'assets/previews/pajuyuk.mp4',
+      thumb: 'Documentary'
+    },
+    {
+      cat: 'Drama Short · 5 min',
+      title: "Bird's Eye View",
+      role: 'Producer & Editor',
+      org: 'End of Year Showcase',
+      year: '2024',
+      youtubeId: null,
+      preview: 'assets/previews/birds-eye-view.mp4',
+      thumb: 'Drama'
+    },
+    {
+      cat: 'Music Video · 8 min',
+      title: 'The In Between',
+      role: '1st AD',
+      org: 'dir. Veritus Miller',
+      year: '2024',
+      youtubeId: null,
+      preview: 'assets/previews/the-in-between.mp4',
+      thumb: 'Music Video'
+    },
+    {
+      cat: 'TV Drama',
+      title: 'Baystate — Season 50',
+      role: 'Producer',
+      org: 'Boston University',
+      year: 'Spring 2026',
+      youtubeId: null,
+      preview: 'assets/previews/baystate-s50.mp4',
+      thumb: 'Baystate · BU'
+    },
+    {
+      cat: 'TV Drama',
+      title: 'Baystate — Season 49',
+      role: 'Producer',
+      org: 'Boston University',
+      year: 'Fall 2025',
+      youtubeId: null,
+      preview: 'assets/previews/baystate-s49.mp4',
+      thumb: 'Baystate · BU'
+    },
   ];
 
-  const featuredBroadcast = ['Acceso Total — Hollywood Premiere', 'Live With TY — S1 Ep.11', 'Baystate — Season 50', 'Zona de Estrellas'];
-  const featuredFilm = ['Si Solamente', 'The Stories We Tell Ourselves', 'Baystate — Season 50', "Bird's Eye View"];
+  const featuredBroadcast = [
+    'Acceso Total — Hollywood Premiere',
+    'Live With TY — S1 Ep.11',
+    'Baystate — Season 48-50',
+    'Zona de Estrellas'
+  ];
+
+  const featuredFilm = [
+    'Si Solamente',
+    'The Stories We Tell Ourselves',
+    'Baystate — Season 50',
+    "Bird's Eye View"
+  ];
 
   const heroDescs = {
     broadcast: "Broadcast producer with experience at Telemundo 52 / NBCUniversal, Zona Latina in Santiago, and BU's live television program. Comfortable in fast-moving, live environments.",
@@ -366,29 +586,57 @@
   };
 
   function makeCard(p) {
-    return `<a class="card" href="${p.link}" target="_blank">
-      <div class="card-thumb">
-        <span class="card-thumb-label">${p.thumb}</span>
-        <div class="card-play"><div class="play-ring">▶</div></div>
-      </div>
-      <div class="card-body">
-        <div class="card-cat">${p.cat}</div>
-        <div class="card-title">${p.title}</div>
-        <div class="card-role">${p.role}${p.org ? ' · ' + p.org : ''}</div>
-        <div class="card-foot">
-          <span class="card-year">${p.year}</span>
-          ${p.link !== '#' ? '<span class="card-tag">Watch ↗</span>' : ''}
+    const isWatchable = Boolean(p.youtubeId);
+
+    return `
+      <article
+        class="card"
+        data-youtube-id="${p.youtubeId || ''}"
+        role="${isWatchable ? 'button' : 'article'}"
+        tabindex="${isWatchable ? '0' : '-1'}"
+      >
+        <div class="card-thumb">
+          ${
+            p.preview
+              ? `<video src="${p.preview}" muted loop playsinline preload="metadata"></video>`
+              : ''
+          }
+
+          <span class="card-thumb-label">${p.thumb}</span>
+
+          ${
+            isWatchable
+              ? `<div class="card-play"><div class="play-ring">▶</div></div>`
+              : ''
+          }
         </div>
-      </div>
-    </a>`;
+
+        <div class="card-body">
+          <div class="card-cat">${p.cat}</div>
+          <div class="card-title">${p.title}</div>
+          <div class="card-role">${p.role}${p.org ? ' · ' + p.org : ''}</div>
+          <div class="card-foot">
+            <span class="card-year">${p.year}</span>
+            ${isWatchable ? '<span class="card-tag">Watch</span>' : '<span class="card-tag">Coming Soon</span>'}
+          </div>
+        </div>
+      </article>
+    `;
   }
 
   function renderReel(type) {
     const data = type === 'broadcast' ? broadcast : film;
     const featured = type === 'broadcast' ? featuredBroadcast : featuredFilm;
+
     document.getElementById('featured-grid').innerHTML = data
-      .filter(p => featured.includes(p.title)).map(makeCard).join('');
-    document.getElementById('all-grid').innerHTML = data.map(makeCard).join('');
+      .filter(p => featured.includes(p.title))
+      .map(makeCard)
+      .join('');
+
+    document.getElementById('all-grid').innerHTML = data
+      .map(makeCard)
+      .join('');
+
     document.getElementById('hero-desc').textContent = heroDescs[type];
     document.getElementById('reel-label').textContent = type === 'broadcast' ? 'Broadcast & TV' : 'Film & Narrative';
   }
@@ -399,7 +647,79 @@
     renderReel(type);
   }
 
-  // Init
+  const videoModal = document.getElementById('video-modal');
+  const videoModalContent = document.getElementById('video-modal-content');
+  const youtubePlayer = document.getElementById('youtube-player');
+  const modalClose = document.getElementById('modal-close');
+
+  function openVideo(youtubeId) {
+    if (!youtubeId) return;
+
+    youtubePlayer.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1`;
+    videoModal.classList.add('active');
+    videoModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+  }
+
+  function closeVideo() {
+    youtubePlayer.src = '';
+    videoModal.classList.remove('active');
+    videoModal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+  }
+
+  modalClose.addEventListener('click', closeVideo);
+
+  videoModal.addEventListener('click', function(event) {
+    if (!videoModalContent.contains(event.target)) {
+      closeVideo();
+    }
+  });
+
+  document.addEventListener('click', function(event) {
+    const card = event.target.closest('.card');
+    if (!card) return;
+
+    const youtubeId = card.dataset.youtubeId;
+    if (youtubeId) openVideo(youtubeId);
+  });
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && videoModal.classList.contains('active')) {
+      closeVideo();
+      return;
+    }
+
+    const card = event.target.closest('.card');
+
+    if (card && event.key === 'Enter') {
+      const youtubeId = card.dataset.youtubeId;
+      if (youtubeId) openVideo(youtubeId);
+    }
+  });
+
+  document.addEventListener('mouseover', function(event) {
+    const card = event.target.closest('.card');
+    if (!card) return;
+
+    const preview = card.querySelector('video');
+    if (!preview) return;
+
+    preview.currentTime = 0;
+    preview.play().catch(() => {});
+  });
+
+  document.addEventListener('mouseout', function(event) {
+    const card = event.target.closest('.card');
+    if (!card) return;
+
+    const preview = card.querySelector('video');
+    if (!preview) return;
+
+    preview.pause();
+    preview.currentTime = 0;
+  });
+
   renderReel('broadcast');
 </script>
 </body>
