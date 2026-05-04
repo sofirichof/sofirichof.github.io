@@ -139,7 +139,7 @@
 <script>
   const INTRO_DURATION = 5200; // ← change to your video's length in ms
 
-  function playTaDum() {
+  function playTadum.mp3() {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     const master = ctx.createGain();
     master.gain.setValueAtTime(0.7, ctx.currentTime);
@@ -177,7 +177,7 @@
     setTimeout(() => tap.style.display = 'none', 500);
 
     // Play sound
-    playTaDum();
+    playTaDum.mp3();
 
     // Play video
     const intro = document.getElementById('intro-screen');
