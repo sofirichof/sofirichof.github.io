@@ -166,11 +166,11 @@
   .card-inner{
     border-radius:4px;overflow:hidden;
     transition:transform .25s ease,box-shadow .25s ease;
-    transform-origin:center bottom;
+    transform-origin:center center; /* scale from center so top isn't clipped */
     position:relative;z-index:2;
   }
   .row-track:not(.grabbing) .card-wrap:hover .card-inner{
-    transform:scale(1.35);
+    transform:scale(1.35) translateY(-8%); /* nudge up slightly so details panel aligns */
     box-shadow:0 0 1rem rgba(0,0,0,.75),0 6px 6px rgba(0,0,0,.5);
     transition:transform .25s ease .4s,box-shadow .25s ease .4s;
     border-radius:4px 4px 0 0;
