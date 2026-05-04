@@ -121,7 +121,7 @@
 
   /* ── LOLOMO ROWS ── */
   #lolomo{position:relative;z-index:2;margin-top:-10rem;padding-bottom:5rem;}
-  .row{margin-bottom:2.5vw;position:relative;}
+  .row{ margin-bottom:2.5vw; position:relative; overflow:visible; }
   .row-title{
     font-family:var(--font);font-size:1.4vw;letter-spacing:.12em;
     color:#e5e5e5;padding:0 4%;margin-bottom:.5rem;
@@ -130,15 +130,14 @@
   .row:hover .row-title{color:#fff;}
   .row-track-wrap{
     padding:1.5rem 0 3rem;margin-top:-1rem;
-    overflow:hidden;/* clips cards outside viewport */
+    overflow:visible; /* allow cards to scale out of bounds */
   }
   .row-track{
     display:flex;padding:0 4%;gap:.35rem;
-    overflow-x:auto;overflow-y:hidden;/* KEY: lock vertical scroll */
+    overflow-x:auto;overflow-y:visible; /* visible so scaled cards don't get clipped */
     scroll-behavior:smooth;
     cursor:grab;scrollbar-width:none;
     -webkit-overflow-scrolling:touch;
-    /* prevent page scroll while dragging horizontally */
     touch-action:pan-x;
   }
   .row-track::-webkit-scrollbar{display:none;}
