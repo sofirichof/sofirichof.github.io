@@ -239,6 +239,14 @@
     <div class="tap-ring">▶</div>
     <div class="tap-hint">Tap anywhere to start</div>
   </div>
+  <!-- DEV SHORTCUTS — remove these before publishing -->
+  <div style="position:absolute;bottom:2rem;display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;" onclick="event.stopPropagation()">
+    <button onclick="skipToProfiles()" style="padding:.4rem 1rem;background:#222;color:#999;border:1px solid #333;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px;">Skip to Profiles</button>
+    <button onclick="selectProfile('recruiter-broadcast')" style="padding:.4rem 1rem;background:#222;color:#999;border:1px solid #333;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px;">Recruiter</button>
+    <button onclick="selectProfile('director')" style="padding:.4rem 1rem;background:#222;color:#999;border:1px solid #333;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px;">Director</button>
+    <button onclick="selectProfile('agency')" style="padding:.4rem 1rem;background:#222;color:#999;border:1px solid #333;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px;">Agency</button>
+    <button onclick="selectProfile('stalker')" style="padding:.4rem 1rem;background:#222;color:#999;border:1px solid #333;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px;">Stalker</button>
+  </div>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -269,27 +277,6 @@
 </div>
 
 <!-- ══════════════════════════════════════════
-     RECRUITER SUB-MENU
-══════════════════════════════════════════ -->
-<div id="recruiter-sub">
-  <button class="sub-back" onclick="closeRecruiterSub()">← Back</button>
-  <div class="sub-heading">WHAT ARE YOU LOOKING FOR?</div>
-  <p class="sub-sub">I'll show you the most relevant work.</p>
-  <div class="sub-options">
-    <div class="sub-card" onclick="selectProfile('recruiter-broadcast')">
-      <div class="sub-icon">📺</div>
-      <div class="sub-title">BROADCAST & TV</div>
-      <div class="sub-desc">Live television, broadcast segments, multi-cam production, and TV drama.</div>
-    </div>
-    <div class="sub-card" onclick="selectProfile('recruiter-film')">
-      <div class="sub-icon">🎬</div>
-      <div class="sub-title">FILM & NARRATIVE</div>
-      <div class="sub-desc">SAG-AFTRA shorts, documentary, scripted production, and directing work.</div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
      PROFILE PICKER
 ══════════════════════════════════════════ -->
 <div id="profile-screen">
@@ -298,7 +285,7 @@
   <p class="ps-sub">Select a profile to continue</p>
   <div class="profiles">
   <div class="profiles">
-    <div class="profile-card" onclick="openRecruiterSub()">
+    <div class="profile-card" onclick="selectProfile('recruiter-broadcast')">
       <div class="profile-avatar">
         <img src="YOUR-IMAGE-1.png" alt="Recruiter"/>
       </div>
@@ -357,6 +344,10 @@
         <span class="hero-year">BU '26 · Boston, MA</span>
       </div>
       <h1 id="hero-title">Sofia<br>González<br><em>Irigoyen</em></h1>
+      <div id="reel-toggle" style="display:none;" class="reel-toggle">
+        <button class="reel-btn active" onclick="switchReel('broadcast')">📺 Broadcast & TV</button>
+        <button class="reel-btn" onclick="switchReel('film')">🎬 Film & Narrative</button>
+      </div>
       <p class="hero-desc" id="hero-desc">—</p>
       <div class="hero-actions">
         <a href="#work" class="btn-play">▶ &nbsp;View Work</a>
@@ -420,7 +411,7 @@
   <h2>Switch Profile</h2>
   <p>Who's watching now?</p>
   <div class="profiles" style="gap:1.5rem;">
-    <div class="profile-card" onclick="closeSwitchModal();openRecruiterSub()">
+    <div class="profile-card" onclick="selectProfile('recruiter-broadcast');closeSwitchModal()">
       <div class="profile-avatar"><img src="YOUR-IMAGE-1.png" alt="Recruiter"/></div>
       <span class="profile-name">Recruiter</span>
     </div>
@@ -480,6 +471,14 @@ function playTaDum(ctx) {
   }
   boom(110, 0, 1.2, 0.8);
   boom(146, 0.55, 1.6, 1.0);
+}
+
+function skipToProfiles() {
+  const tap = document.getElementById('tap-screen');
+  tap.style.display = 'none';
+  const ps = document.getElementById('profile-screen');
+  ps.classList.add('active');
+  setTimeout(() => ps.classList.add('visible'), 50);
 }
 
 function startIntro() {
@@ -563,28 +562,35 @@ function makeCard(p) {
   </div>`;
 }
 
-function openRecruiterSub() {
-  const sub = document.getElementById('recruiter-sub');
-  sub.classList.add('active');
-  setTimeout(() => sub.classList.add('visible'), 50);
-}
-function closeRecruiterSub() {
-  const sub = document.getElementById('recruiter-sub');
-  sub.classList.add('exit');
-  setTimeout(() => { sub.classList.remove('active','visible','exit'); }, 400);
+function switchReel(type) {
+  // Update toggle buttons
+  document.querySelectorAll('.reel-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+
+  const key = type === 'broadcast' ? 'recruiter-broadcast' : 'recruiter-film';
+  const prof = profiles[key];
+
+  // Update featured row only
+  document.getElementById('featured-label').textContent = prof.featuredLabel;
+  document.getElementById('featured-cards').innerHTML = prof.featured
+    .map(id => { const p = allProjects.find(x => x.id === id); return p ? makeCard(p) : ''; }).join('');
+  document.getElementById('all-cards').innerHTML = allProjects
+    .filter(p => type === 'broadcast' ? p.tags.includes('broadcast') : p.tags.includes('film') || p.tags.includes('tv'))
+    .map(p => makeCard(p)).join('');
 }
 
+function openRecruiterSub() {}
+function closeRecruiterSub() {}
+
 function selectProfile(key) {
-  // Close recruiter sub if open
   const sub = document.getElementById('recruiter-sub');
-  sub.classList.remove('active','visible','exit');
+  if (sub) sub.classList.remove('active','visible','exit');
 
   const prof = profiles[key];
   document.getElementById('profile-screen').classList.add('exit');
   setTimeout(()=>{
     document.getElementById('profile-screen').style.display='none';
-    const app = document.getElementById('app');
-    app.classList.add('visible');
+    document.getElementById('app').classList.add('visible');
     window.scrollTo(0,0);
   },600);
 
@@ -595,18 +601,21 @@ function selectProfile(key) {
   document.getElementById('featured-label').textContent = prof.featuredLabel;
   document.getElementById('contact-copy').textContent = prof.contact;
 
-  // Soundcloud block — only for Stalker
+  // Show reel toggle only for recruiter profiles
+  const toggle = document.getElementById('reel-toggle');
+  const isRecruiter = key.startsWith('recruiter');
+  toggle.style.display = isRecruiter ? 'flex' : 'none';
+  if (isRecruiter) {
+    // Set correct active button
+    document.querySelectorAll('.reel-btn').forEach((b,i) => {
+      b.classList.toggle('active', (key === 'recruiter-broadcast' && i === 0) || (key === 'recruiter-film' && i === 1));
+    });
+  }
+
+  // Soundcloud block
   const scSlot = document.getElementById('sc-slot');
   if (prof.soundcloud) {
-    scSlot.innerHTML = `
-      <div class="soundcloud-block">
-        <div class="sc-icon">🎵</div>
-        <div class="sc-text">
-          <div class="sc-title">THE SOUNDCLOUD</div>
-          <div class="sc-disclaimer">A graveyard of ambition. Uploaded three songs in 2019, then never again. Proceed with compassion.</div>
-        </div>
-        <a href="https://soundcloud.com/YOUR-SOUNDCLOUD-URL" target="_blank" class="sc-link">Listen ↗</a>
-      </div>`;
+    scSlot.innerHTML = `<div class="soundcloud-block"><div class="sc-icon">🎵</div><div class="sc-text"><div class="sc-title">THE SOUNDCLOUD</div><div class="sc-disclaimer">A graveyard of ambition. Uploaded three songs in 2019, then never again. Proceed with compassion.</div></div><a href="https://soundcloud.com/YOUR-SOUNDCLOUD-URL" target="_blank" class="sc-link">Listen ↗</a></div>`;
   } else {
     scSlot.innerHTML = '';
   }
@@ -615,13 +624,11 @@ function selectProfile(key) {
   fc.innerHTML = prof.featured.map(id=>{const p=allProjects.find(x=>x.id===id);return p?makeCard(p):'';}).join('');
 
   const ac = document.getElementById('all-cards');
-  const stalkerKeys = ['stalker'];
-  const filtered = stalkerKeys.includes(key) ? allProjects : allProjects.filter(p => {
-    if (key === 'recruiter-broadcast') return p.tags.includes('broadcast');
-    if (key === 'recruiter-film') return p.tags.includes('film') || p.tags.includes('tv');
-    return p.tags.includes(key);
-  });
-  ac.innerHTML = filtered.map(p=>makeCard(p)).join('');
+  const filtered = key === 'stalker' ? allProjects
+    : key === 'recruiter-broadcast' ? allProjects.filter(p => p.tags.includes('broadcast'))
+    : key === 'recruiter-film' ? allProjects.filter(p => p.tags.includes('film') || p.tags.includes('tv'))
+    : allProjects.filter(p => p.tags.includes(key));
+  ac.innerHTML = filtered.map(p => makeCard(p)).join('');
 }
 
 function openSwitchModal(){document.getElementById('switch-modal').classList.add('open');}
