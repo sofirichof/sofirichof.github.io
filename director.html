@@ -169,7 +169,7 @@
     <div class="row-label">About</div>
     <div class="about-grid">
       <div class="about-text">
-        <p>I'm a film and television producer finishing a BS double major in Film & Television Production & Advertising at Boston University, graduating August 2026. My narrative work spans SAG-AFTRA scripted shorts, three seasons of Baystate TV Drama, and documentary production.</p>
+        <p>I'm a film and television producer finishing a BS in Film & Television Production at Boston University — double major in Advertising, graduating August 2026. My narrative work spans SAG-AFTRA scripted shorts, three seasons of Baystate TV Drama, and documentary production.</p>
         <p>I'm drawn to projects with something real to say and collaborators who care about the details. Bilingual in English and Spanish — which has shaped both the stories I gravitate toward and the ones I want to tell.</p>
         <div class="skills">
           <span class="skill">Production Management</span>
@@ -235,16 +235,31 @@
   const projects = [
     { cat:'Narrative Short · Drama · 15 min', title:'Si Solamente', role:'Producer', org:'SAG-AFTRA', year:'2026', link:'#', thumb:'Drama · SAG-AFTRA', featured:true },
     { cat:'Narrative Short · Drama · 15 min', title:'The Stories We Tell Ourselves', role:'Producer', org:'SAG-AFTRA', year:'2025', link:'#', thumb:'Drama · SAG-AFTRA', featured:true },
+    { cat:'TV Drama', title:'Baystate — Season 50', role:'Producer', org:'Boston University', year:'Spring 2026', link:'#', thumb:'Baystate · BU', featured:true },
+    { cat:'TV Drama', title:'Baystate — Season 49', role:'Producer', org:'Boston University', year:'Fall 2025', link:'#', thumb:'Baystate · BU', featured:false },
+    { cat:'TV Drama', title:'Baystate — Season 48', role:'Producer', org:'Boston University', year:'Spring 2025', link:'#', thumb:'Baystate · BU', featured:false },
     { cat:'Documentary · 18 min', title:'Pajuyuk Ancestral Knowledge', role:'Exec. Production Assistant', org:'NED Media Works', year:'2025', link:'#', thumb:'Documentary', featured:true },
     { cat:'Music Video · 8 min', title:'The In Between', role:'1st AD', org:'dir. Veritus Miller', year:'2024', link:'#', thumb:'Music Video', featured:false },
     { cat:'Drama Short · 5 min', title:"Bird's Eye View", role:'Producer & Editor', org:'End of Year Showcase', year:'2024', link:'#', thumb:'Drama', featured:false },
     { cat:'Comedy Short · 5 min', title:'Till Death Do Us Part', role:'Producer & Editor', org:'', year:'2025', link:'#', thumb:'Comedy', featured:false },
   ];
 
+  function getYouTubeId(url) {
+    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
+    return match ? match[1] : null;
+  }
+
   function makeCard(p) {
-    return `<a class="card" href="${p.link}" ${p.link !== '#' ? 'target="_blank"' : ''}>
+    const ytId = getYouTubeId(p.link);
+    const thumbContent = ytId
+      ? `<img src="https://img.youtube.com/vi/${ytId}/maxresdefault.jpg" 
+             onerror="this.src='https://img.youtube.com/vi/${ytId}/hqdefault.jpg'"
+             style="width:100%;height:100%;object-fit:cover;display:block;" alt="${p.title}"/>`
+      : `<span class="card-thumb-label">${p.thumb}</span>`;
+
+    return `<a class="card" href="${p.link !== '#' ? p.link : 'javascript:void(0)'}" ${p.link !== '#' ? 'target="_blank"' : ''}>
       <div class="card-thumb">
-        <span class="card-thumb-label">${p.thumb}</span>
+        ${thumbContent}
         <div class="card-play"><div class="play-ring">▶</div></div>
       </div>
       <div class="card-body">
