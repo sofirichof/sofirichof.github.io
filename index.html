@@ -74,7 +74,8 @@
 </div>
 
 <div id="intro-screen">
-  <video id="intro-video" src="YOUR-INTRO-FILE.mp4" muted playsinline></video>
+  <!-- ⚠️ MAKE SURE YOU REPLACE THIS WITH YOUR REAL VIDEO FILE -->
+  <video id="intro-video" src="intro.mp4" muted playsinline></video>
   <div id="intro-fade"></div>
 </div>
 
@@ -131,29 +132,12 @@
 
     intro.classList.add('active');
 
-    // ✅ NEW SOUND (cinematic swell)
-    video.addEventListener('play', () => {
+    // ✅ SIMPLE + RELIABLE SOUND
+    video.play().then(() => {
       const audio = new Audio("TaDum.mp3");
-      audio.volume = 0;
+      audio.volume = 0.8;
       audio.play().catch(() => {});
-
-      const duration = 1200;
-      const start = performance.now();
-
-      function fade(now) {
-        const progress = Math.min((now - start) / duration, 1);
-        const eased = progress * progress;
-        audio.volume = eased;
-
-        if (progress < 1) {
-          requestAnimationFrame(fade);
-        }
-      }
-
-      requestAnimationFrame(fade);
-    }, { once: true });
-
-    video.play().catch(() => {});
+    }).catch(() => {});
 
     setTimeout(() => {
       document.getElementById('intro-fade').style.opacity = '1';
