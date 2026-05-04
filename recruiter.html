@@ -11,12 +11,13 @@
     --text:#fff; --muted:#999; --terra:#E50914; --terra-dark:#B20710;
     --font:'Bebas Neue',sans-serif; --sans:'DM Sans','Helvetica Neue',Arial,sans-serif;
   }
+
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden;}
   body.modal-open{overflow:hidden;}
 
-  /* ── LOADING ── */
+  /* LOADING */
   #loading{
     position:fixed;inset:0;z-index:999;background:#000;
     display:flex;align-items:center;justify-content:center;
@@ -35,7 +36,7 @@
   }
   @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 
-  /* ── NAV ── */
+  /* NAV */
   nav{
     position:fixed;top:0;left:0;right:0;z-index:100;
     padding:1.4rem 4%;
@@ -57,7 +58,7 @@
   }
   .nav-right a:hover{border-color:#fff;color:#fff;}
 
-  /* ── BILLBOARD ── */
+  /* BILLBOARD */
   #billboard{
     position:relative;width:100%;height:100vh;
     display:flex;align-items:flex-end;
@@ -90,7 +91,6 @@
     text-shadow:1px 2px 4px rgba(0,0,0,.5);
   }
 
-  /* REEL TOGGLE */
   .reel-toggle{display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap;}
   .reel-btn{
     padding:.45rem 1.2rem;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
@@ -119,24 +119,17 @@
   }
   .btn-info:hover{background:rgba(109,109,110,.4);}
 
-  /* ── LOLOMO ── */
+  /* LOLOMO */
   #lolomo{
     position:relative;
     z-index:2;
     margin-top:-10rem;
     padding-bottom:4rem;
-    overflow:visible;
   }
-
   .row{
-    margin:2.2rem 0 1.8rem;
+    margin:2.2rem 0;
     position:relative;
-    z-index:1;
-    overflow:visible;
   }
-
-  .row:hover{z-index:40;}
-
   .row-title{
     font-family:var(--font);
     font-size:1.4vw;
@@ -144,177 +137,146 @@
     color:#e5e5e5;
     padding:0 4%;
     margin-bottom:.5rem;
-    transition:color .2s;
-    cursor:default;
   }
-
-  .row:hover .row-title{color:#fff;}
-
-  .row-viewport{
-    position:relative;
-    overflow:visible;
-    padding-bottom:6.5rem;
-  }
-
   .row-scroller{
     overflow-x:auto;
     overflow-y:hidden;
-    padding:2.5rem 4% 0;
-    margin-top:-2.5rem;
+    padding:0 4%;
     scrollbar-width:none;
     cursor:grab;
     -webkit-overflow-scrolling:touch;
     touch-action:pan-x;
-    scroll-behavior:smooth;
   }
-
   .row-scroller::-webkit-scrollbar{display:none;}
-  .row-scroller.grabbing{
-    cursor:grabbing;
-    scroll-behavior:auto;
-  }
-
+  .row-scroller.grabbing{cursor:grabbing;}
   .row-track{
     display:flex;
     gap:.55rem;
     width:max-content;
-    align-items:flex-start;
-    padding:0 3.8rem;
+    padding:.2rem 0;
   }
 
-  /* ── CARD ── */
-  .card-wrap{
+  /* TILE */
+  .tile{
     flex:0 0 auto;
     width:22vw;
     min-width:170px;
     max-width:280px;
-    position:relative;
-    z-index:1;
-    overflow:visible;
-  }
-
-  .row-scroller:not(.grabbing) .card-wrap:hover{z-index:90;}
-
-  .card{
-    background:var(--bg3);
+    aspect-ratio:16 / 9;
     border-radius:4px;
-    cursor:pointer;
-    position:relative;
-    transition:transform .24s ease, box-shadow .24s ease;
-    transform-origin:center top;
-    overflow:visible;
-  }
-
-  .card.origin-left{transform-origin:left top;}
-  .card.origin-right{transform-origin:right top;}
-
-  .row-scroller:not(.grabbing) .card-wrap:hover .card{
-    transform:translateY(-10px) scale(1.22);
-    box-shadow:0 0 2rem rgba(0,0,0,.9),0 8px 16px rgba(0,0,0,.7);
-    transition:transform .24s ease .18s, box-shadow .24s ease .18s;
-    border-radius:4px 4px 0 0;
-  }
-
-  .card-thumb{
-    aspect-ratio:16/9;
     overflow:hidden;
+    background:var(--bg3);
     position:relative;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#000;
-    border-radius:4px;
+    cursor:pointer;
+    transition:transform .18s ease, box-shadow .18s ease;
   }
-
-  .card-thumb-img{
-    position:absolute;inset:0;width:100%;height:100%;
-    object-fit:cover;z-index:0;
-    transition:opacity .25s,transform .35s;
+  .tile:hover{
+    transform:scale(1.04);
+    box-shadow:0 10px 24px rgba(0,0,0,.35);
+  }
+  .tile img,
+  .tile video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
     display:block;
   }
-
-  .row-scroller:not(.grabbing) .card-wrap:hover .card-thumb-img{
-    transform:scale(1.03);
-  }
-
-  .card-thumb video{
-    position:absolute;inset:0;width:100%;height:100%;
-    object-fit:cover;opacity:0;z-index:1;
-    transition:opacity .25s;
-  }
-
-  .row-scroller:not(.grabbing) .card-wrap:hover .card-thumb video{opacity:1;}
-
-  .card-thumb-label{
-    font-family:var(--font);font-size:.75rem;letter-spacing:.06em;
-    color:var(--muted);text-align:center;padding:.5rem;
-    position:relative;z-index:2;
-    transition:opacity .2s;
-  }
-
-  .card.has-thumb .card-thumb-label{opacity:0;}
-
-  .card-thumb::after{
-    content:'';
+  .tile-label{
     position:absolute;
-    inset:0;
-    background:linear-gradient(to top,rgba(0,0,0,.65),transparent 60%);
+    inset:auto 0 .5rem 0;
+    text-align:center;
+    font-family:var(--font);
+    font-size:.75rem;
+    letter-spacing:.06em;
+    color:var(--muted);
+    z-index:2;
+    padding:0 .5rem;
+  }
+
+  /* FLOATING HOVER CARD */
+  .hover-layer{
+    position:fixed;
+    top:0;
+    left:0;
+    width:min(360px, 84vw);
+    background:var(--bg2);
+    border-radius:6px;
+    overflow:hidden;
+    z-index:9999;
+    box-shadow:0 18px 50px rgba(0,0,0,.7);
     opacity:0;
-    transition:opacity .25s;
+    transform:scale(.96);
     pointer-events:none;
-    z-index:3;
+    transition:
+      opacity 160ms ease,
+      transform 160ms ease,
+      top 160ms ease,
+      left 160ms ease;
   }
-
-  .row-scroller:not(.grabbing) .card-wrap:hover .card-thumb::after{opacity:1;}
-
-  .card-play{
-    position:absolute;inset:0;
-    display:flex;align-items:center;justify-content:center;
-    opacity:0;transition:opacity .2s;z-index:4;
+  .hover-layer.visible{
+    opacity:1;
+    transform:scale(1);
+    pointer-events:auto;
   }
-
-  .row-scroller:not(.grabbing) .card-wrap:hover .card-play{opacity:1;}
-
-  .play-ring{
-    width:44px;height:44px;border-radius:50%;
+  .hover-media{
+    width:100%;
+    aspect-ratio:16/9;
+    background:#000;
+    position:relative;
+    overflow:hidden;
+  }
+  .hover-media img,
+  .hover-media video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .hover-play{
+    position:absolute;
+    inset:auto auto .8rem .8rem;
+    width:42px;height:42px;border-radius:50%;
     border:2px solid var(--terra);
     display:flex;align-items:center;justify-content:center;
-    color:var(--terra);font-size:.95rem;padding-left:3px;
-    background:rgba(0,0,0,.5);
+    color:var(--terra);
+    background:rgba(0,0,0,.48);
+    font-size:.95rem;
+    padding-left:3px;
+  }
+  .hover-body{padding:.85rem .95rem 1rem;}
+  .hover-title{
+    font-weight:600;
+    font-size:.95rem;
+    color:#fff;
+    margin-bottom:.3rem;
+  }
+  .hover-role{
+    font-size:.72rem;
+    color:var(--terra);
+    margin-bottom:.2rem;
+    letter-spacing:.04em;
+  }
+  .hover-org{
+    font-size:.68rem;
+    color:var(--muted);
+    margin-bottom:.45rem;
+  }
+  .hover-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.3rem;
+    margin-top:.3rem;
+  }
+  .hover-tag{
+    font-size:.6rem;
+    padding:.16rem .45rem;
+    background:rgba(255,255,255,.1);
+    color:rgba(255,255,255,.76);
+    border-radius:2px;
+    letter-spacing:.04em;
   }
 
-  .card-details{
-    position:absolute;
-    left:0;
-    right:0;
-    top:100%;
-    background:var(--bg2);
-    border-radius:0 0 4px 4px;
-    padding:.65rem .75rem .8rem;
-    opacity:0;
-    pointer-events:none;
-    z-index:10;
-    box-shadow:0 8px 16px rgba(0,0,0,.8);
-    transition:opacity .12s ease;
-  }
-
-  .row-scroller:not(.grabbing) .card-wrap:hover .card-details{
-    opacity:1;
-    pointer-events:auto;
-    transition:opacity .16s ease .18s;
-  }
-
-  .card-mini-title{font-weight:600;font-size:.78rem;margin-bottom:.2rem;color:#fff;}
-  .card-role-text{font-size:.68rem;color:var(--terra);margin-bottom:.2rem;letter-spacing:.04em;}
-  .card-org-text{font-size:.65rem;color:var(--muted);margin-bottom:.3rem;}
-  .card-tags{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.3rem;}
-  .card-tag{
-    font-size:.58rem;padding:.15rem .45rem;
-    background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);
-    border-radius:2px;letter-spacing:.04em;
-  }
-
-  /* ── ABOUT ── */
+  /* ABOUT */
   .about-section{padding:4rem 4%;border-top:1px solid var(--border);}
   .about-inner{max-width:1100px;margin:0 auto;}
   .section-row-title{
@@ -322,7 +284,6 @@
     color:#e5e5e5;margin-bottom:1.5rem;
   }
   .about-grid{display:grid;grid-template-columns:3fr 2fr;gap:4rem;}
-  @media(max-width:720px){.about-grid{grid-template-columns:1fr;gap:2rem;}}
   .about-text p{font-size:.9rem;color:rgba(255,255,255,.65);line-height:1.9;margin-bottom:1rem;}
   .skills{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.2rem;}
   .skill{font-size:.65rem;padding:.25rem .7rem;background:var(--bg3);color:var(--muted);border:1px solid var(--border);border-radius:2px;}
@@ -332,11 +293,10 @@
   .si-title{font-family:var(--font);font-size:.95rem;letter-spacing:.04em;}
   .si-desc{font-size:.75rem;color:var(--muted);margin-top:.15rem;line-height:1.5;}
 
-  /* ── CONTACT ── */
+  /* CONTACT */
   .contact-section{padding:4rem 4%;border-top:1px solid var(--border);}
   .contact-inner{max-width:1100px;margin:0 auto;}
   .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
-  @media(max-width:720px){.contact-grid{grid-template-columns:1fr;gap:2rem;}}
   .contact-text p{font-size:.9rem;color:rgba(255,255,255,.65);line-height:1.9;margin-bottom:.8rem;}
   .contact-links{display:flex;flex-direction:column;}
   .clink{display:flex;justify-content:space-between;align-items:center;padding:.9rem 0;border-bottom:1px solid var(--border);text-decoration:none;color:rgba(255,255,255,.65);font-size:.85rem;transition:color .2s;}
@@ -344,7 +304,7 @@
   .clink:hover{color:var(--terra);}
   .clink-label{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);width:90px;}
 
-  /* ── VIDEO MODAL ── */
+  /* VIDEO MODAL */
   .video-modal{
     position:fixed;inset:0;z-index:1000;
     display:none;align-items:center;justify-content:center;
@@ -366,7 +326,7 @@
   }
   .modal-close:hover{background:var(--terra);border-color:var(--terra);}
 
-  /* ── FOOTER ── */
+  /* FOOTER */
   footer{
     max-width:100rem;margin:0 auto;padding:3rem 4%;
     border-top:8px solid #222;
@@ -382,16 +342,14 @@
     .bill-content{max-width:75%;}
     .bill-desc{font-size:3.5vw;}
     .row-title,.section-row-title{font-size:3.5vw;}
-    .card-wrap{width:42vw;}
+    .tile{width:42vw;}
     .nav-links{display:none;}
-    .row-viewport{padding-bottom:5.25rem;}
-    .row-track{padding:0 1.2rem;}
+    .about-grid,.contact-grid{grid-template-columns:1fr;gap:2rem;}
   }
 </style>
 </head>
 <body>
 
-<!-- LOADING -->
 <div id="loading">
   <div class="spinner-wrap">
     <div class="spinner-ring"></div>
@@ -399,7 +357,6 @@
   </div>
 </div>
 
-<!-- NAV -->
 <nav id="nav">
   <div class="nav-left">
     <a href="index.html" class="nav-logo">Sofia's Portfolio</a>
@@ -412,7 +369,6 @@
   <div class="nav-right"><a href="index.html">← Switch Profile</a></div>
 </nav>
 
-<!-- BILLBOARD -->
 <div id="billboard">
   <video id="bill-video" src="YOUR-HERO-VIDEO.mp4" autoplay muted loop playsinline></video>
   <div class="bill-overlay"></div>
@@ -425,22 +381,14 @@
     </div>
     <p class="bill-desc" id="bill-desc">Broadcast producer with experience at Telemundo 52 / NBCUniversal, Zona Latina in Santiago, and BU's live television program. Comfortable in fast-moving, live environments.</p>
     <div class="bill-actions">
-      <a href="#lolomo" class="btn-play">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l15 8-15 8z"/></svg>
-        View Work
-      </a>
-      <a href="#contact" class="btn-info">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10zm-2 0a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8zm-9 6v-7h2v7h-2zm1-8.75a1.21 1.21 0 0 1-.877-.364A1.188 1.188 0 0 1 10.75 8c0-.348.123-.644.372-.886.247-.242.54-.364.878-.364.337 0 .63.122.877.364.248.242.373.538.373.886s-.124.644-.373.886A1.21 1.21 0 0 1 12 9.25z"/></svg>
-        More Info
-      </a>
+      <a href="#lolomo" class="btn-play">View Work</a>
+      <a href="#contact" class="btn-info">More Info</a>
     </div>
   </div>
 </div>
 
-<!-- LOLOMO -->
 <div id="lolomo"></div>
 
-<!-- ABOUT -->
 <div class="about-section" id="about">
   <div class="about-inner">
     <div class="section-row-title">About Sofia</div>
@@ -466,7 +414,6 @@
   </div>
 </div>
 
-<!-- CONTACT -->
 <div class="contact-section" id="contact">
   <div class="contact-inner">
     <div class="section-row-title">Contact</div>
@@ -490,7 +437,6 @@
   </div>
 </footer>
 
-<!-- VIDEO MODAL -->
 <div class="video-modal" id="video-modal" aria-hidden="true">
   <div class="video-modal-content" id="video-modal-content">
     <button class="modal-close" id="modal-close" aria-label="Close video">×</button>
@@ -498,13 +444,15 @@
   </div>
 </div>
 
+<div id="hover-layer" class="hover-layer"></div>
+
 <script>
 const broadcast = [
   { cat:'Broadcast', title:'Acceso Total — Hollywood Premiere', role:'Interviewer', org:'Telemundo 52 / NBCUniversal', year:'2026', youtubeId:'b4WxJcoeT0c', image:'', preview:'assets/previews/hollywood-premiere.mp4', rows:['featured'] },
   { cat:'Broadcast', title:'Acceso Total — Independence Days', role:'Segment Producer', org:'Telemundo 52 / NBCUniversal', year:'2025', youtubeId:'kVxZsvJysHA', image:'', preview:'assets/previews/independence-days.mp4', rows:['featured'] },
   { cat:'Broadcast · NATAS Award', title:'Live With TY — S1 Ep.11', role:'Chief Editor', org:'BUTV', year:'2024', youtubeId:'g2gvMf2UDbQ', image:'', preview:'assets/previews/live-with-ty.mp4', rows:['featured','live'] },
   { cat:'Broadcast · Santiago, Chile', title:'Zona de Estrellas', role:'Production Assistant', org:'Zona Latina · TVI America', year:'2024', youtubeId:'rz87SYmnLt4', image:'', preview:'assets/previews/zona-estrellas.mp4', rows:['live'] },
-  { cat:'Broadcast · Santiago, Chile', title:'Sabores', role:'Production Assistant', org:'Zona Latina · TVI America', year:'2024', youtubeId:'teAbd8zpJ8SfyAQg', image:'', preview:'assets/previews/sabores.mp4', rows:['live'] },
+  { cat:'Broadcast · Santiago, Chile', title:'Sabores', role:'Production Assistant', org:'Zona Latina · TVI America', year:'2024', youtubeId:'', image:'', preview:'assets/previews/sabores.mp4', rows:['live'] },
   { cat:'TV Drama', title:'Baystate — Season 48–50', role:'Producer', org:'BUTV · Boston University', year:'2024–2026', youtubeId:'pLEuklMB0Xc', image:'', preview:'assets/previews/baystate.mp4', rows:['featured','tv'] },
 ];
 
@@ -595,7 +543,6 @@ function cleanId(v) {
 
 function getThumbSource(p) {
   const id = cleanId(p.youtubeId);
-
   if (id) {
     return {
       src: `https://img.youtube.com/vi/${id}/maxresdefault.jpg`,
@@ -603,7 +550,6 @@ function getThumbSource(p) {
       type: 'youtube'
     };
   }
-
   if (p.image) {
     return {
       src: p.image,
@@ -611,62 +557,43 @@ function getThumbSource(p) {
       type: 'local'
     };
   }
-
-  return {
-    src: '',
-    fallback: '',
-    type: ''
-  };
+  return { src:'', fallback:'', type:'' };
 }
 
-function makeCard(p, index, total) {
-  const id = cleanId(p.youtubeId);
-  const watchable = Boolean(id);
+function tileThumbMarkup(p) {
   const thumb = getThumbSource(p);
-  const hasThumb = Boolean(thumb.src);
+  if (!thumb.src) {
+    return `<div class="tile-label">${p.cat}</div>`;
+  }
 
-  let originClass = '';
-  if (index === 0 || index === 1) originClass = ' origin-left';
-  if (index === total - 1 || index === total - 2) originClass = ' origin-right';
+  if (thumb.type === 'youtube') {
+    return `<img src="${thumb.src}" alt="${p.title}" loading="lazy" onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='${thumb.fallback}';}else{this.remove();}">`;
+  }
 
+  return `<img src="${thumb.src}" alt="${p.title}" loading="lazy" onerror="this.remove();">`;
+}
+
+function makeTile(p, reelType, rowKey, index) {
+  const id = cleanId(p.youtubeId);
   return `
-  <div class="card-wrap">
-    <div class="card${hasThumb ? ' has-thumb' : ''}${originClass}" data-youtube-id="${id}" tabindex="${watchable ? 0 : -1}">
-      <div class="card-thumb">
-        ${
-          hasThumb
-            ? `<img
-                class="card-thumb-img"
-                src="${thumb.src}"
-                alt="${p.title}"
-                loading="lazy"
-                ${
-                  thumb.type === 'youtube'
-                    ? `onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='${thumb.fallback}';}else{this.remove();this.closest('.card').classList.remove('has-thumb');}"`
-                    : `onerror="this.remove(); this.closest('.card').classList.remove('has-thumb');"`
-                }
-              >`
-            : ''
-        }
-
-        ${p.preview ? `<video src="${p.preview}" muted loop playsinline preload="metadata"></video>` : ''}
-
-        <span class="card-thumb-label">${p.cat}</span>
-
-        ${watchable ? `<div class="card-play"><div class="play-ring">▶</div></div>` : ''}
-      </div>
-
-      <div class="card-details">
-        <div class="card-mini-title">${p.title}</div>
-        <div class="card-role-text">${p.role}</div>
-        ${p.org ? `<div class="card-org-text">${p.org}</div>` : ''}
-        <div class="card-tags">
-          <span class="card-tag">${p.year}</span>
-          ${watchable ? '<span class="card-tag">Watch ↗</span>' : '<span class="card-tag">Preview Only</span>'}
-        </div>
-      </div>
-    </div>
-  </div>`;
+    <article
+      class="tile"
+      data-reel="${reelType}"
+      data-row="${rowKey}"
+      data-index="${index}"
+      data-youtube-id="${id}"
+      data-title="${escapeHtml(p.title)}"
+      data-role="${escapeHtml(p.role)}"
+      data-org="${escapeHtml(p.org || '')}"
+      data-year="${escapeHtml(p.year)}"
+      data-cat="${escapeHtml(p.cat)}"
+      data-preview="${escapeHtml(p.preview || '')}"
+      data-image="${escapeHtml(p.image || '')}"
+    >
+      ${tileThumbMarkup(p)}
+      ${!getThumbSource(p).src ? '' : ''}
+    </article>
+  `;
 }
 
 function renderLolomo(reelType) {
@@ -677,18 +604,20 @@ function renderLolomo(reelType) {
   lolomo.innerHTML = rows.map(r => {
     const items = data.filter(p => p.rows.includes(r.key));
     if (!items.length) return '';
-
     return `
-    <div class="row">
-      <div class="row-title">${r.title}</div>
-      <div class="row-viewport">
+      <div class="row">
+        <div class="row-title">${r.title}</div>
         <div class="row-scroller" id="${r.id}">
-          <div class="row-track">${items.map((p, i) => makeCard(p, i, items.length)).join('')}</div>
+          <div class="row-track">
+            ${items.map((p, i) => makeTile(p, reelType, r.key, i)).join('')}
+          </div>
         </div>
       </div>
-    </div>`;
+    `;
   }).join('');
+
   initDrag();
+  bindTileHover();
 }
 
 function switchReel(type, btn) {
@@ -720,18 +649,12 @@ function initDrag() {
 
     scroller.addEventListener('mousemove', e => {
       if (!isDown) return;
-
       const dx = e.pageX - startX;
       const dy = e.pageY - startY;
 
       if (!locked) {
-        if (Math.abs(dx) > Math.abs(dy)) {
-          lockDir = 'h';
-          locked = true;
-        } else if (Math.abs(dy) > Math.abs(dx)) {
-          lockDir = 'v';
-          locked = true;
-        }
+        if (Math.abs(dx) > Math.abs(dy)) { lockDir = 'h'; locked = true; }
+        else if (Math.abs(dy) > Math.abs(dx)) { lockDir = 'v'; locked = true; }
       }
 
       if (lockDir === 'h') {
@@ -752,12 +675,7 @@ function initDrag() {
     scroller.addEventListener('touchmove', e => {
       const dx = e.touches[0].pageX - startX;
       const dy = e.touches[0].pageY - startY;
-
-      if (!locked) {
-        lockDir = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
-        locked = true;
-      }
-
+      if (!locked) { lockDir = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v'; locked = true; }
       if (lockDir === 'h') {
         e.preventDefault();
         scroller.scrollLeft = scrollLeft - dx;
@@ -765,6 +683,119 @@ function initDrag() {
     }, { passive:false });
   });
 }
+
+function escapeHtml(str) {
+  return String(str)
+    .replaceAll('&', '&amp;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;');
+}
+
+const hoverLayer = document.getElementById('hover-layer');
+let hoverHideTimer = null;
+let currentHoverTile = null;
+
+function buildHoverCard(tile) {
+  const title = tile.dataset.title;
+  const role = tile.dataset.role;
+  const org = tile.dataset.org;
+  const year = tile.dataset.year;
+  const cat = tile.dataset.cat;
+  const preview = tile.dataset.preview;
+  const image = tile.dataset.image;
+  const youtubeId = tile.dataset.youtubeId;
+
+  let mediaMarkup = '';
+  if (preview) {
+    mediaMarkup = `<video src="${preview}" autoplay muted loop playsinline></video>`;
+  } else if (image) {
+    mediaMarkup = `<img src="${image}" alt="${title}">`;
+  } else if (youtubeId) {
+    mediaMarkup = `<img src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="${title}">`;
+  } else {
+    mediaMarkup = `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#999;font-family:var(--font);letter-spacing:.08em;">${cat}</div>`;
+  }
+
+  hoverLayer.innerHTML = `
+    <div class="hover-media">
+      ${mediaMarkup}
+      ${youtubeId ? `<div class="hover-play">▶</div>` : ''}
+    </div>
+    <div class="hover-body">
+      <div class="hover-title">${title}</div>
+      <div class="hover-role">${role}</div>
+      ${org ? `<div class="hover-org">${org}</div>` : ''}
+      <div class="hover-tags">
+        <span class="hover-tag">${year}</span>
+        <span class="hover-tag">${cat}</span>
+        ${youtubeId ? `<span class="hover-tag">Watch ↗</span>` : `<span class="hover-tag">Preview Only</span>`}
+      </div>
+    </div>
+  `;
+}
+
+function positionHoverLayer(tile) {
+  const rect = tile.getBoundingClientRect();
+  const layerWidth = Math.min(360, window.innerWidth * 0.84);
+  const approxHeight = layerWidth * 9 / 16 + 110;
+
+  let left = rect.left - (layerWidth - rect.width) / 2;
+  let top = rect.top - 12;
+
+  if (left < 12) left = 12;
+  if (left + layerWidth > window.innerWidth - 12) left = window.innerWidth - layerWidth - 12;
+
+  if (top + approxHeight > window.innerHeight - 12) {
+    top = Math.max(12, window.innerHeight - approxHeight - 12);
+  }
+
+  hoverLayer.style.width = `${layerWidth}px`;
+  hoverLayer.style.left = `${left}px`;
+  hoverLayer.style.top = `${top}px`;
+}
+
+function showHover(tile) {
+  clearTimeout(hoverHideTimer);
+  currentHoverTile = tile;
+  buildHoverCard(tile);
+  positionHoverLayer(tile);
+  requestAnimationFrame(() => {
+    hoverLayer.classList.add('visible');
+  });
+}
+
+function hideHoverSoon() {
+  clearTimeout(hoverHideTimer);
+  hoverHideTimer = setTimeout(() => {
+    hoverLayer.classList.remove('visible');
+    currentHoverTile = null;
+  }, 110);
+}
+
+function bindTileHover() {
+  document.querySelectorAll('.tile').forEach(tile => {
+    tile.addEventListener('mouseenter', () => {
+      const scroller = tile.closest('.row-scroller');
+      if (scroller?.classList.contains('grabbing')) return;
+      showHover(tile);
+    });
+
+    tile.addEventListener('mouseleave', hideHoverSoon);
+  });
+}
+
+hoverLayer.addEventListener('mouseenter', () => clearTimeout(hoverHideTimer));
+hoverLayer.addEventListener('mouseleave', hideHoverSoon);
+
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('solid', window.scrollY > 50);
+  hoverLayer.classList.remove('visible');
+});
+window.addEventListener('resize', () => {
+  hoverLayer.classList.remove('visible');
+});
 
 const videoModal = document.getElementById('video-modal');
 const videoModalContent = document.getElementById('video-modal-content');
@@ -784,50 +815,20 @@ function closeVideo() {
 }
 
 document.getElementById('modal-close').addEventListener('click', closeVideo);
-
 videoModal.addEventListener('click', e => {
   if (!videoModalContent.contains(e.target)) closeVideo();
 });
-
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeVideo();
 });
 
 document.addEventListener('click', e => {
-  const card = e.target.closest('.card');
-  if (!card) return;
-
-  const scroller = card.closest('.row-scroller');
+  const tile = e.target.closest('.tile');
+  if (!tile) return;
+  const scroller = tile.closest('.row-scroller');
   if (scroller?.classList.contains('grabbing')) return;
-
-  const id = card.dataset.youtubeId;
+  const id = tile.dataset.youtubeId;
   if (id) openVideo(id);
-});
-
-document.addEventListener('mouseover', e => {
-  const card = e.target.closest('.card');
-  if (!card) return;
-
-  const vid = card.querySelector('video');
-  if (vid) {
-    vid.currentTime = 0;
-    vid.play().catch(() => {});
-  }
-});
-
-document.addEventListener('mouseout', e => {
-  const card = e.target.closest('.card');
-  if (!card) return;
-
-  const vid = card.querySelector('video');
-  if (vid) {
-    vid.pause();
-    vid.currentTime = 0;
-  }
-});
-
-window.addEventListener('scroll', () => {
-  document.getElementById('nav').classList.toggle('solid', window.scrollY > 50);
 });
 
 renderLolomo('broadcast');
