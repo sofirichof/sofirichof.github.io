@@ -226,7 +226,6 @@
     background:rgba(0,0,0,.5);
   }
 
-  /* Details panel — absolutely positioned so it floats above the row */
   .card-details{
     position:absolute;
     left:0;right:0;top:100%;
@@ -235,18 +234,15 @@
     padding:.6rem .7rem .7rem;
     opacity:0;
     pointer-events:none;
-    transform:scale(0);
-    transform-origin:top center;
-    transition:opacity 0s, transform 0s;
     z-index:3;
     min-width:100%;
     box-shadow:0 8px 16px rgba(0,0,0,.8);
+    transition:opacity 0s;
   }
-  .row-track:not(.grabbing) .card-wrap:hover .card-details{
+  .row-scroller:not(.grabbing) .card-wrap:hover .card-details{
     opacity:1;
-    transform:scale(1);
     pointer-events:auto;
-    transition:opacity .2s ease .4s, transform .2s ease .4s;
+    transition:opacity .2s ease .4s;
   }
   .card-mini-title{font-weight:600;font-size:.78rem;margin-bottom:.2rem;color:#fff;}
   .card-role-text{font-size:.68rem;color:var(--terra);margin-bottom:.2rem;letter-spacing:.04em;}
@@ -531,8 +527,8 @@ function renderLolomo(reelType) {
     return `
     <div class="row">
       <div class="row-title">${r.title}</div>
-      <div class="row-track-wrap">
-        <div class="row-track" id="${r.id}">${items.map(makeCard).join('')}</div>
+      <div class="row-scroller" id="${r.id}">
+        <div class="row-track">${items.map(makeCard).join('')}</div>
       </div>
     </div>`;
   }).join('');
@@ -546,18 +542,18 @@ function switchReel(type, btn) {
   renderLolomo(type);
 }
 
-// ── DRAG SCROLL (horizontal only) ──
+// ── DRAG SCROLL (on scroller, not track) ──
 function initDrag() {
-  document.querySelectorAll('.row-track').forEach(track => {
+  document.querySelectorAll('.row-scroller').forEach(scroller => {
     let isDown = false, startX = 0, startY = 0, scrollLeft = 0, locked = false, lockDir = '';
-    track.addEventListener('mousedown', e => {
+    scroller.addEventListener('mousedown', e => {
       isDown = true; locked = false; lockDir = '';
       startX = e.pageX; startY = e.pageY;
-      scrollLeft = track.scrollLeft;
+      scrollLeft = scroller.scrollLeft;
     });
-    track.addEventListener('mouseleave', () => { isDown = false; track.classList.remove('grabbing'); });
-    track.addEventListener('mouseup', () => { isDown = false; track.classList.remove('grabbing'); });
-    track.addEventListener('mousemove', e => {
+    scroller.addEventListener('mouseleave', () => { isDown = false; scroller.classList.remove('grabbing'); });
+    scroller.addEventListener('mouseup', () => { isDown = false; scroller.classList.remove('grabbing'); });
+    scroller.addEventListener('mousemove', e => {
       if (!isDown) return;
       const dx = e.pageX - startX, dy = e.pageY - startY;
       if (!locked) {
@@ -566,28 +562,18 @@ function initDrag() {
       }
       if (lockDir === 'h') {
         e.preventDefault();
-        if (Math.abs(dx) > 5) track.classList.add('grabbing');
-        track.scrollLeft = scrollLeft - dx * 1.5;
+        if (Math.abs(dx) > 5) scroller.classList.add('grabbing');
+        scroller.scrollLeft = scrollLeft - dx * 1.5;
       }
     });
-    // Touch: lock to horizontal
-    track.addEventListener('touchstart', e => {
-      startX = e.touches[0].pageX;
-      startY = e.touches[0].pageY;
-      scrollLeft = track.scrollLeft;
-      locked = false; lockDir = '';
+    scroller.addEventListener('touchstart', e => {
+      startX = e.touches[0].pageX; startY = e.touches[0].pageY;
+      scrollLeft = scroller.scrollLeft; locked = false; lockDir = '';
     }, {passive:true});
-    track.addEventListener('touchmove', e => {
-      const dx = e.touches[0].pageX - startX;
-      const dy = e.touches[0].pageY - startY;
-      if (!locked) {
-        lockDir = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
-        locked = true;
-      }
-      if (lockDir === 'h') {
-        e.preventDefault();
-        track.scrollLeft = scrollLeft - dx;
-      }
+    scroller.addEventListener('touchmove', e => {
+      const dx = e.touches[0].pageX - startX, dy = e.touches[0].pageY - startY;
+      if (!locked) { lockDir = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v'; locked = true; }
+      if (lockDir === 'h') { e.preventDefault(); scroller.scrollLeft = scrollLeft - dx; }
     }, {passive:false});
   });
 }
@@ -619,8 +605,8 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVideo()
 document.addEventListener('click', e => {
   const card = e.target.closest('.card');
   if (!card) return;
-  const track = card.closest('.row-track');
-  if (track?.classList.contains('grabbing')) return;
+  const scroller = card.closest('.row-scroller');
+  if (scroller?.classList.contains('grabbing')) return;
   const id = card.dataset.youtubeId;
   if (id) openVideo(id);
 });
