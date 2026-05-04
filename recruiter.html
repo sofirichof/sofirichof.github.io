@@ -135,6 +135,22 @@
     display:flex; align-items:center; justify-content:center;
     position:relative; overflow:hidden;
   }
+
+  .card-thumb-img {
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transform:scale(1);
+    transition:opacity .25s ease, transform .35s ease;
+    z-index:0;
+  }
+
+  .card:hover .card-thumb-img {
+    transform:scale(1.04);
+  }
+
   .card-thumb video {
     position:absolute; inset:0;
     width:100%; height:100%;
@@ -142,6 +158,7 @@
     opacity:0;
     transform:scale(1.04);
     transition:opacity .25s ease, transform .35s ease;
+    z-index:1;
   }
   .card:hover .card-thumb video {
     opacity:1;
@@ -156,24 +173,28 @@
     opacity:0;
     transition:opacity .25s;
     pointer-events:none;
+    z-index:2;
   }
   .card:hover .card-thumb::after { opacity:1; }
   .card-thumb-label {
     font-family:var(--font); font-size:.8rem; letter-spacing:.06em; color:var(--muted);
     transition:opacity .2s;
-    z-index:1;
+    z-index:3;
   }
+  .card.has-thumb .card-thumb-label { opacity:0; }
   .card:hover .card-thumb-label { opacity:0; }
+
   .card-play {
-    position:absolute; inset:0; background:rgba(10,10,10,.6);
+    position:absolute; inset:0; background:rgba(10,10,10,.25);
     display:flex; align-items:center; justify-content:center;
     opacity:0; transition:opacity .2s;
-    z-index:2;
+    z-index:4;
   }
   .play-ring {
     width:46px; height:46px; border-radius:50%;
     border:2px solid var(--terra); display:flex; align-items:center; justify-content:center;
     color:var(--terra); font-size:1rem; padding-left:3px;
+    background:rgba(0,0,0,.45);
   }
   .card-body { padding:1rem 1.1rem; flex:1; display:flex; flex-direction:column; }
   .card-cat { font-size:.62rem; letter-spacing:.15em; text-transform:uppercase; color:var(--terra); margin-bottom:.35rem; }
@@ -307,7 +328,7 @@
 <section id="hero">
   <div class="hero-bg"></div>
 
-  <!-- Rename your hero video file to hero-bg.mp4 and place it beside this HTML file -->
+  <!-- Rename your hero video file to hero-bg.mp4, or change src below -->
   <video id="hero-video" src="YOUR-HERO-VIDEO.mp4" autoplay muted loop playsinline></video>
 
   <div class="hero-bg-text">PRODUCER</div>
@@ -433,11 +454,12 @@
 <script>
   /*
     HOW TO ADD YOUTUBE VIDEOS:
-    Use only the YouTube video ID.
+    You can paste either:
+    1. Just the ID: b4WxJcoeT0c
+    2. Or the ID with ?si=: b4WxJcoeT0c?si=abc
+    3. Or the full link: https://youtu.be/b4WxJcoeT0c?si=abc
 
-    Example:
-    Full link: https://youtu.be/b4WxJcoeT0c?si=N8jhZ-nFlX1fC5sQ
-    Use: b4WxJcoeT0c
+    The code will clean it automatically.
   */
 
   const broadcast = [
@@ -574,21 +596,54 @@
     film: "Narrative producer with SAG-AFTRA shorts, three seasons of scripted TV drama, and documentary work. I build shoots that run on time and sets where people actually want to be."
   };
 
+  function cleanYoutubeId(youtubeValue) {
+    if (!youtubeValue || youtubeValue === 'PASTE_YOUTUBE_ID_HERE') return '';
+
+    let value = youtubeValue.trim();
+
+    if (value.includes('youtube.com/watch?v=')) {
+      value = value.split('v=')[1];
+    }
+
+    if (value.includes('youtu.be/')) {
+      value = value.split('youtu.be/')[1];
+    }
+
+    if (value.includes('/embed/')) {
+      value = value.split('/embed/')[1];
+    }
+
+    return value.split('?')[0].split('&')[0].split('/')[0];
+  }
+
   function hasRealYoutubeId(youtubeId) {
-    return youtubeId && youtubeId !== 'PASTE_YOUTUBE_ID_HERE';
+    return Boolean(cleanYoutubeId(youtubeId));
+  }
+
+  function youtubeThumbnail(youtubeId) {
+    const cleanId = cleanYoutubeId(youtubeId);
+    return `https://img.youtube.com/vi/${cleanId}/maxresdefault.jpg`;
   }
 
   function makeCard(p) {
-    const isWatchable = hasRealYoutubeId(p.youtubeId);
+    const cleanId = cleanYoutubeId(p.youtubeId);
+    const isWatchable = Boolean(cleanId);
+    const thumbUrl = isWatchable ? youtubeThumbnail(p.youtubeId) : '';
 
     return `
       <article
-        class="card"
-        data-youtube-id="${isWatchable ? p.youtubeId : ''}"
+        class="card ${isWatchable ? 'has-thumb' : ''}"
+        data-youtube-id="${cleanId}"
         role="${isWatchable ? 'button' : 'article'}"
         tabindex="${isWatchable ? '0' : '-1'}"
       >
         <div class="card-thumb">
+          ${
+            isWatchable
+              ? `<img class="card-thumb-img" src="${thumbUrl}" alt="${p.title} thumbnail" loading="lazy" onerror="this.src='https://img.youtube.com/vi/${cleanId}/hqdefault.jpg'">`
+              : ''
+          }
+
           ${
             p.preview
               ? `<video src="${p.preview}" muted loop playsinline preload="metadata"></video>`
@@ -646,9 +701,10 @@
   const modalClose = document.getElementById('modal-close');
 
   function openVideo(youtubeId) {
-    if (!hasRealYoutubeId(youtubeId)) return;
+    const cleanId = cleanYoutubeId(youtubeId);
+    if (!cleanId) return;
 
-    youtubePlayer.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1`;
+    youtubePlayer.src = `https://www.youtube.com/embed/${cleanId}?autoplay=1&rel=0&modestbranding=1`;
     videoModal.classList.add('active');
     videoModal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
