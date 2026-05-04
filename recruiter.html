@@ -120,33 +120,66 @@
   .btn-info:hover{background:rgba(109,109,110,.4);}
 
   /* ── LOLOMO ── */
-  #lolomo{position:relative;z-index:2;margin-top:-10rem;padding-bottom:5rem;}
-  .row{margin:6rem 0;position:relative;}
-  .row:hover{z-index:50;}
-  .row-title{
-    font-family:var(--font);font-size:1.4vw;letter-spacing:.12em;
-    color:#e5e5e5;padding:0 4%;margin-bottom:.5rem;
-    transition:color .2s;cursor:default;
+  #lolomo{
+    position:relative;
+    z-index:2;
+    margin-top:-10rem;
+    padding-bottom:5rem;
+    overflow:visible;
   }
+
+  .row{
+    margin:2.5rem 0 4.5rem;
+    position:relative;
+    z-index:1;
+    overflow:visible;
+  }
+
+  .row:hover{z-index:80;}
+
+  .row-title{
+    font-family:var(--font);
+    font-size:1.4vw;
+    letter-spacing:.12em;
+    color:#e5e5e5;
+    padding:0 4%;
+    margin-bottom:.5rem;
+    transition:color .2s;
+    cursor:default;
+  }
+
   .row:hover .row-title{color:#fff;}
 
+  .row-viewport{
+    position:relative;
+    overflow:visible;
+    padding:0 0 9rem;
+    margin-bottom:-3.5rem;
+  }
+
   .row-scroller{
-    overflow-x:scroll;
-    overflow-y:visible;
-    padding:4rem 4%;
-    margin:-4rem 0;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding:4rem 4% 0;
+    margin-top:-4rem;
     scrollbar-width:none;
     cursor:grab;
     -webkit-overflow-scrolling:touch;
     touch-action:pan-x;
+    scroll-behavior:smooth;
   }
+
   .row-scroller::-webkit-scrollbar{display:none;}
-  .row-scroller.grabbing{cursor:grabbing;scroll-behavior:auto;}
+  .row-scroller.grabbing{
+    cursor:grabbing;
+    scroll-behavior:auto;
+  }
 
   .row-track{
     display:flex;
     gap:.4rem;
     width:max-content;
+    align-items:flex-start;
   }
 
   /* ── CARD ── */
@@ -157,53 +190,77 @@
     max-width:280px;
     position:relative;
     z-index:1;
+    overflow:visible;
   }
-  .row-scroller:not(.grabbing) .card-wrap:hover{z-index:99;}
+
+  .row-scroller:not(.grabbing) .card-wrap:hover{z-index:120;}
 
   .card{
-    background:var(--bg3);border-radius:4px;
-    cursor:pointer;position:relative;
-    transition:transform .25s ease,box-shadow .25s ease;
-    transform-origin:center center;
+    background:var(--bg3);
+    border-radius:4px;
+    cursor:pointer;
+    position:relative;
+    transition:transform .25s ease, box-shadow .25s ease;
+    transform-origin:center top;
+    overflow:visible;
   }
+
   .row-scroller:not(.grabbing) .card-wrap:hover .card{
     transform:scale(1.4);
     box-shadow:0 0 2rem rgba(0,0,0,.9),0 8px 16px rgba(0,0,0,.7);
-    transition:transform .25s ease .4s,box-shadow .25s ease .4s;
+    transition:transform .25s ease .35s, box-shadow .25s ease .35s;
     border-radius:4px 4px 0 0;
   }
 
   .card-thumb{
-    aspect-ratio:16/9;overflow:hidden;position:relative;
-    display:flex;align-items:center;justify-content:center;
-    background:#000;border-radius:4px;
+    aspect-ratio:16/9;
+    overflow:hidden;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#000;
+    border-radius:4px;
   }
+
   .card-thumb-img{
     position:absolute;inset:0;width:100%;height:100%;
     object-fit:cover;z-index:0;
     transition:opacity .25s,transform .35s;
   }
+
   .row-scroller:not(.grabbing) .card-wrap:hover .card-thumb-img{
     transform:scale(1.04);
   }
+
   .card-thumb video{
     position:absolute;inset:0;width:100%;height:100%;
     object-fit:cover;opacity:0;z-index:1;
     transition:opacity .25s;
   }
+
   .row-scroller:not(.grabbing) .card-wrap:hover .card-thumb video{opacity:1;}
+
   .card-thumb-label{
     font-family:var(--font);font-size:.75rem;letter-spacing:.06em;
     color:var(--muted);text-align:center;padding:.5rem;
     position:relative;z-index:2;
     transition:opacity .2s;
   }
+
   .card.has-thumb .card-thumb-label{opacity:0;}
+
   .card-thumb::after{
-    content:'';position:absolute;inset:0;
+    content:'';
+    position:absolute;
+    inset:0;
     background:linear-gradient(to top,rgba(0,0,0,.65),transparent 60%);
-    opacity:0;transition:opacity .25s;pointer-events:none;z-index:3;
+    opacity:0;
+    transition:opacity .25s;
+    pointer-events:none;
+    z-index:3;
   }
+
   .row-scroller:not(.grabbing) .card-wrap:hover .card-thumb::after{opacity:1;}
 
   .card-play{
@@ -211,7 +268,9 @@
     display:flex;align-items:center;justify-content:center;
     opacity:0;transition:opacity .2s;z-index:4;
   }
+
   .row-scroller:not(.grabbing) .card-wrap:hover .card-play{opacity:1;}
+
   .play-ring{
     width:44px;height:44px;border-radius:50%;
     border:2px solid var(--terra);
@@ -221,19 +280,26 @@
   }
 
   .card-details{
-    position:absolute;left:0;right:0;top:100%;
-    background:var(--bg2);border-radius:0 0 4px 4px;
-    padding:.6rem .7rem .7rem;
-    opacity:0;pointer-events:none;
-    z-index:3;
+    position:absolute;
+    left:0;
+    right:0;
+    top:100%;
+    background:var(--bg2);
+    border-radius:0 0 4px 4px;
+    padding:.65rem .75rem .8rem;
+    opacity:0;
+    pointer-events:none;
+    z-index:10;
     box-shadow:0 8px 16px rgba(0,0,0,.8);
     transition:opacity 0s;
-    transform-origin:top center;
   }
+
   .row-scroller:not(.grabbing) .card-wrap:hover .card-details{
-    opacity:1;pointer-events:auto;
-    transition:opacity .2s ease .4s;
+    opacity:1;
+    pointer-events:auto;
+    transition:opacity .2s ease .35s;
   }
+
   .card-mini-title{font-weight:600;font-size:.78rem;margin-bottom:.2rem;color:#fff;}
   .card-role-text{font-size:.68rem;color:var(--terra);margin-bottom:.2rem;letter-spacing:.04em;}
   .card-org-text{font-size:.65rem;color:var(--muted);margin-bottom:.3rem;}
@@ -314,6 +380,10 @@
     .row-title,.section-row-title{font-size:3.5vw;}
     .card-wrap{width:42vw;}
     .nav-links{display:none;}
+    .row-viewport{
+      padding-bottom:7rem;
+      margin-bottom:-2.5rem;
+    }
   }
 </style>
 </head>
@@ -605,8 +675,10 @@ function renderLolomo(reelType) {
     return `
     <div class="row">
       <div class="row-title">${r.title}</div>
-      <div class="row-scroller" id="${r.id}">
-        <div class="row-track">${items.map(makeCard).join('')}</div>
+      <div class="row-viewport">
+        <div class="row-scroller" id="${r.id}">
+          <div class="row-track">${items.map(makeCard).join('')}</div>
+        </div>
       </div>
     </div>`;
   }).join('');
