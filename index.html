@@ -14,7 +14,6 @@
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--bg); color:var(--text); font-family:var(--sans); min-height:100vh; overflow-x:hidden; }
 
-  /* ── TAP SCREEN ── */
   #tap-screen {
     position:fixed; inset:0; z-index:200;
     background:#000;
@@ -28,7 +27,6 @@
   .tap-hint { font-size:.72rem; letter-spacing:.25em; text-transform:uppercase; color:rgba(255,255,255,.3); }
   @keyframes pulse { 0%,100%{opacity:.6;transform:scale(1);} 50%{opacity:1;transform:scale(1.04);} }
 
-  /* ── INTRO VIDEO SCREEN ── */
   #intro-screen {
     position:fixed; inset:0; z-index:100;
     background:#000;
@@ -38,7 +36,6 @@
   #intro-video { width:100%; height:100%; object-fit:contain; display:block; }
   #intro-fade { position:absolute; inset:0; background:#000; opacity:0; pointer-events:none; transition:opacity .8s ease; }
 
-  /* ── PROFILE PICKER ── */
   #profile-screen {
     min-height:100vh;
     display:none; flex-direction:column; align-items:center; justify-content:center;
@@ -61,7 +58,6 @@
   .profile-avatar { width:120px; height:120px; border-radius:6px; overflow:hidden; outline:3px solid transparent; transition:outline .2s; background:var(--bg2); }
   .profile-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
 
-  /* Fallback if image not loaded yet */
   .profile-avatar .fallback { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:3rem; }
 
   .profile-name { font-family:var(--font); font-size:1rem; letter-spacing:.15em; color:var(--muted); text-transform:uppercase; transition:color .2s; }
@@ -69,7 +65,6 @@
 </head>
 <body>
 
-<!-- TAP SCREEN -->
 <div id="tap-screen" onclick="startIntro()">
   <div class="tap-prompt">
     <div class="tap-logo">Sofia's Portfolio</div>
@@ -78,23 +73,16 @@
   </div>
 </div>
 
-<!-- INTRO VIDEO
-     1. Put your video file in the same folder as index.html
-     2. Replace YOUR-INTRO-FILE.mp4 with your filename
-     3. Set INTRO_DURATION below to your video's length in milliseconds -->
 <div id="intro-screen">
   <video id="intro-video" src="YOUR-INTRO-FILE.mp4" muted playsinline></video>
   <div id="intro-fade"></div>
 </div>
 
-<!-- PROFILE PICKER -->
 <div id="profile-screen">
   <h2 class="ps-heading">WHO'S WATCHING?</h2>
   <p class="ps-sub">Select a profile to continue</p>
   <div class="profiles">
 
-    <!-- RECRUITER
-         Replace YOUR-IMAGE-1.png with your teal smiley filename -->
     <a href="recruiter.html" class="profile-card">
       <div class="profile-avatar">
         <img src="YOUR-IMAGE-1.png" alt="Recruiter" onerror="this.style.display='none'"/>
@@ -103,8 +91,6 @@
       <span class="profile-name">Recruiter</span>
     </a>
 
-    <!-- DIRECTOR
-         Replace YOUR-IMAGE-2.png with your red smiley filename -->
     <a href="director.html" class="profile-card">
       <div class="profile-avatar">
         <img src="YOUR-IMAGE-2.png" alt="Director" onerror="this.style.display='none'"/>
@@ -113,8 +99,6 @@
       <span class="profile-name">Director</span>
     </a>
 
-    <!-- AGENCY
-         Replace YOUR-IMAGE-3.png with your green smiley filename -->
     <a href="agency.html" class="profile-card">
       <div class="profile-avatar">
         <img src="YOUR-IMAGE-3.png" alt="Agency" onerror="this.style.display='none'"/>
@@ -123,8 +107,6 @@
       <span class="profile-name">Agency</span>
     </a>
 
-    <!-- STALKER
-         Replace YOUR-IMAGE-4.png with your yellow smiley filename -->
     <a href="stalker.html" class="profile-card">
       <div class="profile-avatar">
         <img src="YOUR-IMAGE-4.png" alt="Stalker" onerror="this.style.display='none'"/>
@@ -137,80 +119,46 @@
 </div>
 
 <script>
-  const INTRO_DURATION = 5200; // ← change to your video's length in ms
-
- function startIntro() {
-  // Fade out tap screen
-  const tap = document.getElementById('tap-screen');
-  tap.classList.add('fade-out');
-  setTimeout(() => tap.style.display = 'none', 500);
-
-  // Get elements
-  const intro = document.getElementById('intro-screen');
-  const video = document.getElementById('intro-video');
-
-  // Show intro screen
-  intro.classList.add('active');
-
-  // Play sound with cinematic volume curve
-  video.addEventListener('play', () => {
-    const audio = new Audio("TaDum.mp3");
-
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const source = ctx.createMediaElementSource(audio);
-    const gainNode = ctx.createGain();
-
-    source.connect(gainNode);
-    gainNode.connect(ctx.destination);
-
-    const now = ctx.currentTime;
-
-    // Start quiet
-    gainNode.gain.setValueAtTime(0.05, now);
-
-    // Gradual cinematic swell
-    gainNode.gain.exponentialRampToValueAtTime(1.0, now + 1.2);
-
-    audio.play().catch(() => {});
-  }, { once: true });
-
-  // Start video
-  video.play().catch(() => {});
-
-  // Fade to black near end
-  setTimeout(() => {
-    document.getElementById('intro-fade').style.opacity = '1';
-  }, INTRO_DURATION - 800);
-
-  // Show profile picker
-  setTimeout(() => {
-    intro.style.display = 'none';
-    const ps = document.getElementById('profile-screen');
-    ps.classList.add('active');
-    setTimeout(() => ps.classList.add('visible'), 50);
-  }, INTRO_DURATION + 100);
-}
+  const INTRO_DURATION = 5200;
 
   function startIntro() {
-    // Fade out tap screen
     const tap = document.getElementById('tap-screen');
     tap.classList.add('fade-out');
     setTimeout(() => tap.style.display = 'none', 500);
 
-    // Play sound
-    playTaDum();
-
-    // Play video
     const intro = document.getElementById('intro-screen');
-    intro.classList.add('active');
-    document.getElementById('intro-video').play().catch(() => {});
+    const video = document.getElementById('intro-video');
 
-    // Fade to black near end
+    intro.classList.add('active');
+
+    // ✅ NEW SOUND (cinematic swell)
+    video.addEventListener('play', () => {
+      const audio = new Audio("TaDum.mp3");
+      audio.volume = 0;
+      audio.play().catch(() => {});
+
+      const duration = 1200;
+      const start = performance.now();
+
+      function fade(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = progress * progress;
+        audio.volume = eased;
+
+        if (progress < 1) {
+          requestAnimationFrame(fade);
+        }
+      }
+
+      requestAnimationFrame(fade);
+    }, { once: true });
+
+    video.play().catch(() => {});
+
     setTimeout(() => {
       document.getElementById('intro-fade').style.opacity = '1';
     }, INTRO_DURATION - 800);
 
-    // Show profile picker
     setTimeout(() => {
       intro.style.display = 'none';
       const ps = document.getElementById('profile-screen');
