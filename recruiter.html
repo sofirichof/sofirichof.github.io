@@ -284,6 +284,7 @@
     h1 { font-size:3.5rem; }
     .video-modal { padding:1rem; }
     .modal-close { top:-42px; }
+    .nav-links { display:none; }
   }
 </style>
 </head>
@@ -307,7 +308,7 @@
   <div class="hero-bg"></div>
 
   <!-- Rename your hero video file to hero-bg.mp4 and place it beside this HTML file -->
-  <video id="hero-video" src="hero-bg.mp4" autoplay muted loop playsinline></video>
+  <video id="hero-video" src="YOUR-HERO-VIDEO.mp4" autoplay muted loop playsinline></video>
 
   <div class="hero-bg-text">PRODUCER</div>
   <div class="hero-grad"></div>
@@ -349,7 +350,7 @@
     <div class="row-label">About</div>
     <div class="about-grid">
       <div class="about-text">
-        <p>I'm a film and television producer finishing a BS in Film & Television Production at Boston University — double major in Advertising, graduating August 2026. I've produced SAG-AFTRA short films, worked as a segment producer at Telemundo 52, gone on-set in Santiago, Chile for a live variety show, and spent the last year producing three seasons of state TV Drama.</p>
+        <p>I'm a film and television producer finishing a BS in Film & Television Production at Boston University — double major in Advertising, graduating August 2026. I've produced SAG-AFTRA short films, worked as a segment producer at Telemundo 52, gone on-set in Santiago, Chile for a live variety show, and spent the last year producing three seasons of Baystate TV Drama.</p>
         <p>I'm bilingual in English and Spanish, with working French too, which has shaped both the work I gravitate toward and the stories I want to tell. I learn fast, take notes, and care about doing things well.</p>
 
         <div class="skills">
@@ -430,6 +431,15 @@
 </div>
 
 <script>
+  /*
+    HOW TO ADD YOUTUBE VIDEOS:
+    Use only the YouTube video ID.
+
+    Example:
+    Full link: https://youtu.be/b4WxJcoeT0c?si=N8jhZ-nFlX1fC5sQ
+    Use: b4WxJcoeT0c
+  */
+
   const broadcast = [
     {
       cat: 'Broadcast',
@@ -500,7 +510,7 @@
       role: 'Producer',
       org: 'Boston University',
       year: '2026',
-      youtubeId: null,
+      youtubeId: 'PASTE_YOUTUBE_ID_HERE',
       preview: 'assets/previews/si-solamente.mp4',
       thumb: 'Drama · SAG-AFTRA'
     },
@@ -510,7 +520,7 @@
       role: 'Producer',
       org: 'Freelance',
       year: '2025',
-      youtubeId: null,
+      youtubeId: 'Vp9FBdygTKM?si=Va5FGYQKZX9sq3BH',
       preview: 'assets/previews/stories-we-tell.mp4',
       thumb: 'Drama · SAG-AFTRA'
     },
@@ -520,7 +530,7 @@
       role: 'Exec. Production Assistant',
       org: 'A Posteriori Entertainment',
       year: '2025',
-      youtubeId: null,
+      youtubeId: 'PASTE_YOUTUBE_ID_HERE',
       preview: 'assets/previews/pajuyuk.mp4',
       thumb: 'Documentary'
     },
@@ -530,7 +540,7 @@
       role: 'Producer & Editor',
       org: 'Boston University',
       year: '2024',
-      youtubeId: null,
+      youtubeId: 'ETdIUMwOOd0?si=HvUwBhq_Bj-qz4Rg',
       preview: 'assets/previews/birds-eye-view.mp4',
       thumb: 'Drama'
     },
@@ -540,7 +550,7 @@
       role: '1st AD',
       org: 'Veritus Miller',
       year: '2024',
-      youtubeId: null,
+      youtubeId: '7aJZ3AvY3IU?si=zLOMtuouk3Puq47Y',
       preview: 'assets/previews/the-in-between.mp4',
       thumb: 'Music Video'
     },
@@ -564,13 +574,17 @@
     film: "Narrative producer with SAG-AFTRA shorts, three seasons of scripted TV drama, and documentary work. I build shoots that run on time and sets where people actually want to be."
   };
 
+  function hasRealYoutubeId(youtubeId) {
+    return youtubeId && youtubeId !== 'PASTE_YOUTUBE_ID_HERE';
+  }
+
   function makeCard(p) {
-    const isWatchable = Boolean(p.youtubeId);
+    const isWatchable = hasRealYoutubeId(p.youtubeId);
 
     return `
       <article
         class="card"
-        data-youtube-id="${p.youtubeId || ''}"
+        data-youtube-id="${isWatchable ? p.youtubeId : ''}"
         role="${isWatchable ? 'button' : 'article'}"
         tabindex="${isWatchable ? '0' : '-1'}"
       >
@@ -596,7 +610,7 @@
           <div class="card-role">${p.role}${p.org ? ' · ' + p.org : ''}</div>
           <div class="card-foot">
             <span class="card-year">${p.year}</span>
-            ${isWatchable ? '<span class="card-tag">Watch</span>' : '<span class="card-tag">Coming Soon</span>'}
+            ${isWatchable ? '<span class="card-tag">Watch</span>' : '<span class="card-tag">Add Link</span>'}
           </div>
         </div>
       </article>
@@ -632,7 +646,7 @@
   const modalClose = document.getElementById('modal-close');
 
   function openVideo(youtubeId) {
-    if (!youtubeId) return;
+    if (!hasRealYoutubeId(youtubeId)) return;
 
     youtubePlayer.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1`;
     videoModal.classList.add('active');
