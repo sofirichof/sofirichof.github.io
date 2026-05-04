@@ -121,7 +121,8 @@
 
   /* ── LOLOMO ROWS ── */
   #lolomo{position:relative;z-index:2;margin-top:-10rem;padding-bottom:5rem;}
-  .row{ margin-bottom:2.5vw; position:relative; overflow:visible; }
+  .row{ margin-bottom:2.5vw; position:relative; z-index:1; }
+  .row:hover{ z-index:2; }
   .row-title{
     font-family:var(--font);font-size:1.4vw;letter-spacing:.12em;
     color:#e5e5e5;padding:0 4%;margin-bottom:.5rem;
@@ -130,15 +131,18 @@
   .row:hover .row-title{color:#fff;}
   .row-track-wrap{
     padding:1.5rem 0 3rem;margin-top:-1rem;
-    overflow:visible; /* allow cards to scale out of bounds */
+    position:relative;
   }
   .row-track{
     display:flex;padding:0 4%;gap:.35rem;
-    overflow-x:auto;overflow-y:visible; /* visible so scaled cards don't get clipped */
+    overflow-x:auto;
     scroll-behavior:smooth;
     cursor:grab;scrollbar-width:none;
     -webkit-overflow-scrolling:touch;
     touch-action:pan-x;
+    /* Extra bottom padding so details panel has room */
+    padding-bottom:12rem;
+    margin-bottom:-12rem;
   }
   .row-track::-webkit-scrollbar{display:none;}
   .row-track.grabbing{cursor:grabbing;scroll-behavior:auto;}
@@ -148,20 +152,22 @@
     flex:0 0 auto;
     width:calc((100% - 8%) / 4 - .35rem);
     min-width:140px;
-    position:relative;z-index:1;
-    transition:z-index 0s 0s;
+    position:relative;
+    z-index:1;
   }
+  /* On hover lift z-index and use absolute positioning for the scaled card */
   .row-track:not(.grabbing) .card-wrap:hover{
-    z-index:10;transition:z-index 0s .4s;
+    z-index:50;
   }
   .card{
     background:var(--bg3);border-radius:4px;
-    overflow:visible;cursor:pointer;position:relative;
+    cursor:pointer;position:relative;
   }
   .card-inner{
     border-radius:4px;overflow:hidden;
     transition:transform .25s ease,box-shadow .25s ease;
     transform-origin:center bottom;
+    position:relative;z-index:2;
   }
   .row-track:not(.grabbing) .card-wrap:hover .card-inner{
     transform:scale(1.35);
@@ -220,18 +226,27 @@
     background:rgba(0,0,0,.5);
   }
 
-  /* Details panel below card */
+  /* Details panel — absolutely positioned so it floats above the row */
   .card-details{
-    position:absolute;left:0;right:0;top:100%;
-    background:var(--bg2);border-radius:0 0 4px 4px;
+    position:absolute;
+    left:0;right:0;top:100%;
+    background:var(--bg2);
+    border-radius:0 0 4px 4px;
     padding:.6rem .7rem .7rem;
-    opacity:0;width:0;overflow:hidden;pointer-events:none;
-    transition:opacity 0s,width 0s;
+    opacity:0;
+    pointer-events:none;
+    transform:scale(0);
+    transform-origin:top center;
+    transition:opacity 0s, transform 0s;
+    z-index:3;
+    min-width:100%;
+    box-shadow:0 8px 16px rgba(0,0,0,.8);
   }
   .row-track:not(.grabbing) .card-wrap:hover .card-details{
-    opacity:1;width:100%;pointer-events:auto;
-    transition:opacity .25s ease .4s,width 0s .4s;
-    box-shadow:0 8px 12px rgba(0,0,0,.7);
+    opacity:1;
+    transform:scale(1);
+    pointer-events:auto;
+    transition:opacity .2s ease .4s, transform .2s ease .4s;
   }
   .card-mini-title{font-weight:600;font-size:.78rem;margin-bottom:.2rem;color:#fff;}
   .card-role-text{font-size:.68rem;color:var(--terra);margin-bottom:.2rem;letter-spacing:.04em;}
