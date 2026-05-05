@@ -80,7 +80,17 @@
 
   .profile-avatar .fallback { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:3rem; }
 
-  .profile-name { font-family:var(--font); font-size:1rem; letter-spacing:.15em; color:var(--muted); text-transform:uppercase; transition:color .2s; }
+  .profile-name {
+    max-width:150px;
+    font-family:var(--font);
+    font-size:1rem;
+    line-height:1.15;
+    letter-spacing:.15em;
+    color:var(--muted);
+    text-align:center;
+    text-transform:uppercase;
+    transition:color .2s;
+  }
 </style>
 </head>
 <body>
@@ -101,31 +111,31 @@
 
 <div id="profile-screen">
   <h2 class="ps-heading">WHO'S WATCHING?</h2>
-  <p class="ps-sub">Select a profile to continue</p>
+  <p class="ps-sub">Choose the version of Sofia's work you want to browse</p>
   <div class="profiles">
 
     <a href="recruiter.html" class="profile-card">
       <div class="profile-avatar">
-        <img src="YOUR-IMAGE-1.png" alt="Recruiter" onerror="this.style.display='none'"/>
+        <img src="YOUR-IMAGE-1.png" alt="Production" onerror="this.style.display='none'"/>
         <div class="fallback">🎬</div>
       </div>
-      <span class="profile-name">Recruiter</span>
-    </a>
-
-    <a href="director.html" class="profile-card">
-      <div class="profile-avatar">
-        <img src="YOUR-IMAGE-2.png" alt="Director" onerror="this.style.display='none'"/>
-        <div class="fallback">🎥</div>
-      </div>
-      <span class="profile-name">Director</span>
+      <span class="profile-name">Production</span>
     </a>
 
     <a href="agency.html" class="profile-card">
       <div class="profile-avatar">
-        <img src="YOUR-IMAGE-3.png" alt="Agency" onerror="this.style.display='none'"/>
+        <img src="YOUR-IMAGE-3.png" alt="Advertising" onerror="this.style.display='none'"/>
         <div class="fallback">📋</div>
       </div>
-      <span class="profile-name">Agency</span>
+      <span class="profile-name">Advertising</span>
+    </a>
+
+    <a href="director.html" class="profile-card">
+      <div class="profile-avatar">
+        <img src="YOUR-IMAGE-2.png" alt="Film / Collaborators" onerror="this.style.display='none'"/>
+        <div class="fallback">🎥</div>
+      </div>
+      <span class="profile-name">Film / Collaborators</span>
     </a>
 
     <a href="stalker.html" class="profile-card">
