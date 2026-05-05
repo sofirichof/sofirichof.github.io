@@ -153,26 +153,19 @@
   }
   .nav-links a:hover,
   .nav-links a.active { color: #fff; }
-  .profile-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: .55rem;
-    color: rgba(255,255,255,.78);
+  .profile-link {
+    color: rgba(255,255,255,.76);
     text-decoration: none;
-    font-size: .78rem;
+    font-size: .76rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    border: 1px solid rgba(255,255,255,.22);
+    padding: .48rem .8rem;
+    border-radius: 3px;
+    transition: border-color .2s, color .2s;
     white-space: nowrap;
   }
-  .profile-avatar {
-    width: 30px;
-    height: 30px;
-    border-radius: 3px;
-    display: grid;
-    place-items: center;
-    background: linear-gradient(135deg, #f5f5f5, #9a9a9a);
-    color: #141414;
-    font-weight: 800;
-    letter-spacing: -.02em;
-  }
+  .profile-link:hover { color: #fff; border-color: rgba(255,255,255,.6); }
 
   #billboard {
     position: relative;
@@ -196,7 +189,9 @@
     opacity: .48;
     filter: saturate(.95) contrast(1.06);
     background: #050505;
+    transition: opacity 1s ease;
   }
+  #billboard.project-slide #bill-video { opacity: 0; pointer-events: none; }
   .hero-fallback {
     z-index: -4;
     background:
@@ -218,8 +213,13 @@
     inset: 0;
     z-index: -2;
     pointer-events: none;
+    background: transparent;
   }
-  .bill-slide-img {
+  /* block hero video from bleeding through semi-opaque slide images */
+  #billboard.project-slide .bill-slides-bg {
+    background: #141414;
+  }
+  .bill-slide-media {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -229,7 +229,7 @@
     opacity: 0;
     transition: opacity 1.1s ease;
   }
-  .bill-slide-img.active { opacity: .58; }
+  .bill-slide-media.active { opacity: .66; }
 
   .bill-slide-fade { transition: opacity .4s ease; }
   .bill-slide-fade.out { opacity: 0; }
@@ -267,6 +267,23 @@
     letter-spacing: .16em;
     text-transform: uppercase;
     margin-bottom: .75rem;
+  }
+  .bill-badge {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: .45rem;
+    min-height: 24px;
+    padding: .2rem .58rem;
+    margin-bottom: .7rem;
+    border-radius: 2px;
+    background: rgba(229,9,20,.92);
+    color: #fff;
+    font-size: .68rem;
+    font-weight: 900;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    box-shadow: 0 10px 24px rgba(0,0,0,.25);
   }
   .series-mark {
     display: inline-grid;
@@ -372,6 +389,10 @@
     background: rgba(109,109,110,.72);
     color: #fff;
   }
+  .btn-info.subtle {
+    background: rgba(255,255,255,.13);
+    border: 1px solid rgba(255,255,255,.2);
+  }
   .btn-play:hover,
   .btn-primary:hover,
   .btn-info:hover {
@@ -380,6 +401,7 @@
   .btn-play:hover,
   .btn-primary:hover { background: rgba(255,255,255,.78); }
   .btn-info:hover { background: rgba(109,109,110,.48); }
+  .btn-info.subtle:hover { background: rgba(255,255,255,.2); }
   .icon {
     display: inline-grid;
     place-items: center;
@@ -654,6 +676,7 @@
     margin: 0 auto;
   }
   .about-grid,
+  .skills-page-grid,
   .contact-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.45fr) minmax(280px, .85fr);
@@ -661,7 +684,11 @@
     align-items: start;
     margin-top: 1.55rem;
   }
+  .skills-page-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
   .about-text p,
+  .skills-intro,
   .contact-text p {
     color: rgba(255,255,255,.68);
     font-size: .97rem;
@@ -681,6 +708,57 @@
     color: rgba(255,255,255,.7);
     border: 1px solid rgba(255,255,255,.1);
     border-radius: 2px;
+  }
+  .skill-panel {
+    min-height: 100%;
+    padding: 1.15rem;
+    border: 1px solid rgba(255,255,255,.1);
+    background: linear-gradient(145deg, rgba(255,255,255,.075), rgba(255,255,255,.025));
+    border-radius: 6px;
+  }
+  .skill-panel-title {
+    font-family: var(--font);
+    font-size: 1.25rem;
+    letter-spacing: .06em;
+    margin-bottom: .45rem;
+  }
+  .skill-panel-text {
+    min-height: 3.1rem;
+    color: rgba(255,255,255,.62);
+    font-size: .82rem;
+    line-height: 1.55;
+    margin-bottom: .9rem;
+  }
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .42rem;
+  }
+  .tool-strip {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: .75rem;
+    margin-top: 1.35rem;
+  }
+  .tool-tile {
+    min-height: 84px;
+    padding: .85rem;
+    border-radius: 5px;
+    background: rgba(0,0,0,.24);
+    border: 1px solid rgba(255,255,255,.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .tool-name {
+    color: #fff;
+    font-weight: 800;
+    font-size: .84rem;
+  }
+  .tool-type {
+    color: var(--muted);
+    font-size: .68rem;
+    line-height: 1.35;
   }
   .sidebar-list {
     border-top: 1px solid var(--border);
@@ -809,7 +887,7 @@
 
   @media (max-width: 720px) {
     .top-nav { padding: .9rem 4%; }
-    .profile-chip span:not(.profile-avatar) { display: none; }
+
     #billboard {
       min-height: 92svh;
       padding: 6.5rem 4% 17vh;
@@ -841,9 +919,13 @@
     .row-controls { display: none; }
     .tile { width: 58vw; min-width: 210px; }
     .about-grid,
+    .skills-page-grid,
     .contact-grid {
       grid-template-columns: 1fr;
       gap: 2rem;
+    }
+    .tool-strip {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     .info-section { padding-block: 3.3rem; }
     .clink {
@@ -873,6 +955,7 @@
       transition-duration: .001ms !important;
     }
     #bill-video,
+    .bill-slide-media:is(video),
     .hover-media video { display: none; }
   }
 </style>
@@ -891,23 +974,22 @@
     <ul class="nav-links">
       <li><a href="#lolomo">Work</a></li>
       <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </div>
-  <a class="profile-chip" href="#contact" aria-label="Contact Sofia">
-    <span>Available Aug 2026</span>
-    <span class="profile-avatar">S</span>
-  </a>
+  <a class="profile-link" href="index.html">Switch Profile</a>
 </nav>
 
 <main>
   <section id="billboard" aria-labelledby="hero-title">
     <div class="hero-fallback"></div>
-    <video id="bill-video" src="YOUR-HERO-VIDEO.mp4" autoplay muted loop playsinline preload="metadata"></video>
+    <video id="bill-video" src="media/hero.mp4" autoplay muted loop playsinline preload="metadata"></video>
     <div id="bill-slides-bg" class="bill-slides-bg"></div>
     <div class="bill-overlay"></div>
     <div class="bill-content">
       <div class="bill-kicker"><span class="series-mark">S</span><span>Sofia González Irigoyen · Producer</span></div>
+      <div class="bill-badge bill-slide-fade" id="bill-badge">Featured Profile</div>
       <h1 class="bill-title bill-slide-fade" id="hero-title"></h1>
       <div class="meta-line bill-slide-fade" id="bill-meta" aria-label="Project details"></div>
       <div class="reel-toggle" role="tablist" aria-label="Portfolio reel">
@@ -918,6 +1000,7 @@
       <div class="bill-actions">
         <button class="btn-play bill-slide-fade" id="bill-watch-btn" type="button" style="display:none"><span class="icon" aria-hidden="true">▶</span>Watch</button>
         <a href="#" class="btn-info bill-slide-fade" id="bill-info-btn"><span class="icon" aria-hidden="true">i</span>More Info</a>
+        <a href="#contact" class="btn-info subtle bill-slide-fade" id="bill-resume-btn"><span class="icon" aria-hidden="true">✉</span>Contact Me</a>
       </div>
       <div class="bill-indicators" id="bill-indicators" aria-label="Featured projects"></div>
     </div>
@@ -951,6 +1034,72 @@
           <div class="sidebar-item"><div class="si-org">Redstone Film Festival · 2026</div><div class="si-title">Best Picture</div><div class="si-desc">BU Department of Film and Television student film festival</div></div>
           <div class="sidebar-item"><div class="si-org">AdLab · Spring 2026</div><div class="si-title">Video Producer · Above & Beyond Award</div><div class="si-desc">Country's largest student-run advertising agency</div></div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section" id="skills">
+    <div class="section-inner">
+      <h2 class="section-row-title">Production Toolkit</h2>
+      <p class="skills-intro">A practical view of the tools, workflows, and on-set muscles behind the work above.</p>
+      <div class="skills-page-grid">
+        <div class="skill-panel">
+          <div class="skill-panel-title">Producing & Coordination</div>
+          <div class="skill-panel-text">Budget-aware production management, scheduling, talent coordination, and set communication across scripted, live, and documentary workflows.</div>
+          <div class="skill-tags">
+            <span class="skill">Production Management</span>
+            <span class="skill">Movie Magic Scheduling</span>
+            <span class="skill">Movie Magic Budgeting</span>
+            <span class="skill">SAG-AFTRA Micro-Budget</span>
+            <span class="skill">Casting Logistics</span>
+            <span class="skill">Rundowns</span>
+          </div>
+        </div>
+        <div class="skill-panel">
+          <div class="skill-panel-title">Broadcast & Live TV</div>
+          <div class="skill-panel-text">Comfortable in fast-moving live and live-on-tape environments, from guest coordination to control-room timing and segment support.</div>
+          <div class="skill-tags">
+            <span class="skill">Live Broadcast</span>
+            <span class="skill">Multi-cam Studio</span>
+            <span class="skill">Dalet Galaxy</span>
+            <span class="skill">Latakoo</span>
+            <span class="skill">Teleprompter Scripts</span>
+            <span class="skill">LiveU</span>
+          </div>
+        </div>
+        <div class="skill-panel">
+          <div class="skill-panel-title">Post & Creative Tools</div>
+          <div class="skill-panel-text">Editing, finishing, graphics, and visual development tools used across shorts, broadcast packages, social deliverables, and portfolio media.</div>
+          <div class="skill-tags">
+            <span class="skill">DaVinci Resolve</span>
+            <span class="skill">Adobe Premiere</span>
+            <span class="skill">After Effects</span>
+            <span class="skill">Photoshop</span>
+            <span class="skill">Lightroom</span>
+            <span class="skill">Final Cut Pro</span>
+            <span class="skill">Avid Media Composer</span>
+            <span class="skill">Canva</span>
+          </div>
+        </div>
+        <div class="skill-panel">
+          <div class="skill-panel-title">Communication & Digital</div>
+          <div class="skill-panel-text">Bilingual production communication, platform publishing, client feedback loops, and digital asset management for media teams.</div>
+          <div class="skill-tags">
+            <span class="skill">Native English</span>
+            <span class="skill">Native Spanish</span>
+            <span class="skill">Working French</span>
+            <span class="skill">YouTube Studio</span>
+            <span class="skill">WordPress</span>
+            <span class="skill">Facebook Studio</span>
+            <span class="skill">Office Programs</span>
+          </div>
+        </div>
+      </div>
+      <div class="tool-strip" aria-label="Core tools">
+        <div class="tool-tile"><div class="tool-name">DaVinci Resolve</div><div class="tool-type">Editing / color / finishing</div></div>
+        <div class="tool-tile"><div class="tool-name">Movie Magic</div><div class="tool-type">Scheduling & budgeting</div></div>
+        <div class="tool-tile"><div class="tool-name">Dalet + Latakoo</div><div class="tool-type">Broadcast workflows</div></div>
+        <div class="tool-tile"><div class="tool-name">Adobe Suite</div><div class="tool-type">Premiere, AE, Photoshop</div></div>
       </div>
     </div>
   </section>
@@ -990,30 +1139,43 @@
 
 <script>
 const broadcast = [
-  { cat:"Broadcast", title:"Acceso Total - Hollywood Premiere", role:"Interviewer", org:"Telemundo 52 / NBCUniversal", year:"2026", youtubeId:"b4WxJcoeT0c", image:"assets/thumbs/acesso-total-hollywood-premiere.png", preview:"", detailsUrl:"projects/acceso-total-telemundo-52.html", rows:["featured","live"] },
-  { cat:"Broadcast", title:"Acceso Total - Independence Days", role:"Segment Producer", org:"Telemundo 52 / NBCUniversal", year:"2025", youtubeId:"kVxZsvJysHA", image:"assets/thumbs/acesso-total-independence-days.png", preview:"", detailsUrl:"projects/acceso-total-telemundo-52.html", rows:["live"] },
-  { cat:"Broadcast · NATAS Award", title:"Live With TY", role:"Chief Editor", org:"BUTV", year:"2024", youtubeId:"g2gvMf2UDbQ", image:"/assets/live-with-ty-logo.png", preview:"live-with-ty.mp4", detailsUrl:"projects/live-with-ty-s1-ep11.html", rows:["featured","live"] },
-  { cat:"Broadcast · Santiago, Chile", title:"Zona de Estrellas", role:"Production Assistant", org:"Zona Latina · TVI America", year:"2024", youtubeId:"rz87SYmnLt4", image:"", preview:"", detailsUrl:"projects/zona-latina-chile.html", rows:["live"] },
-  { cat:"Broadcast · Santiago, Chile", title:"Sabores", role:"Production Assistant", org:"Zona Latina · TVI America", year:"2024", youtubeId:"", image:"assets/thumbs/sabores.png", preview:"", detailsUrl:"projects/zona-latina-chile.html", rows:["live"] },
-  { cat:"TV Drama", title:"Baystate - Seasons 48-50", role:"Producer", org:"BUTV · Boston University", year:"2024-2026", youtubeId:"pLEuklMB0Xc", image:"", preview:"", detailsUrl:"projects/baystate-season-48-50.html", rows:["featured","tv"] },
+  { cat:"Broadcast", title:"Acceso Total - Hollywood Premiere", role:"Interviewer", org:"Telemundo 52 / NBCUniversal", year:"2026", youtubeId:"b4WxJcoeT0c", image:"assets/thumbs/acesso-total-hollywood-premiere.png", preview:"", heroVideo:"media/production/acceso-total-intro.mp4", detailsUrl:"projects/acceso-total-telemundo-52.html", rows:["featured","live","bilingual"] },
+  { cat:"Broadcast", title:"Acceso Total - Independence Days", role:"Segment Producer", org:"Telemundo 52 / NBCUniversal", year:"2025", youtubeId:"kVxZsvJysHA", image:"assets/thumbs/acesso-total-independence-days.png", preview:"", detailsUrl:"projects/acceso-total-telemundo-52.html", rows:["live","bilingual"] },
+  { cat:"Broadcast · NATAS Award", title:"Live With TY", role:"Chief Editor", org:"BUTV", year:"2024", youtubeId:"g2gvMf2UDbQ", image:"assets/live-with-ty/logo.png", heroImage:"assets/live-with-ty/bts.jpg", preview:"media/production/live-with-ty.mp4", heroVideo:"media/production/live-with-ty-carousel.mp4", detailsUrl:"projects/live-with-ty-s1-ep11.html", rows:["featured","live","award"] },
+  { cat:"Broadcast · Santiago, Chile", title:"Zona de Estrellas", role:"Production Assistant", org:"Zona Latina · TVI America", year:"2024", youtubeId:"rz87SYmnLt4", image:"", preview:"", detailsUrl:"projects/zona-latina-chile.html", rows:["live","international","bilingual"] },
+  { cat:"Broadcast · Santiago, Chile", title:"Sabores", role:"Production Assistant", org:"Zona Latina · TVI America", year:"2024", youtubeId:"", image:"assets/thumbs/sabores.png", preview:"", detailsUrl:"projects/zona-latina-chile.html", rows:["live","international","bilingual"] },
+  { cat:"TV Drama", title:"Baystate - Seasons 48-50", role:"Producer", org:"BUTV · Boston University", year:"2024-2026", youtubeId:"pLEuklMB0Xc", image:"", preview:"", heroVideo:"media/production/baystate-intro.mp4", detailsUrl:"projects/baystate-season-48-50.html", rows:["featured","tv","produced","scripted"] },
 ];
 
 const film = [
-  { cat:"Narrative Short · Drama · 15 min", title:"Si Solamente", role:"Producer", org:"Boston University", year:"2026", youtubeId:"", image:"assets/thumbs/si-solamente.png", preview:"", detailsUrl:"projects/si-solamente.html", rows:["featured","shorts"] },
-  { cat:"Narrative Short · Drama · 15 min", title:"The Stories We Tell Ourselves", role:"Producer", org:"Freelance", year:"2025", youtubeId:"Vp9FBdygTKM", image:"", preview:"", detailsUrl:"projects/the-stories-we-tell-ourselves.html", rows:["featured","shorts"] },
-  { cat:"Documentary · 18 min", title:"Pajuyuk Ancestral Knowledge", role:"Exec. Production Assistant", org:"A Posteriori Entertainment", year:"2025", youtubeId:"", image:"assets/thumbs/pajuyuk.png", preview:"", detailsUrl:"projects/pajuyuk-ancestral-knowledge.html", rows:["featured","doc"] },
-  { cat:"Drama Short · 5 min", title:"Bird's Eye View", role:"Producer & Editor", org:"Boston University", year:"2024", youtubeId:"ETdIUMwOOd0", image:"", preview:"", detailsUrl:"projects/birds-eye-view.html", rows:["shorts"] },
-  { cat:"Music Video · 8 min", title:"The In Between", role:"1st AD", org:"Veritus Miller", year:"2024", youtubeId:"7aJZ3AvY3IU", image:"", preview:"", detailsUrl:"projects/the-in-between.html", rows:["doc"] },
+  { cat:"Narrative Short · Drama · 15 min", title:"Si Solamente", role:"Producer", org:"Boston University", year:"2026", youtubeId:"", image:"assets/thumbs/si-solamente.png", preview:"", heroVideo:"media/production/si-solamente-trailer.mp4", detailsUrl:"projects/si-solamente.html", rows:["featured","shorts","produced","award","scripted","genre-narrative"] },
+  { cat:"Narrative Short · Drama · 15 min", title:"The Stories We Tell Ourselves", role:"Producer", org:"Freelance", year:"2025", youtubeId:"Vp9FBdygTKM", image:"", preview:"", heroVideo:"media/production/stories-trailer.mp4", detailsUrl:"projects/the-stories-we-tell-ourselves.html", rows:["featured","shorts","produced","scripted","genre-narrative"] },
+  { cat:"Documentary · 18 min", title:"Pajuyuk Ancestral Knowledge", role:"Exec. Production Assistant", org:"A Posteriori Entertainment", year:"2025", youtubeId:"", image:"assets/thumbs/pajuyuk.png", preview:"", detailsUrl:"projects/pajuyuk-ancestral-knowledge.html", rows:["featured","doc","international","set-credits","award","genre-doc"] },
+  { cat:"Drama Short · 5 min", title:"Bird's Eye View", role:"Producer & Editor", org:"Boston University", year:"2024", youtubeId:"ETdIUMwOOd0", image:"", preview:"", detailsUrl:"projects/birds-eye-view.html", rows:["shorts","produced","scripted","genre-narrative"] },
+  { cat:"Rom-Com Short · 3 min", title:"Alike Loves", role:"Solo Project", org:"Boston University / Student Production", year:"2024", youtubeId:"MQlT_NU6HVQ", image:"", preview:"", detailsUrl:"", rows:["shorts","directed","scripted","genre-comedy"] },
+  { cat:"Narrative Documentary · 5 min", title:"Lucky Streak", role:"Director & Editor", org:"Boston University / Student Production", year:"2024", youtubeId:"kFhCE3E2zDY", image:"", preview:"", detailsUrl:"", rows:["shorts","directed","doc","genre-doc"] },
+  { cat:"Comedy Short · 5 min", title:"Till Death Do Us Part", role:"Producer & Editor", org:"Boston University / Student Production", year:"2025", youtubeId:"kH-951HUFS0", image:"", preview:"", detailsUrl:"", rows:["shorts","produced","scripted","genre-comedy"] },
+  { cat:"Cinematography Exercise", title:"Cine Final", role:"Director & DP", org:"COM FT 593", year:"2025", youtubeId:"thmD8H7qK24", image:"", preview:"", detailsUrl:"", rows:["shorts","directed","cinematography","genre-other"] },
+  { cat:"Music Video · 8 min", title:"The In Between", role:"1st AD", org:"Veritus Miller", year:"2024", youtubeId:"7aJZ3AvY3IU", image:"", preview:"", detailsUrl:"projects/the-in-between.html", rows:["doc","set-credits","genre-other"] },
+  { cat:"Narrative Short", title:"By Design", role:"1st Assistant Director", org:"Boston University / Student Production", year:"2024", youtubeId:"", image:"", preview:"", detailsUrl:"", rows:["shorts","set-credits","genre-narrative"] },
+  { cat:"Narrative Short · Spanish-language", title:"El Futuro para Mama y Yo", role:"1st Assistant Director", org:"Boston University / Student Production", year:"2024", youtubeId:"", image:"", preview:"", detailsUrl:"", rows:["shorts","set-credits","bilingual","genre-narrative"] },
+  { cat:"Narrative Short", title:"Vestido para Mama", role:"Script Supervisor", org:"Boston University / Student Production", year:"2024", youtubeId:"", image:"", preview:"", detailsUrl:"", rows:["shorts","set-credits","bilingual","genre-narrative"] },
+  { cat:"Narrative Short", title:"Growing Pains", role:"Script Supervisor", org:"Boston University / Student Production", year:"2024", youtubeId:"", image:"", preview:"", detailsUrl:"", rows:["shorts","set-credits","genre-narrative"] },
+  { cat:"Narrative Short", title:"Chameleon", role:"Script Supervisor", org:"Boston University / Student Production", year:"2024", youtubeId:"", image:"assets/thumbs/chameleon.avif", preview:"", detailsUrl:"https://vimeo.com/1016565914?share=copy", rows:["shorts","set-credits","genre-narrative"] },
+  { cat:"Narrative Short", title:"Aftershock", role:"2nd AC", org:"Boston University / Student Production", year:"2024", youtubeId:"", image:"", preview:"", detailsUrl:"", rows:["shorts","set-credits","genre-narrative"] },
 ];
 
 const rowConfigs = {
   broadcast: [
     { id:"row-live", title:"Live Television", key:"live" },
     { id:"row-tv-b", title:"TV Drama", key:"tv" },
+    { id:"row-international-b", title:"International & Bilingual Production", key:"international" },
   ],
   film: [
-    { id:"row-shorts", title:"Short Films", key:"shorts" },
-    { id:"row-doc", title:"Documentary & Other", key:"doc" },
+    { id:"row-narrative", title:"Narrative & Drama", key:"genre-narrative" },
+    { id:"row-doc-genre", title:"Documentary", key:"genre-doc" },
+    { id:"row-comedy", title:"Comedy", key:"genre-comedy" },
+    { id:"row-other", title:"Music Video & Other", key:"genre-other" },
   ],
 };
 
@@ -1028,7 +1190,26 @@ const hoverSummaries = {
   "The Stories We Tell Ourselves": "Independent narrative short built around production planning, budget control, and set coordination.",
   "Pajuyuk Ancestral Knowledge": "Documentary production support requiring care, organization, and cultural sensitivity.",
   "Bird's Eye View": "Short drama where producing and editing connected the set workflow to the final story.",
-  "The In Between": "Music video assistant directing with fast turnaround, schedule discipline, and set momentum."
+  "Alike Loves": "Solo rom-com short about two people getting ready for a date and the small expectations behind something that seems simple.",
+  "Lucky Streak": "Narrative documentary looking at a self-proclaimed chronically unlucky man who says he has never lost at poker.",
+  "Till Death Do Us Part": "Comedy short about a couple who land on an afterlife game show after an unfortunate car accident.",
+  "Cine Final": "Intro to Cinematography final replicating a scene from Amelie through reimagined performance, direction, and DP work.",
+  "The In Between": "Music video assistant directing with fast turnaround, schedule discipline, and set momentum.",
+  "By Design": "First assistant directing credit focused on daily shooting schedules, set workflow, and keeping cast and crew moving on task.",
+  "El Futuro para Mama y Yo": "First assistant directing credit with Spanish-language production coordination, scheduling, and on-set communication.",
+  "Vestido para Mama": "Script supervision credit tracking continuity, script notes, and production details across the shoot.",
+  "Growing Pains": "Script supervision credit supporting continuity, scene tracking, and clear communication between departments.",
+  "Chameleon": "Script supervision credit focused on continuity, script tracking, and production organization.",
+  "Aftershock": "Second assistant camera credit supporting camera department workflow and on-set technical coordination."
+};
+
+const heroBadges = {
+  "Acceso Total - Hollywood Premiere": "Featured Broadcast",
+  "Live With TY": "Award Recognized",
+  "Baystate - Seasons 48-50": "Featured TV Drama",
+  "Si Solamente": "Festival Winner",
+  "The Stories We Tell Ourselves": "Featured Short",
+  "Pajuyuk Ancestral Knowledge": "Festival Recognized"
 };
 
 // ── Carousel ────────────────────────────────
@@ -1041,10 +1222,77 @@ function featuredFor(reelType) {
   return (reelType === "broadcast" ? broadcast : film).filter(p => p.rows.includes("featured"));
 }
 
-function slideImg(project) {
+function slideImage(project) {
+  if (project.heroImage) return project.heroImage; // dedicated carousel bg, overrides tile thumb
   if (project.image) return project.image;
   const id = cleanId(project.youtubeId);
   return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : "";
+}
+
+function slideVideo(project) {
+  return project.heroVideo || "";
+}
+
+function slideFallbackMarkup(project) {
+  const image = slideImage(project);
+  if (image) {
+    return `<img class="bill-slide-media" src="${escapeHtml(image)}" alt="" aria-hidden="true" loading="eager">`;
+  }
+  return `<div class="bill-slide-media"></div>`;
+}
+
+function handleSlideVideoError(video) {
+  const index = Number(video.dataset.slideIndex || -1);
+  const slides = featuredFor(activeReel);
+  const project = slides[index];
+  const wrapper = document.createElement("div");
+  wrapper.innerHTML = project ? slideFallbackMarkup(project) : `<div class="bill-slide-media"></div>`;
+  const replacement = wrapper.firstElementChild;
+  if (video.classList.contains("active")) replacement.classList.add("active");
+  video.replaceWith(replacement);
+}
+
+function setIntroVideoState(isIntro) {
+  const heroVideo = document.getElementById("bill-video");
+  if (!heroVideo) return;
+  if (isIntro && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    heroVideo.play().catch(() => {});
+    return;
+  }
+  heroVideo.pause();
+}
+
+function syncActiveSlideMedia(activeIndex) {
+  document.querySelectorAll("#bill-slides-bg .bill-slide-media").forEach((media, i) => {
+    const isActive = i === activeIndex;
+    media.classList.toggle("active", isActive);
+    if (media.tagName !== "VIDEO") return;
+    if (isActive && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      media.play().catch(() => {});
+    } else {
+      media.pause();
+      media.currentTime = 0;
+    }
+  });
+}
+
+function setTextAfterIcon(element, text) {
+  [...element.childNodes].forEach(node => {
+    if (node.nodeType === Node.TEXT_NODE) node.remove();
+  });
+  element.append(document.createTextNode(text));
+}
+
+function heroWatchLabel(project) {
+  if (project.cat.includes("Broadcast")) return "Watch Segment";
+  if (project.cat.includes("TV Drama")) return "Watch Episode";
+  if (project.cat.includes("Documentary")) return "View Project";
+  if (project.youtubeId) return "Watch Film";
+  return "View Project";
+}
+
+function isExternalVideoUrl(url) {
+  return /vimeo\.com|youtu\.be|youtube\.com/i.test(String(url || ""));
 }
 
 const introSlide = {
@@ -1073,10 +1321,9 @@ function goToSlide(index) {
   clearTimeout(carouselFadeTimer);
   document.querySelectorAll(".bill-slide-fade").forEach(el => el.classList.add("out"));
 
-  // slide 0 = intro (no project image), rest = project images (offset by 1)
-  document.querySelectorAll("#bill-slides-bg .bill-slide-img").forEach((img, i) => {
-    img.classList.toggle("active", i === carouselIndex - 1);
-  });
+  document.getElementById("billboard").classList.toggle("project-slide", !s.isIntro);
+  setIntroVideoState(s.isIntro);
+  syncActiveSlideMedia(carouselIndex - 1);
 
   document.querySelectorAll(".bill-dot").forEach((dot, i) => {
     dot.classList.toggle("active", i === carouselIndex);
@@ -1085,6 +1332,7 @@ function goToSlide(index) {
   carouselFadeTimer = setTimeout(() => {
     if (s.isIntro) {
       const intro = introSlide[activeReel];
+      document.getElementById("bill-badge").textContent = activeReel === "broadcast" ? "Production Profile" : "Film & Narrative Profile";
       document.getElementById("hero-title").innerHTML = intro.title.replace(/\n/g, "<br>");
       document.getElementById("bill-meta").innerHTML = intro.meta;
       document.getElementById("bill-desc").textContent = intro.desc;
@@ -1092,9 +1340,11 @@ function goToSlide(index) {
       const infoBtn = document.getElementById("bill-info-btn");
       infoBtn.href = "#lolomo";
       infoBtn.querySelector(".icon").textContent = "▶";
-      infoBtn.childNodes[infoBtn.childNodes.length - 1].textContent = "View Work";
+      setTextAfterIcon(infoBtn, "View Work");
+      document.getElementById("bill-resume-btn").style.display = "";
     } else {
       const p = s;
+      document.getElementById("bill-badge").textContent = heroBadges[p.title] || "Featured Project";
       document.getElementById("hero-title").textContent = p.title;
       document.getElementById("bill-meta").innerHTML =
         `<span class="match">${escapeHtml(p.year)}</span>` +
@@ -1108,6 +1358,11 @@ function goToSlide(index) {
       if (id) {
         watchBtn.style.display = "";
         watchBtn.onclick = () => openVideo(id);
+        setTextAfterIcon(watchBtn, heroWatchLabel(p));
+      } else if (p.detailsUrl) {
+        watchBtn.style.display = "";
+        watchBtn.onclick = () => { window.location.href = p.detailsUrl; };
+        setTextAfterIcon(watchBtn, heroWatchLabel(p));
       } else {
         watchBtn.style.display = "none";
       }
@@ -1115,7 +1370,8 @@ function goToSlide(index) {
       const infoBtn = document.getElementById("bill-info-btn");
       infoBtn.href = p.detailsUrl || "#";
       infoBtn.querySelector(".icon").textContent = "i";
-      infoBtn.childNodes[infoBtn.childNodes.length - 1].textContent = "More Info";
+      setTextAfterIcon(infoBtn, "More Info");
+      document.getElementById("bill-resume-btn").style.display = "none";
     }
 
     document.querySelectorAll(".bill-slide-fade").forEach(el => el.classList.remove("out"));
@@ -1130,11 +1386,13 @@ function buildCarousel(reelType) {
   const featured = featuredFor(reelType);
 
   const bgContainer = document.getElementById("bill-slides-bg");
-  bgContainer.innerHTML = featured.map(p => {
-    const src = slideImg(p);
-    return src
-      ? `<img class="bill-slide-img" src="${escapeHtml(src)}" alt="" aria-hidden="true" loading="eager">`
-      : `<div class="bill-slide-img"></div>`;
+  bgContainer.innerHTML = featured.map((p, index) => {
+    const video = slideVideo(p);
+    if (video) {
+      const poster = slideImage(p);
+      return `<video class="bill-slide-media" src="${escapeHtml(video)}" ${poster ? `poster="${escapeHtml(poster)}"` : ""} data-slide-index="${index}" muted loop playsinline preload="metadata" aria-hidden="true" onerror="handleSlideVideoError(this)"></video>`;
+    }
+    return slideFallbackMarkup(p);
   }).join("");
 
   const total = featured.length + 1; // +1 for intro
@@ -1391,7 +1649,8 @@ function buildHoverCard(tile) {
   const preview = tile.dataset.preview;
   const youtubeId = tile.dataset.youtubeId;
   const detailsUrl = escapeHtml(tile.dataset.detailsUrl);
-  const isWatchable = Boolean(youtubeId);
+  const isExternalWatch = isExternalVideoUrl(tile.dataset.detailsUrl);
+  const isWatchable = Boolean(youtubeId || isExternalWatch);
   const summary = escapeHtml(hoverSummaries[rawTitle] || `${tile.dataset.role || "Project"}${tile.dataset.org ? ` with ${tile.dataset.org}` : ""}.`);
   const ctaClass = isWatchable && detailsUrl ? "hover-cta-row" : "hover-cta-row single";
 
@@ -1410,8 +1669,8 @@ function buildHoverCard(tile) {
         <span class="hover-tag status">${isWatchable ? "Playable" : "Details"}</span>
       </div>
       <div class="${ctaClass}">
-        ${isWatchable ? `<button class="btn-primary" type="button" data-play-btn aria-label="Play ${title}">▶ Play</button>` : ""}
-        ${detailsUrl ? `<a href="${detailsUrl}" class="btn-info" aria-label="More info about ${title}">More Info</a>` : ""}
+        ${youtubeId ? `<button class="btn-primary" type="button" data-play-btn aria-label="Play ${title}">▶ Play</button>` : ""}
+        ${detailsUrl ? `<a href="${detailsUrl}" class="${isExternalWatch ? "btn-primary" : "btn-info"}" ${isExternalWatch ? `target="_blank" rel="noopener noreferrer"` : ""} aria-label="${isExternalWatch ? `Watch ${title}` : `More info about ${title}`}">${isExternalWatch ? "▶ Watch" : "More Info"}</a>` : ""}
       </div>
     </div>
   `;

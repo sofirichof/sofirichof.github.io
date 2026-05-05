@@ -3,489 +3,708 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Agency & Spec Work — Coming Soon</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <meta name="description" content="Advertising portfolio for Sofia Gonzalez Irigoyen, featuring AdLab client work and spec campaigns." />
+  <title>Sofia Gonzalez Irigoyen | Advertising Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700;800&display=swap" rel="stylesheet"/>
   <style>
-    :root{
+    :root {
       --bg:#141414;
       --bg2:#181818;
       --bg3:#232323;
-      --border:#333;
+      --border:rgba(255,255,255,.12);
       --text:#fff;
-      --muted:#999;
-      --terra:#E50914;
-      --terra-dark:#B20710;
-      --font:'Bebas Neue',sans-serif;
-      --sans:'DM Sans','Helvetica Neue',Arial,sans-serif;
+      --muted:rgba(255,255,255,.58);
+      --soft:rgba(255,255,255,.78);
+      --red:#E50914;
+      --green:#46d369;
+      --font:"Bebas Neue", Impact, sans-serif;
+      --sans:"DM Sans","Helvetica Neue",Arial,sans-serif;
     }
 
     *{margin:0;padding:0;box-sizing:border-box;}
-    html{scroll-behavior:smooth;}
-    body{
-      background:var(--bg);
-      color:var(--text);
-      font-family:var(--sans);
-      min-height:100vh;
-      overflow-x:hidden;
-    }
+    html{scroll-behavior:smooth;background:var(--bg);}
+    body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden;}
+    body.modal-open{overflow:hidden;}
+    a{color:inherit;}
+    button{font:inherit;}
 
     nav{
       position:fixed;
-      top:0;left:0;right:0;
+      inset:0 0 auto;
       z-index:100;
-      padding:1.4rem 4%;
       display:flex;
-      align-items:center;
       justify-content:space-between;
-      background:linear-gradient(to bottom,rgba(20,20,20,.88) 0%,transparent 100%);
-    }
-
-    .nav-left{
-      display:flex;
       align-items:center;
-      gap:3rem;
+      gap:1rem;
+      padding:1.15rem 4%;
+      background:linear-gradient(to bottom,rgba(20,20,20,.92),rgba(20,20,20,0));
     }
-
+    .nav-left{display:flex;align-items:center;gap:clamp(1rem,3vw,3rem);}
     .nav-logo{
       font-family:var(--font);
-      font-size:1.6rem;
-      color:var(--terra);
-      letter-spacing:.2em;
-      text-decoration:none;
-    }
-
-    .nav-links{
-      display:flex;
-      gap:1.6rem;
-      list-style:none;
-    }
-
-    .nav-links a{
-      color:rgba(255,255,255,.7);
-      text-decoration:none;
-      font-size:.82rem;
-      letter-spacing:.04em;
-      transition:color .2s;
-    }
-
-    .nav-links a:hover{color:#fff;}
-
-    .nav-right a{
-      font-size:.72rem;
+      color:var(--red);
+      font-size:clamp(1.35rem,2vw,1.9rem);
       letter-spacing:.12em;
-      text-transform:uppercase;
-      color:rgba(255,255,255,.7);
       text-decoration:none;
-      border:1px solid rgba(255,255,255,.3);
-      padding:.4rem .9rem;
-      border-radius:2px;
-      transition:all .2s;
-      font-family:var(--sans);
+      line-height:1;
     }
-
-    .nav-right a:hover{
-      border-color:#fff;
-      color:#fff;
+    .nav-links{display:flex;gap:1.25rem;list-style:none;}
+    .nav-links a{color:rgba(255,255,255,.72);font-size:.82rem;text-decoration:none;}
+    .nav-links a:hover{color:#fff;}
+    .profile-link{
+      color:rgba(255,255,255,.76);
+      text-decoration:none;
+      font-size:.76rem;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      border:1px solid rgba(255,255,255,.22);
+      padding:.48rem .8rem;
+      border-radius:3px;
     }
 
     .hero{
+      min-height:96svh;
       position:relative;
-      min-height:100vh;
       display:flex;
       align-items:flex-end;
-      padding:0 4% 12%;
+      padding:8rem 4% 16vh;
       overflow:hidden;
+      isolation:isolate;
     }
-
-    .hero-bg{
+    .hero-video,
+    .hero-fallback{
       position:absolute;
       inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      z-index:-3;
+      opacity:0;
+      filter:saturate(.95) contrast(1.08);
+      transition:opacity 1.15s ease;
+    }
+    .hero-video.active{
+      opacity:.48;
+    }
+    .hero-fallback{
+      z-index:-4;
+      opacity:1;
       background:
-        radial-gradient(circle at 75% 28%, rgba(229,9,20,.15) 0%, rgba(229,9,20,0) 30%),
-        linear-gradient(to top, rgba(20,20,20,1) 0%, rgba(20,20,20,.55) 42%, rgba(20,20,20,.1) 100%),
-        linear-gradient(to right, rgba(20,20,20,.95) 0%, rgba(20,20,20,.55) 55%, rgba(20,20,20,.18) 100%);
-      z-index:0;
+        radial-gradient(circle at 74% 28%,rgba(229,9,20,.18),transparent 28%),
+        linear-gradient(115deg,#050505 0%,#181818 48%,#2a2a2a 100%);
     }
-
-    .hero-mark{
+    .hero-overlay{
       position:absolute;
-      right:3%;
-      top:50%;
-      transform:translateY(-50%);
-      font-family:var(--font);
-      font-size:clamp(6rem, 16vw, 16rem);
-      letter-spacing:.08em;
-      color:rgba(229,9,20,.06);
-      z-index:0;
-      user-select:none;
-      pointer-events:none;
-      line-height:.9;
-      text-align:right;
+      inset:0;
+      z-index:-1;
+      background:
+        linear-gradient(to top,rgba(20,20,20,1) 0%,rgba(20,20,20,.78) 18%,rgba(20,20,20,.18) 100%),
+        linear-gradient(to right,rgba(20,20,20,.96) 0%,rgba(20,20,20,.65) 42%,rgba(20,20,20,.04) 76%);
     }
-
-    .hero-content{
-      position:relative;
-      z-index:2;
-      max-width:760px;
-    }
-
-    .hero-badge{
-      display:inline-block;
-      font-size:.66rem;
-      letter-spacing:.2em;
-      text-transform:uppercase;
-      padding:.3rem .85rem;
-      border:1px solid var(--terra);
-      color:var(--terra);
-      border-radius:2px;
-      margin-bottom:1.25rem;
-    }
-
-    .hero-title{
-      font-family:var(--font);
-      font-size:clamp(4rem, 8vw, 7rem);
-      line-height:.92;
-      letter-spacing:.04em;
-      margin-bottom:1rem;
-      text-shadow:2px 4px 10px rgba(0,0,0,.45);
-    }
-
-    .hero-sub{
-      font-size:1rem;
-      color:rgba(255,255,255,.75);
-      line-height:1.8;
-      max-width:600px;
-      margin-bottom:1.6rem;
-    }
-
-    .hero-actions{
-      display:flex;
-      gap:1rem;
-      flex-wrap:wrap;
-      margin-bottom:2rem;
-    }
-
-    .btn-primary,
-    .btn-secondary{
+    .hero-content{width:min(760px,62vw);}
+    .kicker{
       display:inline-flex;
       align-items:center;
-      gap:.6rem;
-      padding:.78rem 1.4rem;
-      border-radius:4px;
-      text-decoration:none;
-      font-weight:700;
-      transition:all .2s;
-      font-family:var(--sans);
-      white-space:nowrap;
+      gap:.55rem;
+      color:rgba(255,255,255,.86);
+      font-size:.72rem;
+      font-weight:800;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      margin-bottom:.9rem;
     }
-
-    .btn-primary{
-      background:#fff;
-      color:#000;
-    }
-
-    .btn-primary:hover{
-      background:rgba(255,255,255,.82);
-    }
-
-    .btn-secondary{
-      background:rgba(109,109,110,.7);
+    .mark{
+      display:inline-grid;
+      place-items:center;
+      width:1.45rem;
+      height:1.45rem;
+      border-radius:2px;
+      background:var(--red);
       color:#fff;
+      font-family:var(--font);
+      font-size:1.15rem;
+      letter-spacing:0;
     }
-
-    .btn-secondary:hover{
-      background:rgba(109,109,110,.45);
+    .hero-badge{
+      display:inline-flex;
+      width:fit-content;
+      padding:.22rem .62rem;
+      border-radius:2px;
+      background:rgba(229,9,20,.92);
+      font-size:.68rem;
+      font-weight:900;
+      letter-spacing:.13em;
+      text-transform:uppercase;
+      margin-bottom:.75rem;
     }
-
-    .status-grid{
+    .hero-title{
+      font-family:var(--font);
+      font-size:clamp(4.2rem,8.6vw,8.7rem);
+      line-height:.86;
+      letter-spacing:.025em;
+      margin-bottom:1rem;
+      text-shadow:0 6px 22px rgba(0,0,0,.68);
+    }
+    .meta-line{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.62rem;
+      align-items:center;
+      color:var(--soft);
+      font-size:.92rem;
+      margin-bottom:1rem;
+    }
+    .match{color:var(--green);font-weight:900;}
+    .rating{border:1px solid rgba(255,255,255,.4);padding:.08rem .34rem;font-size:.75rem;line-height:1.2;}
+    .hero-sub{
+      color:rgba(255,255,255,.86);
+      line-height:1.7;
+      max-width:610px;
+      margin-bottom:1.25rem;
+      font-size:clamp(.96rem,1.15vw,1.08rem);
+      text-shadow:0 2px 8px rgba(0,0,0,.72);
+    }
+    .hero-actions{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+    .btn-primary,
+    .btn-secondary{
+      min-height:44px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.58rem;
+      padding:.65rem 1.35rem;
+      border-radius:4px;
+      border:0;
+      text-decoration:none;
+      cursor:pointer;
+      font-weight:800;
+      white-space:nowrap;
+      transition:transform .18s,background .18s;
+    }
+    .btn-primary{background:#fff;color:#000;}
+    .btn-secondary{background:rgba(109,109,110,.72);color:#fff;}
+    .btn-primary:hover,.btn-secondary:hover{transform:translateY(-1px);}
+    .btn-primary:hover{background:rgba(255,255,255,.78);}
+    .btn-secondary:hover{background:rgba(109,109,110,.48);}
+    .stats{
       display:grid;
-      grid-template-columns:repeat(3, minmax(140px, 1fr));
+      grid-template-columns:repeat(3,minmax(130px,1fr));
       gap:.75rem;
-      max-width:680px;
+      max-width:700px;
     }
+    .stat-card{
+      background:rgba(255,255,255,.055);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:5px;
+      padding:.9rem;
+      backdrop-filter:blur(8px);
+    }
+    .stat-label{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--red);font-weight:900;margin-bottom:.35rem;}
+    .stat-value{font-size:.84rem;color:rgba(255,255,255,.82);line-height:1.45;}
 
-    .status-card{
-      background:rgba(255,255,255,.04);
+    main{position:relative;z-index:2;margin-top:-10vh;padding:0 0 4rem;}
+    .row{margin:2.35rem 0;}
+    .row-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding:0 4%;
+      margin-bottom:.7rem;
+    }
+    .row-title{
+      font-family:var(--font);
+      font-size:clamp(1.35rem,1.65vw,1.85rem);
+      letter-spacing:.06em;
+      color:#e5e5e5;
+      line-height:1;
+    }
+    .row-note{color:var(--muted);font-size:.78rem;}
+    .scroller{
+      overflow-x:auto;
+      padding:.25rem 4% 1.3rem;
+      scrollbar-width:none;
+      -webkit-overflow-scrolling:touch;
+    }
+    .scroller::-webkit-scrollbar{display:none;}
+    .track{display:flex;gap:.75rem;width:max-content;}
+    .campaign-card{
+      flex:0 0 auto;
+      width:clamp(265px,31vw,420px);
+      background:var(--bg2);
       border:1px solid rgba(255,255,255,.08);
       border-radius:6px;
-      padding:1rem;
-      backdrop-filter:blur(6px);
+      overflow:hidden;
+      cursor:pointer;
+      transition:transform .18s,box-shadow .18s,border-color .18s;
     }
-
-    .status-label{
-      font-size:.62rem;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      color:var(--terra);
-      margin-bottom:.4rem;
+    .campaign-card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 16px 36px rgba(0,0,0,.42);
+      border-color:rgba(255,255,255,.22);
     }
-
-    .status-value{
-      font-size:.86rem;
-      color:rgba(255,255,255,.82);
-      line-height:1.5;
-    }
-
-    .content{
+    .media{
       position:relative;
-      z-index:2;
-      margin-top:-4rem;
-      padding:0 4% 5rem;
-    }
-
-    .section{
-      margin:0 auto 2.5rem;
-      max-width:1100px;
-      background:var(--bg2);
-      border:1px solid var(--border);
-      border-radius:10px;
-      overflow:hidden;
-      box-shadow:0 20px 40px rgba(0,0,0,.25);
-    }
-
-    .section-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:1rem;
-      padding:1.1rem 1.25rem;
-      border-bottom:1px solid var(--border);
-      background:linear-gradient(to right, rgba(229,9,20,.08), transparent 45%);
-    }
-
-    .section-title{
-      font-family:var(--font);
-      font-size:1.3rem;
-      letter-spacing:.12em;
-      color:#f0f0f0;
-    }
-
-    .section-pill{
-      font-size:.62rem;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      color:var(--muted);
-      border:1px solid var(--border);
-      padding:.35rem .55rem;
-      border-radius:999px;
-    }
-
-    .section-body{
-      padding:1.25rem;
-    }
-
-    .placeholder-grid{
-      display:grid;
-      grid-template-columns:repeat(3, minmax(0,1fr));
-      gap:1rem;
-    }
-
-    .placeholder-card{
-      background:var(--bg3);
-      border:1px solid var(--border);
-      border-radius:8px;
-      overflow:hidden;
-    }
-
-    .placeholder-thumb{
       aspect-ratio:16/9;
-      background:
-        linear-gradient(135deg, rgba(229,9,20,.16), rgba(229,9,20,.02)),
-        linear-gradient(to bottom, #2b2b2b, #1d1d1d);
-      position:relative;
+      background:#111;
+      overflow:hidden;
     }
-
-    .placeholder-thumb::after{
-      content:'COMING SOON';
+    .media.vertical{aspect-ratio:4/5;}
+    .media video,
+    .media img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      background:#111;
+    }
+    .media::after{
+      content:"";
       position:absolute;
-      inset:auto 0 1rem 0;
-      text-align:center;
-      font-family:var(--font);
-      letter-spacing:.16em;
-      font-size:.9rem;
-      color:rgba(255,255,255,.42);
+      inset:auto 0 0;
+      height:50%;
+      background:linear-gradient(to top,rgba(0,0,0,.82),transparent);
+      pointer-events:none;
     }
-
-    .placeholder-copy{
-      padding:1rem;
+    .play-chip{
+      position:absolute;
+      left:.8rem;
+      bottom:.75rem;
+      z-index:2;
+      min-width:34px;
+      height:34px;
+      padding:0 .75rem;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      gap:.4rem;
+      background:rgba(255,255,255,.92);
+      color:#000;
+      font-size:.72rem;
+      font-weight:900;
     }
+    .card-body{padding:1rem;}
+    .card-kicker{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--red);font-weight:900;margin-bottom:.35rem;}
+    .card-title{font-family:var(--font);font-size:1.35rem;letter-spacing:.04em;line-height:1;margin-bottom:.4rem;}
+    .card-desc{color:rgba(255,255,255,.66);font-size:.84rem;line-height:1.58;margin-bottom:.8rem;}
+    .tag-row{display:flex;flex-wrap:wrap;gap:.35rem;}
+    .tag{font-size:.64rem;line-height:1.2;padding:.22rem .48rem;border-radius:2px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.78);}
 
-    .placeholder-kicker{
-      font-size:.62rem;
+    .case-section{
+      border-top:1px solid rgba(255,255,255,.09);
+      padding:4.25rem 4%;
+    }
+    .case-inner{max-width:1120px;margin:0 auto;}
+    .case-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:1rem;
+      margin-top:1.2rem;
+    }
+    .case-panel{
+      min-height:100%;
+      padding:1.15rem;
+      border:1px solid rgba(255,255,255,.1);
+      background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025));
+      border-radius:6px;
+    }
+    .case-panel-title{font-family:var(--font);font-size:1.25rem;letter-spacing:.06em;margin-bottom:.4rem;}
+    .case-panel-text{color:rgba(255,255,255,.64);font-size:.84rem;line-height:1.65;}
+    .about-contact-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1.35fr) minmax(280px,.85fr);
+      gap:clamp(2rem,6vw,4.5rem);
+      align-items:start;
+      margin-top:1.25rem;
+    }
+    .about-copy p,
+    .contact-copy p{
+      color:rgba(255,255,255,.68);
+      font-size:.97rem;
+      line-height:1.9;
+      margin-bottom:1rem;
+    }
+    .skill-tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.42rem;
+      margin-top:1.15rem;
+    }
+    .contact-links{
+      display:flex;
+      flex-direction:column;
+      border-top:1px solid var(--border);
+    }
+    .contact-link{
+      display:grid;
+      grid-template-columns:86px minmax(0,1fr) auto;
+      align-items:center;
+      gap:1rem;
+      padding:1rem 0;
+      border-bottom:1px solid var(--border);
+      color:rgba(255,255,255,.68);
+      text-decoration:none;
+      font-size:.88rem;
+    }
+    .contact-link:hover{color:var(--red);}
+    .contact-label{
+      color:var(--muted);
+      font-size:.68rem;
+      font-weight:900;
       letter-spacing:.14em;
       text-transform:uppercase;
-      color:var(--terra);
-      margin-bottom:.35rem;
     }
 
-    .placeholder-title{
-      font-family:var(--font);
-      font-size:1.05rem;
-      letter-spacing:.04em;
+    .video-modal{
+      position:fixed;
+      inset:0;
+      z-index:1000;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:2rem;
+      background:rgba(0,0,0,.88);
+      backdrop-filter:blur(8px);
+    }
+    .video-modal.active{display:flex;}
+    .modal-content{
+      position:relative;
+      width:min(1100px,94vw);
+      aspect-ratio:16/9;
+      background:#000;
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:0 0 70px rgba(229,9,20,.18);
+    }
+    .modal-content.vertical{width:min(480px,90vw);aspect-ratio:4/5;}
+    .modal-content iframe,
+    .modal-content video{width:100%;height:100%;border:0;display:block;background:#000;object-fit:contain;}
+    .modal-close{
+      position:absolute;
+      top:-46px;
+      right:0;
+      width:38px;
+      height:38px;
+      border:1px solid rgba(255,255,255,.28);
+      background:rgba(255,255,255,.08);
       color:#fff;
-      margin-bottom:.25rem;
+      cursor:pointer;
+      border-radius:50%;
+      font-size:1.3rem;
+      line-height:1;
     }
-
-    .placeholder-text{
-      font-size:.82rem;
-      line-height:1.6;
-      color:rgba(255,255,255,.62);
-    }
-
-    .note{
-      font-size:.9rem;
-      line-height:1.8;
-      color:rgba(255,255,255,.7);
-      max-width:780px;
-    }
+    .modal-close:hover{background:var(--red);border-color:var(--red);}
 
     footer{
-      max-width:100rem;
+      max-width:1180px;
       margin:0 auto;
-      padding:2rem 4% 3rem;
+      padding:3rem 4%;
       border-top:8px solid #222;
-      font-size:.75rem;
+      font-size:.76rem;
       color:#757575;
     }
-
-    footer a{
-      color:var(--terra);
-      text-decoration:none;
-    }
-
+    footer a{color:rgba(255,255,255,.72);text-decoration:none;}
     footer a:hover{color:#fff;}
-
-    .footer-bottom{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      flex-wrap:wrap;
-      gap:1rem;
-    }
+    .footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
 
     @media(max-width:900px){
-      .hero-content{max-width:78%;}
-      .placeholder-grid{grid-template-columns:1fr;}
-      .status-grid{grid-template-columns:1fr;}
-    }
-
-    @media(max-width:768px){
-      nav{padding:1rem 4%;}
+      .hero-content{width:min(720px,86vw);}
       .nav-links{display:none;}
-      .hero{padding:0 4% 18%;}
-      .hero-content{max-width:100%;}
-      .hero-sub{font-size:.96rem;}
-      .hero-mark{font-size:clamp(5rem, 22vw, 10rem);}
-      .section-title{font-size:1.05rem;}
+      .case-grid{grid-template-columns:1fr;}
+      .about-contact-grid{grid-template-columns:1fr;}
+      .stats{grid-template-columns:1fr;}
+    }
+    @media(max-width:720px){
+      nav{padding:.9rem 4%;}
+      .profile-link{font-size:.68rem;padding:.42rem .62rem;}
+      .hero{min-height:92svh;padding:6.5rem 4% 15vh;}
+      .hero-content{width:100%;}
+      .hero-title{font-size:clamp(3.8rem,16vw,6.3rem);}
+      main{margin-top:-6vh;}
+      .campaign-card{width:78vw;}
     }
   </style>
 </head>
 <body>
-
 <nav>
   <div class="nav-left">
-    <a href="index.html" class="nav-logo">Sofia's Portfolio</a>
+    <a href="index.html" class="nav-logo">SOFIA</a>
     <ul class="nav-links">
-      <li><a href="#status">Status</a></li>
-      <li><a href="#roadmap">Roadmap</a></li>
+      <li><a href="#client-work">Client Work</a></li>
+      <li><a href="#spec-work">Spec</a></li>
+      <li><a href="#strategy">Strategy</a></li>
+      <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </div>
-  <div class="nav-right">
-    <a href="index.html">← Back to Profiles</a>
-  </div>
+  <a class="profile-link" href="index.html">Switch Profile</a>
 </nav>
 
 <section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-mark">AGENCY<br>& SPEC</div>
-
+  <div class="hero-fallback"></div>
+  <video class="hero-video active" id="hero-video-a" src="media/ad/capital-one/vision-board.mp4" autoplay muted loop playsinline preload="metadata"></video>
+  <video class="hero-video" id="hero-video-b" muted loop playsinline preload="metadata"></video>
+  <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="hero-badge">Advertising Profile Placeholder</div>
-    <h1 class="hero-title">AGENCY & SPEC WORK<br>COMING SOON</h1>
-    <p class="hero-sub">
-      This page is reserved for agency-facing work, campaigns, creative concepts, spec executions, and advertising portfolio pieces. The route exists now so it feels complete, even before the final page is built.
-    </p>
-
+    <div class="kicker"><span class="mark">A</span><span>Advertising Profile</span></div>
+    <div class="hero-badge">AdLab + Spec Campaigns</div>
+    <h1 class="hero-title">AGENCY<br>WORK</h1>
+    <div class="meta-line"><span class="match">BU Advertising</span><span class="rating">Portfolio</span><span>Client Work</span><span>Spec Concepts</span><span>Video Production</span></div>
+    <p class="hero-sub">A focused advertising profile for Sofia's campaign work: client deliverables through AdLab, social-first video production, and spec concepts built around clear single ideas.</p>
     <div class="hero-actions">
-      <a class="btn-primary" href="index.html">← Back to Profiles</a>
-      <a class="btn-secondary" href="#roadmap">View Placeholder</a>
+      <a class="btn-primary" href="#client-work">▶ View Client Work</a>
+      <a class="btn-secondary" href="#spec-work">Spec Campaigns</a>
     </div>
-
-    <div class="status-grid" id="status">
-      <div class="status-card">
-        <div class="status-label">Status</div>
-        <div class="status-value">Placeholder only</div>
-      </div>
-      <div class="status-card">
-        <div class="status-label">Focus</div>
-        <div class="status-value">Agency + spec advertising work</div>
-      </div>
-      <div class="status-card">
-        <div class="status-label">Next Step</div>
-        <div class="status-value">Build case-study style ad portfolio</div>
-      </div>
+    <div class="stats">
+      <div class="stat-card"><div class="stat-label">Client Work</div><div class="stat-value">Capital One, MassDOT, Affordable Art Fair</div></div>
+      <div class="stat-card"><div class="stat-label">Formats</div><div class="stat-value">9:16 social, 1:1 cable, 4:5 paid/social</div></div>
+      <div class="stat-card"><div class="stat-label">Focus</div><div class="stat-value">Concept, production, edit, client feedback</div></div>
     </div>
   </div>
 </section>
 
-<main class="content">
-  <section class="section" id="roadmap">
-    <div class="section-head">
-      <div class="section-title">Planned Sections</div>
-      <div class="section-pill">Coming Soon</div>
+<main>
+  <section class="row" id="client-work">
+    <div class="row-header">
+      <h2 class="row-title">AdLab Client Work</h2>
+      <div class="row-note">Spring 2026 · Client-facing deliverables</div>
     </div>
-    <div class="section-body">
-      <div class="placeholder-grid">
-        <article class="placeholder-card">
-          <div class="placeholder-thumb"></div>
-          <div class="placeholder-copy">
-            <div class="placeholder-kicker">Section 01</div>
-            <div class="placeholder-title">Campaign Case Studies</div>
-            <div class="placeholder-text">Structured ad project breakdowns with insight, concept, execution, and final creative.</div>
+    <div class="scroller">
+      <div class="track">
+        <article class="campaign-card" data-video="media/ad/capital-one/affirmation-cake.mp4" data-orientation="vertical">
+          <div class="media vertical"><video src="media/ad/capital-one/affirmation-cake.mp4" poster="assets/ad/AFFIRMATIONCAKE-THUMB.png" muted loop playsinline preload="metadata"></video><span class="play-chip">▶ Play</span></div>
+          <div class="card-body">
+            <div class="card-kicker">Capital One · Always One Step Ahead</div>
+            <div class="card-title">Affirmation Cake</div>
+            <p class="card-desc">One of four edutainment-style vertical videos built for TikTok and Instagram.</p>
+            <div class="tag-row"><span class="tag">9:16</span><span class="tag">15-30s</span><span class="tag">Edutainment</span></div>
           </div>
         </article>
-
-        <article class="placeholder-card">
-          <div class="placeholder-thumb"></div>
-          <div class="placeholder-copy">
-            <div class="placeholder-kicker">Section 02</div>
-            <div class="placeholder-title">Spec Work</div>
-            <div class="placeholder-text">Independent concepts, mock campaigns, and portfolio-ready brand ideas presented cleanly.</div>
+        <article class="campaign-card" data-video="media/ad/capital-one/ice-bath.mp4" data-orientation="vertical">
+          <div class="media vertical"><video src="media/ad/capital-one/ice-bath.mp4" poster="assets/ad/ICEBATH-THUMB.png" muted loop playsinline preload="metadata"></video><span class="play-chip">▶ Play</span></div>
+          <div class="card-body">
+            <div class="card-kicker">Capital One · Always One Step Ahead</div>
+            <div class="card-title">Ice Bath</div>
+            <p class="card-desc">Social-first financial confidence concept using fast visual payoff and scroll-native pacing.</p>
+            <div class="tag-row"><span class="tag">TikTok</span><span class="tag">IG Reels</span><span class="tag">1080x1920</span></div>
           </div>
         </article>
-
-        <article class="placeholder-card">
-          <div class="placeholder-thumb"></div>
-          <div class="placeholder-copy">
-            <div class="placeholder-kicker">Section 03</div>
-            <div class="placeholder-title">Agency Style Presentation</div>
-            <div class="placeholder-text">Visual-first layout with polished project covers, ad assets, and concise strategic framing.</div>
+        <article class="campaign-card" data-video="media/ad/capital-one/vision-board.mp4" data-orientation="vertical">
+          <div class="media vertical"><video src="media/ad/capital-one/vision-board.mp4" poster="assets/ad/VISIONBOARD-THUMB.png" muted loop playsinline preload="metadata"></video><span class="play-chip">▶ Play</span></div>
+          <div class="card-body">
+            <div class="card-kicker">Capital One · Always One Step Ahead</div>
+            <div class="card-title">Vision Board</div>
+            <p class="card-desc">A short-form concept connecting planning, optimism, and being financially prepared.</p>
+            <div class="tag-row"><span class="tag">Vertical Video</span><span class="tag">Social</span><span class="tag">Campaign Set</span></div>
+          </div>
+        </article>
+        <article class="campaign-card" data-video="media/ad/capital-one/yoga.mp4" data-orientation="vertical">
+          <div class="media vertical"><video src="media/ad/capital-one/yoga.mp4" poster="assets/ad/YOGA-THUMB.png" muted loop playsinline preload="metadata"></video><span class="play-chip">▶ Play</span></div>
+          <div class="card-body">
+            <div class="card-kicker">Capital One · Always One Step Ahead</div>
+            <div class="card-title">Yoga</div>
+            <p class="card-desc">Edutainment deliverable designed for quick comprehension and platform-native humor.</p>
+            <div class="tag-row"><span class="tag">15-30s</span><span class="tag">Social Video</span><span class="tag">Client Work</span></div>
+          </div>
+        </article>
+        <article class="campaign-card" data-video="media/ad/mass-dot.mp4">
+          <div class="media"><video src="media/ad/mass-dot.mp4" poster="assets/ad/MASSDOT_THUMB.png" muted loop playsinline preload="metadata"></video><span class="play-chip">▶ Play</span></div>
+          <div class="card-body">
+            <div class="card-kicker">MassDOT · Smart Choices, Safe Roads</div>
+            <div class="card-title">Safe Roads</div>
+            <p class="card-desc">Cable-ready road-safety ad concept designed as a concise under-60-second public message.</p>
+            <div class="tag-row"><span class="tag">&lt;60s</span><span class="tag">Cable TV</span><span class="tag">Ad</span></div>
+          </div>
+        </article>
+        <article class="campaign-card">
+          <div class="media vertical"><div class="hero-fallback"></div><span class="play-chip">Coming Soon</span></div>
+          <div class="card-body">
+            <div class="card-kicker">Affordable Art Fair · AdLab</div>
+            <div class="card-title">Social Ad</div>
+            <p class="card-desc">15-30 second 4:5 social ad for Instagram and Facebook.</p>
+            <div class="tag-row"><span class="tag">4:5</span><span class="tag">1080×1350</span><span class="tag">IG / FB</span><span class="tag">AdLab</span></div>
           </div>
         </article>
       </div>
     </div>
   </section>
 
-  <section class="section" id="contact">
-    <div class="section-head">
-      <div class="section-title">Placeholder Note</div>
-      <div class="section-pill">Temporary</div>
+  <section class="row" id="spec-work">
+    <div class="row-header">
+      <h2 class="row-title">Spec Campaigns</h2>
+      <div class="row-note">Solo and mock campaign work</div>
     </div>
-    <div class="section-body">
-      <p class="note">
-        This page is a temporary holding page for your advertising portfolio. Later, it can become the agency/spec profile with case-study cards, campaign mockups, strategy blurbs, copy samples, and presentation-ready creative work while keeping the same cinematic visual system as the rest of the site.
-      </p>
+    <div class="scroller">
+      <div class="track">
+        <article class="campaign-card" data-video="media/ad/spec/only-humans-can.mp4">
+          <div class="media"><video src="media/ad/spec/only-humans-can.mp4" poster="https://img.youtube.com/vi/aqJrNGxHNVY/hqdefault.jpg" muted loop playsinline preload="metadata"></video><span class="play-chip">▶ Play</span></div>
+          <div class="card-body">
+            <div class="card-kicker">SAG-AFTRA Anti-AI Campaign Mockup · 2025</div>
+            <div class="card-title">Only Humans Can</div>
+            <p class="card-desc">Single idea: To act is to be human. Slogan: Only Humans Can.</p>
+            <div class="tag-row"><span class="tag">Spec</span><span class="tag">Campaign Concept</span><span class="tag">Solo Project</span></div>
+          </div>
+        </article>
+        <article class="campaign-card" data-video="media/ad/spec/joe-is-your-man.mp4">
+          <div class="media"><video src="media/ad/spec/joe-is-your-man.mp4" poster="https://img.youtube.com/vi/lKSkqYtx9zw/hqdefault.jpg" muted loop playsinline preload="metadata"></video><span class="play-chip">▶ Play</span></div>
+          <div class="card-body">
+            <div class="card-kicker">Trader Joe's Campaign Mockup · 2025</div>
+            <div class="card-title">Joe Is Your Man</div>
+            <p class="card-desc">Single idea: We make adulting easy. Slogan: Joe is your man.</p>
+            <div class="tag-row"><span class="tag">Spec</span><span class="tag">Brand Idea</span><span class="tag">Copy Platform</span></div>
+          </div>
+        </article>
+        <article class="campaign-card" data-video="media/ad/ranch-spec.mp4">
+          <div class="media"><video src="media/ad/ranch-spec.mp4" poster="assets/ad/RANCHSPEC_THUMB.png" muted loop playsinline preload="metadata"></video><span class="play-chip">▶ Play</span></div>
+          <div class="card-body">
+            <div class="card-kicker">Practice Spec</div>
+            <div class="card-title">Ranch Practice</div>
+            <p class="card-desc">Additional spec/practice asset kept in the advertising profile as a work-in-progress creative piece.</p>
+            <div class="tag-row"><span class="tag">Spec</span><span class="tag">Practice</span><span class="tag">Video</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="case-section" id="strategy">
+    <div class="case-inner">
+      <h2 class="row-title">Agency Toolkit</h2>
+      <div class="case-grid">
+        <div class="case-panel"><div class="case-panel-title">Concept Development</div><p class="case-panel-text">Turning a single idea into a campaign platform, slogan, social execution, and video concept that can survive client feedback.</p></div>
+        <div class="case-panel"><div class="case-panel-title">Production</div><p class="case-panel-text">Coordinating shoots, talent, locations, feedback, edit needs, and delivery specs for platform-specific assets.</p></div>
+        <div class="case-panel"><div class="case-panel-title">Post & Delivery</div><p class="case-panel-text">Editing short-form deliverables for TikTok, Instagram, Facebook, and cable contexts with clear pacing and clean final exports.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="case-section" id="about">
+    <div class="case-inner">
+      <h2 class="row-title">About Sofia</h2>
+      <div class="about-contact-grid">
+        <div class="about-copy">
+          <p>I'm a Film & Television Production and Advertising student at Boston University, building work that sits between concept, production, and platform. On the agency side, I like ideas that can be said simply, produced cleanly, and adapted to where people actually watch.</p>
+          <p>My production background makes me useful in creative rooms because I think about the idea and the execution at the same time: what the spot is saying, what it needs on set, how it will edit, and whether the final deliverable fits the platform.</p>
+          <div class="skill-tags">
+            <span class="tag">Creative Strategy</span>
+            <span class="tag">Social Video</span>
+            <span class="tag">Client Feedback</span>
+            <span class="tag">Copy Platforms</span>
+            <span class="tag">Production Planning</span>
+            <span class="tag">Spanish / English</span>
+          </div>
+        </div>
+        <div class="case-panel">
+          <div class="case-panel-title">Advertising Focus</div>
+          <p class="case-panel-text">Social-first campaign concepts, short-form video production, client-facing creative, and spec work with a clear single idea.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="case-section" id="contact">
+    <div class="case-inner">
+      <h2 class="row-title">Contact</h2>
+      <div class="about-contact-grid">
+        <div class="contact-copy">
+          <p>I'm graduating in August 2026 and looking for roles where advertising, production, and culture meet. If your team needs someone who can help shape an idea and get the video made, I'd love to talk.</p>
+          <p><a class="btn-primary" href="General Resume Sofía González Irigoyen.pdf" download>↓ Download Resume</a></p>
+        </div>
+        <div class="contact-links">
+          <a class="contact-link" href="mailto:sofiagi@bu.edu"><span class="contact-label">Email</span><span>sofiagi@bu.edu</span><span aria-hidden="true">↗</span></a>
+          <a class="contact-link" href="https://www.linkedin.com/in/sofia-gonzalez-irigoyen-/" target="_blank" rel="noreferrer"><span class="contact-label">LinkedIn</span><span>sofia-gonzalez-irigoyen</span><span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
     </div>
   </section>
 </main>
 
 <footer>
   <div class="footer-bottom">
-    <span>© 2026 Sofia González Irigoyen · Agency Placeholder Profile</span>
-    <a href="index.html">← Back to Profiles</a>
+    <span>© 2026 Sofia Gonzalez Irigoyen · Advertising Profile</span>
+    <a href="index.html">Back to Profiles</a>
   </div>
 </footer>
 
+<div class="video-modal" id="video-modal" aria-hidden="true">
+  <div class="modal-content" id="modal-content">
+    <button class="modal-close" id="modal-close" type="button" aria-label="Close video">×</button>
+    <div id="modal-slot"></div>
+  </div>
+</div>
+
+<script>
+const modal = document.getElementById("video-modal");
+const modalContent = document.getElementById("modal-content");
+const modalSlot = document.getElementById("modal-slot");
+const heroClips = [
+  "media/ad/capital-one/vision-board.mp4",
+  "media/ad/capital-one/affirmation-cake.mp4",
+  "media/ad/capital-one/ice-bath.mp4",
+  "media/ad/capital-one/yoga.mp4",
+  "media/ad/mass-dot.mp4",
+  "media/ad/ranch-spec.mp4"
+];
+let heroClipIndex = 0;
+let activeHeroVideo = document.getElementById("hero-video-a");
+let idleHeroVideo = document.getElementById("hero-video-b");
+
+function rotateHeroClip() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  heroClipIndex = (heroClipIndex + 1) % heroClips.length;
+  idleHeroVideo.src = heroClips[heroClipIndex];
+  idleHeroVideo.currentTime = 0;
+  idleHeroVideo.play().catch(() => {});
+  idleHeroVideo.classList.add("active");
+  activeHeroVideo.classList.remove("active");
+  const previous = activeHeroVideo;
+  activeHeroVideo = idleHeroVideo;
+  idleHeroVideo = previous;
+  setTimeout(() => {
+    if (!idleHeroVideo.classList.contains("active")) {
+      idleHeroVideo.pause();
+      idleHeroVideo.removeAttribute("src");
+      idleHeroVideo.load();
+    }
+  }, 1250);
+}
+
+function openLocalVideo(src, orientation) {
+  modalContent.classList.toggle("vertical", orientation === "vertical");
+  modalSlot.innerHTML = `<video src="${src}" controls autoplay playsinline></video>`;
+  modal.classList.add("active");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+}
+
+function openYoutube(id) {
+  modalContent.classList.remove("vertical");
+  modalSlot.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1" title="Campaign video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+  modal.classList.add("active");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+}
+
+function closeModal() {
+  modalSlot.innerHTML = "";
+  modal.classList.remove("active");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+}
+
+document.querySelectorAll(".campaign-card").forEach(card => {
+  const preview = card.querySelector(".media video");
+  card.addEventListener("mouseenter", () => preview?.play().catch(() => {}));
+  card.addEventListener("mouseleave", () => { if (preview) preview.pause(); });
+  card.addEventListener("click", () => {
+    if (card.dataset.video) openLocalVideo(card.dataset.video, card.dataset.orientation);
+    if (card.dataset.youtube) openYoutube(card.dataset.youtube);
+  });
+});
+activeHeroVideo.play().catch(() => {});
+setInterval(rotateHeroClip, 6500);
+document.getElementById("modal-close").addEventListener("click", closeModal);
+modal.addEventListener("click", event => { if (!modalContent.contains(event.target)) closeModal(); });
+document.addEventListener("keydown", event => { if (event.key === "Escape" && modal.classList.contains("active")) closeModal(); });
+</script>
 </body>
 </html>

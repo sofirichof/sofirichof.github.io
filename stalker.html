@@ -1,383 +1,403 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stalker Profile — Coming Soon</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="You found Sofia's stalker page. I'm flattered, honestly."/>
+  <title>you found me — Sofia González Irigoyen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet"/>
   <style>
-    :root{
-      --bg:#141414;
-      --bg2:#181818;
-      --bg3:#232323;
-      --border:#333;
-      --text:#fff;
-      --muted:#999;
-      --terra:#E50914;
-      --terra-dark:#B20710;
-      --font:'Bebas Neue',sans-serif;
-      --sans:'DM Sans','Helvetica Neue',Arial,sans-serif;
+    :root {
+      --bg: #141414;
+      --bg2: #1a1a1a;
+      --border: rgba(255,255,255,.1);
+      --text: #fff;
+      --muted: rgba(255,255,255,.52);
+      --soft: rgba(255,255,255,.78);
+      --red: #e50914;
+      --green: #46d369;
+      --font: "Bebas Neue", Impact, sans-serif;
+      --sans: "DM Sans", "Helvetica Neue", Arial, sans-serif;
     }
 
-    *{margin:0;padding:0;box-sizing:border-box;}
-    html{scroll-behavior:smooth;}
-    body{
-      background:var(--bg);
-      color:var(--text);
-      font-family:var(--sans);
-      min-height:100vh;
-      overflow-x:hidden;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; background: var(--bg); }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; }
+    img { max-width: 100%; display: block; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.1rem 4%;
+      background: linear-gradient(to bottom, rgba(20,20,20,.92), transparent);
     }
-
-    nav{
-      position:fixed;
-      top:0;left:0;right:0;
-      z-index:100;
-      padding:1.4rem 4%;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      background:linear-gradient(to bottom,rgba(20,20,20,.88) 0%,transparent 100%);
+    .nav-left { display: flex; align-items: center; gap: 2.5rem; }
+    .nav-logo {
+      font-family: var(--font);
+      font-size: 1.65rem;
+      color: var(--red);
+      letter-spacing: .14em;
+      line-height: 1;
     }
-
-    .nav-left{
-      display:flex;
-      align-items:center;
-      gap:3rem;
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a {
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.66);
+      transition: color .2s;
     }
-
-    .nav-logo{
-      font-family:var(--font);
-      font-size:1.6rem;
-      color:var(--terra);
-      letter-spacing:.2em;
-      text-decoration:none;
+    .nav-links a:hover { color: #fff; }
+    .nav-exit {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.56);
+      border: 1px solid rgba(255,255,255,.2);
+      padding: .42rem .88rem;
+      border-radius: 3px;
+      transition: all .2s;
+      white-space: nowrap;
     }
+    .nav-exit:hover { color: #fff; border-color: rgba(255,255,255,.6); }
 
-    .nav-links{
-      display:flex;
-      gap:1.6rem;
-      list-style:none;
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: flex-end;
+      padding: 8rem 4% 14vh;
+      overflow: hidden;
+      isolation: isolate;
     }
-
-    .nav-links a{
-      color:rgba(255,255,255,.7);
-      text-decoration:none;
-      font-size:.82rem;
-      letter-spacing:.04em;
-      transition:color .2s;
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      z-index: -3;
+      opacity: 0;
+      filter: saturate(.75) contrast(1.12);
+      transition: opacity 1.4s ease-in-out;
     }
-
-    .nav-links a:hover{color:#fff;}
-
-    .nav-right a{
-      font-size:.72rem;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      color:rgba(255,255,255,.7);
-      text-decoration:none;
-      border:1px solid rgba(255,255,255,.3);
-      padding:.4rem .9rem;
-      border-radius:2px;
-      transition:all .2s;
-      font-family:var(--sans);
-    }
-
-    .nav-right a:hover{
-      border-color:#fff;
-      color:#fff;
-    }
-
-    .hero{
-      position:relative;
-      min-height:100vh;
-      display:flex;
-      align-items:flex-end;
-      padding:0 4% 12%;
-      overflow:hidden;
-    }
-
-    .hero-bg{
-      position:absolute;
-      inset:0;
+    .hero-img.active { opacity: .38; }
+    .hero-fallback {
+      position: absolute;
+      inset: 0;
+      z-index: -4;
       background:
-        radial-gradient(circle at 70% 30%, rgba(229,9,20,.14) 0%, rgba(229,9,20,0) 28%),
-        linear-gradient(to top, rgba(20,20,20,1) 0%, rgba(20,20,20,.55) 42%, rgba(20,20,20,.12) 100%),
-        linear-gradient(to right, rgba(20,20,20,.94) 0%, rgba(20,20,20,.55) 50%, rgba(20,20,20,.22) 100%);
-      z-index:0;
+        radial-gradient(circle at 72% 34%, rgba(229,9,20,.22), transparent 29%),
+        linear-gradient(110deg, #050505 0%, #171717 40%, #282828 100%);
     }
-
-    .hero-mark{
-      position:absolute;
-      right:3%;
-      top:50%;
-      transform:translateY(-50%);
-      font-family:var(--font);
-      font-size:clamp(7rem, 18vw, 18rem);
-      letter-spacing:.08em;
-      color:rgba(229,9,20,.06);
-      z-index:0;
-      user-select:none;
-      pointer-events:none;
-      line-height:.9;
-      text-align:right;
-    }
-
-    .hero-content{
-      position:relative;
-      z-index:2;
-      max-width:700px;
-    }
-
-    .hero-badge{
-      display:inline-block;
-      font-size:.66rem;
-      letter-spacing:.2em;
-      text-transform:uppercase;
-      padding:.3rem .85rem;
-      border:1px solid var(--terra);
-      color:var(--terra);
-      border-radius:2px;
-      margin-bottom:1.25rem;
-    }
-
-    .hero-title{
-      font-family:var(--font);
-      font-size:clamp(4rem, 8vw, 7rem);
-      line-height:.92;
-      letter-spacing:.04em;
-      margin-bottom:1rem;
-      text-shadow:2px 4px 10px rgba(0,0,0,.45);
-    }
-
-    .hero-sub{
-      font-size:1rem;
-      color:rgba(255,255,255,.75);
-      line-height:1.8;
-      max-width:560px;
-      margin-bottom:1.6rem;
-    }
-
-    .hero-actions{
-      display:flex;
-      gap:1rem;
-      flex-wrap:wrap;
-      margin-bottom:2rem;
-    }
-
-    .btn-primary,
-    .btn-secondary{
-      display:inline-flex;
-      align-items:center;
-      gap:.6rem;
-      padding:.78rem 1.4rem;
-      border-radius:4px;
-      text-decoration:none;
-      font-weight:700;
-      transition:all .2s;
-      font-family:var(--sans);
-      white-space:nowrap;
-    }
-
-    .btn-primary{
-      background:#fff;
-      color:#000;
-    }
-
-    .btn-primary:hover{
-      background:rgba(255,255,255,.8);
-    }
-
-    .btn-secondary{
-      background:rgba(109,109,110,.7);
-      color:#fff;
-    }
-
-    .btn-secondary:hover{
-      background:rgba(109,109,110,.45);
-    }
-
-    .status-grid{
-      display:grid;
-      grid-template-columns:repeat(3, minmax(140px, 1fr));
-      gap:.75rem;
-      max-width:620px;
-    }
-
-    .status-card{
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:6px;
-      padding:1rem;
-      backdrop-filter:blur(6px);
-    }
-
-    .status-label{
-      font-size:.62rem;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      color:var(--terra);
-      margin-bottom:.4rem;
-    }
-
-    .status-value{
-      font-size:.86rem;
-      color:rgba(255,255,255,.82);
-      line-height:1.5;
-    }
-
-    .content{
-      position:relative;
-      z-index:2;
-      margin-top:-4rem;
-      padding:0 4% 5rem;
-    }
-
-    .section{
-      margin:0 auto 2.5rem;
-      max-width:1100px;
-      background:var(--bg2);
-      border:1px solid var(--border);
-      border-radius:10px;
-      overflow:hidden;
-      box-shadow:0 20px 40px rgba(0,0,0,.25);
-    }
-
-    .section-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:1rem;
-      padding:1.1rem 1.25rem;
-      border-bottom:1px solid var(--border);
-      background:linear-gradient(to right, rgba(229,9,20,.08), transparent 45%);
-    }
-
-    .section-title{
-      font-family:var(--font);
-      font-size:1.3rem;
-      letter-spacing:.12em;
-      color:#f0f0f0;
-    }
-
-    .section-pill{
-      font-size:.62rem;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      color:var(--muted);
-      border:1px solid var(--border);
-      padding:.35rem .55rem;
-      border-radius:999px;
-    }
-
-    .section-body{
-      padding:1.25rem;
-    }
-
-    .placeholder-grid{
-      display:grid;
-      grid-template-columns:repeat(3, minmax(0,1fr));
-      gap:1rem;
-    }
-
-    .placeholder-card{
-      background:var(--bg3);
-      border:1px solid var(--border);
-      border-radius:8px;
-      overflow:hidden;
-    }
-
-    .placeholder-thumb{
-      aspect-ratio:16/9;
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
       background:
-        linear-gradient(135deg, rgba(229,9,20,.16), rgba(229,9,20,.02)),
-        linear-gradient(to bottom, #2b2b2b, #1d1d1d);
-      position:relative;
+        linear-gradient(to top,  rgba(20,20,20,1) 0%, rgba(20,20,20,.9) 14%, rgba(20,20,20,.3) 60%, rgba(20,20,20,.06) 100%),
+        linear-gradient(to right, rgba(20,20,20,.98) 0%, rgba(20,20,20,.74) 40%, rgba(20,20,20,.1) 78%);
+    }
+    .hero-watermark {
+      position: absolute;
+      right: 1%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font);
+      font-size: clamp(8rem, 22vw, 22rem);
+      line-height: .84;
+      letter-spacing: .06em;
+      color: rgba(229,9,20,.05);
+      user-select: none;
+      pointer-events: none;
+      text-align: right;
+      z-index: -1;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 680px; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .65rem;
+      font-weight: 900;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      border: 1px solid var(--red);
+      color: var(--red);
+      padding: .28rem .76rem;
+      border-radius: 2px;
+      margin-bottom: 1.1rem;
+    }
+    .hero-title {
+      font-family: var(--font);
+      font-size: clamp(4.5rem, 10.5vw, 10.5rem);
+      line-height: .86;
+      letter-spacing: .03em;
+      margin-bottom: 1rem;
+      text-shadow: 0 6px 28px rgba(0,0,0,.72);
+    }
+    .hero-sub {
+      font-size: clamp(.95rem, 1.12vw, 1.06rem);
+      color: rgba(255,255,255,.8);
+      line-height: 1.74;
+      max-width: 560px;
+      margin-bottom: 1.5rem;
+      font-style: italic;
+      text-shadow: 0 2px 8px rgba(0,0,0,.6);
+    }
+    .hero-actions { display: flex; gap: .75rem; flex-wrap: wrap; margin-bottom: 1.85rem; }
+    .btn-primary, .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .72rem 1.4rem;
+      border-radius: 4px;
+      font-weight: 800;
+      font-size: .9rem;
+      white-space: nowrap;
+      border: 0;
+      transition: transform .18s, background .18s, opacity .18s;
+      text-decoration: none;
+    }
+    .btn-primary { background: #fff; color: #000; }
+    .btn-secondary { background: rgba(109,109,110,.7); color: #fff; }
+    .btn-primary:hover  { background: rgba(255,255,255,.82); transform: translateY(-1px); }
+    .btn-secondary:hover { background: rgba(109,109,110,.48); transform: translateY(-1px); }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(130px, 1fr));
+      gap: .65rem;
+      max-width: 620px;
+    }
+    .status-card {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 5px;
+      padding: .9rem 1rem;
+      backdrop-filter: blur(8px);
+    }
+    .status-label {
+      font-size: .6rem;
+      font-weight: 900;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: .35rem;
+    }
+    .status-value { font-size: .83rem; color: rgba(255,255,255,.8); line-height: 1.5; }
+
+    /* ── Main ── */
+    main { margin-top: -6vh; padding: 0 4% 5rem; position: relative; z-index: 2; }
+    .block { max-width: 1180px; margin: 0 auto 5.5rem; }
+    .block-header { margin-bottom: 1.75rem; }
+    .block-title {
+      font-family: var(--font);
+      font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+      letter-spacing: .08em;
+      line-height: 1;
+      margin-bottom: .45rem;
+    }
+    .block-sub { font-size: .88rem; color: var(--muted); font-style: italic; }
+
+    /* ── News grid ── */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .news-card {
+      background: var(--bg2);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform .18s, box-shadow .18s, border-color .18s;
+    }
+    .news-card:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(0,0,0,.42); border-color: rgba(255,255,255,.18); }
+    .news-accent          { height: 4px; background: var(--red); }
+    .news-accent.teal     { background: linear-gradient(to right, #1d7373, #2ab5b5); }
+    .news-accent.gold     { background: linear-gradient(to right, #b8862a, #e8c040); }
+    .news-accent.purple   { background: linear-gradient(to right, #6b2fa0, #9b59b6); }
+    .news-body { padding: 1.25rem 1.35rem 1.5rem; flex: 1; display: flex; flex-direction: column; }
+    .news-kicker {
+      font-size: .62rem;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: .55rem;
+    }
+    .news-kicker.teal   { color: #2ab5b5; }
+    .news-kicker.gold   { color: #c8a84b; }
+    .news-kicker.purple { color: #9b59b6; }
+    .news-title {
+      font-family: var(--font);
+      font-size: 1.6rem;
+      letter-spacing: .04em;
+      line-height: 1.05;
+      margin-bottom: .65rem;
+    }
+    .news-copy { font-size: .88rem; color: rgba(255,255,255,.62); line-height: 1.72; flex: 1; margin-bottom: 1.15rem; }
+    .news-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: .77rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.62);
+      transition: color .2s;
+    }
+    .news-card:hover .news-link { color: #fff; }
+
+    /* ── Shorts row ── */
+    .shorts-scroller {
+      overflow-x: auto;
+      padding: .25rem 0 1.1rem;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .shorts-scroller::-webkit-scrollbar { display: none; }
+    .shorts-track { display: flex; gap: .9rem; width: max-content; }
+    .short-card {
+      flex: 0 0 auto;
+      width: clamp(155px, 17vw, 210px);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #111;
+      position: relative;
+      transition: transform .2s, box-shadow .2s;
+      display: block;
+    }
+    .short-card:hover { transform: translateY(-5px) scale(1.025); box-shadow: 0 20px 44px rgba(0,0,0,.54); }
+    .short-thumb {
+      aspect-ratio: 9/16;
+      width: 100%;
+      object-fit: cover;
+      background: #1a1a1a;
+    }
+    .short-play {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,.3);
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .short-card:hover .short-play { opacity: 1; }
+    .short-play-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: #000;
+      padding-left: 3px;
+    }
+    .short-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: .65rem .75rem .7rem;
+      background: linear-gradient(to top, rgba(0,0,0,.9), transparent);
+      font-family: var(--font);
+      font-size: 1.1rem;
+      letter-spacing: .1em;
+      color: rgba(255,255,255,.78);
     }
 
-    .placeholder-thumb::after{
-      content:'COMING SOON';
-      position:absolute;
-      inset:auto 0 1rem 0;
-      text-align:center;
-      font-family:var(--font);
-      letter-spacing:.16em;
-      font-size:.9rem;
-      color:rgba(255,255,255,.42);
+    /* ── SoundCloud ── */
+    .soundcloud-wrap {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      background: #111;
     }
+    .soundcloud-wrap iframe { display: block; }
 
-    .placeholder-copy{
-      padding:1rem;
+    /* ── Art card ── */
+    .art-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 1.75rem;
+      background: var(--bg2);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 10px;
+      padding: 1.75rem 2rem;
+      max-width: 580px;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
     }
-
-    .placeholder-kicker{
-      font-size:.62rem;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      color:var(--terra);
-      margin-bottom:.35rem;
+    .art-card:hover { border-color: rgba(255,255,255,.22); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,.36); }
+    .art-icon {
+      width: 58px;
+      height: 58px;
+      flex-shrink: 0;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
     }
+    .art-copy { min-width: 0; }
+    .art-title { font-family: var(--font); font-size: 1.5rem; letter-spacing: .06em; margin-bottom: .32rem; }
+    .art-desc { font-size: .88rem; color: rgba(255,255,255,.6); line-height: 1.64; }
+    .art-handle { font-size: .74rem; font-weight: 700; letter-spacing: .08em; color: var(--muted); margin-top: .42rem; }
 
-    .placeholder-title{
-      font-family:var(--font);
-      font-size:1.05rem;
-      letter-spacing:.04em;
-      color:#fff;
-      margin-bottom:.25rem;
+    /* ── Footer ── */
+    footer {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 2.5rem 4%;
+      border-top: 8px solid #222;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: .76rem;
+      color: #666;
     }
+    footer a { color: rgba(255,255,255,.56); transition: color .2s; }
+    footer a:hover { color: #fff; }
+    .footer-note { font-style: italic; }
 
-    .placeholder-text{
-      font-size:.82rem;
-      line-height:1.6;
-      color:rgba(255,255,255,.62);
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .news-grid { grid-template-columns: 1fr; }
+      .status-grid { grid-template-columns: 1fr; max-width: 100%; }
     }
-
-    .note{
-      font-size:.9rem;
-      line-height:1.8;
-      color:rgba(255,255,255,.7);
-      max-width:760px;
-    }
-
-    footer{
-      max-width:100rem;
-      margin:0 auto;
-      padding:2rem 4% 3rem;
-      border-top:8px solid #222;
-      font-size:.75rem;
-      color:#757575;
-    }
-
-    footer a{
-      color:var(--terra);
-      text-decoration:none;
-    }
-
-    footer a:hover{color:#fff;}
-
-    .footer-bottom{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      flex-wrap:wrap;
-      gap:1rem;
-    }
-
-    @media(max-width:900px){
-      .bill-content,
-      .hero-content{max-width:78%;}
-      .placeholder-grid{grid-template-columns:1fr;}
-      .status-grid{grid-template-columns:1fr;}
-    }
-
-    @media(max-width:768px){
-      nav{padding:1rem 4%;}
-      .nav-links{display:none;}
-      .hero{padding:0 4% 18%;}
-      .hero-content{max-width:100%;}
-      .hero-sub{font-size:.96rem;}
-      .hero-mark{font-size:clamp(5rem, 22vw, 10rem);}
-      .section-title{font-size:1.05rem;}
+    @media (max-width: 680px) {
+      nav { padding: .9rem 4%; }
+      .hero { padding: 7rem 4% 16vh; }
+      .hero-title { font-size: clamp(4rem, 18vw, 7rem); }
+      main { padding: 0 4% 4rem; }
+      .art-card { flex-direction: column; align-items: flex-start; gap: 1rem; }
     }
   </style>
 </head>
@@ -385,108 +405,224 @@
 
 <nav>
   <div class="nav-left">
-    <a href="index.html" class="nav-logo">Sofia's Portfolio</a>
+    <a href="index.html" class="nav-logo">SOFIA</a>
     <ul class="nav-links">
-      <li><a href="#status">Status</a></li>
-      <li><a href="#roadmap">Roadmap</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#tea">The Tea</a></li>
+      <li><a href="#reels">The Reels</a></li>
+      <li><a href="#music">The Music</a></li>
+      <li><a href="#art">The Art Thing</a></li>
     </ul>
   </div>
-  <div class="nav-right">
-    <a href="index.html">← Back to Profiles</a>
-  </div>
+  <a href="index.html" class="nav-exit">Get Out →</a>
 </nav>
 
 <section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-mark">STALKER<br>MODE</div>
-
+  <div class="hero-fallback"></div>
+  <img class="hero-img active" id="hero-a" src="assets/me/IMG_1123.png" alt="" aria-hidden="true"/>
+  <img class="hero-img"        id="hero-b" src=""                        alt="" aria-hidden="true"/>
+  <div class="hero-overlay"></div>
+  <div class="hero-watermark">SOFIA</div>
   <div class="hero-content">
-    <div class="hero-badge">Profile Placeholder</div>
-    <h1 class="hero-title">STALKER PROFILE<br>COMING SOON</h1>
-    <p class="hero-sub">
-      This page is not built yet. It is a styled placeholder that keeps the same cinematic portfolio theme, so the profile route exists and still feels intentional instead of broken.
-    </p>
-
+    <div class="hero-badge">⚠ &nbsp;Stalker Mode Enabled</div>
+    <h1 class="hero-title">SOFIA<br>GONZALEZ<br>IRIGOYEN</h1>
+    <p class="hero-sub">"you found the stalker page. i genuinely don't know how you got here but i've decided to be flattered. make yourself at home. i guess."</p>
     <div class="hero-actions">
-      <a class="btn-primary" href="index.html">← Back to Profiles</a>
-      <a class="btn-secondary" href="#roadmap">View Placeholder</a>
+      <a href="#tea" class="btn-primary">get the tea ↓</a>
+      <a href="index.html" class="btn-secondary">wait, wrong person →</a>
     </div>
-
-    <div class="status-grid" id="status">
+    <div class="status-grid">
       <div class="status-card">
-        <div class="status-label">Status</div>
-        <div class="status-value">Not built yet</div>
+        <div class="status-label">Currently</div>
+        <div class="status-value">producing Soul Blind</div>
       </div>
       <div class="status-card">
-        <div class="status-label">Theme</div>
-        <div class="status-value">Netflix-inspired dark UI</div>
+        <div class="status-label">Last seen</div>
+        <div class="status-value">somewhere between a film festival and a casting call</div>
       </div>
       <div class="status-card">
-        <div class="status-label">Next Step</div>
-        <div class="status-value">Replace placeholder with full page</div>
+        <div class="status-label">Threat level</div>
+        <div class="status-value">very charming, slightly chaotic</div>
       </div>
     </div>
   </div>
 </section>
 
-<main class="content">
-  <section class="section" id="roadmap">
-    <div class="section-head">
-      <div class="section-title">What This Page Will Become</div>
-      <div class="section-pill">Placeholder</div>
+<main>
+
+  <!-- ── THE TEA ── -->
+  <div class="block" id="tea">
+    <div class="block-header">
+      <h2 class="block-title">LATEST INTEL</h2>
+      <p class="block-sub">what she's been up to, since you clearly want to know</p>
     </div>
-    <div class="section-body">
-      <div class="placeholder-grid">
-        <article class="placeholder-card">
-          <div class="placeholder-thumb"></div>
-          <div class="placeholder-copy">
-            <div class="placeholder-kicker">Section 01</div>
-            <div class="placeholder-title">Profile Billboard</div>
-            <div class="placeholder-text">Large hero section with custom title treatment, intro text, and themed actions.</div>
-          </div>
-        </article>
+    <div class="news-grid">
 
-        <article class="placeholder-card">
-          <div class="placeholder-thumb"></div>
-          <div class="placeholder-copy">
-            <div class="placeholder-kicker">Section 02</div>
-            <div class="placeholder-title">Content Rows</div>
-            <div class="placeholder-text">Scrollable cards, hover states, thumbnails, pop-out descriptions, and media previews.</div>
-          </div>
-        </article>
+      <a class="news-card" href="https://www.bu.edu/articles/2026/redstone-film-festival/" target="_blank" rel="noopener noreferrer">
+        <div class="news-accent"></div>
+        <div class="news-body">
+          <div class="news-kicker">Press · BU · 2026</div>
+          <div class="news-title">Si Solamente at Redstone Film Festival</div>
+          <p class="news-copy">BU covered the Redstone Film Festival and yes, her film was there. She was professional about it and everything.</p>
+          <span class="news-link">Read the article →</span>
+        </div>
+      </a>
 
-        <article class="placeholder-card">
-          <div class="placeholder-thumb"></div>
-          <div class="placeholder-copy">
-            <div class="placeholder-kicker">Section 03</div>
-            <div class="placeholder-title">Expanded Details</div>
-            <div class="placeholder-text">More profile-specific copy, visual assets, and a fully built-out themed layout.</div>
-          </div>
-        </article>
+      <a class="news-card" href="https://iffboston.org/events/sisolamentebostonuniversity" target="_blank" rel="noopener noreferrer">
+        <div class="news-accent teal"></div>
+        <div class="news-body">
+          <div class="news-kicker teal">Screening · IFFB · 2026</div>
+          <div class="news-title">Si Solamente — IFFB Boston</div>
+          <p class="news-copy">Si Solamente screened at the Independent Film Festival Boston. An actual film festival. In an actual city. With an actual audience.</p>
+          <span class="news-link">See the listing →</span>
+        </div>
+      </a>
+
+      <a class="news-card" href="https://www.instagram.com/p/DX2OusBj1S6/?img_index=10" target="_blank" rel="noopener noreferrer">
+        <div class="news-accent gold"></div>
+        <div class="news-body">
+          <div class="news-kicker gold">Award · AdLab · 2026</div>
+          <div class="news-title">Above and Beyond — AdLabbies</div>
+          <p class="news-copy">She won the Above and Beyond Special Award at the AdLabbies. The name is very on-brand for her, honestly, not gonna lie.</p>
+          <span class="news-link">See the post →</span>
+        </div>
+      </a>
+
+      <a class="news-card" href="https://www.backstage.com/casting/soul-blind-3141688/" target="_blank" rel="noopener noreferrer">
+        <div class="news-accent purple"></div>
+        <div class="news-body">
+          <div class="news-kicker purple">Developing · Now</div>
+          <div class="news-title">Soul Blind — New Project</div>
+          <p class="news-copy">She's producing a new film and casting is open. Follow <strong>@soulblind.film</strong> for updates. This is not a drill.</p>
+          <span class="news-link">See casting call →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ── THE REELS ── -->
+  <div class="block" id="reels">
+    <div class="block-header">
+      <h2 class="block-title">THE REELS</h2>
+      <p class="block-sub">watch her work. you're already here anyway.</p>
+    </div>
+    <div class="shorts-scroller">
+      <div class="shorts-track">
+
+        <a class="short-card" href="https://www.youtube.com/shorts/LyqfrcJgFFc" target="_blank" rel="noopener noreferrer" aria-label="Reel 01">
+          <img class="short-thumb" src="https://img.youtube.com/vi/LyqfrcJgFFc/maxresdefault.jpg" alt=""
+            onerror="this.src='https://img.youtube.com/vi/LyqfrcJgFFc/hqdefault.jpg'" loading="lazy"/>
+          <div class="short-play"><div class="short-play-icon">▶</div></div>
+          <div class="short-label">01</div>
+        </a>
+
+        <a class="short-card" href="https://www.youtube.com/shorts/9TIQxAem7x0" target="_blank" rel="noopener noreferrer" aria-label="Reel 02">
+          <img class="short-thumb" src="https://img.youtube.com/vi/9TIQxAem7x0/maxresdefault.jpg" alt=""
+            onerror="this.src='https://img.youtube.com/vi/9TIQxAem7x0/hqdefault.jpg'" loading="lazy"/>
+          <div class="short-play"><div class="short-play-icon">▶</div></div>
+          <div class="short-label">02</div>
+        </a>
+
+        <a class="short-card" href="https://www.youtube.com/shorts/whQRxaS5WSs" target="_blank" rel="noopener noreferrer" aria-label="Reel 03">
+          <img class="short-thumb" src="https://img.youtube.com/vi/whQRxaS5WSs/maxresdefault.jpg" alt=""
+            onerror="this.src='https://img.youtube.com/vi/whQRxaS5WSs/hqdefault.jpg'" loading="lazy"/>
+          <div class="short-play"><div class="short-play-icon">▶</div></div>
+          <div class="short-label">03</div>
+        </a>
+
+        <a class="short-card" href="https://www.youtube.com/shorts/lFcu5wPBWHw" target="_blank" rel="noopener noreferrer" aria-label="Reel 04">
+          <img class="short-thumb" src="https://img.youtube.com/vi/lFcu5wPBWHw/maxresdefault.jpg" alt=""
+            onerror="this.src='https://img.youtube.com/vi/lFcu5wPBWHw/hqdefault.jpg'" loading="lazy"/>
+          <div class="short-play"><div class="short-play-icon">▶</div></div>
+          <div class="short-label">04</div>
+        </a>
+
+        <a class="short-card" href="https://www.youtube.com/shorts/hIRTlY6i6f8" target="_blank" rel="noopener noreferrer" aria-label="Reel 05">
+          <img class="short-thumb" src="https://img.youtube.com/vi/hIRTlY6i6f8/maxresdefault.jpg" alt=""
+            onerror="this.src='https://img.youtube.com/vi/hIRTlY6i6f8/hqdefault.jpg'" loading="lazy"/>
+          <div class="short-play"><div class="short-play-icon">▶</div></div>
+          <div class="short-label">05</div>
+        </a>
+
       </div>
     </div>
-  </section>
+  </div>
 
-  <section class="section" id="contact">
-    <div class="section-head">
-      <div class="section-title">Placeholder Note</div>
-      <div class="section-pill">Temporary</div>
+  <!-- ── THE MUSIC ── -->
+  <div class="block" id="music">
+    <div class="block-header">
+      <h2 class="block-title">SHE ALSO MAKES MUSIC</h2>
+      <p class="block-sub">yes, really. we're just as surprised as you are.</p>
     </div>
-    <div class="section-body">
-      <p class="note">
-        Right now this file only exists so the profile can be linked without leading to an unfinished or blank page. Once you are ready, this can be converted into a full profile page using the same navigation, billboard, row system, modal behavior, and dark visual language as your other pages.
-      </p>
+    <div class="soundcloud-wrap">
+      <iframe
+        width="100%"
+        height="450"
+        scrolling="no"
+        frameborder="no"
+        allow="autoplay"
+        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/sofirichof&color=%23e50914&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+        title="Sofia González Irigoyen on SoundCloud">
+      </iframe>
     </div>
-  </section>
+  </div>
+
+  <!-- ── THE ART THING ── -->
+  <div class="block" id="art">
+    <div class="block-header">
+      <h2 class="block-title">THE ART THING</h2>
+      <p class="block-sub">she has layers. it's a lot.</p>
+    </div>
+    <a class="art-card" href="https://www.instagram.com/sofirichof.art/" target="_blank" rel="noopener noreferrer">
+      <div class="art-icon">🎨</div>
+      <div class="art-copy">
+        <div class="art-title">sofirichof.art</div>
+        <p class="art-desc">Her visual art Instagram. Separate from the portfolio. Separate from the professional persona. Just art, because apparently film and advertising weren't enough.</p>
+        <div class="art-handle">@sofirichof.art on Instagram ↗</div>
+      </div>
+    </a>
+  </div>
+
 </main>
 
 <footer>
-  <div class="footer-bottom">
-    <span>© 2026 Sofia González Irigoyen · Placeholder Profile</span>
-    <a href="index.html">← Back to Profiles</a>
-  </div>
+  <span class="footer-note">© 2026 Sofia González Irigoyen · please respect my privacy 🙏</span>
+  <a href="index.html">← wrong page, get out of here</a>
 </footer>
 
+<script>
+  (function () {
+    const photos = [
+      "assets/me/IMG_1123.png",
+      "assets/me/BTS KUS-116.png",
+      "assets/me/IMG_2307.png",
+      "assets/me/IMG_9878.png",
+      "assets/me/Si Solamente BTS-81.png",
+      "assets/me/mexico-tiles.jpg"
+    ];
+
+    const imgA = document.getElementById("hero-a");
+    const imgB = document.getElementById("hero-b");
+
+    let current = 0;
+    let aIsActive = true;
+
+    // Pre-load all photos
+    photos.forEach(src => { const i = new Image(); i.src = src; });
+
+    function nextPhoto() {
+      current = (current + 1) % photos.length;
+      const incoming = aIsActive ? imgB : imgA;
+      const outgoing = aIsActive ? imgA : imgB;
+
+      incoming.src = photos[current];
+      incoming.classList.add("active");
+      outgoing.classList.remove("active");
+      aIsActive = !aIsActive;
+    }
+
+    setInterval(nextPhoto, 5000);
+  })();
+</script>
 </body>
 </html>
