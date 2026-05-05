@@ -206,11 +206,53 @@
   .bill-overlay {
     position: absolute;
     inset: 0;
-    z-index: -2;
+    z-index: -1;
     background:
       linear-gradient(to top, rgba(20,20,20,1) 0%, rgba(20,20,20,.88) 12%, rgba(20,20,20,.34) 55%, rgba(20,20,20,.08) 100%),
       linear-gradient(to right, rgba(20,20,20,.96) 0%, rgba(20,20,20,.68) 34%, rgba(20,20,20,.05) 70%);
   }
+
+  /* ── Hero Carousel ─────────────────── */
+  .bill-slides-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+  }
+  .bill-slide-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    opacity: 0;
+    transition: opacity 1.1s ease;
+  }
+  .bill-slide-img.active { opacity: .58; }
+
+  .bill-slide-fade { transition: opacity .4s ease; }
+  .bill-slide-fade.out { opacity: 0; }
+
+  .bill-indicators {
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+    margin-top: 1.5rem;
+  }
+  .bill-dot {
+    height: 3px;
+    width: 16px;
+    border-radius: 2px;
+    border: 0;
+    padding: 0;
+    background: rgba(255,255,255,.32);
+    cursor: pointer;
+    transition: background .3s, width .3s ease;
+    flex-shrink: 0;
+  }
+  .bill-dot.active { background: #fff; width: 28px; }
+  .bill-dot:hover { background: rgba(255,255,255,.6); }
   .bill-content {
     width: min(620px, 58vw);
     transform: translateY(2vh);
@@ -862,27 +904,22 @@
   <section id="billboard" aria-labelledby="hero-title">
     <div class="hero-fallback"></div>
     <video id="bill-video" src="YOUR-HERO-VIDEO.mp4" autoplay muted loop playsinline preload="metadata"></video>
+    <div id="bill-slides-bg" class="bill-slides-bg"></div>
     <div class="bill-overlay"></div>
     <div class="bill-content">
-      <div class="bill-kicker"><span class="series-mark">S</span><span>Student Producer Portfolio</span></div>
-      <h1 class="bill-title" id="hero-title">SOFIA<br>GONZÁLEZ<br>IRIGOYEN</h1>
-      <div class="meta-line" aria-label="Profile details">
-        <span class="match">98% match</span>
-        <span>BU '26</span>
-        <span class="rating">TV-14</span>
-        <span>Broadcast</span>
-        <span>Film</span>
-        <span>EN / ES / FR</span>
-      </div>
+      <div class="bill-kicker"><span class="series-mark">S</span><span>Sofia González Irigoyen · Producer</span></div>
+      <h1 class="bill-title bill-slide-fade" id="hero-title"></h1>
+      <div class="meta-line bill-slide-fade" id="bill-meta" aria-label="Project details"></div>
       <div class="reel-toggle" role="tablist" aria-label="Portfolio reel">
         <button class="reel-btn active" type="button" role="tab" aria-selected="true" data-reel-button="broadcast">Broadcast & TV</button>
         <button class="reel-btn" type="button" role="tab" aria-selected="false" data-reel-button="film">Film & Narrative</button>
       </div>
-      <p class="bill-desc" id="bill-desc">Broadcast producer with experience at Telemundo 52 / NBCUniversal, Zona Latina in Santiago, and BU's live television program. Comfortable in fast-moving, live environments.</p>
+      <p class="bill-desc bill-slide-fade" id="bill-desc"></p>
       <div class="bill-actions">
-        <a href="#lolomo" class="btn-play"><span class="icon" aria-hidden="true">▶</span>View Work</a>
-        <a href="#contact" class="btn-info"><span class="icon" aria-hidden="true">i</span>More Info</a>
+        <button class="btn-play bill-slide-fade" id="bill-watch-btn" type="button" style="display:none"><span class="icon" aria-hidden="true">▶</span>Watch</button>
+        <a href="#" class="btn-info bill-slide-fade" id="bill-info-btn"><span class="icon" aria-hidden="true">i</span>More Info</a>
       </div>
+      <div class="bill-indicators" id="bill-indicators" aria-label="Featured projects"></div>
     </div>
   </section>
 
@@ -962,7 +999,7 @@ const broadcast = [
 ];
 
 const film = [
-  { cat:"Narrative Short · Drama · 15 min", title:"Si Solamente", role:"Producer", org:"Boston University", year:"2026", youtubeId:"", image:"assets/thumbs/si-solamente.png", preview:"", detailsUrl:"projects/si-solamente.html", rows:["featured"] },
+  { cat:"Narrative Short · Drama · 15 min", title:"Si Solamente", role:"Producer", org:"Boston University", year:"2026", youtubeId:"", image:"assets/thumbs/si-solamente.png", preview:"", detailsUrl:"projects/si-solamente.html", rows:["featured","shorts"] },
   { cat:"Narrative Short · Drama · 15 min", title:"The Stories We Tell Ourselves", role:"Producer", org:"Freelance", year:"2025", youtubeId:"Vp9FBdygTKM", image:"", preview:"", detailsUrl:"projects/the-stories-we-tell-ourselves.html", rows:["featured","shorts"] },
   { cat:"Documentary · 18 min", title:"Pajuyuk Ancestral Knowledge", role:"Exec. Production Assistant", org:"A Posteriori Entertainment", year:"2025", youtubeId:"", image:"assets/thumbs/pajuyuk.png", preview:"", detailsUrl:"projects/pajuyuk-ancestral-knowledge.html", rows:["featured","doc"] },
   { cat:"Drama Short · 5 min", title:"Bird's Eye View", role:"Producer & Editor", org:"Boston University", year:"2024", youtubeId:"ETdIUMwOOd0", image:"", preview:"", detailsUrl:"projects/birds-eye-view.html", rows:["shorts"] },
@@ -971,20 +1008,13 @@ const film = [
 
 const rowConfigs = {
   broadcast: [
-    { id:"row-featured-b", title:"Featured - Broadcast & TV", key:"featured" },
     { id:"row-live", title:"Live Television", key:"live" },
     { id:"row-tv-b", title:"TV Drama", key:"tv" },
   ],
   film: [
-    { id:"row-featured-f", title:"Featured - Film & Narrative", key:"featured" },
     { id:"row-shorts", title:"Short Films", key:"shorts" },
     { id:"row-doc", title:"Documentary & Other", key:"doc" },
   ],
-};
-
-const heroDescs = {
-  broadcast: "Broadcast producer with experience at Telemundo 52 / NBCUniversal, Zona Latina in Santiago, and BU's live television program. Comfortable in fast-moving, live environments.",
-  film: "Narrative producer with SAG-AFTRA shorts, three seasons of scripted TV drama, and documentary work. I build shoots that run on time and sets where people actually want to be.",
 };
 
 const hoverSummaries = {
@@ -1000,6 +1030,139 @@ const hoverSummaries = {
   "Bird's Eye View": "Short drama where producing and editing connected the set workflow to the final story.",
   "The In Between": "Music video assistant directing with fast turnaround, schedule discipline, and set momentum."
 };
+
+// ── Carousel ────────────────────────────────
+let carouselIndex = 0;
+let carouselTimer = null;
+let carouselFadeTimer = null;
+let activeReel = "broadcast";
+
+function featuredFor(reelType) {
+  return (reelType === "broadcast" ? broadcast : film).filter(p => p.rows.includes("featured"));
+}
+
+function slideImg(project) {
+  if (project.image) return project.image;
+  const id = cleanId(project.youtubeId);
+  return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : "";
+}
+
+const introSlide = {
+  isIntro: true,
+  broadcast: {
+    title: "SOFIA\nGONZÁLEZ\nIRIGOYEN",
+    meta: `<span class="match">98% match</span><span>BU '26</span><span class="rating">TV-14</span><span>Broadcast</span><span>Film</span><span>EN / ES / FR</span>`,
+    desc: "Broadcast producer with experience at Telemundo 52 / NBCUniversal, Zona Latina in Santiago, and BU's live television program. Comfortable in fast-moving, live environments.",
+  },
+  film: {
+    title: "SOFIA\nGONZÁLEZ\nIRIGOYEN",
+    meta: `<span class="match">98% match</span><span>BU '26</span><span class="rating">TV-14</span><span>Broadcast</span><span>Film</span><span>EN / ES / FR</span>`,
+    desc: "Narrative producer with SAG-AFTRA shorts, three seasons of scripted TV drama, and documentary work. I build shoots that run on time and sets where people actually want to be.",
+  },
+};
+
+function allSlides(reelType) {
+  return [{ isIntro: true }, ...featuredFor(reelType)];
+}
+
+function goToSlide(index) {
+  const slides = allSlides(activeReel);
+  carouselIndex = ((index % slides.length) + slides.length) % slides.length;
+  const s = slides[carouselIndex];
+
+  clearTimeout(carouselFadeTimer);
+  document.querySelectorAll(".bill-slide-fade").forEach(el => el.classList.add("out"));
+
+  // slide 0 = intro (no project image), rest = project images (offset by 1)
+  document.querySelectorAll("#bill-slides-bg .bill-slide-img").forEach((img, i) => {
+    img.classList.toggle("active", i === carouselIndex - 1);
+  });
+
+  document.querySelectorAll(".bill-dot").forEach((dot, i) => {
+    dot.classList.toggle("active", i === carouselIndex);
+  });
+
+  carouselFadeTimer = setTimeout(() => {
+    if (s.isIntro) {
+      const intro = introSlide[activeReel];
+      document.getElementById("hero-title").innerHTML = intro.title.replace(/\n/g, "<br>");
+      document.getElementById("bill-meta").innerHTML = intro.meta;
+      document.getElementById("bill-desc").textContent = intro.desc;
+      document.getElementById("bill-watch-btn").style.display = "none";
+      const infoBtn = document.getElementById("bill-info-btn");
+      infoBtn.href = "#lolomo";
+      infoBtn.querySelector(".icon").textContent = "▶";
+      infoBtn.childNodes[infoBtn.childNodes.length - 1].textContent = "View Work";
+    } else {
+      const p = s;
+      document.getElementById("hero-title").textContent = p.title;
+      document.getElementById("bill-meta").innerHTML =
+        `<span class="match">${escapeHtml(p.year)}</span>` +
+        `<span>${escapeHtml(p.cat)}</span>` +
+        `<span>${escapeHtml(p.role)}</span>`;
+      document.getElementById("bill-desc").textContent =
+        hoverSummaries[p.title] || `${p.role} — ${p.org || p.cat}`;
+
+      const watchBtn = document.getElementById("bill-watch-btn");
+      const id = cleanId(p.youtubeId);
+      if (id) {
+        watchBtn.style.display = "";
+        watchBtn.onclick = () => openVideo(id);
+      } else {
+        watchBtn.style.display = "none";
+      }
+
+      const infoBtn = document.getElementById("bill-info-btn");
+      infoBtn.href = p.detailsUrl || "#";
+      infoBtn.querySelector(".icon").textContent = "i";
+      infoBtn.childNodes[infoBtn.childNodes.length - 1].textContent = "More Info";
+    }
+
+    document.querySelectorAll(".bill-slide-fade").forEach(el => el.classList.remove("out"));
+  }, 420);
+}
+
+function buildCarousel(reelType) {
+  clearInterval(carouselTimer);
+  activeReel = reelType;
+  carouselIndex = 0;
+
+  const featured = featuredFor(reelType);
+
+  const bgContainer = document.getElementById("bill-slides-bg");
+  bgContainer.innerHTML = featured.map(p => {
+    const src = slideImg(p);
+    return src
+      ? `<img class="bill-slide-img" src="${escapeHtml(src)}" alt="" aria-hidden="true" loading="eager">`
+      : `<div class="bill-slide-img"></div>`;
+  }).join("");
+
+  const total = featured.length + 1; // +1 for intro
+  const indicators = document.getElementById("bill-indicators");
+  indicators.innerHTML = Array.from({ length: total }, (_, i) =>
+    `<button class="bill-dot" type="button" data-slide="${i}" aria-label="${i === 0 ? "Intro" : `Featured project ${i}`}"></button>`
+  ).join("");
+  indicators.querySelectorAll(".bill-dot").forEach(dot => {
+    dot.addEventListener("click", () => {
+      goToSlide(Number(dot.dataset.slide));
+      resetCarouselTimer();
+    });
+  });
+
+  goToSlide(0);
+  startCarouselTimer();
+}
+
+function startCarouselTimer() {
+  clearInterval(carouselTimer);
+  carouselTimer = setInterval(() => goToSlide(carouselIndex + 1), 8000);
+}
+
+function resetCarouselTimer() {
+  clearInterval(carouselTimer);
+  startCarouselTimer();
+}
+// ────────────────────────────────────────────
 
 const nav = document.getElementById("nav");
 const lolomo = document.getElementById("lolomo");
@@ -1063,6 +1226,11 @@ function tileThumbMarkup(project) {
   if (thumb.type === "youtube") {
     return `<img src="${thumb.src}" alt="${escapeHtml(project.title)}" loading="lazy" onerror="handleYoutubeThumbError(this, '${escapeHtml(thumb.fallback)}', '${escapeHtml(project.title)}')">`;
   }
+  const ytId = cleanId(project.youtubeId);
+  const ytFallback = ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : "";
+  if (ytFallback) {
+    return `<img src="${thumb.src}" alt="${escapeHtml(project.title)}" loading="lazy" onerror="handleYoutubeThumbError(this, '${escapeHtml(ytFallback)}', '${escapeHtml(project.title)}')">`;
+  }
   return `<img src="${thumb.src}" alt="${escapeHtml(project.title)}" loading="lazy" onerror="handleThumbError(this, '${escapeHtml(project.title)}')">`;
 }
 
@@ -1113,8 +1281,8 @@ function switchReel(type) {
     button.classList.toggle("active", isActive);
     button.setAttribute("aria-selected", String(isActive));
   });
-  document.getElementById("bill-desc").textContent = heroDescs[type];
   hideHoverImmediate();
+  buildCarousel(type);
   renderLolomo(type);
 }
 
@@ -1203,7 +1371,11 @@ function mediaMarkup(tile) {
   const image = tile.dataset.image;
   const youtubeId = tile.dataset.youtubeId;
   if (image) {
-    return `<img src="${image}" alt="${title}" onerror="handleThumbError(this, '${title}')">`;
+    const ytFallback = youtubeId ? `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg` : "";
+    const onerror = ytFallback
+      ? `handleYoutubeThumbError(this, '${escapeHtml(ytFallback)}', '${title}')`
+      : `handleThumbError(this, '${title}')`;
+    return `<img src="${image}" alt="${title}" onerror="${onerror}">`;
   }
   if (youtubeId) return `<img src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="${title}">`;
   return `<div class="poster-fallback">${cat}</div>`;
@@ -1378,13 +1550,16 @@ window.addEventListener("scroll", () => {
 }, { passive: true });
 window.addEventListener("resize", hideHoverImmediate);
 
-renderLolomo("broadcast");
+document.getElementById("billboard").addEventListener("mouseenter", () => clearInterval(carouselTimer));
+document.getElementById("billboard").addEventListener("mouseleave", () => {
+  if (!document.getElementById("video-modal").classList.contains("active")) startCarouselTimer();
+});
 
 document.addEventListener("DOMContentLoaded", () => {
+  buildCarousel("broadcast");
+  renderLolomo("broadcast");
   const heroVideo = document.getElementById("bill-video");
-  if (heroVideo) {
-    heroVideo.play().catch(() => {});
-  }
+  if (heroVideo) heroVideo.play().catch(() => {});
   setTimeout(() => document.getElementById("loading")?.classList.add("done"), 800);
 });
 </script>
