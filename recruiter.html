@@ -489,22 +489,26 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: min(380px, 88vw);
-    background: var(--bg2);
-    border-radius: 6px;
+    width: min(390px, 88vw);
+    background: #181818;
+    border-radius: 8px;
     overflow: hidden;
     z-index: 999;
-    box-shadow: 0 20px 58px rgba(0,0,0,.72);
-    border: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 22px 64px rgba(0,0,0,.78);
+    border: 1px solid rgba(255,255,255,.1);
     opacity: 0;
-    transform: scale(.96);
+    transform: translateY(10px) scale(.985);
+    transform-origin: 50% 18%;
     pointer-events: none;
     cursor: default;
-    transition: opacity 150ms ease, transform 150ms ease, top 150ms ease, left 150ms ease;
+    will-change: opacity, transform;
+    transition:
+      opacity 180ms ease,
+      transform 220ms cubic-bezier(.2,.75,.25,1);
   }
   .hover-layer.visible {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0) scale(1);
     pointer-events: auto;
   }
   .hover-media {
@@ -513,6 +517,7 @@
     background: #111;
     position: relative;
     overflow: hidden;
+    border-bottom: 1px solid rgba(255,255,255,.06);
   }
   .hover-media img,
   .hover-media video {
@@ -529,49 +534,73 @@
     background: linear-gradient(to top, rgba(0,0,0,.78), transparent);
     pointer-events: none;
   }
-  .hover-body { padding: .95rem 1rem 1.05rem; }
+  .hover-body {
+    padding: 1rem 1rem 1.05rem;
+  }
   .hover-title {
     font-weight: 800;
-    font-size: 1rem;
+    font-size: 1.05rem;
+    line-height: 1.25;
     color: #fff;
-    margin-bottom: .28rem;
+    margin-bottom: .35rem;
   }
   .hover-role {
-    font-size: .76rem;
+    font-size: .72rem;
     color: var(--red);
     font-weight: 800;
-    letter-spacing: .04em;
+    letter-spacing: .08em;
     text-transform: uppercase;
     margin-bottom: .15rem;
   }
   .hover-org {
-    font-size: .76rem;
+    font-size: .75rem;
     color: var(--muted);
-    margin-bottom: .62rem;
+    line-height: 1.45;
+    margin-bottom: .65rem;
+  }
+  .hover-summary {
+    color: rgba(255,255,255,.72);
+    font-size: .78rem;
+    line-height: 1.55;
+    margin-bottom: .8rem;
   }
   .hover-tags {
     display: flex;
     flex-wrap: wrap;
     gap: .34rem;
-    margin-bottom: .9rem;
+    margin-bottom: .95rem;
   }
   .hover-tag {
-    font-size: .66rem;
-    padding: .18rem .48rem;
+    max-width: 100%;
+    font-size: .65rem;
+    line-height: 1.25;
+    padding: .2rem .48rem;
     background: rgba(255,255,255,.1);
     color: rgba(255,255,255,.78);
     border-radius: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .hover-tag.status {
+    color: #46d369;
+    background: rgba(70,211,105,.12);
   }
   .hover-cta-row {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: .55rem;
-    flex-wrap: wrap;
   }
   .hover-cta-row .btn-primary,
   .hover-cta-row .btn-info {
-    min-height: 38px;
+    width: 100%;
+    min-height: 40px;
     padding: .55rem .85rem;
     font-size: .76rem;
+    text-align: center;
+  }
+  .hover-cta-row.single {
+    grid-template-columns: 1fr;
   }
 
   .info-section {
@@ -926,18 +955,18 @@
 const broadcast = [
   { cat:"Broadcast", title:"Acceso Total - Hollywood Premiere", role:"Interviewer", org:"Telemundo 52 / NBCUniversal", year:"2026", youtubeId:"b4WxJcoeT0c", image:"assets/thumbs/acesso-total-hollywood-premiere.png", preview:"", detailsUrl:"projects/acceso-total-telemundo-52.html", rows:["featured","live"] },
   { cat:"Broadcast", title:"Acceso Total - Independence Days", role:"Segment Producer", org:"Telemundo 52 / NBCUniversal", year:"2025", youtubeId:"kVxZsvJysHA", image:"assets/thumbs/acesso-total-independence-days.png", preview:"", detailsUrl:"projects/acceso-total-telemundo-52.html", rows:["live"] },
-  { cat:"Broadcast · NATAS Award", title:"Live With TY - S1 Ep.11", role:"Chief Editor", org:"BUTV", year:"2024", youtubeId:"g2gvMf2UDbQ", image:"", preview:"live-with-ty.mp4", detailsUrl:"", rows:["featured","live"] },
-  { cat:"Broadcast · Santiago, Chile", title:"Zona de Estrellas", role:"Production Assistant", org:"Zona Latina · TVI America", year:"2024", youtubeId:"rz87SYmnLt4", image:"", preview:"", detailsUrl:"", rows:["live"] },
-  { cat:"Broadcast · Santiago, Chile", title:"Sabores", role:"Production Assistant", org:"Zona Latina · TVI America", year:"2024", youtubeId:"", image:"assets/thumbs/sabores.png", preview:"", detailsUrl:"", rows:["live"] },
+  { cat:"Broadcast · NATAS Award", title:"Live With TY - S1 Ep.11", role:"Chief Editor", org:"BUTV", year:"2024", youtubeId:"g2gvMf2UDbQ", image:"", preview:"live-with-ty.mp4", detailsUrl:"projects/live-with-ty-s1-ep11.html", rows:["featured","live"] },
+  { cat:"Broadcast · Santiago, Chile", title:"Zona de Estrellas", role:"Production Assistant", org:"Zona Latina · TVI America", year:"2024", youtubeId:"rz87SYmnLt4", image:"", preview:"", detailsUrl:"projects/zona-latina-chile.html", rows:["live"] },
+  { cat:"Broadcast · Santiago, Chile", title:"Sabores", role:"Production Assistant", org:"Zona Latina · TVI America", year:"2024", youtubeId:"", image:"assets/thumbs/sabores.png", preview:"", detailsUrl:"projects/zona-latina-chile.html", rows:["live"] },
   { cat:"TV Drama", title:"Baystate - Seasons 48-50", role:"Producer", org:"BUTV · Boston University", year:"2024-2026", youtubeId:"pLEuklMB0Xc", image:"", preview:"", detailsUrl:"projects/baystate-season-48-50.html", rows:["featured","tv"] },
 ];
 
 const film = [
   { cat:"Narrative Short · Drama · 15 min", title:"Si Solamente", role:"Producer", org:"Boston University", year:"2026", youtubeId:"", image:"assets/thumbs/si-solamente.png", preview:"", detailsUrl:"projects/si-solamente.html", rows:["featured"] },
-  { cat:"Narrative Short · Drama · 15 min", title:"The Stories We Tell Ourselves", role:"Producer", org:"Freelance", year:"2025", youtubeId:"Vp9FBdygTKM", image:"", preview:"", detailsUrl:"", rows:["featured","shorts"] },
-  { cat:"Documentary · 18 min", title:"Pajuyuk Ancestral Knowledge", role:"Exec. Production Assistant", org:"A Posteriori Entertainment", year:"2025", youtubeId:"", image:"assets/thumbs/pajuyuk.png", preview:"", detailsUrl:"", rows:["featured","doc"] },
-  { cat:"Drama Short · 5 min", title:"Bird's Eye View", role:"Producer & Editor", org:"Boston University", year:"2024", youtubeId:"ETdIUMwOOd0", image:"", preview:"", detailsUrl:"", rows:["shorts"] },
-  { cat:"Music Video · 8 min", title:"The In Between", role:"1st AD", org:"Veritus Miller", year:"2024", youtubeId:"7aJZ3AvY3IU", image:"", preview:"", detailsUrl:"", rows:["doc"] },
+  { cat:"Narrative Short · Drama · 15 min", title:"The Stories We Tell Ourselves", role:"Producer", org:"Freelance", year:"2025", youtubeId:"Vp9FBdygTKM", image:"", preview:"", detailsUrl:"projects/the-stories-we-tell-ourselves.html", rows:["featured","shorts"] },
+  { cat:"Documentary · 18 min", title:"Pajuyuk Ancestral Knowledge", role:"Exec. Production Assistant", org:"A Posteriori Entertainment", year:"2025", youtubeId:"", image:"assets/thumbs/pajuyuk.png", preview:"", detailsUrl:"projects/pajuyuk-ancestral-knowledge.html", rows:["featured","doc"] },
+  { cat:"Drama Short · 5 min", title:"Bird's Eye View", role:"Producer & Editor", org:"Boston University", year:"2024", youtubeId:"ETdIUMwOOd0", image:"", preview:"", detailsUrl:"projects/birds-eye-view.html", rows:["shorts"] },
+  { cat:"Music Video · 8 min", title:"The In Between", role:"1st AD", org:"Veritus Miller", year:"2024", youtubeId:"7aJZ3AvY3IU", image:"", preview:"", detailsUrl:"projects/the-in-between.html", rows:["doc"] },
 ];
 
 const rowConfigs = {
@@ -956,6 +985,20 @@ const rowConfigs = {
 const heroDescs = {
   broadcast: "Broadcast producer with experience at Telemundo 52 / NBCUniversal, Zona Latina in Santiago, and BU's live television program. Comfortable in fast-moving, live environments.",
   film: "Narrative producer with SAG-AFTRA shorts, three seasons of scripted TV drama, and documentary work. I build shoots that run on time and sets where people actually want to be.",
+};
+
+const hoverSummaries = {
+  "Acceso Total - Hollywood Premiere": "Field interview and entertainment coverage from the Telemundo 52 / NBCUniversal internship.",
+  "Acceso Total - Independence Days": "Spanish-language cultural segment produced for Acceso Total during the Telemundo internship.",
+  "Live With TY - S1 Ep.11": "NATAS-recognized university sports episode shaped through chief editing and broadcast pacing.",
+  "Zona de Estrellas": "Live variety television experience from an international production placement in Santiago, Chile.",
+  "Sabores": "Lifestyle television production support from the Zona Latina / TVI America placement.",
+  "Baystate - Seasons 48-50": "Multi-season scripted TV producing in a live-on-tape, three-camera studio workflow.",
+  "Si Solamente": "SAG-AFTRA micro-budget short with a 5-day, 8-location production footprint.",
+  "The Stories We Tell Ourselves": "Independent narrative short built around production planning, budget control, and set coordination.",
+  "Pajuyuk Ancestral Knowledge": "Documentary production support requiring care, organization, and cultural sensitivity.",
+  "Bird's Eye View": "Short drama where producing and editing connected the set workflow to the final story.",
+  "The In Between": "Music video assistant directing with fast turnaround, schedule discipline, and set momentum."
 };
 
 const nav = document.getElementById("nav");
@@ -1006,7 +1049,7 @@ function handleYoutubeThumbError(img, fallback, title) {
 function thumbSource(project) {
   const id = cleanId(project.youtubeId);
   if (project.image) return { src: project.image, fallback: "", type: "local" };
-  if (id) return { src: `https://img.youtube.com/vi/${id}/maxresdefault.jpg`, fallback: `https://img.youtube.com/vi/${id}/hqdefault.jpg`, type: "youtube" };
+  if (id) return { src: `https://img.youtube.com/vi/${id}/hqdefault.jpg`, fallback: `https://img.youtube.com/vi/${id}/mqdefault.jpg`, type: "youtube" };
   return { src: "", fallback: "", type: "" };
 }
 
@@ -1160,14 +1203,15 @@ function mediaMarkup(tile) {
   const image = tile.dataset.image;
   const youtubeId = tile.dataset.youtubeId;
   if (image) {
-    return `<img src="${image}" alt="${title}" onerror="this.outerHTML='<div class=&quot;poster-fallback&quot;>${cat}</div>'">`;
+    return `<img src="${image}" alt="${title}" onerror="handleThumbError(this, '${title}')">`;
   }
   if (youtubeId) return `<img src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="${title}">`;
   return `<div class="poster-fallback">${cat}</div>`;
 }
 
 function buildHoverCard(tile) {
-  const title = escapeHtml(tile.dataset.title);
+  const rawTitle = tile.dataset.title || "";
+  const title = escapeHtml(rawTitle);
   const role = escapeHtml(tile.dataset.role);
   const org = escapeHtml(tile.dataset.org);
   const year = escapeHtml(tile.dataset.year);
@@ -1176,6 +1220,8 @@ function buildHoverCard(tile) {
   const youtubeId = tile.dataset.youtubeId;
   const detailsUrl = escapeHtml(tile.dataset.detailsUrl);
   const isWatchable = Boolean(youtubeId);
+  const summary = escapeHtml(hoverSummaries[rawTitle] || `${tile.dataset.role || "Project"}${tile.dataset.org ? ` with ${tile.dataset.org}` : ""}.`);
+  const ctaClass = isWatchable && detailsUrl ? "hover-cta-row" : "hover-cta-row single";
 
   hoverLayer.innerHTML = `
     <div class="hover-media" data-hover-media>
@@ -1185,14 +1231,15 @@ function buildHoverCard(tile) {
       <div class="hover-title">${title}</div>
       <div class="hover-role">${role}</div>
       ${org ? `<div class="hover-org">${org}</div>` : ""}
+      <div class="hover-summary">${summary}</div>
       <div class="hover-tags">
         <span class="hover-tag">${year}</span>
         <span class="hover-tag">${cat}</span>
-        <span class="hover-tag">${isWatchable ? "Playable" : "Project Page"}</span>
+        <span class="hover-tag status">${isWatchable ? "Playable" : "Details"}</span>
       </div>
-      <div class="hover-cta-row">
-        ${isWatchable ? `<button class="btn-primary" type="button" data-play-btn>▶ Play</button>` : ""}
-        ${detailsUrl ? `<a href="${detailsUrl}" class="btn-info">More Info</a>` : ""}
+      <div class="${ctaClass}">
+        ${isWatchable ? `<button class="btn-primary" type="button" data-play-btn aria-label="Play ${title}">▶ Play</button>` : ""}
+        ${detailsUrl ? `<a href="${detailsUrl}" class="btn-info" aria-label="More info about ${title}">More Info</a>` : ""}
       </div>
     </div>
   `;
@@ -1214,8 +1261,8 @@ function buildHoverCard(tile) {
 
 function positionHoverLayer(tile) {
   const rect = tile.getBoundingClientRect();
-  const layerWidth = Math.min(380, window.innerWidth * .88);
-  const approxHeight = layerWidth * 9 / 16 + 160;
+  const layerWidth = Math.min(390, window.innerWidth * .88);
+  const approxHeight = layerWidth * 9 / 16 + 230;
   let left = rect.left - (layerWidth - rect.width) / 2;
   let top = rect.top - 14;
   left = Math.max(12, Math.min(left, window.innerWidth - layerWidth - 12));
@@ -1223,6 +1270,9 @@ function positionHoverLayer(tile) {
   hoverLayer.style.width = `${layerWidth}px`;
   hoverLayer.style.left = `${left}px`;
   hoverLayer.style.top = `${top}px`;
+  const tileCenter = rect.left + rect.width / 2;
+  const originX = Math.max(12, Math.min(88, ((tileCenter - left) / layerWidth) * 100));
+  hoverLayer.style.transformOrigin = `${originX}% 18%`;
 }
 
 function showHover(tile) {
@@ -1231,10 +1281,13 @@ function showHover(tile) {
   clearTimeout(hoverHideTimer);
   hoverShowTimer = setTimeout(() => {
     currentHoverTile = tile;
+    hoverLayer.classList.remove("visible");
     buildHoverCard(tile);
     positionHoverLayer(tile);
-    requestAnimationFrame(() => hoverLayer.classList.add("visible"));
-  }, 170);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => hoverLayer.classList.add("visible"));
+    });
+  }, 210);
 }
 
 function hideHoverSoon() {
@@ -1245,7 +1298,7 @@ function hideHoverSoon() {
     hoverLayer.classList.remove("visible");
     hoverLayer.setAttribute("aria-hidden", "true");
     currentHoverTile = null;
-  }, 110);
+  }, 180);
 }
 
 function hideHoverImmediate() {
