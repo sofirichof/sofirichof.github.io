@@ -338,6 +338,115 @@
       line-height:1.6;
     }
 
+    .gallery-row{
+      display:flex;
+      gap:1rem;
+      overflow-x:auto;
+      padding:.1rem 0 1rem;
+      scrollbar-width:none;
+      -webkit-overflow-scrolling:touch;
+    }
+    .gallery-row::-webkit-scrollbar{display:none;}
+    .gallery-card{
+      flex:0 0 clamp(260px, 32vw, 430px);
+      background:var(--bg2);
+      border:1px solid var(--border);
+      border-radius:10px;
+      overflow:hidden;
+    }
+    .gallery-card img{
+      width:100%;
+      aspect-ratio:16/9;
+      object-fit:cover;
+      display:block;
+      background:#111;
+      transition:transform .22s ease;
+    }
+    .gallery-card:hover img{
+      transform:scale(1.025);
+    }
+    .gallery-caption{
+      padding:.75rem .85rem .95rem;
+      font-size:.78rem;
+      color:rgba(255,255,255,.62);
+      line-height:1.55;
+    }
+    .poster-feature{
+      display:grid;
+      grid-template-columns:minmax(210px, 300px) minmax(0, 1fr);
+      gap:1.2rem;
+      align-items:center;
+      background:var(--bg2);
+      border:1px solid var(--border);
+      border-radius:10px;
+      overflow:hidden;
+    }
+    .poster-feature img{
+      width:100%;
+      height:100%;
+      min-height:360px;
+      object-fit:cover;
+      background:#111;
+    }
+    .poster-copy{
+      padding:1.2rem 1.2rem 1.2rem 0;
+    }
+    .poster-copy p{
+      font-size:.92rem;
+      color:rgba(255,255,255,.7);
+      line-height:1.8;
+      margin-bottom:1rem;
+    }
+    .press-grid{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:1rem;
+    }
+    .press-card{
+      min-height:220px;
+      background:var(--bg2);
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:1rem;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      text-decoration:none;
+      transition:transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .press-card:hover{
+      transform:translateY(-3px);
+      border-color:rgba(255,255,255,.3);
+      background:#202020;
+    }
+    .press-kicker{
+      font-size:.62rem;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--terra);
+      margin-bottom:.65rem;
+    }
+    .press-title{
+      font-family:var(--font);
+      font-size:1.2rem;
+      letter-spacing:.07em;
+      line-height:1.05;
+      color:#fff;
+      margin-bottom:.65rem;
+    }
+    .press-desc{
+      font-size:.82rem;
+      line-height:1.65;
+      color:rgba(255,255,255,.66);
+    }
+    .press-link{
+      margin-top:1rem;
+      font-size:.68rem;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:#fff;
+    }
+
     .cta-strip{
       background:linear-gradient(135deg, rgba(229,9,20,.14), rgba(229,9,20,.04));
       border:1px solid rgba(229,9,20,.2);
@@ -397,6 +506,19 @@
       .media-grid{
         grid-template-columns:1fr;
       }
+      .poster-feature{
+        grid-template-columns:1fr;
+      }
+      .press-grid{
+        grid-template-columns:repeat(2, minmax(0,1fr));
+      }
+      .poster-copy{
+        padding:0 1rem 1.1rem;
+      }
+      .poster-feature img{
+        min-height:auto;
+        aspect-ratio:4/5;
+      }
     }
 
     @media(max-width:768px){
@@ -407,6 +529,7 @@
       .hero-sub{font-size:.95rem;}
       .section-title{font-size:1.2rem;}
       .info-grid{grid-template-columns:1fr;}
+      .press-grid{grid-template-columns:1fr;}
     }
   </style>
 </head>
@@ -418,7 +541,7 @@
     <ul class="nav-links">
       <li><a href="../recruiter.html">Recruiter</a></li>
       <li><a href="#overview">Overview</a></li>
-      <li><a href="#media">Media</a></li>
+      <li><a href="#gallery">Gallery</a></li>
     </ul>
   </div>
   <div class="nav-right">
@@ -428,7 +551,7 @@
 
 <section class="hero">
   <div class="hero-media">
-    <img src="../assets/thumbs/si-solamente.png" alt="Si Solamente"/>
+    <img src="../assets/si-solamente/stills/SiSo_Still1.jpg" alt="Si Solamente"/>
   </div>
   <div class="hero-overlay"></div>
 
@@ -448,7 +571,8 @@
       </div>
 
       <div class="hero-actions">
-        <a class="btn-secondary" href="#overview">Project Details</a>
+        <a class="btn-primary" href="https://drive.google.com/open?id=1XvapC4U7usz4ZL9ZUGKaO3HMvFw_t5Nj" target="_blank" rel="noopener noreferrer">▶ Watch Trailer</a>
+        <a class="btn-secondary" href="#gallery">Press Kit Media</a>
       </div>
     </div>
 
@@ -465,11 +589,11 @@
         </div>
         <div class="hero-card-item">
           <div class="hero-card-label">Format</div>
-          <div class="hero-card-value">Narrative short film</div>
+          <div class="hero-card-value">SAG-AFTRA Micro-Budget narrative short</div>
         </div>
         <div class="hero-card-item">
           <div class="hero-card-label">Focus</div>
-          <div class="hero-card-value">Scripted producing, coordination, creative logistics</div>
+          <div class="hero-card-value">Budgeting, compliance, cast/crew logistics, creative coordination</div>
         </div>
       </div>
     </aside>
@@ -491,19 +615,19 @@
         <div class="bullet-list">
           <div class="bullet">
             <span class="bullet-dot"></span>
-            <span>Coordinated production logistics across the different stages of the project.</span>
+            <span>Developed and managed an $8K production budget while keeping departments aligned within micro-budget constraints.</span>
           </div>
           <div class="bullet">
             <span class="bullet-dot"></span>
-            <span>Supported planning and communication to keep the team aligned and the shoot moving efficiently.</span>
+            <span>Produced a 5-day shoot across 8 locations in compliance with SAG-AFTRA Micro-Budget and child labor requirements.</span>
           </div>
           <div class="bullet">
             <span class="bullet-dot"></span>
-            <span>Balanced creative goals with practical execution, making sure the production stayed organized.</span>
+            <span>Managed logistics for a 10-person cast, including out-of-state talent, and coordinated a 30-person crew.</span>
           </div>
           <div class="bullet">
             <span class="bullet-dot"></span>
-            <span>Contributed to the overall structure, pacing, and follow-through required in a narrative set environment.</span>
+            <span>Balanced creative goals with practical execution so the production stayed organized and shoot days stayed workable.</span>
           </div>
         </div>
       </div>
@@ -521,11 +645,19 @@
           </div>
           <div class="info-card">
             <div class="info-card-label">Context</div>
-            <div class="info-card-value">Boston University film production</div>
+            <div class="info-card-value">SAG-AFTRA Micro-Budget short film</div>
           </div>
           <div class="info-card">
             <div class="info-card-label">Primary Strengths</div>
-            <div class="info-card-value">Producing, coordination, scripted workflow</div>
+            <div class="info-card-value">Budgeting, logistics, compliance, scripted workflow</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">Production Scale</div>
+            <div class="info-card-value">$8K budget · 5 shoot days · 8 locations</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">Team</div>
+            <div class="info-card-value">10-person cast · 30-person crew</div>
           </div>
         </div>
       </div>
@@ -539,21 +671,85 @@
     </p>
   </section>
 
-  <section class="section" id="media">
-    <div class="section-title">Selected Media</div>
-    <div class="media-grid">
-      <div class="media-card">
-        <img src="../assets/thumbs/si-solamente.png" alt="Si Solamente still 1"/>
-        <div class="media-caption">
-          Primary project thumbnail used in the recruiter portfolio experience.
+  <section class="section">
+    <div class="section-title">Press & Recognition</div>
+    <div class="press-grid">
+      <a class="press-card" href="https://www.bu.edu/articles/2026/redstone-film-festival/" target="_blank" rel="noopener noreferrer">
+        <div>
+          <div class="press-kicker">BU Today · April 2026</div>
+          <div class="press-title">Redstone Film Festival First Place</div>
+          <div class="press-desc">Boston University coverage of <em>Si Solamente</em> winning first place at COM's Redstone Film Festival, with Sofia named as producer.</div>
+        </div>
+        <div class="press-link">Read Article ↗</div>
+      </a>
+
+      <a class="press-card" href="https://www.imdb.com/title/tt41548591/" target="_blank" rel="noopener noreferrer">
+        <div>
+          <div class="press-kicker">IMDb</div>
+          <div class="press-title">Official Film Listing</div>
+          <div class="press-desc">IMDb listing for the 2026 short drama, crediting Kerlin Campos as writer/director and Sofía González Irigoyen as producer.</div>
+        </div>
+        <div class="press-link">View IMDb ↗</div>
+      </a>
+
+      <a class="press-card" href="https://www.instagram.com/reels/DXPeMQ-jFLU/" target="_blank" rel="noopener noreferrer">
+        <div>
+          <div class="press-kicker">Instagram Reel</div>
+          <div class="press-title">Festival / Press Moment</div>
+          <div class="press-desc">Social video connected to the film's public life, useful for showing the project beyond the page.</div>
+        </div>
+        <div class="press-link">Watch Reel ↗</div>
+      </a>
+
+      <a class="press-card" href="https://letterboxd.com/sofirichof/film/si-solamente/" target="_blank" rel="noopener noreferrer">
+        <div>
+          <div class="press-kicker">Letterboxd</div>
+          <div class="press-title">Film Log Page</div>
+          <div class="press-desc">Letterboxd entry for <em>Si Solamente</em>, giving film-minded visitors another familiar place to find the project.</div>
+        </div>
+        <div class="press-link">Open Letterboxd ↗</div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section" id="gallery">
+    <div class="section-title">Trailer & Press Kit</div>
+    <div class="poster-feature">
+      <img src="../assets/si-solamente/poster/si-solamente-poster.jpg" alt="Si Solamente poster"/>
+      <div class="poster-copy">
+        <div class="section-title">Si Solamente Press Materials</div>
+        <p>
+          The press kit includes the official poster, film stills, and behind-the-scenes photography. Together, the materials show both the finished visual world of the film and the scale of the production behind it.
+        </p>
+        <div class="hero-actions">
+          <a class="btn-primary" href="https://drive.google.com/open?id=1XvapC4U7usz4ZL9ZUGKaO3HMvFw_t5Nj" target="_blank" rel="noopener noreferrer">▶ Watch Trailer</a>
         </div>
       </div>
-      <div class="media-card">
-        <img src="../assets/thumbs/si-solamente.png" alt="Si Solamente still 2"/>
-        <div class="media-caption">
-          Replace this duplicate with a second still, poster, or behind-the-scenes frame when available.
-        </div>
-      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title">Film Stills</div>
+    <div class="gallery-row">
+      <div class="gallery-card"><img src="../assets/si-solamente/stills/SiSo_Still1.jpg" alt="Si Solamente still 1"/><div class="gallery-caption">Kitchen-table scene still.</div></div>
+      <div class="gallery-card"><img src="../assets/si-solamente/stills/SiSo_Still11.jpg" alt="Si Solamente still 11"/><div class="gallery-caption">Close-up character still.</div></div>
+      <div class="gallery-card"><img src="../assets/si-solamente/stills/SiSo_Still4.jpg" alt="Si Solamente still 4"/><div class="gallery-caption">Interior scene still.</div></div>
+      <div class="gallery-card"><img src="../assets/si-solamente/stills/SiSo_Still5.jpg" alt="Si Solamente still 5"/><div class="gallery-caption">Exterior field scene still.</div></div>
+      <div class="gallery-card"><img src="../assets/si-solamente/stills/SiSo_Still8.jpg" alt="Si Solamente still 8"/><div class="gallery-caption">Dining-room scene still.</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title">Behind the Scenes</div>
+    <div class="gallery-row">
+      <div class="gallery-card"><img src="../assets/si-solamente/bts/dsc03331.jpg" alt="Si Solamente behind the scenes exterior setup"/><div class="gallery-caption">Exterior setup and crew staging.</div></div>
+      <div class="gallery-card"><img src="../assets/si-solamente/bts/dsc03370.jpg" alt="Si Solamente behind the scenes bedroom setup"/><div class="gallery-caption">Interior lighting and production setup.</div></div>
+      <div class="gallery-card"><img src="../assets/si-solamente/bts/dsc03514.jpg" alt="Si Solamente camera behind the scenes"/><div class="gallery-caption">Camera-side view during production.</div></div>
+      <div class="gallery-card"><img src="../assets/si-solamente/bts/img_0037.jpg" alt="Si Solamente field behind the scenes"/><div class="gallery-caption">Field location setup.</div></div>
+      <div class="gallery-card"><img src="../assets/si-solamente/bts/img_0972.jpg" alt="Si Solamente crew exterior"/><div class="gallery-caption">Exterior crew coordination.</div></div>
+      <div class="gallery-card"><img src="../assets/si-solamente/bts/si-solamente-bts-87.jpg" alt="Si Solamente crew moment"/><div class="gallery-caption">On-set collaboration.</div></div>
+      <div class="gallery-card"><img src="../assets/si-solamente/bts/si-solamente-bts-92-1.jpg" alt="Si Solamente group photo"/><div class="gallery-caption">Cast and crew group photo.</div></div>
+      <div class="gallery-card"><img src="../assets/si-solamente/bts/fqs-2025-10-26-151721-275.jpg" alt="Si Solamente prop detail"/><div class="gallery-caption">Prop and art department detail.</div></div>
     </div>
   </section>
 
