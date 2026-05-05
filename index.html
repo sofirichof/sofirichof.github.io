@@ -468,6 +468,7 @@
     flex-wrap:wrap;
     gap:.3rem;
     margin-top:.3rem;
+    margin-bottom:.9rem;
   }
 
   .hover-tag{
@@ -477,6 +478,18 @@
     color:rgba(255,255,255,.76);
     border-radius:2px;
     letter-spacing:.04em;
+  }
+
+  .hover-cta-row{
+    display:flex;
+    gap:.6rem;
+    flex-wrap:wrap;
+  }
+
+  .hover-cta-row .btn-primary,
+  .hover-cta-row .btn-info{
+    padding:.65rem 1rem;
+    font-size:.8rem;
   }
 
   /* ABOUT */
@@ -693,7 +706,7 @@
 </nav>
 
 <div id="billboard">
-  <video id="bill-video" src="YOUR-HERO-VIDEO.mp4" autoplay muted loop playsinline></video>
+  <video id="bill-video" src="YOUR-HERO-VIDEO.mp4" autoplay muted loop playsinline preload="auto"></video>
   <div class="bill-overlay"></div>
   <div class="bill-content">
     <div class="bill-badge">Production & Media · BU '26</div>
@@ -771,12 +784,12 @@
 
 <script>
 const broadcast = [
-  { cat:'Broadcast', title:'Acceso Total — Hollywood Premiere', role:'Interviewer', org:'Telemundo 52 / NBCUniversal', year:'2026', youtubeId:'b4WxJcoeT0c', image:'assets/thumbs/acesso-total-hollywood-premiere.png', preview:'assets/previews/hollywood-premiere.mp4', rows:['featured'] },
-  { cat:'Broadcast', title:'Acceso Total — Independence Days', role:'Segment Producer', org:'Telemundo 52 / NBCUniversal', year:'2025', youtubeId:'kVxZsvJysHA', image:'assets/thumbs/acesso-total-independence-days.png', preview:'assets/previews/independence-days.mp4', rows:['featured'] },
-  { cat:'Broadcast · NATAS Award', title:'Live With TY — S1 Ep.11', role:'Chief Editor', org:'BUTV', year:'2024', youtubeId:'g2gvMf2UDbQ', image:'', preview:'assets/previews/live-with-ty.mp4', rows:['featured','live'] },
-  { cat:'Broadcast · Santiago, Chile', title:'Zona de Estrellas', role:'Production Assistant', org:'Zona Latina · TVI America', year:'2024', youtubeId:'rz87SYmnLt4', image:'', preview:'assets/previews/zona-estrellas.mp4', rows:['live'] },
-  { cat:'Broadcast · Santiago, Chile', title:'Sabores', role:'Production Assistant', org:'Zona Latina · TVI America', year:'2024', youtubeId:'', image:'assets/thumbs/sabores.png', preview:'assets/previews/sabores.mp4', rows:['live'] },
-  { cat:'TV Drama', title:'Baystate — Season 48–50', role:'Producer', org:'BUTV · Boston University', year:'2024–2026', youtubeId:'pLEuklMB0Xc', image:'', preview:'assets/previews/baystate.mp4', rows:['featured','tv'] },
+  { cat:'Broadcast', title:'Acceso Total — Hollywood Premiere', role:'Interviewer', org:'Telemundo 52 / NBCUniversal', year:'2026', youtubeId:'b4WxJcoeT0c', image:'assets/thumbs/acesso-total-hollywood-premiere.png', preview:'assets/previews/hollywood-premiere.mp4', detailsUrl:'projects/acesso-total-hollywood-premiere.html', rows:['featured','live'] },
+  { cat:'Broadcast', title:'Acceso Total — Independence Days', role:'Segment Producer', org:'Telemundo 52 / NBCUniversal', year:'2025', youtubeId:'kVxZsvJysHA', image:'assets/thumbs/acesso-total-independence-days.png', preview:'assets/previews/independence-days.mp4', detailsUrl:'projects/acesso-total-independence-days.html', rows:['live'] },
+  { cat:'Broadcast · NATAS Award', title:'Live With TY — S1 Ep.11', role:'Chief Editor', org:'BUTV', year:'2024', youtubeId:'g2gvMf2UDbQ', image:'', preview:'assets/previews/live-with-ty.mp4', detailsUrl:'projects/live-with-ty-s1-ep11.html', rows:['featured','live'] },
+  { cat:'Broadcast · Santiago, Chile', title:'Zona de Estrellas', role:'Production Assistant', org:'Zona Latina · TVI America', year:'2024', youtubeId:'rz87SYmnLt4', image:'', preview:'assets/previews/zona-estrellas.mp4', detailsUrl:'projects/zona-de-estrellas.html', rows:['live'] },
+  { cat:'Broadcast · Santiago, Chile', title:'Sabores', role:'Production Assistant', org:'Zona Latina · TVI America', year:'2024', youtubeId:'', image:'assets/thumbs/sabores.png', preview:'assets/previews/sabores.mp4', detailsUrl:'projects/sabores.html', rows:['live'] },
+  { cat:'TV Drama', title:'Baystate — Season 48–50', role:'Producer', org:'BUTV · Boston University', year:'2024–2026', youtubeId:'pLEuklMB0Xc', image:'', preview:'assets/previews/baystate.mp4', detailsUrl:'projects/baystate-season-48-50.html', rows:['featured','tv'] },
 ];
 
 const film = [
@@ -789,6 +802,7 @@ const film = [
     youtubeId:'',
     image:'assets/thumbs/si-solamente.png',
     preview:'assets/previews/si-solamente.mp4',
+    detailsUrl:'projects/si-solamente.html',
     rows:['featured']
   },
   {
@@ -800,6 +814,7 @@ const film = [
     youtubeId:'Vp9FBdygTKM',
     image:'',
     preview:'assets/previews/stories-we-tell.mp4',
+    detailsUrl:'projects/the-stories-we-tell-ourselves.html',
     rows:['featured','shorts']
   },
   {
@@ -811,6 +826,7 @@ const film = [
     youtubeId:'',
     image:'assets/thumbs/pajuyuk.png',
     preview:'assets/previews/pajuyuk.mp4',
+    detailsUrl:'projects/pajuyuk-ancestral-knowledge.html',
     rows:['featured','doc']
   },
   {
@@ -822,6 +838,7 @@ const film = [
     youtubeId:'ETdIUMwOOd0',
     image:'',
     preview:'assets/previews/birds-eye-view.mp4',
+    detailsUrl:'projects/birds-eye-view.html',
     rows:['shorts']
   },
   {
@@ -833,6 +850,7 @@ const film = [
     youtubeId:'7aJZ3AvY3IU',
     image:'',
     preview:'assets/previews/the-in-between.mp4',
+    detailsUrl:'projects/the-in-between.html',
     rows:['doc']
   },
 ];
@@ -935,6 +953,7 @@ function makeTile(p, reelType, rowKey, index) {
       data-cat="${escapeHtml(p.cat)}"
       data-preview="${escapeHtml(p.preview || '')}"
       data-image="${escapeHtml(p.image || '')}"
+      data-details-url="${escapeHtml(p.detailsUrl || '')}"
     >
       ${tileThumbMarkup(p)}
     </article>
@@ -1058,6 +1077,7 @@ function buildHoverCard(tile) {
   const preview = tile.dataset.preview;
   const image = tile.dataset.image;
   const youtubeId = tile.dataset.youtubeId;
+  const detailsUrl = tile.dataset.detailsUrl;
   const isWatchable = Boolean(youtubeId);
 
   let mediaMarkup = '';
@@ -1088,10 +1108,16 @@ function buildHoverCard(tile) {
         <span class="hover-tag">${cat}</span>
         ${isWatchable ? `<span class="hover-tag">Watch ↗</span>` : `<span class="hover-tag">Preview Only</span>`}
       </div>
+
+      <div class="hover-cta-row">
+        ${isWatchable ? `<button class="btn-primary" type="button" data-play-btn>▶ Play</button>` : ''}
+        ${detailsUrl ? `<a href="${detailsUrl}" class="btn-info" data-details-link>More Info</a>` : ''}
+      </div>
     </div>
   `;
 
   hoverLayer.dataset.youtubeId = youtubeId || '';
+  hoverLayer.dataset.detailsUrl = detailsUrl || '';
 
   clearTimeout(hoverPreviewTimer);
 
@@ -1116,7 +1142,7 @@ function buildHoverCard(tile) {
 function positionHoverLayer(tile) {
   const rect = tile.getBoundingClientRect();
   const layerWidth = Math.min(360, window.innerWidth * 0.84);
-  const approxHeight = layerWidth * 9 / 16 + 118;
+  const approxHeight = layerWidth * 9 / 16 + 150;
 
   let left = rect.left - (layerWidth - rect.width) / 2;
   let top = rect.top - 12;
@@ -1188,12 +1214,14 @@ hoverLayer.addEventListener('mouseleave', hideHoverSoon);
 
 hoverLayer.addEventListener('click', e => {
   const youtubeId = hoverLayer.dataset.youtubeId;
+  const detailsLink = e.target.closest('[data-details-link]');
+
+  if (detailsLink) return;
   if (!youtubeId) return;
 
   if (
     e.target.closest('[data-play-btn]') ||
     e.target.closest('.hover-media') ||
-    e.target.closest('.hover-body') ||
     e.target.closest('.hover-layer')
   ) {
     openVideo(youtubeId);
@@ -1248,6 +1276,8 @@ document.addEventListener('click', e => {
 renderLolomo('broadcast');
 
 window.addEventListener('load', () => {
+  const heroVideo = document.getElementById('bill-video');
+  heroVideo.play().catch(() => {});
   setTimeout(() => document.getElementById('loading').classList.add('done'), 800);
 });
 </script>
