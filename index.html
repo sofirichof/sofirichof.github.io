@@ -3,98 +3,173 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="description" content="Portfolio of Sofia González Irigoyen, a bilingual student producer focused on broadcast, film, and live television."/>
-<title>Sofia González Irigoyen | Producer Portfolio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+<title>Sofia González Irigoyen</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --bg: #141414;
-    --bg2: #181818;
-    --bg3: #232323;
-    --panel: #1f1f1f;
-    --border: rgba(255,255,255,.12);
-    --text: #fff;
-    --soft: rgba(255,255,255,.78);
-    --muted: rgba(255,255,255,.54);
-    --red: #e50914;
-    --red-dark: #b20710;
-    --green: #46d369;
-    --font: "Bebas Neue", Impact, sans-serif;
-    --sans: "DM Sans", "Helvetica Neue", Arial, sans-serif;
-    --ease: cubic-bezier(.2,.75,.25,1);
+    --bg:#0a0a0a; --bg2:#111; --bg3:#1a1a1a; --border:#2a2a2a;
+    --text:#fff; --muted:#999; --terra:#E50914; --terra-dark:#B20710;
+    --font:'Bebas Neue',sans-serif; --sans:'DM Sans','Helvetica Neue',Arial,sans-serif;
   }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:var(--sans); min-height:100vh; overflow-x:hidden; }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; background: var(--bg); }
-  body {
-    min-height: 100vh;
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    overflow-x: hidden;
+  #tap-screen {
+    position:fixed; inset:0; z-index:200;
+    background:
+      radial-gradient(circle at 50% 46%, rgba(229,9,20,.18), transparent 26%),
+      linear-gradient(180deg,#050505 0%,#000 100%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    cursor:pointer; transition:opacity .5s;
   }
-  body.modal-open { overflow: hidden; }
-  img, video { max-width: 100%; }
-  button, a { -webkit-tap-highlight-color: transparent; }
-  button { font: inherit; }
-  a { color: inherit; }
-  :focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 3px;
+  #tap-screen.fade-out { opacity:0; pointer-events:none; }
+  .tap-prompt { display:flex; flex-direction:column; align-items:center; gap:1.5rem; animation:pulse 2s ease-in-out infinite; }
+  .tap-logo {
+    font-family:var(--font);
+    font-size:clamp(2.5rem,7vw,4.6rem);
+    letter-spacing:.08em;
+    color:#fff;
+    text-shadow:0 0 24px rgba(229,9,20,.45);
   }
+  .tap-ring {
+    width:72px;
+    height:72px;
+    border-radius:50%;
+    border:2px solid rgba(255,255,255,.78);
+    background:var(--terra);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:1.55rem;
+    box-shadow:0 0 34px rgba(229,9,20,.45);
+  }
+  .tap-hint { font-size:.78rem; letter-spacing:.25em; text-transform:uppercase; color:rgba(255,255,255,.78); }
+  @keyframes pulse { 0%,100%{opacity:.9;transform:scale(1);} 50%{opacity:1;transform:scale(1.04);} }
 
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0,0,0,0);
-    border: 0;
+  #intro-screen {
+    position:fixed; inset:0; z-index:100;
+    background:#000;
+    display:none; align-items:center; justify-content:center;
   }
+  #intro-screen.active { display:flex; }
+  #intro-video { width:100%; height:100%; object-fit:contain; display:block; }
+  #intro-fade { position:absolute; inset:0; background:#000; opacity:0; pointer-events:none; transition:opacity .8s ease; }
 
-  #loading {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: #000;
-    display: grid;
-    place-items: center;
-    transition: opacity .55s ease, visibility .55s ease;
-    animation: loadingFailsafe .45s ease 1.2s forwards;
+  #profile-screen {
+    min-height:100vh;
+    display:none; flex-direction:column; align-items:center; justify-content:center;
+    padding:2rem;
+    background:linear-gradient(160deg,#0a0a0a 0%,#1a0000 100%);
+    opacity:0; transition:opacity .6s;
   }
-  #loading.done {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
+  #profile-screen.active { display:flex; }
+  #profile-screen.visible { opacity:1; }
+
+  .ps-heading { font-family:var(--font); font-size:clamp(2rem,4vw,3rem); letter-spacing:.1em; color:var(--text); margin-bottom:.5rem; text-align:center; }
+  .ps-sub { font-size:.82rem; color:var(--muted); margin-bottom:3.5rem; text-align:center; letter-spacing:.08em; }
+
+  .profiles { display:flex; gap:2.5rem; flex-wrap:wrap; justify-content:center; max-width:780px; }
+  .profile-card { display:flex; flex-direction:column; align-items:center; gap:.9rem; cursor:pointer; transition:transform .2s; text-decoration:none; }
+  .profile-card:hover { transform:scale(1.08); }
+  .profile-card:hover .profile-avatar { outline:3px solid #fff; }
+  .profile-card:hover .profile-name { color:#fff; }
+
+  .profile-avatar { width:120px; height:120px; border-radius:6px; overflow:hidden; outline:3px solid transparent; transition:outline .2s; background:var(--bg2); }
+  .profile-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
+
+  .profile-avatar .fallback { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:3rem; }
+
+  .profile-name { font-family:var(--font); font-size:1rem; letter-spacing:.15em; color:var(--muted); text-transform:uppercase; transition:color .2s; }
+</style>
+</head>
+<body>
+
+<div id="tap-screen" onclick="startIntro()">
+  <div class="tap-prompt">
+    <div class="tap-logo">Sofia's Portfolio</div>
+    <div class="tap-ring">▶</div>
+    <div class="tap-hint">Tap anywhere to start</div>
+  </div>
+</div>
+
+<div id="intro-screen">
+  <!-- ⚠️ MAKE SURE YOU REPLACE THIS WITH YOUR REAL VIDEO FILE -->
+  <video id="intro-video" src="intro.mp4" muted playsinline></video>
+  <div id="intro-fade"></div>
+</div>
+
+<div id="profile-screen">
+  <h2 class="ps-heading">WHO'S WATCHING?</h2>
+  <p class="ps-sub">Select a profile to continue</p>
+  <div class="profiles">
+
+    <a href="recruiter.html" class="profile-card">
+      <div class="profile-avatar">
+        <img src="YOUR-IMAGE-1.png" alt="Recruiter" onerror="this.style.display='none'"/>
+        <div class="fallback">🎬</div>
+      </div>
+      <span class="profile-name">Recruiter</span>
+    </a>
+
+    <a href="director.html" class="profile-card">
+      <div class="profile-avatar">
+        <img src="YOUR-IMAGE-2.png" alt="Director" onerror="this.style.display='none'"/>
+        <div class="fallback">🎥</div>
+      </div>
+      <span class="profile-name">Director</span>
+    </a>
+
+    <a href="agency.html" class="profile-card">
+      <div class="profile-avatar">
+        <img src="YOUR-IMAGE-3.png" alt="Agency" onerror="this.style.display='none'"/>
+        <div class="fallback">📋</div>
+      </div>
+      <span class="profile-name">Agency</span>
+    </a>
+
+    <a href="stalker.html" class="profile-card">
+      <div class="profile-avatar">
+        <img src="YOUR-IMAGE-5.png" alt="Stalker" onerror="this.style.display='none'"/>
+        <div class="fallback">👀</div>
+      </div>
+      <span class="profile-name">Stalker</span>
+    </a>
+
+  </div>
+</div>
+
+<script>
+  const INTRO_DURATION = 5200;
+
+  function startIntro() {
+    const tap = document.getElementById('tap-screen');
+    tap.classList.add('fade-out');
+    setTimeout(() => tap.style.display = 'none', 500);
+
+    const intro = document.getElementById('intro-screen');
+    const video = document.getElementById('intro-video');
+
+    intro.classList.add('active');
+
+    // ✅ SIMPLE + RELIABLE SOUND
+    video.play().then(() => {
+      const audio = new Audio("TaDum.mp3");
+      audio.volume = 0.8;
+      audio.play().catch(() => {});
+    }).catch(() => {});
+
+    setTimeout(() => {
+      document.getElementById('intro-fade').style.opacity = '1';
+    }, INTRO_DURATION - 800);
+
+    setTimeout(() => {
+      intro.style.display = 'none';
+      const ps = document.getElementById('profile-screen');
+      ps.classList.add('active');
+      setTimeout(() => ps.classList.add('visible'), 50);
+    }, INTRO_DURATION + 100);
   }
-  .spinner-wrap {
-    position: relative;
-    width: 7rem;
-    height: 7rem;
-  }
-  .spinner-ring {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 3px solid rgba(255,255,255,.14);
-    border-top-color: var(--red);
-    animation: spin 1s linear infinite;
-  }
-  .spinner-avatar {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 4.5rem;
-    height: 4.5rem;
-    transform: translate(-50%, -50%);
-    border-radius: 5px;
-    object-fit: cover;
-    background: #222;
-    box-shadow: 0 16px 36px rgba(229,9,20,.25);
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes loadingFailsafe {
+</script>
+</body>
+</html>
