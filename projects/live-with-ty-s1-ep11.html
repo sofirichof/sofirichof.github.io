@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Live With TY - S1 Ep.11 | Sofia González Irigoyen</title>
+  <title>Live With TY | Sofia González Irigoyen</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
   <style>
     :root{
@@ -399,6 +399,73 @@
       }
     }
 
+    .ep-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+      gap:1rem;
+    }
+    .ep-card{
+      background:var(--bg2);
+      border:1px solid var(--border);
+      border-radius:10px;
+      overflow:hidden;
+      text-decoration:none;
+      display:block;
+      transition:transform .18s ease,border-color .18s ease;
+    }
+    .ep-card:hover{
+      transform:translateY(-3px);
+      border-color:rgba(255,255,255,.3);
+    }
+    .ep-thumb{
+      position:relative;
+      aspect-ratio:16/9;
+      background:#111;
+      overflow:hidden;
+    }
+    .ep-thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      transition:transform .22s ease;
+    }
+    .ep-card:hover .ep-thumb img{transform:scale(1.03);}
+    .ep-play{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      background:rgba(0,0,0,.28);
+      opacity:0;
+      transition:opacity .18s ease;
+    }
+    .ep-card:hover .ep-play{opacity:1;}
+    .ep-play-icon{
+      width:46px;
+      height:46px;
+      border-radius:50%;
+      background:rgba(229,9,20,.92);
+      display:grid;
+      place-items:center;
+      font-size:1.1rem;
+      color:#fff;
+    }
+    .ep-info{padding:.8rem .9rem 1rem;}
+    .ep-label{
+      font-size:.62rem;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--terra);
+      margin-bottom:.25rem;
+    }
+    .ep-title{
+      font-size:.88rem;
+      font-weight:700;
+      color:#fff;
+      line-height:1.35;
+    }
+
     @media(max-width:768px){
       nav{padding:1rem 4%;}
       .nav-links{display:none;}
@@ -407,6 +474,7 @@
       .hero-sub{font-size:.95rem;}
       .section-title{font-size:1.2rem;}
       .info-grid{grid-template-columns:1fr;}
+      .ep-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
     }
   </style>
 </head>
@@ -416,26 +484,26 @@
   <div class="nav-left">
     <a href="../index.html" class="nav-logo">Sofia's Portfolio</a>
     <ul class="nav-links">
-      <li><a href="../recruiter.html">Recruiter</a></li>
+      <li><a href="../recruiter.html">Production</a></li>
       <li><a href="#overview">Overview</a></li>
       <li><a href="#media">Media</a></li>
     </ul>
   </div>
   <div class="nav-right">
-    <a href="../recruiter.html">← Back to Recruiter</a>
+    <a href="../recruiter.html">← Back to Production</a>
   </div>
 </nav>
 
 <section class="hero">
   <div class="hero-media">
-    <img src="https://img.youtube.com/vi/g2gvMf2UDbQ/maxresdefault.jpg" alt="Live With TY - S1 Ep.11"/>
+    <img src="https://img.youtube.com/vi/g3BBye2EAew/maxresdefault.jpg" alt="Live With TY Intro"/>
   </div>
   <div class="hero-overlay"></div>
 
   <div class="hero-inner">
     <div>
       <div class="eyebrow">Broadcast · NATAS Award</div>
-      <h1 class="hero-title">LIVE WITH TY<br>S1 EP.11</h1>
+      <h1 class="hero-title">LIVE WITH TY</h1>
       <p class="hero-sub">
         Award-recognized BUTV episode where I served as Chief Editor. The project reflects my ability to bring structure, rhythm, and polish to a live television format.
       </p>
@@ -448,7 +516,8 @@
       </div>
 
       <div class="hero-actions">
-        <a class="btn-primary" href="https://youtu.be/g2gvMf2UDbQ" target="_blank" rel="noopener noreferrer">▶ Watch</a>
+        <a class="btn-primary" href="https://youtu.be/g2gvMf2UDbQ" target="_blank" rel="noopener noreferrer">▶ Watch Ep. 11</a>
+        <a class="btn-secondary" href="#intro">Watch Intro</a>
         <a class="btn-secondary" href="#overview">Project Details</a>
       </div>
     </div>
@@ -466,11 +535,11 @@
         </div>
         <div class="hero-card-item">
           <div class="hero-card-label">Format</div>
-          <div class="hero-card-value">Student-produced live television episode</div>
+          <div class="hero-card-value">Student-produced live television · Season 1</div>
         </div>
         <div class="hero-card-item">
-          <div class="hero-card-label">Focus</div>
-          <div class="hero-card-value">Editing, live TV rhythm, post-production polish</div>
+          <div class="hero-card-label">Output</div>
+          <div class="hero-card-value">10 deliverables/week · ESPN, YouTube & social</div>
         </div>
       </div>
     </aside>
@@ -478,6 +547,23 @@
 </section>
 
 <main class="page">
+  <section class="section" id="intro">
+    <div class="section-title">Show Intro</div>
+    <p class="section-text" style="margin-bottom:1.2rem;">
+      Motion graphics intro created in After Effects — designed, built, and delivered as part of the show's full visual package.
+    </p>
+    <a class="ep-card" href="https://www.youtube.com/watch?v=g3BBye2EAew" target="_blank" rel="noopener noreferrer" style="max-width:480px;display:block;">
+      <div class="ep-thumb">
+        <img src="https://img.youtube.com/vi/g3BBye2EAew/hqdefault.jpg" alt="Live With TY Show Intro"/>
+        <div class="ep-play"><div class="ep-play-icon">▶</div></div>
+      </div>
+      <div class="ep-info">
+        <div class="ep-label">After Effects · Motion Graphics</div>
+        <div class="ep-title">Live With TY — Season 1 Intro</div>
+      </div>
+    </a>
+  </section>
+
   <section class="section" id="overview">
     <div class="section-title">Project Overview</div>
     <p class="section-text">
@@ -490,22 +576,25 @@
       <div>
         <div class="section-title">What I Did</div>
         <div class="bullet-list">
-          
           <div class="bullet">
             <span class="bullet-dot"></span>
-            <span>Served as Chief Editor for an episode of a live student television program.</span>
+            <span>Delivered 10 video packages per week, formatted for ESPN, YouTube, and social media across the full season.</span>
           </div>
           <div class="bullet">
             <span class="bullet-dot"></span>
-            <span>Built pacing and continuity around the rhythm of a live broadcast format.</span>
+            <span>Led a team of 4 editors, coordinating workflow and maintaining consistency across all weekly deliverables.</span>
           </div>
           <div class="bullet">
             <span class="bullet-dot"></span>
-            <span>Supported a polished final episode through editing decisions and post-production organization.</span>
+            <span>Designed and built the show's graphics package and intro sequence from scratch.</span>
           </div>
           <div class="bullet">
             <span class="bullet-dot"></span>
-            <span>Contributed to work connected to a NATAS-recognized university sports program.</span>
+            <span>Collaborated with producers on publishing strategy and episode pacing across multiple platforms.</span>
+          </div>
+          <div class="bullet">
+            <span class="bullet-dot"></span>
+            <span>Won a NATAS University Sports Program Award for S1 Ep. 11 — the episode that defined the season's editorial voice.</span>
           </div>
         </div>
       </div>
@@ -561,15 +650,102 @@
     </div>
   </section>
 
+  <section class="section" id="episodes">
+    <div class="section-title">Hot Takes with Ty — Short Form Segments</div>
+    <p class="section-text" style="margin-bottom:1.4rem;">
+      Weekly short-form sports commentary segments edited and formatted for YouTube and social media as part of the 10-deliverable-per-week workflow.
+    </p>
+    <div class="ep-grid">
+
+      <a class="ep-card" href="https://www.youtube.com/watch?v=10mLMn19waU" target="_blank" rel="noopener noreferrer">
+        <div class="ep-thumb">
+          <img src="https://img.youtube.com/vi/10mLMn19waU/hqdefault.jpg" alt="Hot Takes with Ty — Payton Anderson"/>
+          <div class="ep-play"><div class="ep-play-icon">▶</div></div>
+        </div>
+        <div class="ep-info">
+          <div class="ep-label">S1 Ep. 6 · Editor</div>
+          <div class="ep-title">Payton Anderson</div>
+        </div>
+      </a>
+
+      <a class="ep-card" href="https://www.youtube.com/watch?v=vXE976HrBQw" target="_blank" rel="noopener noreferrer">
+        <div class="ep-thumb">
+          <img src="https://img.youtube.com/vi/vXE976HrBQw/hqdefault.jpg" alt="Hot Takes with Ty — Devin Kaplan"/>
+          <div class="ep-play"><div class="ep-play-icon">▶</div></div>
+        </div>
+        <div class="ep-info">
+          <div class="ep-label">S1 Ep. 7 · Editor</div>
+          <div class="ep-title">Devin Kaplan</div>
+        </div>
+      </a>
+
+      <a class="ep-card" href="https://www.youtube.com/watch?v=zPyAT6gTHs4" target="_blank" rel="noopener noreferrer">
+        <div class="ep-thumb">
+          <img src="https://img.youtube.com/vi/zPyAT6gTHs4/hqdefault.jpg" alt="Hot Takes with Ty — Leon Christian"/>
+          <div class="ep-play"><div class="ep-play-icon">▶</div></div>
+        </div>
+        <div class="ep-info">
+          <div class="ep-label">S1 Ep. 8 · Editor</div>
+          <div class="ep-title">Leon Christian</div>
+        </div>
+      </a>
+
+      <a class="ep-card" href="https://www.youtube.com/watch?v=Z7YMDo15tVM" target="_blank" rel="noopener noreferrer">
+        <div class="ep-thumb">
+          <img src="https://img.youtube.com/vi/Z7YMDo15tVM/hqdefault.jpg" alt="Hot Takes with Ty — Luisa & Lili"/>
+          <div class="ep-play"><div class="ep-play-icon">▶</div></div>
+        </div>
+        <div class="ep-info">
+          <div class="ep-label">S1 Ep. 9 · Editor</div>
+          <div class="ep-title">Luisa & Lili</div>
+        </div>
+      </a>
+
+      <a class="ep-card" href="https://www.youtube.com/watch?v=WiwLdzQAdHM" target="_blank" rel="noopener noreferrer">
+        <div class="ep-thumb">
+          <img src="https://img.youtube.com/vi/WiwLdzQAdHM/hqdefault.jpg" alt="Hot Takes with Ty — Andrew & Andrea Pt. 1"/>
+          <div class="ep-play"><div class="ep-play-icon">▶</div></div>
+        </div>
+        <div class="ep-info">
+          <div class="ep-label">S1 Ep. 10 · Editor</div>
+          <div class="ep-title">Andrew & Andrea — Pt. 1</div>
+        </div>
+      </a>
+
+      <a class="ep-card" href="https://www.youtube.com/watch?v=kAdF5N9Ifuo" target="_blank" rel="noopener noreferrer">
+        <div class="ep-thumb">
+          <img src="https://img.youtube.com/vi/kAdF5N9Ifuo/hqdefault.jpg" alt="Hot Takes with Ty — Andrew & Andrea Pt. 2"/>
+          <div class="ep-play"><div class="ep-play-icon">▶</div></div>
+        </div>
+        <div class="ep-info">
+          <div class="ep-label">S1 Ep. 10 · Editor</div>
+          <div class="ep-title">Andrew & Andrea — Pt. 2</div>
+        </div>
+      </a>
+
+      <a class="ep-card" href="https://www.youtube.com/watch?v=SkJyxt4_6V8" target="_blank" rel="noopener noreferrer">
+        <div class="ep-thumb">
+          <img src="https://img.youtube.com/vi/SkJyxt4_6V8/hqdefault.jpg" alt="Hot Takes with Ty — Miles"/>
+          <div class="ep-play"><div class="ep-play-icon">▶</div></div>
+        </div>
+        <div class="ep-info">
+          <div class="ep-label">S1 Ep. 11 · Editor</div>
+          <div class="ep-title">Miles</div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
   <section class="section">
     <div class="cta-strip">
       <div class="cta-copy">
         <div class="cta-title">Continue browsing</div>
         <div class="cta-text">
-          Return to the recruiter page to view more broadcast, narrative, and television production work.
+          Return to the production page to view more broadcast, narrative, and television production work.
         </div>
       </div>
-      <a class="btn-primary" href="../recruiter.html">Back to Recruiter</a>
+      <a class="btn-primary" href="../recruiter.html">Back to Production</a>
     </div>
   </section>
 </main>
@@ -577,7 +753,7 @@
 <footer>
   <div class="footer-bottom">
     <span>© 2026 Sofia González Irigoyen · Project Detail Page</span>
-    <a href="../recruiter.html">← Back to Recruiter</a>
+    <a href="../recruiter.html">← Back to Production</a>
   </div>
 </footer>
 
