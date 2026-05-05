@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Baystate — Season 48–50 | Sofia González Irigoyen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:#141414;
+      --bg2:#181818;
+      --bg3:#232323;
+      --border:#333;
+      --text:#fff;
+      --muted:#a1a1a1;
+      --terra:#E50914;
+      --terra-dark:#B20710;
+      --font:'Bebas Neue',sans-serif;
+      --sans:'DM Sans','Helvetica Neue',Arial,sans-serif;
+      --max:1180px;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{
+      background:var(--bg);
+      color:var(--text);
+      font-family:var(--sans);
+      overflow-x:hidden;
+    }
+
+    nav{
+      position:fixed;
+      top:0;left:0;right:0;
+      z-index:100;
+      padding:1.1rem 4%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      background:linear-gradient(to bottom,rgba(20,20,20,.92) 0%,rgba(20,20,20,.65) 60%,transparent 100%);
+      backdrop-filter:blur(6px);
+    }
+    .nav-left{
+      display:flex;
+      align-items:center;
+      gap:2.2rem;
+    }
+    .nav-logo{
+      font-family:var(--font);
+      font-size:1.5rem;
+      color:var(--terra);
+      letter-spacing:.2em;
+      text-decoration:none;
+    }
+    .nav-links{
+      display:flex;
+      gap:1.2rem;
+      list-style:none;
+    }
+    .nav-links a{
+      color:rgba(255,255,255,.72);
+      text-decoration:none;
+      font-size:.82rem;
+      letter-spacing:.04em;
+      transition:color .2s;
+    }
+    .nav-links a:hover{color:#fff;}
+    .nav-right a{
+      font-size:.72rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.78);
+      text-decoration:none;
+      border:1px solid rgba(255,255,255,.22);
+      padding:.45rem .9rem;
+      border-radius:2px;
+      transition:all .2s;
+    }
+    .nav-right a:hover{
+      border-color:#fff;
+      color:#fff;
+    }
+
+    .hero{
+      position:relative;
+      min-height:90vh;
+      display:flex;
+      align-items:flex-end;
+      overflow:hidden;
+      background:#000;
+    }
+    .hero-media{
+      position:absolute;
+      inset:0;
+      z-index:0;
+    }
+    .hero-media img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      opacity:.52;
+    }
+    .hero-overlay{
+      position:absolute;
+      inset:0;
+      z-index:1;
+      background:
+        linear-gradient(to top, rgba(20,20,20,1) 0%, rgba(20,20,20,.7) 32%, rgba(20,20,20,.15) 68%, rgba(20,20,20,.05) 100%),
+        linear-gradient(to right, rgba(20,20,20,.96) 0%, rgba(20,20,20,.72) 42%, rgba(20,20,20,.18) 72%, rgba(20,20,20,.05) 100%);
+    }
+    .hero-inner{
+      position:relative;
+      z-index:2;
+      width:min(var(--max), 100%);
+      margin:0 auto;
+      padding:8.2rem 4% 4.5rem;
+      display:grid;
+      grid-template-columns:1.25fr .75fr;
+      gap:2rem;
+      align-items:end;
+    }
+    .eyebrow{
+      display:inline-block;
+      font-size:.68rem;
+      letter-spacing:.2em;
+      text-transform:uppercase;
+      padding:.34rem .85rem;
+      border:1px solid var(--terra);
+      color:var(--terra);
+      border-radius:2px;
+      margin-bottom:1rem;
+    }
+    .hero-title{
+      font-family:var(--font);
+      font-size:clamp(3.3rem, 7vw, 6.8rem);
+      line-height:.92;
+      letter-spacing:.04em;
+      margin-bottom:.9rem;
+      text-shadow:2px 4px 12px rgba(0,0,0,.45);
+    }
+    .hero-sub{
+      font-size:1rem;
+      line-height:1.85;
+      color:rgba(255,255,255,.8);
+      max-width:640px;
+      margin-bottom:1.35rem;
+    }
+    .meta-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.5rem;
+      margin-bottom:1.5rem;
+    }
+    .meta-pill{
+      font-size:.68rem;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.82);
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:999px;
+      padding:.35rem .65rem;
+    }
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.8rem;
+    }
+    .btn-primary,
+    .btn-secondary{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.55rem;
+      border:none;
+      border-radius:4px;
+      text-decoration:none;
+      cursor:pointer;
+      padding:.8rem 1.35rem;
+      font-family:var(--sans);
+      transition:all .2s;
+      white-space:nowrap;
+    }
+    .btn-primary{
+      background:#fff;
+      color:#000;
+      font-weight:700;
+    }
+    .btn-primary:hover{background:rgba(255,255,255,.82);}
+    .btn-secondary{
+      background:rgba(109,109,110,.68);
+      color:#fff;
+      font-weight:600;
+    }
+    .btn-secondary:hover{background:rgba(109,109,110,.45);}
+
+    .hero-card{
+      justify-self:end;
+      width:min(340px, 100%);
+      background:rgba(24,24,24,.82);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:10px;
+      padding:1.05rem 1rem;
+      backdrop-filter:blur(8px);
+      box-shadow:0 18px 40px rgba(0,0,0,.35);
+    }
+    .hero-card-title{
+      font-family:var(--font);
+      font-size:1.15rem;
+      letter-spacing:.08em;
+      margin-bottom:.7rem;
+    }
+    .hero-card-grid{
+      display:grid;
+      gap:.7rem;
+    }
+    .hero-card-item{
+      border-top:1px solid rgba(255,255,255,.08);
+      padding-top:.7rem;
+    }
+    .hero-card-item:first-child{
+      border-top:none;
+      padding-top:0;
+    }
+    .hero-card-label{
+      font-size:.62rem;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--terra);
+      margin-bottom:.22rem;
+    }
+    .hero-card-value{
+      font-size:.86rem;
+      color:rgba(255,255,255,.82);
+      line-height:1.55;
+    }
+
+    .page{
+      width:min(var(--max), 100%);
+      margin:0 auto;
+      padding:0 4% 4.5rem;
+    }
+
+    .section{
+      padding:2.2rem 0;
+      border-top:1px solid var(--border);
+    }
+    .section-title{
+      font-family:var(--font);
+      font-size:1.45rem;
+      letter-spacing:.13em;
+      margin-bottom:1rem;
+      color:#f0f0f0;
+    }
+    .section-text{
+      max-width:850px;
+      font-size:.96rem;
+      line-height:1.9;
+      color:rgba(255,255,255,.72);
+    }
+
+    .two-col{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:2rem;
+      align-items:start;
+    }
+
+    .bullet-list{
+      display:grid;
+      gap:.8rem;
+      margin-top:.3rem;
+    }
+    .bullet{
+      display:flex;
+      gap:.8rem;
+      align-items:flex-start;
+      color:rgba(255,255,255,.8);
+      line-height:1.75;
+      font-size:.95rem;
+    }
+    .bullet-dot{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:var(--terra);
+      margin-top:.55rem;
+      flex:0 0 auto;
+    }
+
+    .info-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:.9rem;
+    }
+    .info-card{
+      background:var(--bg2);
+      border:1px solid var(--border);
+      border-radius:8px;
+      padding:1rem;
+    }
+    .info-card-label{
+      font-size:.62rem;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--terra);
+      margin-bottom:.28rem;
+    }
+    .info-card-value{
+      font-size:.86rem;
+      color:rgba(255,255,255,.82);
+      line-height:1.6;
+    }
+
+    .media-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:1rem;
+    }
+    .media-card{
+      background:var(--bg2);
+      border:1px solid var(--border);
+      border-radius:10px;
+      overflow:hidden;
+    }
+    .media-card img{
+      width:100%;
+      aspect-ratio:16/9;
+      object-fit:cover;
+      display:block;
+      background:#111;
+    }
+    .media-caption{
+      padding:.8rem .9rem 1rem;
+      font-size:.84rem;
+      color:rgba(255,255,255,.66);
+      line-height:1.6;
+    }
+
+    .cta-strip{
+      background:linear-gradient(135deg, rgba(229,9,20,.14), rgba(229,9,20,.04));
+      border:1px solid rgba(229,9,20,.2);
+      border-radius:10px;
+      padding:1.15rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:1rem;
+      flex-wrap:wrap;
+    }
+    .cta-copy{
+      max-width:720px;
+    }
+    .cta-title{
+      font-family:var(--font);
+      font-size:1.15rem;
+      letter-spacing:.08em;
+      margin-bottom:.3rem;
+    }
+    .cta-text{
+      font-size:.9rem;
+      line-height:1.7;
+      color:rgba(255,255,255,.74);
+    }
+
+    footer{
+      max-width:100rem;
+      margin:0 auto;
+      padding:2.5rem 4% 3rem;
+      border-top:8px solid #222;
+      font-size:.75rem;
+      color:#757575;
+    }
+    footer a{
+      color:var(--terra);
+      text-decoration:none;
+    }
+    footer a:hover{color:#fff;}
+    .footer-bottom{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:1rem;
+    }
+
+    @media(max-width:900px){
+      .hero-inner{
+        grid-template-columns:1fr;
+        align-items:end;
+      }
+      .hero-card{
+        justify-self:start;
+      }
+      .two-col,
+      .media-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media(max-width:768px){
+      nav{padding:1rem 4%;}
+      .nav-links{display:none;}
+      .hero{min-height:82vh;}
+      .hero-inner{padding-top:7rem;}
+      .hero-sub{font-size:.95rem;}
+      .section-title{font-size:1.2rem;}
+      .info-grid{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <a href="../index.html" class="nav-logo">Sofia's Portfolio</a>
+    <ul class="nav-links">
+      <li><a href="../recruiter.html">Recruiter</a></li>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#media">Media</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <a href="../recruiter.html">← Back to Recruiter</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-media">
+    <img src="../assets/thumbs/baystate-placeholder.png" alt="Baystate — Season 48–50" onerror="this.src='../assets/thumbs/acesso-total-hollywood-premiere.png'"/>
+  </div>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-inner">
+    <div>
+      <div class="eyebrow">TV Drama</div>
+      <h1 class="hero-title">BAYSTATE<br>SEASON 48–50</h1>
+      <p class="hero-sub">
+        Long-running television drama production at Boston University / BUTV. Across multiple seasons, I worked as producer in a sustained, collaborative production structure that required consistency, communication, and the ability to support a recurring scripted workflow over time.
+      </p>
+
+      <div class="meta-row">
+        <span class="meta-pill">Producer</span>
+        <span class="meta-pill">BUTV · Boston University</span>
+        <span class="meta-pill">2024–2026</span>
+        <span class="meta-pill">TV Drama</span>
+      </div>
+
+      <div class="hero-actions">
+        <a class="btn-primary" href="https://youtu.be/pLEuklMB0Xc" target="_blank" rel="noopener noreferrer">▶ Watch</a>
+        <a class="btn-secondary" href="#overview">Project Details</a>
+      </div>
+    </div>
+
+    <aside class="hero-card">
+      <div class="hero-card-title">Project Snapshot</div>
+      <div class="hero-card-grid">
+        <div class="hero-card-item">
+          <div class="hero-card-label">Role</div>
+          <div class="hero-card-value">Producer</div>
+        </div>
+        <div class="hero-card-item">
+          <div class="hero-card-label">Organization</div>
+          <div class="hero-card-value">BUTV · Boston University</div>
+        </div>
+        <div class="hero-card-item">
+          <div class="hero-card-label">Format</div>
+          <div class="hero-card-value">Recurring scripted television drama</div>
+        </div>
+        <div class="hero-card-item">
+          <div class="hero-card-label">Focus</div>
+          <div class="hero-card-value">Multi-season producing, team coordination, continuity across production cycles</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<main class="page">
+  <section class="section" id="overview">
+    <div class="section-title">Project Overview</div>
+    <p class="section-text">
+      <em>Baystate</em> represents one of the strongest examples of my sustained production experience. Working across multiple seasons meant contributing not just to a single shoot, but to a recurring production rhythm where planning, communication, and follow-through had to remain consistent over time.
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="two-col">
+      <div>
+        <div class="section-title">What I Did</div>
+        <div class="bullet-list">
+          <div class="bullet">
+            <span class="bullet-dot"></span>
+            <span>Worked as producer across multiple seasons of a scripted television drama.</span>
+          </div>
+          <div class="bullet">
+            <span class="bullet-dot"></span>
+            <span>Supported production structure and continuity across an ongoing team-based workflow.</span>
+          </div>
+          <div class="bullet">
+            <span class="bullet-dot"></span>
+            <span>Helped coordinate the logistical and communication demands of a recurring TV production environment.</span>
+          </div>
+          <div class="bullet">
+            <span class="bullet-dot"></span>
+            <span>Contributed to a process that required reliability, follow-through, and the ability to work at scale over time.</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-title">Project Details</div>
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="info-card-label">Category</div>
+            <div class="info-card-value">TV Drama / Scripted Series</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">Years</div>
+            <div class="info-card-value">2024–2026</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">Context</div>
+            <div class="info-card-value">Boston University / BUTV production</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">Primary Strengths</div>
+            <div class="info-card-value">Sustained producing, team coordination, production continuity</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title">Why This Project Matters</div>
+    <p class="section-text">
+      This project matters because it demonstrates endurance and consistency in a production role. Instead of showing one isolated shoot, it shows that I can contribute across multiple production cycles and remain effective in a recurring, collaborative environment. That is especially useful for recruiters looking for evidence of reliability, communication, and long-form production involvement.
+    </p>
+  </section>
+
+  <section class="section" id="media">
+    <div class="section-title">Selected Media</div>
+    <div class="media-grid">
+      <div class="media-card">
+        <img src="../assets/thumbs/baystate-placeholder.png" alt="Baystate still 1" onerror="this.src='../assets/thumbs/acesso-total-hollywood-premiere.png'"/>
+        <div class="media-caption">
+          Replace this with a Baystate-specific still or poster image when you have one ready.
+        </div>
+      </div>
+      <div class="media-card">
+        <img src="../assets/thumbs/baystate-placeholder.png" alt="Baystate still 2" onerror="this.src='../assets/thumbs/acesso-total-hollywood-premiere.png'"/>
+        <div class="media-caption">
+          Replace this duplicate with a second still, set image, or frame from the series.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="cta-strip">
+      <div class="cta-copy">
+        <div class="cta-title">Keep exploring</div>
+        <div class="cta-text">
+          Return to the recruiter page to browse more broadcast, film, and production work.
+        </div>
+      </div>
+      <a class="btn-primary" href="../recruiter.html">Back to Recruiter</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-bottom">
+    <span>© 2026 Sofia González Irigoyen · Project Detail Page</span>
+    <a href="../recruiter.html">← Back to Recruiter</a>
+  </div>
+</footer>
+
+</body>
+</html>
