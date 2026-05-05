@@ -64,6 +64,7 @@
     display: grid;
     place-items: center;
     transition: opacity .55s ease, visibility .55s ease;
+    animation: loadingFailsafe .45s ease 1.2s forwards;
   }
   #loading.done {
     opacity: 0;
@@ -83,17 +84,17 @@
     border-top-color: var(--red);
     animation: spin 1s linear infinite;
   }
-  .spinner-mark {
+  .spinner-avatar {
     position: absolute;
-    inset: 1.4rem;
-    display: grid;
-    place-items: center;
+    top: 50%;
+    left: 50%;
+    width: 4.5rem;
+    height: 4.5rem;
+    transform: translate(-50%, -50%);
     border-radius: 5px;
-    background: linear-gradient(135deg, var(--red), var(--red-dark));
-    color: #fff;
-    font-family: var(--font);
-    font-size: 2.1rem;
-    letter-spacing: .08em;
+    object-fit: cover;
+    background: #222;
     box-shadow: 0 16px 36px rgba(229,9,20,.25);
   }
   @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes loadingFailsafe {
