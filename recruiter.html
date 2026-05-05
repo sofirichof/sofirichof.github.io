@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Sofia González Irigoyen — Recruiter</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
 <style>
   :root {
     --bg:#141414;
@@ -246,6 +246,7 @@
   .btn-info{
     display:inline-flex;
     align-items:center;
+    justify-content:center;
     gap:.6rem;
     background:rgba(109,109,110,.7);
     color:#fff;
@@ -315,7 +316,7 @@
     overflow:hidden;
     background:var(--bg3);
     position:relative;
-    cursor:pointer;
+    cursor:default;
     transition:transform .18s ease, box-shadow .18s ease;
   }
   .tile:hover{
@@ -358,6 +359,7 @@
     opacity:0;
     transform:scale(.96);
     pointer-events:none;
+    cursor:default;
     transition:
       opacity 160ms ease,
       transform 160ms ease,
@@ -369,10 +371,6 @@
     opacity:1;
     transform:scale(1);
     pointer-events:auto;
-  }
-
-  .hover-layer[data-youtube-id]:not([data-youtube-id=""]) {
-    cursor:pointer;
   }
 
   .hover-media{
@@ -484,12 +482,20 @@
     display:flex;
     gap:.6rem;
     flex-wrap:wrap;
+    margin-top:1rem;
   }
 
   .hover-cta-row .btn-primary,
   .hover-cta-row .btn-info{
-    padding:.65rem 1rem;
+    min-height:44px;
+    padding:.75rem 1rem;
     font-size:.8rem;
+    font-weight:700;
+    letter-spacing:.08em;
+  }
+
+  .hover-cta-row .btn-info{
+    text-decoration:none;
   }
 
   /* ABOUT */
@@ -954,6 +960,7 @@ function makeTile(p, reelType, rowKey, index) {
       data-preview="${escapeHtml(p.preview || '')}"
       data-image="${escapeHtml(p.image || '')}"
       data-details-url="${escapeHtml(p.detailsUrl || '')}"
+      tabindex="0"
     >
       ${tileThumbMarkup(p)}
     </article>
@@ -1106,7 +1113,7 @@ function buildHoverCard(tile) {
       <div class="hover-tags">
         <span class="hover-tag">${year}</span>
         <span class="hover-tag">${cat}</span>
-        ${isWatchable ? `<span class="hover-tag">Watch ↗</span>` : `<span class="hover-tag">Preview Only</span>`}
+        ${isWatchable ? `<span class="hover-tag">Playable</span>` : `<span class="hover-tag">Project Page</span>`}
       </div>
 
       <div class="hover-cta-row">
@@ -1203,6 +1210,14 @@ function bindTileHover() {
     });
 
     tile.addEventListener('mouseleave', hideHoverSoon);
+
+    tile.addEventListener('focus', () => {
+      showHover(tile);
+    });
+
+    tile.addEventListener('blur', () => {
+      hideHoverSoon();
+    });
   });
 }
 
@@ -1215,15 +1230,11 @@ hoverLayer.addEventListener('mouseleave', hideHoverSoon);
 hoverLayer.addEventListener('click', e => {
   const youtubeId = hoverLayer.dataset.youtubeId;
   const detailsLink = e.target.closest('[data-details-link]');
+  const playBtn = e.target.closest('[data-play-btn]');
 
   if (detailsLink) return;
-  if (!youtubeId) return;
 
-  if (
-    e.target.closest('[data-play-btn]') ||
-    e.target.closest('.hover-media') ||
-    e.target.closest('.hover-layer')
-  ) {
+  if (playBtn && youtubeId) {
     openVideo(youtubeId);
   }
 });
@@ -1259,18 +1270,13 @@ videoModal.addEventListener('click', e => {
 });
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeVideo();
-});
-
-document.addEventListener('click', e => {
-  const tile = e.target.closest('.tile');
-  if (!tile) return;
-
-  const scroller = tile.closest('.row-scroller');
-  if (scroller?.classList.contains('grabbing')) return;
-
-  const id = tile.dataset.youtubeId;
-  if (id) openVideo(id);
+  if (e.key === 'Escape') {
+    if (videoModal.classList.contains('active')) {
+      closeVideo();
+      return;
+    }
+    hideHoverImmediate();
+  }
 });
 
 renderLolomo('broadcast');
