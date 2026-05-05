@@ -98,3 +98,1242 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
   @keyframes loadingFailsafe {
+    to {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+
+  .top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 1.15rem 4%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: linear-gradient(to bottom, rgba(20,20,20,.9), rgba(20,20,20,0));
+    transition: background .35s ease, padding .35s ease;
+  }
+  .top-nav.solid {
+    background: rgba(20,20,20,.96);
+    box-shadow: 0 1px 0 rgba(255,255,255,.06);
+    padding-block: .82rem;
+  }
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 3vw, 3rem);
+    min-width: 0;
+  }
+  .nav-logo {
+    flex: 0 0 auto;
+    font-family: var(--font);
+    font-size: clamp(1.35rem, 2vw, 1.9rem);
+    color: var(--red);
+    letter-spacing: .12em;
+    text-decoration: none;
+    line-height: 1;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: rgba(255,255,255,.72);
+    text-decoration: none;
+    font-size: .82rem;
+    transition: color .2s;
+  }
+  .nav-links a:hover,
+  .nav-links a.active { color: #fff; }
+  .profile-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    color: rgba(255,255,255,.78);
+    text-decoration: none;
+    font-size: .78rem;
+    white-space: nowrap;
+  }
+  .profile-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, #f5f5f5, #9a9a9a);
+    color: #141414;
+    font-weight: 800;
+    letter-spacing: -.02em;
+  }
+
+  #billboard {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: flex-end;
+    padding: 8rem 4% 18vh;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  #bill-video,
+  .hero-fallback {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -3;
+  }
+  #bill-video {
+    opacity: .48;
+    filter: saturate(.95) contrast(1.06);
+    background: #050505;
+  }
+  .hero-fallback {
+    z-index: -4;
+    background:
+      radial-gradient(circle at 72% 34%, rgba(229,9,20,.22), transparent 29%),
+      linear-gradient(110deg, #050505 0%, #171717 40%, #282828 100%);
+  }
+  .bill-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background:
+      linear-gradient(to top, rgba(20,20,20,1) 0%, rgba(20,20,20,.88) 12%, rgba(20,20,20,.34) 55%, rgba(20,20,20,.08) 100%),
+      linear-gradient(to right, rgba(20,20,20,.96) 0%, rgba(20,20,20,.68) 34%, rgba(20,20,20,.05) 70%);
+  }
+  .bill-content {
+    width: min(620px, 58vw);
+    transform: translateY(2vh);
+  }
+  .bill-kicker {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    color: rgba(255,255,255,.86);
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    margin-bottom: .75rem;
+  }
+  .series-mark {
+    display: inline-grid;
+    place-items: center;
+    width: 1.45rem;
+    height: 1.45rem;
+    border-radius: 2px;
+    background: var(--red);
+    color: #fff;
+    font-family: var(--font);
+    font-size: 1.15rem;
+    letter-spacing: 0;
+  }
+  .bill-title {
+    font-family: var(--font);
+    font-size: clamp(4rem, 8.6vw, 8.8rem);
+    line-height: .86;
+    letter-spacing: .025em;
+    margin-bottom: 1rem;
+    text-shadow: 0 6px 22px rgba(0,0,0,.7);
+  }
+  .meta-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .62rem;
+    color: var(--soft);
+    font-size: .92rem;
+    margin-bottom: 1rem;
+  }
+  .match { color: var(--green); font-weight: 800; }
+  .rating {
+    border: 1px solid rgba(255,255,255,.4);
+    padding: .08rem .34rem;
+    font-size: .75rem;
+    line-height: 1.2;
+  }
+  .bill-desc {
+    color: rgba(255,255,255,.86);
+    line-height: 1.65;
+    max-width: 560px;
+    margin-bottom: 1.25rem;
+    font-size: clamp(.96rem, 1.15vw, 1.08rem);
+    text-shadow: 0 2px 8px rgba(0,0,0,.72);
+  }
+  .reel-toggle {
+    display: inline-flex;
+    gap: .2rem;
+    padding: .22rem;
+    margin-bottom: 1.35rem;
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 4px;
+    background: rgba(0,0,0,.42);
+    backdrop-filter: blur(10px);
+  }
+  .reel-btn {
+    min-height: 38px;
+    padding: .48rem .85rem;
+    border: 0;
+    border-radius: 3px;
+    background: transparent;
+    color: rgba(255,255,255,.68);
+    cursor: pointer;
+    font-size: .74rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    transition: background .2s, color .2s;
+  }
+  .reel-btn.active,
+  .reel-btn:hover {
+    background: #fff;
+    color: #141414;
+  }
+  .bill-actions {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+  }
+  .btn-play,
+  .btn-info,
+  .btn-primary {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .58rem;
+    padding: .65rem 1.35rem;
+    border-radius: 4px;
+    border: 0;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 800;
+    white-space: nowrap;
+    transition: transform .18s, background .18s, color .18s;
+  }
+  .btn-play,
+  .btn-primary {
+    background: #fff;
+    color: #000;
+  }
+  .btn-info {
+    background: rgba(109,109,110,.72);
+    color: #fff;
+  }
+  .btn-play:hover,
+  .btn-primary:hover,
+  .btn-info:hover {
+    transform: translateY(-1px);
+  }
+  .btn-play:hover,
+  .btn-primary:hover { background: rgba(255,255,255,.78); }
+  .btn-info:hover { background: rgba(109,109,110,.48); }
+  .icon {
+    display: inline-grid;
+    place-items: center;
+    width: 1.12em;
+    height: 1.12em;
+    line-height: 1;
+  }
+
+  #lolomo {
+    position: relative;
+    z-index: 2;
+    margin-top: -11vh;
+    padding-bottom: 2rem;
+  }
+  .row {
+    position: relative;
+    margin: 2.3rem 0;
+  }
+  .row-header {
+    padding: 0 4%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: .55rem;
+  }
+  .row-title,
+  .section-row-title {
+    font-family: var(--font);
+    font-size: clamp(1.35rem, 1.65vw, 1.85rem);
+    letter-spacing: .06em;
+    color: #e5e5e5;
+    line-height: 1;
+  }
+  .row-controls {
+    display: flex;
+    gap: .35rem;
+  }
+  .row-arrow {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.18);
+    background: rgba(0,0,0,.42);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: background .2s, border-color .2s;
+  }
+  .row-arrow:hover {
+    background: rgba(255,255,255,.14);
+    border-color: rgba(255,255,255,.34);
+  }
+  .row-scroller {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: .25rem 4% 1.2rem;
+    scrollbar-width: none;
+    cursor: grab;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+  }
+  .row-scroller::-webkit-scrollbar { display: none; }
+  .row-scroller.grabbing { cursor: grabbing; }
+  .row-track {
+    display: flex;
+    gap: .55rem;
+    width: max-content;
+  }
+  .tile {
+    flex: 0 0 auto;
+    width: clamp(190px, 22vw, 315px);
+    aspect-ratio: 16 / 9;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--bg3);
+    position: relative;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,.05);
+    transition: transform .18s var(--ease), box-shadow .18s var(--ease), border-color .18s;
+  }
+  .tile:hover,
+  .tile:focus-visible {
+    transform: scale(1.045);
+    box-shadow: 0 14px 34px rgba(0,0,0,.44);
+    border-color: rgba(255,255,255,.22);
+    z-index: 4;
+  }
+  .tile img,
+  .tile video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: #111;
+  }
+  .tile::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 55%;
+    background: linear-gradient(to top, rgba(0,0,0,.88), transparent);
+    opacity: .9;
+  }
+  .tile-caption {
+    position: absolute;
+    left: .72rem;
+    right: .72rem;
+    bottom: .58rem;
+    z-index: 2;
+    display: grid;
+    gap: .15rem;
+  }
+  .tile-title {
+    font-size: .82rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .tile-role {
+    font-size: .68rem;
+    color: rgba(255,255,255,.68);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .poster-fallback {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background:
+      linear-gradient(140deg, rgba(229,9,20,.26), rgba(255,255,255,.05)),
+      var(--bg3);
+    color: rgba(255,255,255,.76);
+    font-family: var(--font);
+    font-size: 1.35rem;
+    text-align: center;
+    letter-spacing: .06em;
+    line-height: 1;
+  }
+
+  .hover-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(380px, 88vw);
+    background: var(--bg2);
+    border-radius: 6px;
+    overflow: hidden;
+    z-index: 999;
+    box-shadow: 0 20px 58px rgba(0,0,0,.72);
+    border: 1px solid rgba(255,255,255,.08);
+    opacity: 0;
+    transform: scale(.96);
+    pointer-events: none;
+    cursor: default;
+    transition: opacity 150ms ease, transform 150ms ease, top 150ms ease, left 150ms ease;
+  }
+  .hover-layer.visible {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+  .hover-media {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #111;
+    position: relative;
+    overflow: hidden;
+  }
+  .hover-media img,
+  .hover-media video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .hover-media::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 45%;
+    background: linear-gradient(to top, rgba(0,0,0,.78), transparent);
+    pointer-events: none;
+  }
+  .hover-body { padding: .95rem 1rem 1.05rem; }
+  .hover-title {
+    font-weight: 800;
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: .28rem;
+  }
+  .hover-role {
+    font-size: .76rem;
+    color: var(--red);
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin-bottom: .15rem;
+  }
+  .hover-org {
+    font-size: .76rem;
+    color: var(--muted);
+    margin-bottom: .62rem;
+  }
+  .hover-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .34rem;
+    margin-bottom: .9rem;
+  }
+  .hover-tag {
+    font-size: .66rem;
+    padding: .18rem .48rem;
+    background: rgba(255,255,255,.1);
+    color: rgba(255,255,255,.78);
+    border-radius: 2px;
+  }
+  .hover-cta-row {
+    display: flex;
+    gap: .55rem;
+    flex-wrap: wrap;
+  }
+  .hover-cta-row .btn-primary,
+  .hover-cta-row .btn-info {
+    min-height: 38px;
+    padding: .55rem .85rem;
+    font-size: .76rem;
+  }
+
+  .info-section {
+    border-top: 1px solid rgba(255,255,255,.09);
+    padding: 4.5rem 4%;
+  }
+  .section-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+  .about-grid,
+  .contact-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(280px, .85fr);
+    gap: clamp(2rem, 6vw, 4.5rem);
+    align-items: start;
+    margin-top: 1.55rem;
+  }
+  .about-text p,
+  .contact-text p {
+    color: rgba(255,255,255,.68);
+    font-size: .97rem;
+    line-height: 1.9;
+    margin-bottom: 1rem;
+  }
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .45rem;
+    margin-top: 1.35rem;
+  }
+  .skill {
+    font-size: .68rem;
+    padding: .31rem .62rem;
+    background: rgba(255,255,255,.06);
+    color: rgba(255,255,255,.7);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 2px;
+  }
+  .sidebar-list {
+    border-top: 1px solid var(--border);
+  }
+  .sidebar-item,
+  .clink {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .si-org {
+    font-size: .66rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: .25rem;
+    font-weight: 800;
+  }
+  .si-title {
+    font-family: var(--font);
+    font-size: 1.1rem;
+    letter-spacing: .05em;
+    line-height: 1.1;
+  }
+  .si-desc {
+    font-size: .78rem;
+    color: var(--muted);
+    margin-top: .3rem;
+    line-height: 1.5;
+  }
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--border);
+  }
+  .clink {
+    display: grid;
+    grid-template-columns: 86px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: rgba(255,255,255,.68);
+    font-size: .88rem;
+    transition: color .2s;
+  }
+  .clink:hover { color: var(--red); }
+  .clink-label {
+    font-size: .68rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 800;
+  }
+
+  .video-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: rgba(0,0,0,.86);
+    backdrop-filter: blur(8px);
+  }
+  .video-modal.active { display: flex; }
+  .video-modal-content {
+    position: relative;
+    width: min(1100px, 94vw);
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border: 1px solid rgba(255,255,255,.14);
+    box-shadow: 0 0 70px rgba(229,9,20,.18);
+  }
+  .video-modal iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+  .modal-close {
+    position: absolute;
+    top: -46px;
+    right: 0;
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(255,255,255,.28);
+    background: rgba(255,255,255,.08);
+    color: #fff;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background .2s, border-color .2s;
+    font-size: 1.3rem;
+    line-height: 1;
+  }
+  .modal-close:hover {
+    background: var(--red);
+    border-color: var(--red);
+  }
+
+  footer {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 3rem 4%;
+    border-top: 8px solid #222;
+    font-size: .76rem;
+    color: #757575;
+  }
+  footer a {
+    color: rgba(255,255,255,.72);
+    text-decoration: none;
+  }
+  footer a:hover { color: #fff; }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  @media (max-width: 920px) {
+    .bill-content { width: min(720px, 82vw); }
+    .nav-links { display: none; }
+    #lolomo { margin-top: -8vh; }
+  }
+
+  @media (max-width: 720px) {
+    .top-nav { padding: .9rem 4%; }
+    .profile-chip span:not(.profile-avatar) { display: none; }
+    #billboard {
+      min-height: 92svh;
+      padding: 6.5rem 4% 17vh;
+    }
+    .bill-content {
+      width: 100%;
+      transform: none;
+    }
+    .bill-title {
+      font-size: clamp(3.9rem, 17vw, 6.4rem);
+    }
+    .meta-line { font-size: .82rem; }
+    .reel-toggle {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .reel-btn {
+      padding-inline: .42rem;
+      font-size: .68rem;
+      white-space: normal;
+      line-height: 1.2;
+    }
+    .bill-actions .btn-play,
+    .bill-actions .btn-info {
+      flex: 1 1 140px;
+    }
+    .row { margin: 1.8rem 0; }
+    .row-controls { display: none; }
+    .tile { width: 58vw; min-width: 210px; }
+    .about-grid,
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .info-section { padding-block: 3.3rem; }
+    .clink {
+      grid-template-columns: 1fr auto;
+      gap: .35rem 1rem;
+    }
+    .clink-label {
+      grid-column: 1 / -1;
+    }
+    .video-modal { padding: 1rem; }
+    .modal-close {
+      top: -48px;
+      right: 0;
+    }
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    .hover-layer { display: none; }
+    .tile:hover { transform: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .001ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: .001ms !important;
+    }
+    #bill-video,
+    .hover-media video { display: none; }
+  }
+</style>
+</head>
+<body>
+<div id="loading" aria-hidden="true">
+  <div class="spinner-wrap">
+    <div class="spinner-ring"></div>
+    <img class="spinner-avatar" src="YOUR-IMAGE-1.png" alt="" onerror="this.style.display='none'"/>
+  </div>
+</div>
+
+<nav class="top-nav" id="nav" aria-label="Primary navigation">
+  <div class="nav-left">
+    <a href="#billboard" class="nav-logo" aria-label="Sofia home">SOFIA</a>
+    <ul class="nav-links">
+      <li><a href="#lolomo">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+  <a class="profile-chip" href="#contact" aria-label="Contact Sofia">
+    <span>Available Aug 2026</span>
+    <span class="profile-avatar">S</span>
+  </a>
+</nav>
+
+<main>
+  <section id="billboard" aria-labelledby="hero-title">
+    <div class="hero-fallback"></div>
+    <video id="bill-video" src="YOUR-HERO-VIDEO.mp4" autoplay muted loop playsinline preload="metadata"></video>
+    <div class="bill-overlay"></div>
+    <div class="bill-content">
+      <div class="bill-kicker"><span class="series-mark">S</span><span>Student Producer Portfolio</span></div>
+      <h1 class="bill-title" id="hero-title">SOFIA<br>GONZÁLEZ<br>IRIGOYEN</h1>
+      <div class="meta-line" aria-label="Profile details">
+        <span class="match">98% match</span>
+        <span>BU '26</span>
+        <span class="rating">TV-14</span>
+        <span>Broadcast</span>
+        <span>Film</span>
+        <span>EN / ES / FR</span>
+      </div>
+      <div class="reel-toggle" role="tablist" aria-label="Portfolio reel">
+        <button class="reel-btn active" type="button" role="tab" aria-selected="true" data-reel-button="broadcast">Broadcast & TV</button>
+        <button class="reel-btn" type="button" role="tab" aria-selected="false" data-reel-button="film">Film & Narrative</button>
+      </div>
+      <p class="bill-desc" id="bill-desc">Broadcast producer with experience at Telemundo 52 / NBCUniversal, Zona Latina in Santiago, and BU's live television program. Comfortable in fast-moving, live environments.</p>
+      <div class="bill-actions">
+        <a href="#lolomo" class="btn-play"><span class="icon" aria-hidden="true">▶</span>View Work</a>
+        <a href="#contact" class="btn-info"><span class="icon" aria-hidden="true">i</span>More Info</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="lolomo" aria-label="Portfolio projects"></section>
+
+  <section class="info-section" id="about">
+    <div class="section-inner">
+      <h2 class="section-row-title">About Sofia</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>I'm a film and television producer finishing a BS in Film & Television Production at Boston University, with a second major in Advertising and an August 2026 graduation date. I've produced SAG-AFTRA short films, worked as a segment producer at Telemundo 52, gone on set in Santiago for a live variety show, and produced three seasons of Baystate TV Drama.</p>
+          <p>I'm bilingual in English and Spanish, with working French too. That has shaped the work I gravitate toward: live, collaborative, culturally fluent stories that need a steady producer in the middle of the moving parts.</p>
+          <div class="skills" aria-label="Skills">
+            <span class="skill">Production Management</span>
+            <span class="skill">DaVinci Resolve</span>
+            <span class="skill">Adobe Premiere</span>
+            <span class="skill">Live Broadcast</span>
+            <span class="skill">SAG-AFTRA</span>
+            <span class="skill">Multi-cam</span>
+            <span class="skill">Scripted Development</span>
+            <span class="skill">Documentary</span>
+            <span class="skill">Advertising Creative</span>
+            <span class="skill">EN / ES / FR</span>
+          </div>
+        </div>
+        <div class="sidebar-list" aria-label="Highlights">
+          <div class="sidebar-item"><div class="si-org">NATAS · 2024</div><div class="si-title">University Sports Program Award</div><div class="si-desc">Chief Editor, Live With TY Season 1</div></div>
+          <div class="sidebar-item"><div class="si-org">IFFBoston · 2026</div><div class="si-title">Student Film Showcase</div><div class="si-desc">Film selected for screening at Somerville Theater</div></div>
+          <div class="sidebar-item"><div class="si-org">Redstone Film Festival · 2026</div><div class="si-title">Best Picture</div><div class="si-desc">BU Department of Film and Television student film festival</div></div>
+          <div class="sidebar-item"><div class="si-org">AdLab · Spring 2026</div><div class="si-title">Video Producer · Above & Beyond Award</div><div class="si-desc">Country's largest student-run advertising agency</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section" id="contact">
+    <div class="section-inner">
+      <h2 class="section-row-title">Contact</h2>
+      <div class="contact-grid">
+        <div class="contact-text">
+          <p>I'm graduating in August 2026 and looking for my first full-time role in broadcast, network, or production. If your team needs a bilingual producer who can move between story, set, edit, and live environments, I'd love to talk.</p>
+          <p><a href="General Resume Sofía González Irigoyen.pdf" class="btn-play" download><span aria-hidden="true">↓</span>Download Resume</a></p>
+        </div>
+        <div class="contact-links">
+          <a href="mailto:sofiagi@bu.edu" class="clink"><span class="clink-label">Email</span><span>sofiagi@bu.edu</span><span aria-hidden="true">↗</span></a>
+          <a href="https://www.linkedin.com/in/sofia-gonzalez-irigoyen-/" target="_blank" rel="noreferrer" class="clink"><span class="clink-label">LinkedIn</span><span>sofia-gonzalez-irigoyen</span><span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-bottom">
+    <span>© 2026 Sofia González Irigoyen · Boston, MA</span>
+    <a href="#billboard">Back to Top</a>
+  </div>
+</footer>
+
+<div class="video-modal" id="video-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Video player">
+  <div class="video-modal-content" id="video-modal-content">
+    <button class="modal-close" id="modal-close" type="button" aria-label="Close video">×</button>
+    <iframe id="youtube-player" src="" title="YouTube video player" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+<div id="hover-layer" class="hover-layer" aria-hidden="true"></div>
+
+<script>
+const broadcast = [
+  { cat:"Broadcast", title:"Acceso Total - Hollywood Premiere", role:"Interviewer", org:"Telemundo 52 / NBCUniversal", year:"2026", youtubeId:"b4WxJcoeT0c", image:"assets/thumbs/acesso-total-hollywood-premiere.png", preview:"", detailsUrl:"projects/acceso-total-telemundo-52.html", rows:["featured","live"] },
+  { cat:"Broadcast", title:"Acceso Total - Independence Days", role:"Segment Producer", org:"Telemundo 52 / NBCUniversal", year:"2025", youtubeId:"kVxZsvJysHA", image:"assets/thumbs/acesso-total-independence-days.png", preview:"", detailsUrl:"projects/acceso-total-telemundo-52.html", rows:["live"] },
+  { cat:"Broadcast · NATAS Award", title:"Live With TY - S1 Ep.11", role:"Chief Editor", org:"BUTV", year:"2024", youtubeId:"g2gvMf2UDbQ", image:"", preview:"live-with-ty.mp4", detailsUrl:"", rows:["featured","live"] },
+  { cat:"Broadcast · Santiago, Chile", title:"Zona de Estrellas", role:"Production Assistant", org:"Zona Latina · TVI America", year:"2024", youtubeId:"rz87SYmnLt4", image:"", preview:"", detailsUrl:"", rows:["live"] },
+  { cat:"Broadcast · Santiago, Chile", title:"Sabores", role:"Production Assistant", org:"Zona Latina · TVI America", year:"2024", youtubeId:"", image:"assets/thumbs/sabores.png", preview:"", detailsUrl:"", rows:["live"] },
+  { cat:"TV Drama", title:"Baystate - Seasons 48-50", role:"Producer", org:"BUTV · Boston University", year:"2024-2026", youtubeId:"pLEuklMB0Xc", image:"", preview:"", detailsUrl:"projects/baystate-season-48-50.html", rows:["featured","tv"] },
+];
+
+const film = [
+  { cat:"Narrative Short · Drama · 15 min", title:"Si Solamente", role:"Producer", org:"Boston University", year:"2026", youtubeId:"", image:"assets/thumbs/si-solamente.png", preview:"", detailsUrl:"projects/si-solamente.html", rows:["featured"] },
+  { cat:"Narrative Short · Drama · 15 min", title:"The Stories We Tell Ourselves", role:"Producer", org:"Freelance", year:"2025", youtubeId:"Vp9FBdygTKM", image:"", preview:"", detailsUrl:"", rows:["featured","shorts"] },
+  { cat:"Documentary · 18 min", title:"Pajuyuk Ancestral Knowledge", role:"Exec. Production Assistant", org:"A Posteriori Entertainment", year:"2025", youtubeId:"", image:"assets/thumbs/pajuyuk.png", preview:"", detailsUrl:"", rows:["featured","doc"] },
+  { cat:"Drama Short · 5 min", title:"Bird's Eye View", role:"Producer & Editor", org:"Boston University", year:"2024", youtubeId:"ETdIUMwOOd0", image:"", preview:"", detailsUrl:"", rows:["shorts"] },
+  { cat:"Music Video · 8 min", title:"The In Between", role:"1st AD", org:"Veritus Miller", year:"2024", youtubeId:"7aJZ3AvY3IU", image:"", preview:"", detailsUrl:"", rows:["doc"] },
+];
+
+const rowConfigs = {
+  broadcast: [
+    { id:"row-featured-b", title:"Featured - Broadcast & TV", key:"featured" },
+    { id:"row-live", title:"Live Television", key:"live" },
+    { id:"row-tv-b", title:"TV Drama", key:"tv" },
+  ],
+  film: [
+    { id:"row-featured-f", title:"Featured - Film & Narrative", key:"featured" },
+    { id:"row-shorts", title:"Short Films", key:"shorts" },
+    { id:"row-doc", title:"Documentary & Other", key:"doc" },
+  ],
+};
+
+const heroDescs = {
+  broadcast: "Broadcast producer with experience at Telemundo 52 / NBCUniversal, Zona Latina in Santiago, and BU's live television program. Comfortable in fast-moving, live environments.",
+  film: "Narrative producer with SAG-AFTRA shorts, three seasons of scripted TV drama, and documentary work. I build shoots that run on time and sets where people actually want to be.",
+};
+
+const nav = document.getElementById("nav");
+const lolomo = document.getElementById("lolomo");
+const hoverLayer = document.getElementById("hover-layer");
+const videoModal = document.getElementById("video-modal");
+const videoModalContent = document.getElementById("video-modal-content");
+const youtubePlayer = document.getElementById("youtube-player");
+let hoverShowTimer = null;
+let hoverHideTimer = null;
+let hoverPreviewTimer = null;
+let currentHoverTile = null;
+
+function cleanId(value) {
+  if (!value || value === "PASTE_YOUTUBE_ID_HERE") return "";
+  let id = String(value).trim();
+  if (id.includes("youtube.com/watch?v=")) id = id.split("v=")[1];
+  if (id.includes("youtu.be/")) id = id.split("youtu.be/")[1];
+  if (id.includes("/embed/")) id = id.split("/embed/")[1];
+  return id.split("?")[0].split("&")[0].split("/")[0];
+}
+
+function escapeHtml(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+function handleThumbError(img, title) {
+  const fallback = document.createElement("div");
+  fallback.className = "poster-fallback";
+  fallback.textContent = title || "Project";
+  img.replaceWith(fallback);
+}
+
+function handleYoutubeThumbError(img, fallback, title) {
+  if (fallback && !img.dataset.fallbackTried) {
+    img.dataset.fallbackTried = "1";
+    img.src = fallback;
+    return;
+  }
+  handleThumbError(img, title);
+}
+
+function thumbSource(project) {
+  const id = cleanId(project.youtubeId);
+  if (project.image) return { src: project.image, fallback: "", type: "local" };
+  if (id) return { src: `https://img.youtube.com/vi/${id}/maxresdefault.jpg`, fallback: `https://img.youtube.com/vi/${id}/hqdefault.jpg`, type: "youtube" };
+  return { src: "", fallback: "", type: "" };
+}
+
+function fallbackMarkup(project) {
+  return `<div class="poster-fallback">${escapeHtml(project.title)}</div>`;
+}
+
+function tileThumbMarkup(project) {
+  const thumb = thumbSource(project);
+  if (!thumb.src) return fallbackMarkup(project);
+  if (thumb.type === "youtube") {
+    return `<img src="${thumb.src}" alt="${escapeHtml(project.title)}" loading="lazy" onerror="handleYoutubeThumbError(this, '${escapeHtml(thumb.fallback)}', '${escapeHtml(project.title)}')">`;
+  }
+  return `<img src="${thumb.src}" alt="${escapeHtml(project.title)}" loading="lazy" onerror="handleThumbError(this, '${escapeHtml(project.title)}')">`;
+}
+
+function makeTile(project, reelType, rowKey, index) {
+  const id = cleanId(project.youtubeId);
+  return `
+    <article class="tile" data-reel="${reelType}" data-row="${rowKey}" data-index="${index}" data-youtube-id="${id}" data-title="${escapeHtml(project.title)}" data-role="${escapeHtml(project.role)}" data-org="${escapeHtml(project.org || "")}" data-year="${escapeHtml(project.year)}" data-cat="${escapeHtml(project.cat)}" data-preview="${escapeHtml(project.preview || "")}" data-image="${escapeHtml(project.image || "")}" data-details-url="${escapeHtml(project.detailsUrl || "")}" tabindex="0" aria-label="${escapeHtml(project.title)}, ${escapeHtml(project.role)}">
+      ${tileThumbMarkup(project)}
+      <div class="tile-caption">
+        <div class="tile-title">${escapeHtml(project.title)}</div>
+        <div class="tile-role">${escapeHtml(project.role)}</div>
+      </div>
+    </article>
+  `;
+}
+
+function renderLolomo(reelType) {
+  const data = reelType === "broadcast" ? broadcast : film;
+  const rows = rowConfigs[reelType];
+  lolomo.innerHTML = rows.map(row => {
+    const items = data.filter(project => project.rows.includes(row.key));
+    if (!items.length) return "";
+    return `
+      <div class="row">
+        <div class="row-header">
+          <h2 class="row-title">${row.title}</h2>
+          <div class="row-controls" aria-hidden="true">
+            <button class="row-arrow" type="button" data-scroll-row="${row.id}" data-dir="-1" aria-label="Scroll ${row.title} left">‹</button>
+            <button class="row-arrow" type="button" data-scroll-row="${row.id}" data-dir="1" aria-label="Scroll ${row.title} right">›</button>
+          </div>
+        </div>
+        <div class="row-scroller" id="${row.id}">
+          <div class="row-track">
+            ${items.map((project, index) => makeTile(project, reelType, row.key, index)).join("")}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+  initDrag();
+  bindTileHover();
+  bindRowButtons();
+}
+
+function switchReel(type) {
+  document.querySelectorAll("[data-reel-button]").forEach(button => {
+    const isActive = button.dataset.reelButton === type;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+  document.getElementById("bill-desc").textContent = heroDescs[type];
+  hideHoverImmediate();
+  renderLolomo(type);
+}
+
+function initDrag() {
+  document.querySelectorAll(".row-scroller").forEach(scroller => {
+    let isDown = false;
+    let startX = 0;
+    let startY = 0;
+    let scrollLeft = 0;
+    let locked = false;
+    let lockDir = "";
+
+    scroller.addEventListener("mousedown", event => {
+      isDown = true;
+      locked = false;
+      lockDir = "";
+      startX = event.pageX;
+      startY = event.pageY;
+      scrollLeft = scroller.scrollLeft;
+      hideHoverImmediate();
+    });
+    scroller.addEventListener("mouseleave", () => {
+      isDown = false;
+      scroller.classList.remove("grabbing");
+    });
+    scroller.addEventListener("mouseup", () => {
+      isDown = false;
+      scroller.classList.remove("grabbing");
+    });
+    scroller.addEventListener("mousemove", event => {
+      if (!isDown) return;
+      const dx = event.pageX - startX;
+      const dy = event.pageY - startY;
+      if (!locked) {
+        if (Math.abs(dx) > Math.abs(dy)) {
+          lockDir = "h";
+          locked = true;
+        } else if (Math.abs(dy) > Math.abs(dx)) {
+          lockDir = "v";
+          locked = true;
+        }
+      }
+      if (lockDir === "h") {
+        event.preventDefault();
+        if (Math.abs(dx) > 5) scroller.classList.add("grabbing");
+        scroller.scrollLeft = scrollLeft - dx * 1.45;
+      }
+    });
+    scroller.addEventListener("touchstart", event => {
+      startX = event.touches[0].pageX;
+      startY = event.touches[0].pageY;
+      scrollLeft = scroller.scrollLeft;
+      locked = false;
+      lockDir = "";
+      hideHoverImmediate();
+    }, { passive: true });
+    scroller.addEventListener("touchmove", event => {
+      const dx = event.touches[0].pageX - startX;
+      const dy = event.touches[0].pageY - startY;
+      if (!locked) {
+        lockDir = Math.abs(dx) > Math.abs(dy) ? "h" : "v";
+        locked = true;
+      }
+      if (lockDir === "h") {
+        event.preventDefault();
+        scroller.scrollLeft = scrollLeft - dx;
+      }
+    }, { passive: false });
+  });
+}
+
+function bindRowButtons() {
+  document.querySelectorAll("[data-scroll-row]").forEach(button => {
+    button.addEventListener("click", () => {
+      const scroller = document.getElementById(button.dataset.scrollRow);
+      if (!scroller) return;
+      const amount = scroller.clientWidth * .85 * Number(button.dataset.dir || 1);
+      scroller.scrollBy({ left: amount, behavior: "smooth" });
+    });
+  });
+}
+
+function mediaMarkup(tile) {
+  const title = escapeHtml(tile.dataset.title);
+  const cat = escapeHtml(tile.dataset.cat);
+  const image = tile.dataset.image;
+  const youtubeId = tile.dataset.youtubeId;
+  if (image) {
+    return `<img src="${image}" alt="${title}" onerror="this.outerHTML='<div class=&quot;poster-fallback&quot;>${cat}</div>'">`;
+  }
+  if (youtubeId) return `<img src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="${title}">`;
+  return `<div class="poster-fallback">${cat}</div>`;
+}
+
+function buildHoverCard(tile) {
+  const title = escapeHtml(tile.dataset.title);
+  const role = escapeHtml(tile.dataset.role);
+  const org = escapeHtml(tile.dataset.org);
+  const year = escapeHtml(tile.dataset.year);
+  const cat = escapeHtml(tile.dataset.cat);
+  const preview = tile.dataset.preview;
+  const youtubeId = tile.dataset.youtubeId;
+  const detailsUrl = escapeHtml(tile.dataset.detailsUrl);
+  const isWatchable = Boolean(youtubeId);
+
+  hoverLayer.innerHTML = `
+    <div class="hover-media" data-hover-media>
+      ${mediaMarkup(tile)}
+    </div>
+    <div class="hover-body">
+      <div class="hover-title">${title}</div>
+      <div class="hover-role">${role}</div>
+      ${org ? `<div class="hover-org">${org}</div>` : ""}
+      <div class="hover-tags">
+        <span class="hover-tag">${year}</span>
+        <span class="hover-tag">${cat}</span>
+        <span class="hover-tag">${isWatchable ? "Playable" : "Project Page"}</span>
+      </div>
+      <div class="hover-cta-row">
+        ${isWatchable ? `<button class="btn-primary" type="button" data-play-btn>▶ Play</button>` : ""}
+        ${detailsUrl ? `<a href="${detailsUrl}" class="btn-info">More Info</a>` : ""}
+      </div>
+    </div>
+  `;
+  hoverLayer.dataset.youtubeId = youtubeId || "";
+  hoverLayer.setAttribute("aria-hidden", "false");
+
+  clearTimeout(hoverPreviewTimer);
+  if (preview && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    hoverPreviewTimer = setTimeout(() => {
+      if (currentHoverTile !== tile) return;
+      const media = hoverLayer.querySelector("[data-hover-media]");
+      if (!media) return;
+      media.innerHTML = `
+        <video src="${preview}" autoplay muted loop playsinline></video>
+      `;
+    }, 360);
+  }
+}
+
+function positionHoverLayer(tile) {
+  const rect = tile.getBoundingClientRect();
+  const layerWidth = Math.min(380, window.innerWidth * .88);
+  const approxHeight = layerWidth * 9 / 16 + 160;
+  let left = rect.left - (layerWidth - rect.width) / 2;
+  let top = rect.top - 14;
+  left = Math.max(12, Math.min(left, window.innerWidth - layerWidth - 12));
+  if (top + approxHeight > window.innerHeight - 12) top = Math.max(12, window.innerHeight - approxHeight - 12);
+  hoverLayer.style.width = `${layerWidth}px`;
+  hoverLayer.style.left = `${left}px`;
+  hoverLayer.style.top = `${top}px`;
+}
+
+function showHover(tile) {
+  if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return;
+  clearTimeout(hoverShowTimer);
+  clearTimeout(hoverHideTimer);
+  hoverShowTimer = setTimeout(() => {
+    currentHoverTile = tile;
+    buildHoverCard(tile);
+    positionHoverLayer(tile);
+    requestAnimationFrame(() => hoverLayer.classList.add("visible"));
+  }, 170);
+}
+
+function hideHoverSoon() {
+  clearTimeout(hoverShowTimer);
+  clearTimeout(hoverHideTimer);
+  clearTimeout(hoverPreviewTimer);
+  hoverHideTimer = setTimeout(() => {
+    hoverLayer.classList.remove("visible");
+    hoverLayer.setAttribute("aria-hidden", "true");
+    currentHoverTile = null;
+  }, 110);
+}
+
+function hideHoverImmediate() {
+  clearTimeout(hoverShowTimer);
+  clearTimeout(hoverHideTimer);
+  clearTimeout(hoverPreviewTimer);
+  hoverLayer.classList.remove("visible");
+  hoverLayer.setAttribute("aria-hidden", "true");
+  currentHoverTile = null;
+}
+
+function bindTileHover() {
+  document.querySelectorAll(".tile").forEach(tile => {
+    tile.addEventListener("mouseenter", () => {
+      const scroller = tile.closest(".row-scroller");
+      if (scroller?.classList.contains("grabbing")) return;
+      showHover(tile);
+    });
+    tile.addEventListener("mouseleave", hideHoverSoon);
+    tile.addEventListener("focus", () => showHover(tile));
+    tile.addEventListener("blur", hideHoverSoon);
+    tile.addEventListener("click", () => {
+      const youtubeId = tile.dataset.youtubeId;
+      const detailsUrl = tile.dataset.detailsUrl;
+      if (youtubeId) openVideo(youtubeId);
+      else if (detailsUrl) window.location.href = detailsUrl;
+    });
+    tile.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        tile.click();
+      }
+    });
+  });
+}
+
+function openVideo(id) {
+  if (!id) return;
+  youtubePlayer.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
+  videoModal.classList.add("active");
+  videoModal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+  document.getElementById("modal-close").focus();
+}
+
+function closeVideo() {
+  youtubePlayer.src = "";
+  videoModal.classList.remove("active");
+  videoModal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+}
+
+document.querySelectorAll("[data-reel-button]").forEach(button => {
+  button.addEventListener("click", () => switchReel(button.dataset.reelButton));
+});
+
+hoverLayer.addEventListener("mouseenter", () => clearTimeout(hoverHideTimer));
+hoverLayer.addEventListener("mouseleave", hideHoverSoon);
+hoverLayer.addEventListener("click", event => {
+  const playBtn = event.target.closest("[data-play-btn]");
+  if (playBtn && hoverLayer.dataset.youtubeId) openVideo(hoverLayer.dataset.youtubeId);
+});
+
+document.getElementById("modal-close").addEventListener("click", closeVideo);
+videoModal.addEventListener("click", event => {
+  if (!videoModalContent.contains(event.target)) closeVideo();
+});
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    if (videoModal.classList.contains("active")) closeVideo();
+    else hideHoverImmediate();
+  }
+});
+window.addEventListener("scroll", () => {
+  nav.classList.toggle("solid", window.scrollY > 40);
+  hideHoverImmediate();
+}, { passive: true });
+window.addEventListener("resize", hideHoverImmediate);
+
+renderLolomo("broadcast");
+
+document.addEventListener("DOMContentLoaded", () => {
+  const heroVideo = document.getElementById("bill-video");
+  if (heroVideo) {
+    heroVideo.play().catch(() => {});
+  }
+  setTimeout(() => document.getElementById("loading")?.classList.add("done"), 800);
+});
+</script>
+</body>
+</html>
