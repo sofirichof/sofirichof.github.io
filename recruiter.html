@@ -988,7 +988,7 @@
     <div id="bill-slides-bg" class="bill-slides-bg"></div>
     <div class="bill-overlay"></div>
     <div class="bill-content">
-      <div class="bill-kicker"><span class="series-mark">S</span><span>Sofia González Irigoyen · Producer</span></div>
+      <div class="bill-kicker"><span class="series-mark">S</span><span>PRODUCTION PROFILE</span></div>
       <div class="bill-badge bill-slide-fade" id="bill-badge">Featured Profile</div>
       <h1 class="bill-title bill-slide-fade" id="hero-title"></h1>
       <div class="meta-line bill-slide-fade" id="bill-meta" aria-label="Project details"></div>
@@ -1332,7 +1332,7 @@ function goToSlide(index) {
   carouselFadeTimer = setTimeout(() => {
     if (s.isIntro) {
       const intro = introSlide[activeReel];
-      document.getElementById("bill-badge").textContent = activeReel === "broadcast" ? "Production Profile" : "Film & Narrative Profile";
+      document.getElementById("bill-badge").textContent = activeReel === "broadcast" ? "TV & FILM" : "Film & Narrative Profile";
       document.getElementById("hero-title").innerHTML = intro.title.replace(/\n/g, "<br>");
       document.getElementById("bill-meta").innerHTML = intro.meta;
       document.getElementById("bill-desc").textContent = intro.desc;
