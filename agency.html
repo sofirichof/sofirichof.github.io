@@ -203,7 +203,7 @@
     .stat-value{font-size:.84rem;color:rgba(255,255,255,.82);line-height:1.45;}
 
     main{position:relative;z-index:2;margin-top:-10vh;padding:0 0 4rem;}
-    .row{margin:2.35rem 0;}
+    .row{position:relative;margin:2.35rem 0;}
     .row-header{
       display:flex;
       align-items:center;
@@ -289,6 +289,29 @@
     .card-desc{color:rgba(255,255,255,.66);font-size:.84rem;line-height:1.58;margin-bottom:.8rem;}
     .tag-row{display:flex;flex-wrap:wrap;gap:.35rem;}
     .tag{font-size:.64rem;line-height:1.2;padding:.22rem .48rem;border-radius:2px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.78);}
+  .row-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 6;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.25);
+    background: rgba(20,20,20,.88);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    font-size: 1.3rem;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,.4);
+    transition: background .2s, border-color .2s;
+  }
+  .row-arrow[data-dir="-1"] { left: .5rem; }
+  .row-arrow[data-dir="1"]  { right: .5rem; }
+  .row-arrow:hover { background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.5); }
+  @media(hover:none),(pointer:coarse){.row-arrow{display:none;}}
 
     .case-section{
       border-top:1px solid rgba(255,255,255,.09);
@@ -468,7 +491,8 @@
       <h2 class="row-title">AdLab Client Work</h2>
       <div class="row-note">Spring 2026 · Client-facing deliverables</div>
     </div>
-    <div class="scroller">
+    <button class="row-arrow" type="button" data-dir="-1" aria-label="Scroll left">‹</button>
+    <div class="scroller" id="scroller-client">
       <div class="track">
         <article class="campaign-card" data-video="media/ad/capital-one/affirmation-cake.mp4" data-orientation="vertical">
           <div class="media vertical"><video src="media/ad/capital-one/affirmation-cake.mp4" poster="assets/ad/AFFIRMATIONCAKE-THUMB.png" muted loop playsinline preload="metadata"></video><span class="play-chip">▶ Play</span></div>
@@ -526,6 +550,7 @@
         </article>
       </div>
     </div>
+    <button class="row-arrow" type="button" data-dir="1" aria-label="Scroll right">›</button>
   </section>
 
   <section class="row" id="spec-work">
@@ -533,7 +558,8 @@
       <h2 class="row-title">Spec Campaigns</h2>
       <div class="row-note">Solo and mock campaign work</div>
     </div>
-    <div class="scroller">
+    <button class="row-arrow" type="button" data-dir="-1" aria-label="Scroll left">‹</button>
+    <div class="scroller" id="scroller-spec">
       <div class="track">
         <article class="campaign-card" data-video="media/ad/spec/only-humans-can.mp4">
           <div class="media"><video src="media/ad/spec/only-humans-can.mp4" poster="https://img.youtube.com/vi/aqJrNGxHNVY/hqdefault.jpg" muted loop playsinline preload="metadata"></video><span class="play-chip">▶ Play</span></div>
@@ -564,6 +590,7 @@
         </article>
       </div>
     </div>
+    <button class="row-arrow" type="button" data-dir="1" aria-label="Scroll right">›</button>
   </section>
 
   <section class="case-section" id="strategy">
@@ -705,6 +732,13 @@ setInterval(rotateHeroClip, 6500);
 document.getElementById("modal-close").addEventListener("click", closeModal);
 modal.addEventListener("click", event => { if (!modalContent.contains(event.target)) closeModal(); });
 document.addEventListener("keydown", event => { if (event.key === "Escape" && modal.classList.contains("active")) closeModal(); });
+document.querySelectorAll(".row-arrow").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const scroller = btn.closest(".row").querySelector(".scroller");
+    if (!scroller) return;
+    scroller.scrollBy({ left: scroller.clientWidth * .8 * Number(btn.dataset.dir), behavior: "smooth" });
+  });
+});
 </script>
 </body>
 </html>
