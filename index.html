@@ -32,11 +32,16 @@
     text-shadow:0 0 24px rgba(229,9,20,.45);
   }
   .tap-ring {
-    width:72px; height:72px; border-radius:50%;
+    width:72px;
+    height:72px;
+    border-radius:50%;
     border:2px solid rgba(255,255,255,.78);
     background:var(--terra);
-    display:flex; align-items:center; justify-content:center;
-    color:#fff; font-size:1.55rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:1.55rem;
     box-shadow:0 0 34px rgba(229,9,20,.45);
   }
   .tap-hint { font-size:.78rem; letter-spacing:.25em; text-transform:uppercase; color:rgba(255,255,255,.78); }
@@ -48,18 +53,7 @@
     display:none; align-items:center; justify-content:center;
   }
   #intro-screen.active { display:flex; }
-
-  /* landscape/desktop: letterbox so full video is visible */
-  #intro-video {
-    width:100%; height:100%;
-    object-fit:contain;
-    display:block;
-  }
-  /* portrait/mobile: fill the screen with the vertical video */
-  @media (orientation: portrait) {
-    #intro-video { object-fit:cover; }
-  }
-
+  #intro-video { width:100%; height:100%; object-fit:contain; display:block; }
   #intro-fade { position:absolute; inset:0; background:#000; opacity:0; pointer-events:none; transition:opacity .8s ease; }
 
   #profile-screen {
@@ -75,13 +69,7 @@
   .ps-heading { font-family:var(--font); font-size:clamp(2rem,4vw,3rem); letter-spacing:.1em; color:var(--text); margin-bottom:.5rem; text-align:center; }
   .ps-sub { font-size:.82rem; color:var(--muted); margin-bottom:3.5rem; text-align:center; letter-spacing:.08em; }
 
-  .profiles {
-    display:grid;
-    grid-template-columns: repeat(4, 120px);
-    gap:2.5rem;
-    justify-content:center;
-    max-width:780px;
-  }
+  .profiles { display:flex; gap:2.5rem; flex-wrap:wrap; justify-content:center; max-width:780px; }
   .profile-card { display:flex; flex-direction:column; align-items:center; gap:.9rem; cursor:pointer; transition:transform .2s; text-decoration:none; }
   .profile-card:hover { transform:scale(1.08); }
   .profile-card:hover .profile-avatar { outline:3px solid #fff; }
@@ -89,6 +77,7 @@
 
   .profile-avatar { width:120px; height:120px; border-radius:6px; overflow:hidden; outline:3px solid transparent; transition:outline .2s; background:var(--bg2); }
   .profile-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
+
   .profile-avatar .fallback { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:3rem; }
 
   .profile-name {
@@ -101,24 +90,6 @@
     text-align:center;
     text-transform:uppercase;
     transition:color .2s;
-  }
-
-  /* ── Mobile ── */
-  @media (max-width: 600px) {
-    .ps-sub { margin-bottom:2.5rem; }
-    .profiles {
-      grid-template-columns: repeat(2, 1fr);
-      gap:1.6rem 2rem;
-      max-width:320px;
-    }
-    .profile-avatar { width:100%; height:0; padding-bottom:100%; position:relative; }
-    .profile-avatar img,
-    .profile-avatar .fallback {
-      position:absolute; inset:0; width:100%; height:100%;
-    }
-  }
-  @media (max-width: 360px) {
-    .profiles { max-width:260px; gap:1.2rem 1.4rem; }
   }
 </style>
 </head>
@@ -133,7 +104,8 @@
 </div>
 
 <div id="intro-screen">
-  <video id="intro-video" muted playsinline></video>
+  <!-- ⚠️ MAKE SURE YOU REPLACE THIS WITH YOUR REAL VIDEO FILE -->
+  <video id="intro-video" src="media/intro.mp4" muted playsinline></video>
   <div id="intro-fade"></div>
 </div>
 
@@ -188,12 +160,9 @@
     const intro = document.getElementById('intro-screen');
     const video = document.getElementById('intro-video');
 
-    // Use vertical video on portrait screens (phones held upright)
-    const isPortrait = window.innerHeight > window.innerWidth;
-    video.src = isPortrait ? 'media/vertical-intro.mp4' : 'media/intro.mp4';
-
     intro.classList.add('active');
 
+    // ✅ SIMPLE + RELIABLE SOUND
     video.play().then(() => {
       const audio = new Audio("media/tada.mp3");
       audio.volume = 0.8;
