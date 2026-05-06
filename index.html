@@ -120,6 +120,51 @@
   @media (max-width: 360px) {
     .profiles { max-width:260px; gap:1.2rem 1.4rem; }
   }
+
+  /* ── Deep Cut unlock ── */
+  .deep-cut-profile { display: none; }
+  .deep-cut-profile.unlocked { display: flex; }
+  .dc-modal {
+    position: fixed; inset: 0; z-index: 300;
+    display: none; align-items: center; justify-content: center;
+    background: rgba(0,0,0,.82); backdrop-filter: blur(6px);
+  }
+  .dc-modal.active { display: flex; }
+  .dc-inner {
+    background: #141414;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 8px;
+    padding: 2.5rem 2rem;
+    max-width: 420px;
+    width: calc(100% - 3rem);
+    text-align: center;
+    box-shadow: 0 0 60px rgba(229,9,20,.2);
+  }
+  .dc-eyebrow {
+    font-size: .65rem; font-weight: 900; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--terra); margin-bottom: 1rem;
+  }
+  .dc-title {
+    font-family: var(--font); font-size: 2.2rem; letter-spacing: .06em;
+    line-height: 1; color: #fff; margin-bottom: .85rem;
+  }
+  .dc-body {
+    font-size: .92rem; color: rgba(255,255,255,.68);
+    line-height: 1.7; margin-bottom: 1.75rem;
+  }
+  .dc-actions { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
+  .dc-btn {
+    padding: .65rem 1.35rem; border-radius: 4px; border: 0;
+    font-family: var(--sans); font-weight: 800; font-size: .84rem;
+    cursor: pointer; transition: transform .18s, background .18s; white-space: nowrap;
+  }
+  .dc-btn.primary { background: var(--terra); color: #fff; }
+  .dc-btn.primary:hover { background: var(--terra-dark); transform: translateY(-1px); }
+  .dc-btn.secondary {
+    background: rgba(255,255,255,.1); color: rgba(255,255,255,.82);
+    border: 1px solid rgba(255,255,255,.18);
+  }
+  .dc-btn.secondary:hover { background: rgba(255,255,255,.18); transform: translateY(-1px); }
 </style>
 </head>
 <body>
@@ -166,7 +211,7 @@
       <span class="profile-name">Collaborators</span>
     </a>
 
-    <a href="stalker.html" class="profile-card">
+    <a href="stalker.html" class="profile-card deep-cut-profile">
       <div class="profile-avatar">
         <img src="YOUR-IMAGE-5.png" alt="Stalker" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
         <div class="fallback">👀</div>
@@ -211,6 +256,55 @@
       setTimeout(() => ps.classList.add('visible'), 50);
     }, INTRO_DURATION + 100);
   }
+
+  // ── Deep Cut unlock flow ──────────────────────────────────────
+  const DC_KEY     = 'sofiaDeepCutUnlocked';
+  const DC_SESSION = 'sofiaDeepCutModalShown';
+
+  if (localStorage.getItem(DC_KEY) === 'true') {
+    document.querySelector('.deep-cut-profile').classList.add('unlocked');
+  }
+
+  function startDeepCutTimer() {
+    if (localStorage.getItem(DC_KEY) === 'true') return;
+    if (sessionStorage.getItem(DC_SESSION)) return;
+    setTimeout(() => {
+      const m = document.getElementById('dc-modal');
+      m.classList.add('active');
+      m.setAttribute('aria-hidden', 'false');
+      sessionStorage.setItem(DC_SESSION, '1');
+      document.getElementById('dc-stay').focus();
+    }, 40000);
+  }
+
+  document.getElementById('dc-stay').addEventListener('click', () => {
+    const m = document.getElementById('dc-modal');
+    m.classList.remove('active');
+    m.setAttribute('aria-hidden', 'true');
+  });
+
+  document.getElementById('dc-unlock').addEventListener('click', () => {
+    localStorage.setItem(DC_KEY, 'true');
+    window.location.href = 'stalker.html';
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.getElementById('dc-modal').classList.contains('active')) {
+      document.getElementById('dc-stay').click();
+    }
+  });
 </script>
+
+<div id="dc-modal" class="dc-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="dc-title">
+  <div class="dc-inner">
+    <div class="dc-eyebrow">⏸ &nbsp;Are you still watching?</div>
+    <h2 class="dc-title" id="dc-title">Are you still<br>watching?</h2>
+    <p class="dc-body">You've made it past the portfolio layer. There's a less official cut if you want it.</p>
+    <div class="dc-actions">
+      <button id="dc-stay" class="dc-btn secondary">Stay Professional</button>
+      <button id="dc-unlock" class="dc-btn primary">Show Me the Deep Cut</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
