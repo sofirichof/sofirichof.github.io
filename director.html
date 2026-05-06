@@ -185,7 +185,7 @@
 
   /* ── Rows ── */
   #lolomo { position: relative; z-index: 2; margin-top: -11vh; padding-bottom: 2rem; }
-  .row { margin: 2.3rem 0; }
+  .row { position: relative; margin: 2.3rem 0; }
   .row-header {
     padding: 0 4%;
     display: flex;
@@ -201,6 +201,28 @@
     line-height: 1;
   }
   .row-note { color: var(--muted); font-size: .78rem; }
+  .row-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 6;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.25);
+    background: rgba(20,20,20,.88);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    font-size: 1.3rem;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,.4);
+    transition: background .2s, border-color .2s;
+  }
+  .row-arrow[data-dir="-1"] { left: .5rem; }
+  .row-arrow[data-dir="1"]  { right: .5rem; }
+  .row-arrow:hover { background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.5); }
   .row-scroller {
     overflow-x: auto;
     padding: .25rem 4% 1.2rem;
@@ -504,6 +526,7 @@
   @media (hover: none), (pointer: coarse) {
     .tile:hover { transform: none; }
     .dev-tile:hover { transform: none; }
+    .row-arrow { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
@@ -555,30 +578,36 @@
       <h2 class="row-title">In Development</h2>
       <span class="row-note">Current projects</span>
     </div>
-    <div class="row-scroller" id="scroller-dev">
+    <button class="row-arrow" type="button" data-dir="-1" aria-label="Scroll In Development left">‹</button>
+  <div class="row-scroller" id="scroller-dev">
       <div class="row-track" id="track-dev"></div>
     </div>
   </div>
+  <button class="row-arrow" type="button" data-dir="1" aria-label="Scroll In Development right">›</button>
 
   <div class="row">
     <div class="row-header">
       <h2 class="row-title">Produced</h2>
       <span class="row-note">Producer credits</span>
     </div>
-    <div class="row-scroller" id="scroller-produced">
+    <button class="row-arrow" type="button" data-dir="-1" aria-label="Scroll Produced left">‹</button>
+  <div class="row-scroller" id="scroller-produced">
       <div class="row-track" id="track-produced"></div>
     </div>
   </div>
+  <button class="row-arrow" type="button" data-dir="1" aria-label="Scroll Produced right">›</button>
 
   <div class="row">
     <div class="row-header">
       <h2 class="row-title">On Set</h2>
       <span class="row-note">AD, script supervision & department credits</span>
     </div>
-    <div class="row-scroller" id="scroller-onset">
+    <button class="row-arrow" type="button" data-dir="-1" aria-label="Scroll On Set left">‹</button>
+  <div class="row-scroller" id="scroller-onset">
       <div class="row-track" id="track-onset"></div>
     </div>
   </div>
+  <button class="row-arrow" type="button" data-dir="1" aria-label="Scroll On Set right">›</button>
 
 </section>
 
@@ -834,6 +863,15 @@ window.addEventListener("scroll", () => {
 document.addEventListener("DOMContentLoaded", () => {
   const v = document.getElementById("bill-video");
   if (v) v.play().catch(() => {});
+});
+
+// ── Row arrows ────────────────────────────────────────────────
+document.querySelectorAll(".row-arrow").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const scroller = btn.closest(".row").querySelector(".row-scroller");
+    if (!scroller) return;
+    scroller.scrollBy({ left: scroller.clientWidth * .8 * Number(btn.dataset.dir), behavior: "smooth" });
+  });
 });
 </script>
 </body>
