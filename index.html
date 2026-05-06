@@ -122,8 +122,15 @@
   }
 
   /* ── Deep Cut unlock ── */
-  .deep-cut-profile { display: none; }
-  .deep-cut-profile.unlocked { display: flex; }
+  .profile-avatar { position: relative; }
+  .deep-cut-profile.locked { cursor: default; }
+  .deep-cut-profile.locked:hover { transform: none; }
+  .deep-cut-profile.locked:hover .profile-avatar { outline-color: transparent; }
+  .deep-cut-profile.locked .profile-avatar img,
+  .deep-cut-profile.locked .profile-avatar .fallback { filter: grayscale(1); opacity: .45; }
+  .deep-cut-profile.locked .profile-name { color: rgba(255,255,255,.3); }
+  .dc-lock-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.32); border-radius: 6px; font-size: 1.4rem; }
+  .deep-cut-profile.unlocked .dc-lock-overlay { display: none; }
   .dc-modal {
     position: fixed; inset: 0; z-index: 300;
     display: none; align-items: center; justify-content: center;
@@ -211,12 +218,13 @@
       <span class="profile-name">Collaborators</span>
     </a>
 
-    <a href="stalker.html" class="profile-card deep-cut-profile">
+    <a href="stalker.html" class="profile-card deep-cut-profile locked" id="dc-card">
       <div class="profile-avatar">
         <img src="YOUR-IMAGE-5.png" alt="Stalker" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
         <div class="fallback">👀</div>
+        <div class="dc-lock-overlay" aria-hidden="true">🔒</div>
       </div>
-      <span class="profile-name">you found me</span>
+      <span class="profile-name" id="dc-card-name">Stay Out</span>
     </a>
 
   </div>
@@ -254,6 +262,7 @@
       const ps = document.getElementById('profile-screen');
       ps.classList.add('active');
       setTimeout(() => ps.classList.add('visible'), 50);
+      startDeepCutTimer();
     }, INTRO_DURATION + 100);
   }
 
@@ -261,8 +270,27 @@
   const DC_KEY     = 'sofiaDeepCutUnlocked';
   const DC_SESSION = 'sofiaDeepCutModalShown';
 
+  const dcCard = document.getElementById('dc-card');
+  const dcName  = document.getElementById('dc-card-name');
+
+  function unlockDeepCut() {
+    dcCard.classList.remove('locked');
+    dcCard.classList.add('unlocked');
+    dcName.textContent = 'you found me';
+  }
+
   if (localStorage.getItem(DC_KEY) === 'true') {
-    document.querySelector('.deep-cut-profile').classList.add('unlocked');
+    unlockDeepCut();
+  } else {
+    dcCard.addEventListener('click', e => {
+      if (dcCard.classList.contains('locked')) {
+        e.preventDefault();
+        const h = document.getElementById('dc-hint');
+        h.classList.add('active');
+        h.setAttribute('aria-hidden', 'false');
+        document.getElementById('dc-hint-ok').focus();
+      }
+    });
   }
 
   function startDeepCutTimer() {
@@ -285,12 +313,22 @@
 
   document.getElementById('dc-unlock').addEventListener('click', () => {
     localStorage.setItem(DC_KEY, 'true');
-    window.location.href = 'stalker.html';
+    unlockDeepCut();
+    const m = document.getElementById('dc-modal');
+    m.classList.remove('active');
+    setTimeout(() => { window.location.href = 'stalker.html'; }, 300);
+  });
+
+  document.getElementById('dc-hint-ok').addEventListener('click', () => {
+    const h = document.getElementById('dc-hint');
+    h.classList.remove('active');
+    h.setAttribute('aria-hidden', 'true');
   });
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && document.getElementById('dc-modal').classList.contains('active')) {
-      document.getElementById('dc-stay').click();
+    if (e.key === 'Escape') {
+      if (document.getElementById('dc-modal').classList.contains('active')) document.getElementById('dc-stay').click();
+      if (document.getElementById('dc-hint').classList.contains('active')) document.getElementById('dc-hint-ok').click();
     }
   });
 </script>
@@ -303,6 +341,17 @@
     <div class="dc-actions">
       <button id="dc-stay" class="dc-btn secondary">Stay Professional</button>
       <button id="dc-unlock" class="dc-btn primary">Show Me the Deep Cut</button>
+    </div>
+  </div>
+</div>
+
+<div id="dc-hint" class="dc-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="dc-hint-title">
+  <div class="dc-inner">
+    <div class="dc-eyebrow">🔒 &nbsp;Profile Locked</div>
+    <h2 class="dc-title" id="dc-hint-title">Not Yet</h2>
+    <p class="dc-body">Some profiles only appear if you stay long enough.</p>
+    <div class="dc-actions">
+      <button id="dc-hint-ok" class="dc-btn primary">Got it</button>
     </div>
   </div>
 </div>
