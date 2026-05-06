@@ -436,26 +436,28 @@
     color: #e5e5e5;
     line-height: 1;
   }
-  .row-controls {
-    display: flex;
-    gap: .35rem;
-  }
   .row-arrow {
-    width: 34px;
-    height: 34px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 6;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
-    border: 1px solid rgba(255,255,255,.18);
-    background: rgba(0,0,0,.42);
+    border: 1px solid rgba(255,255,255,.25);
+    background: rgba(20,20,20,.88);
+    backdrop-filter: blur(6px);
     color: #fff;
+    font-size: 1.3rem;
     display: grid;
     place-items: center;
     cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,.4);
     transition: background .2s, border-color .2s;
   }
-  .row-arrow:hover {
-    background: rgba(255,255,255,.14);
-    border-color: rgba(255,255,255,.34);
-  }
+  .row-arrow[data-dir="-1"] { left: .5rem; }
+  .row-arrow[data-dir="1"]  { right: .5rem; }
+  .row-arrow:hover { background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.5); }
   .row-scroller {
     overflow-x: auto;
     overflow-y: hidden;
@@ -916,7 +918,6 @@
       flex: 1 1 140px;
     }
     .row { margin: 1.8rem 0; }
-    .row-controls { display: none; }
     .tile { width: 58vw; min-width: 210px; }
     .about-grid,
     .skills-page-grid,
@@ -945,6 +946,7 @@
   @media (hover: none), (pointer: coarse) {
     .hover-layer { display: none; }
     .tile:hover { transform: none; }
+    .row-arrow { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -1515,16 +1517,14 @@ function renderLolomo(reelType) {
       <div class="row">
         <div class="row-header">
           <h2 class="row-title">${row.title}</h2>
-          <div class="row-controls" aria-hidden="true">
-            <button class="row-arrow" type="button" data-scroll-row="${row.id}" data-dir="-1" aria-label="Scroll ${row.title} left">‹</button>
-            <button class="row-arrow" type="button" data-scroll-row="${row.id}" data-dir="1" aria-label="Scroll ${row.title} right">›</button>
-          </div>
         </div>
+        <button class="row-arrow" type="button" data-scroll-row="${row.id}" data-dir="-1" aria-label="Scroll ${row.title} left">‹</button>
         <div class="row-scroller" id="${row.id}">
           <div class="row-track">
             ${items.map((project, index) => makeTile(project, reelType, row.key, index)).join("")}
           </div>
         </div>
+        <button class="row-arrow" type="button" data-scroll-row="${row.id}" data-dir="1" aria-label="Scroll ${row.title} right">›</button>
       </div>
     `;
   }).join("");
