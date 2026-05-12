@@ -609,7 +609,7 @@
       <div class="track">
 
         <article class="campaign-card" data-video="media/ad/spec/merit-fragrance.mp4" data-orientation="vertical">
-          <div class="media vertical"><video src="media/ad/spec/merit-fragrance.mp4" muted loop playsinline preload="metadata"></video><span class="play-chip">▶ Play</span></div>
+          <div class="media vertical"><video src="media/ad/spec/merit-fragrance.mp4" autoplay muted loop playsinline preload="auto"></video><span class="play-chip">▶ Play</span></div>
           <div class="card-body">
             <div class="card-kicker">Merit · Spec Social Motion</div>
             <div class="card-title">Merit Fragrance Spec Ad</div>
@@ -619,7 +619,7 @@
         </article>
 
         <article class="campaign-card" data-video="media/ad/spec/bluebird-hard-water.mp4" data-orientation="vertical">
-          <div class="media vertical"><video src="media/ad/spec/bluebird-hard-water.mp4" muted loop playsinline preload="metadata"></video><span class="play-chip">▶ Play</span></div>
+          <div class="media vertical"><video src="media/ad/spec/bluebird-hard-water.mp4" autoplay muted loop playsinline preload="auto"></video><span class="play-chip">▶ Play</span></div>
           <div class="card-body">
             <div class="card-kicker">Bluebird Hard Water · Spec Social Motion</div>
             <div class="card-title">Bluebird Hard Water Spec Ad</div>
@@ -769,6 +769,12 @@ document.querySelectorAll(".campaign-card").forEach(card => {
 });
 activeHeroVideo.play().catch(() => {});
 setInterval(rotateHeroClip, 6500);
+document.querySelectorAll("#scroller-ai .media video").forEach(v => {
+  v.muted = true;
+  v.defaultMuted = true;
+  v.playsInline = true;
+  v.play().catch(() => {});
+});
 document.getElementById("modal-close").addEventListener("click", closeModal);
 modal.addEventListener("click", event => { if (!modalContent.contains(event.target)) closeModal(); });
 document.addEventListener("keydown", event => { if (event.key === "Escape" && modal.classList.contains("active")) closeModal(); });
