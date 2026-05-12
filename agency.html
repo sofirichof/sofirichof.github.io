@@ -220,6 +220,7 @@
       line-height:1;
     }
     .row-note{color:var(--muted);font-size:.78rem;}
+    .row-desc{padding:.1rem 4% .55rem;color:var(--muted);font-size:.8rem;line-height:1.55;max-width:820px;}
     .scroller{
       overflow-x:auto;
       padding:.25rem 4% 1.3rem;
@@ -454,6 +455,7 @@
     <ul class="nav-links">
       <li><a href="#client-work">Client Work</a></li>
       <li><a href="#spec-work">Spec</a></li>
+      <li><a href="#ai-motion">AI Motion</a></li>
       <li><a href="#strategy">Strategy</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -582,12 +584,85 @@
         <article class="campaign-card" data-video="media/ad/ranch-spec.mp4">
           <div class="media"><video src="media/ad/ranch-spec.mp4" poster="assets/ad/RANCHSPEC_THUMB.png" muted loop playsinline preload="metadata"></video><span class="play-chip">▶ Play</span></div>
           <div class="card-body">
-            <div class="card-kicker">Practice Spec</div>
+            <div class="card-kicker">Spec · Solo Exercise</div>
             <div class="card-title">Ranch Practice</div>
-            <p class="card-desc">Additional spec/practice asset kept in the advertising profile as a work-in-progress creative piece.</p>
+            <p class="card-desc">Solo spec exercise — short-form product concept exploring lifestyle framing and visual pacing.</p>
             <div class="tag-row"><span class="tag">Spec · Practice</span><span class="tag">Short-form · Video</span></div>
           </div>
         </article>
+      </div>
+    </div>
+    <button class="row-arrow" type="button" data-dir="1" aria-label="Scroll right">›</button>
+  </section>
+
+
+  <!-- ── AI-Generated Motion Concepts ───────────────────────
+       PLACEHOLDER SECTION: Add real video files to media/ad/ai/
+       and set data-video="media/ad/ai/FILENAME.mp4" on each card.
+       Cards without data-video are display-only until files are added.
+  ──────────────────────────────────────────────────────── -->
+  <section class="row" id="ai-motion">
+    <div class="row-header">
+      <h2 class="row-title">AI-Generated Motion</h2>
+      <div class="row-note">Experimental · AI-assisted</div>
+    </div>
+    <p class="row-desc">Motion experiments using AI-generated visuals, editing, and concept development for social-first campaign ideas.</p>
+    <button class="row-arrow" type="button" data-dir="-1" aria-label="Scroll left">‹</button>
+    <div class="scroller" id="scroller-ai">
+      <div class="track">
+
+        <!-- Card 1 — add data-video="media/ad/ai/beauty-spot.mp4" when file is ready -->
+        <article class="campaign-card">
+          <div class="media" style="background:linear-gradient(135deg,#1a0a1e 0%,#3d1835 100%);">
+            <span class="play-chip" style="background:rgba(255,255,255,.18);color:rgba(255,255,255,.9);">✦ Placeholder</span>
+          </div>
+          <div class="card-body">
+            <div class="card-kicker">AI Motion · Experimental</div>
+            <div class="card-title">AI Beauty Spot</div>
+            <p class="card-desc">AI-generated visual exploration for a beauty brand — texture, light, and product motion.</p>
+            <div class="tag-row"><span class="tag">AI Motion</span><span class="tag">Visual Experiment</span><span class="tag">Short-Form</span></div>
+          </div>
+        </article>
+
+        <!-- Card 2 — add data-video="media/ad/ai/product-mood-film.mp4" when file is ready -->
+        <article class="campaign-card">
+          <div class="media" style="background:linear-gradient(135deg,#0a1a1e 0%,#1f3d38 100%);">
+            <span class="play-chip" style="background:rgba(255,255,255,.18);color:rgba(255,255,255,.9);">✦ Placeholder</span>
+          </div>
+          <div class="card-body">
+            <div class="card-kicker">AI Motion · Experimental</div>
+            <div class="card-title">Product Mood Film</div>
+            <p class="card-desc">Moodboard-to-motion concept — AI-generated product film for a lifestyle or wellness brief.</p>
+            <div class="tag-row"><span class="tag">AI Motion</span><span class="tag">Social Concept</span><span class="tag">Short-Form</span></div>
+          </div>
+        </article>
+
+        <!-- Card 3 — add data-video="media/ad/ai/social-launch-teaser.mp4" when file is ready -->
+        <article class="campaign-card">
+          <div class="media" style="background:linear-gradient(135deg,#0f0a1a 0%,#2a1f42 100%);">
+            <span class="play-chip" style="background:rgba(255,255,255,.18);color:rgba(255,255,255,.9);">✦ Placeholder</span>
+          </div>
+          <div class="card-body">
+            <div class="card-kicker">AI Motion · Experimental</div>
+            <div class="card-title">Social Launch Teaser</div>
+            <p class="card-desc">Fast-cut social launch concept using AI-generated transitions and text-on-motion for a campaign open.</p>
+            <div class="tag-row"><span class="tag">AI Motion</span><span class="tag">Social Concept</span><span class="tag">Short-Form</span></div>
+          </div>
+        </article>
+
+        <!-- Card 4 — add data-video="media/ad/ai/brand-world-test.mp4" when file is ready -->
+        <article class="campaign-card">
+          <div class="media" style="background:linear-gradient(135deg,#0a0f1e 0%,#1f2840 100%);">
+            <span class="play-chip" style="background:rgba(255,255,255,.18);color:rgba(255,255,255,.9);">✦ Placeholder</span>
+          </div>
+          <div class="card-body">
+            <div class="card-kicker">AI Motion · Experimental</div>
+            <div class="card-title">Brand World Test</div>
+            <p class="card-desc">Explorative brand world build using AI-generated environment and atmosphere for a spec brief.</p>
+            <div class="tag-row"><span class="tag">AI Motion</span><span class="tag">Visual Experiment</span><span class="tag">Brand Concept</span></div>
+          </div>
+        </article>
+
       </div>
     </div>
     <button class="row-arrow" type="button" data-dir="1" aria-label="Scroll right">›</button>
