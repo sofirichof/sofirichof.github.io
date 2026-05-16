@@ -275,8 +275,8 @@
   }
 
   // ── Deep Cut unlock flow ──────────────────────────────────────
-  const DC_KEY     = 'sofiaDeepCutUnlocked';
-  const DC_SESSION = 'sofiaDeepCutModalShown';
+  const DC_KEY = 'sofiaDeepCutUnlocked';
+  let dcTimer  = null;
 
   const dcCard = document.getElementById('dc-card');
   const dcName  = document.getElementById('dc-card-name');
@@ -301,16 +301,18 @@
     });
   }
 
+  function showDeepCutModal() {
+    if (localStorage.getItem(DC_KEY) === 'true') return;
+    const m = document.getElementById('dc-modal');
+    m.classList.add('active');
+    m.setAttribute('aria-hidden', 'false');
+    document.getElementById('dc-stay').focus();
+  }
+
   function startDeepCutTimer() {
     if (localStorage.getItem(DC_KEY) === 'true') return;
-    if (sessionStorage.getItem(DC_SESSION)) return;
-    setTimeout(() => {
-      const m = document.getElementById('dc-modal');
-      m.classList.add('active');
-      m.setAttribute('aria-hidden', 'false');
-      sessionStorage.setItem(DC_SESSION, '1');
-      document.getElementById('dc-stay').focus();
-    }, 40000);
+    clearTimeout(dcTimer);
+    dcTimer = setTimeout(showDeepCutModal, 40000);
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -318,10 +320,15 @@
       const m = document.getElementById('dc-modal');
       m.classList.remove('active');
       m.setAttribute('aria-hidden', 'true');
+      if (localStorage.getItem(DC_KEY) !== 'true') {
+        clearTimeout(dcTimer);
+        dcTimer = setTimeout(showDeepCutModal, 300000);
+      }
     });
 
     document.getElementById('dc-unlock').addEventListener('click', () => {
       localStorage.setItem(DC_KEY, 'true');
+      clearTimeout(dcTimer);
       unlockDeepCut();
       const m = document.getElementById('dc-modal');
       m.classList.remove('active');
