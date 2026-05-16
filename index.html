@@ -232,6 +232,8 @@
 
 <script>
   const INTRO_DURATION = 5200;
+  const DC_KEY = 'sofiaDeepCutUnlocked';
+  let dcTimer  = null;
 
   if (new URLSearchParams(window.location.search).get('profiles') === '1') {
     document.getElementById('tap-screen').style.display = 'none';
@@ -275,9 +277,6 @@
   }
 
   // ── Deep Cut unlock flow ──────────────────────────────────────
-  const DC_KEY = 'sofiaDeepCutUnlocked';
-  let dcTimer  = null;
-
   const dcCard = document.getElementById('dc-card');
   const dcName  = document.getElementById('dc-card-name');
 
