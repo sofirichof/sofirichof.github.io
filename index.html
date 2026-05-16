@@ -233,6 +233,14 @@
 <script>
   const INTRO_DURATION = 5200;
 
+  if (new URLSearchParams(window.location.search).get('profiles') === '1') {
+    document.getElementById('tap-screen').style.display = 'none';
+    const ps = document.getElementById('profile-screen');
+    ps.classList.add('active');
+    ps.classList.add('visible');
+    startDeepCutTimer();
+  }
+
   function startIntro() {
     const tap = document.getElementById('tap-screen');
     tap.classList.add('fade-out');
