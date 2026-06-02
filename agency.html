@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"><!-- lang updated by sgI18n -->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Agency production portfolio for Sofia Gonzalez Irigoyen — student producer with film, TV, and broadcast experience targeting agency production, branded content, and campaign execution." />
   <title>Sofia Gonzalez Irigoyen | Advertising Portfolio</title>
+  <link rel="alternate" hreflang="en" href="agency.html"/>
+  <link rel="alternate" hreflang="es" href="agency.html?lang=es"/>
+  <link rel="alternate" hreflang="x-default" href="agency.html"/>
+  <script src="translations.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700;800&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -446,6 +450,13 @@
       main{margin-top:-6vh;}
       .campaign-card{width:78vw;}
     }
+
+    /* ── Language switcher ── */
+    .sg-lang-switcher{display:flex;gap:0;border:1px solid rgba(255,255,255,.18);border-radius:4px;overflow:hidden;flex-shrink:0;}
+    .sg-lang-btn{background:transparent;border:0;color:rgba(255,255,255,.46);font-family:var(--sans);font-size:.65rem;font-weight:800;letter-spacing:.14em;padding:.34rem .72rem;cursor:pointer;transition:background .18s,color .18s;}
+    .sg-lang-btn+.sg-lang-btn{border-left:1px solid rgba(255,255,255,.18);}
+    .sg-lang-btn:hover{background:rgba(255,255,255,.09);color:#fff;}
+    .sg-lang-btn.active{background:rgba(229,9,20,.8);color:#fff;}
   </style>
 </head>
 <body>
@@ -457,11 +468,14 @@
       <li><a href="#spec-work">Spec</a></li>
       <li><a href="#ai-motion">AI Motion</a></li>
       <li><a href="#strategy">Strategy</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#about" data-i18n="nav.about">About</a></li>
+      <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
     </ul>
   </div>
-  <a class="profile-link" href="index.html?profiles=1">Switch Profile</a>
+  <div style="display:flex;align-items:center;gap:.75rem;">
+    <div id="nav-lang"></div>
+    <a class="profile-link" href="index.html?profiles=1" data-i18n="nav.switch">Switch Profile</a>
+  </div>
 </nav>
 
 <section class="hero">
@@ -470,11 +484,11 @@
   <video class="hero-video" id="hero-video-b" muted loop playsinline preload="metadata"></video>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="kicker"><span class="mark">A</span><span>Advertising Profile</span></div>
+    <div class="kicker"><span class="mark">A</span><span data-i18n="ag.kicker">Advertising Profile</span></div>
     <div class="hero-badge">Creative Production Portfolio</div>
     <h1 class="hero-title">ADVERTISING</h1>
     <div class="meta-line"><span class="match">Branded Content</span><span class="rating">Portfolio</span><span>Social Motion</span><span>Spec Campaigns</span><span>Client-Facing Work</span></div>
-    <p class="hero-sub">Producer and advertising student working across campaign concepts, branded content, and short-form social video. I bring production instincts to creative ideas — from brief to shoot to final delivery.</p>
+    <p class="hero-sub" data-i18n="ag.intro.desc">Producer and advertising student working across campaign concepts, branded content, and short-form social video. I bring production instincts to creative ideas — from brief to shoot to final delivery.</p>
     <div class="hero-actions">
       <a class="btn-primary" href="#client-work">▶ View Client Work</a>
       <a class="btn-secondary" href="#spec-work">Spec Campaigns</a>
@@ -557,8 +571,8 @@
 
   <section class="row" id="spec-work">
     <div class="row-header">
-      <h2 class="row-title">Spec Campaigns</h2>
-      <div class="row-note">Solo and mock campaign work</div>
+      <h2 class="row-title" data-i18n="ag.row.spec">Spec Campaigns</h2>
+      <div class="row-note" data-i18n="ag.row.spec.note">Solo and mock campaign work</div>
     </div>
     <button class="row-arrow" type="button" data-dir="-1" aria-label="Scroll left">‹</button>
     <div class="scroller" id="scroller-spec">
@@ -601,8 +615,8 @@
 
   <section class="row" id="ai-motion">
     <div class="row-header">
-      <h2 class="row-title">AI-Generated Motion</h2>
-      <div class="row-note">Spec social motion ads exploring product atmosphere, brand mood, and AI-assisted visual world-building.</div>
+      <h2 class="row-title" data-i18n="ag.row.ai">AI-Generated Motion</h2>
+      <div class="row-note" data-i18n="ag.row.ai.note">Spec social motion ads exploring product atmosphere, brand mood, and AI-assisted visual world-building.</div>
     </div>
     <button class="row-arrow" type="button" data-dir="-1" aria-label="Scroll left">‹</button>
     <div class="scroller" id="scroller-ai">
@@ -644,22 +658,22 @@
   </section>
   <section class="case-section" id="strategy">
     <div class="case-inner">
-      <h2 class="row-title">Agency Toolkit</h2>
+      <h2 class="row-title" data-i18n="ag.toolkit.h">Agency Toolkit</h2>
       <div class="case-grid">
-        <div class="case-panel"><div class="case-panel-title">Concept Development</div><p class="case-panel-text">Turning a single idea into a campaign platform, slogan, social execution, and video concept that can survive client feedback.</p></div>
-        <div class="case-panel"><div class="case-panel-title">Production</div><p class="case-panel-text">Coordinating shoots, talent, locations, feedback, edit needs, and delivery specs for platform-specific assets.</p></div>
-        <div class="case-panel"><div class="case-panel-title">Post & Delivery</div><p class="case-panel-text">Editing short-form deliverables for TikTok, Instagram, Facebook, and cable contexts with clear pacing and clean final exports.</p></div>
+        <div class="case-panel"><div class="case-panel-title" data-i18n="ag.tp1.title">Concept Development</div><p class="case-panel-text" data-i18n="ag.tp1.text">Turning a single idea into a campaign platform, slogan, social execution, and video concept that can survive client feedback.</p></div>
+        <div class="case-panel"><div class="case-panel-title" data-i18n="ag.tp2.title">Production</div><p class="case-panel-text" data-i18n="ag.tp2.text">Coordinating shoots, talent, locations, feedback, edit needs, and delivery specs for platform-specific assets.</p></div>
+        <div class="case-panel"><div class="case-panel-title" data-i18n="ag.tp3.title">Post & Delivery</div><p class="case-panel-text" data-i18n="ag.tp3.text">Editing short-form deliverables for TikTok, Instagram, Facebook, and cable contexts with clear pacing and clean final exports.</p></div>
       </div>
     </div>
   </section>
 
   <section class="case-section" id="about">
     <div class="case-inner">
-      <h2 class="row-title">About Sofia</h2>
+      <h2 class="row-title" data-i18n="ag.about.h">About Sofia</h2>
       <div class="about-contact-grid">
         <div class="about-copy">
-          <p>Producer and advertising student at Boston University working across production, campaign thinking, and social-first storytelling. I’m interested in ideas that are clear enough to travel, visual enough to remember, and practical enough to produce well.</p>
-          <p>My production background shapes how I think creatively. I don’t just ask whether an idea is interesting — I think about how it will be shot, edited, delivered, and experienced across platforms. That makes me useful in the space between concept and execution.</p>
+          <p data-i18n="ag.about.p1">Producer and advertising student at Boston University working across production, campaign thinking, and social-first storytelling. I’m interested in ideas that are clear enough to travel, visual enough to remember, and practical enough to produce well.</p>
+          <p data-i18n="ag.about.p2">My production background shapes how I think creatively. I don’t just ask whether an idea is interesting — I think about how it will be shot, edited, delivered, and experienced across platforms. That makes me useful in the space between concept and execution.</p>
           <div class="skill-tags">
             <span class="tag">Branded Content</span>
             <span class="tag">Social Video Production</span>
@@ -671,8 +685,8 @@
           </div>
         </div>
         <div class="case-panel">
-          <div class="case-panel-title">Advertising Focus</div>
-          <p class="case-panel-text">Social-first campaign concepts, short-form video production, client-facing creative, and spec work with a clear single idea.</p>
+          <div class="case-panel-title" data-i18n="ag.focus.title">Advertising Focus</div>
+          <p class="case-panel-text" data-i18n="ag.focus.text">Social-first campaign concepts, short-form video production, client-facing creative, and spec work with a clear single idea.</p>
         </div>
       </div>
     </div>
@@ -680,15 +694,15 @@
 
   <section class="case-section" id="contact">
     <div class="case-inner">
-      <h2 class="row-title">Contact</h2>
+      <h2 class="row-title" data-i18n="ag.contact.h">Contact</h2>
       <div class="about-contact-grid">
         <div class="contact-copy">
-          <p>I'm graduating in August 2026 and looking for agency production roles — PA, junior producer, or content producer. If your team needs someone who can take a creative idea from brief to camera to delivery, I'd love to talk.</p>
-          <p><a class="btn-primary" href="resume.pdf" download>↓ Download Resume</a></p>
+          <p data-i18n="ag.contact.p1">I'm graduating in August 2026 and looking for agency production roles — PA, junior producer, or content producer. If your team needs someone who can take a creative idea from brief to camera to delivery, I'd love to talk.</p>
+          <p><a class="btn-primary" href="resume.pdf" download data-i18n="btn.resume">↓ Download Resume</a></p>
         </div>
         <div class="contact-links">
-          <a class="contact-link" href="mailto:sofiagi@bu.edu"><span class="contact-label">Email</span><span>sofiagi@bu.edu</span><span aria-hidden="true">↗</span></a>
-          <a class="contact-link" href="https://www.linkedin.com/in/sofia-gonzalez-irigoyen-/" target="_blank" rel="noreferrer"><span class="contact-label">LinkedIn</span><span>sofia-gonzalez-irigoyen</span><span aria-hidden="true">↗</span></a>
+          <a class="contact-link" href="mailto:sofiagi@bu.edu"><span class="contact-label" data-i18n="rec.contact.email">Email</span><span>sofiagi@bu.edu</span><span aria-hidden="true">↗</span></a>
+          <a class="contact-link" href="https://www.linkedin.com/in/sofia-gonzalez-irigoyen-/" target="_blank" rel="noreferrer"><span class="contact-label" data-i18n="rec.contact.li">LinkedIn</span><span>sofia-gonzalez-irigoyen</span><span aria-hidden="true">↗</span></a>
         </div>
       </div>
     </div>
@@ -697,8 +711,8 @@
 
 <footer>
   <div class="footer-bottom">
-    <span>© 2026 Sofia Gonzalez Irigoyen · Advertising Profile</span>
-    <a href="index.html?profiles=1">Back to Profiles</a>
+    <span data-i18n="footer.copy">© 2026 Sofia González Irigoyen · Boston, MA</span>
+    <a href="index.html?profiles=1" data-i18n="nav.switch">Switch Profile</a>
   </div>
 </footer>
 
@@ -795,6 +809,13 @@ document.querySelectorAll(".row-arrow").forEach(btn => {
     scroller.scrollBy({ left: scroller.clientWidth * .8 * Number(btn.dataset.dir), behavior: "smooth" });
   });
 });
+
+/* ── i18n bootstrap ── */
+if (typeof sgI18n !== 'undefined') {
+  sgI18n.buildSwitcher(document.getElementById('nav-lang'));
+  sgI18n.applyPage();
+  document.addEventListener('sg:langchange', () => sgI18n.applyPage());
+}
 </script>
 </body>
 </html>
