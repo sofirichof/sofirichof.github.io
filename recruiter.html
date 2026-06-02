@@ -1383,8 +1383,9 @@ function goToSlide(index) {
         `<span class="match">${escapeHtml(p.year)}</span>` +
         `<span>${escapeHtml(p.cat)}</span>` +
         `<span>${escapeHtml(p.role)}</span>`;
-      document.getElementById("bill-desc").textContent =
-        hoverSummaries[p.title] || `${p.role} — ${p.org || p.cat}`;
+      const descKey = 'hs.' + p.title;
+      const descTranslated = tFn(descKey) !== descKey ? tFn(descKey) : (hoverSummaries[p.title] || `${p.role} — ${p.org || p.cat}`);
+      document.getElementById("bill-desc").textContent = descTranslated;
 
       const watchBtn = document.getElementById("bill-watch-btn");
       const id = cleanId(p.youtubeId);
@@ -1686,7 +1687,10 @@ function buildHoverCard(tile) {
   const detailsUrl = escapeHtml(tile.dataset.detailsUrl);
   const isExternalWatch = isExternalVideoUrl(tile.dataset.detailsUrl);
   const isWatchable = Boolean(youtubeId || isExternalWatch);
-  const summary = escapeHtml(hoverSummaries[rawTitle] || `${tile.dataset.role || "Project"}${tile.dataset.org ? ` with ${tile.dataset.org}` : ""}.`);
+  const summaryEn = hoverSummaries[rawTitle] || `${tile.dataset.role || "Project"}${tile.dataset.org ? ` with ${tile.dataset.org}` : ""}.`;
+  const summaryKey = 'hs.' + rawTitle;
+  const summaryTranslated = tFn(summaryKey) !== summaryKey ? tFn(summaryKey) : summaryEn;
+  const summary = escapeHtml(summaryTranslated);
   const ctaClass = isWatchable && detailsUrl ? "hover-cta-row" : "hover-cta-row single";
 
   hoverLayer.innerHTML = `
