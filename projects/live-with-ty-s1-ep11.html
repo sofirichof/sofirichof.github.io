@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"><!-- lang updated by sgI18n -->
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Live With TY | Sofia González Irigoyen</title>
+  <link rel="alternate" hreflang="en" href="live-with-ty-s1-ep11.html"/>
+  <link rel="alternate" hreflang="es" href="live-with-ty-s1-ep11.html?lang=es"/>
+  <link rel="alternate" hreflang="x-default" href="live-with-ty-s1-ep11.html"/>
+  <script src="../translations.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
   <style>
     :root{
@@ -476,21 +480,28 @@
       .info-grid{grid-template-columns:1fr;}
       .ep-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
     }
+
+    /* ── Language switcher ── */
+    .sg-lang-switcher{display:flex;gap:0;border:1px solid rgba(255,255,255,.18);border-radius:4px;overflow:hidden;flex-shrink:0;}
+    .sg-lang-btn{background:transparent;border:0;color:rgba(255,255,255,.46);font-family:var(--sans);font-size:.65rem;font-weight:800;letter-spacing:.14em;padding:.34rem .72rem;cursor:pointer;transition:background .18s,color .18s;}
+    .sg-lang-btn+.sg-lang-btn{border-left:1px solid rgba(255,255,255,.18);}
+    .sg-lang-btn:hover{background:rgba(255,255,255,.09);color:#fff;}
+    .sg-lang-btn.active{background:rgba(229,9,20,.8);color:#fff;}
   </style>
 </head>
 <body>
 
 <nav>
   <div class="nav-left">
-    <a href="../index.html" class="nav-logo">Sofia's Portfolio</a>
+    <a href="../index.html" class="nav-logo" data-i18n="proj.nav.logo">Sofia's Portfolio</a>
     <ul class="nav-links">
       <li><a href="../recruiter.html">Production</a></li>
       <li><a href="#overview">Overview</a></li>
       <li><a href="#media">Media</a></li>
     </ul>
   </div>
-  <div class="nav-right">
-    <a href="../recruiter.html">← Back to Production</a>
+  <div class="nav-right" style="display:flex;align-items:center;gap:.75rem;"><div id="nav-lang"></div>
+    <a href="../recruiter.html" data-i18n="proj.nav.back.prod">← Back to Production</a>
   </div>
 </nav>
 
@@ -502,7 +513,7 @@
 
   <div class="hero-inner">
     <div>
-      <div class="eyebrow">Broadcast · NATAS Award</div>
+      <div class="eyebrow" data-i18n="lwt.eyebrow">Broadcast · NATAS Award</div>
       <h1 class="hero-title">LIVE WITH TY</h1>
       <p class="hero-sub">
         Award-recognized BUTV episode where I served as Chief Editor. The project reflects my ability to bring structure, rhythm, and polish to a live television format.
@@ -523,23 +534,23 @@
     </div>
 
     <aside class="hero-card">
-      <div class="hero-card-title">Project Snapshot</div>
+      <div class="hero-card-title" data-i18n="proj.card.snapshot">Project Snapshot</div>
       <div class="hero-card-grid">
         <div class="hero-card-item">
-          <div class="hero-card-label">Role</div>
+          <div class="hero-card-label"><span data-i18n="proj.card.label.role">Role</span></div>
           <div class="hero-card-value">Chief Editor</div>
         </div>
         <div class="hero-card-item">
-          <div class="hero-card-label">Organization</div>
+          <div class="hero-card-label"><span data-i18n="proj.card.label.org">Organization</span></div>
           <div class="hero-card-value">BUTV</div>
         </div>
         <div class="hero-card-item">
-          <div class="hero-card-label">Format</div>
-          <div class="hero-card-value">Student-produced live television · Season 1</div>
+          <div class="hero-card-label"><span data-i18n="proj.card.label.format">Format</span></div>
+          <div class="hero-card-value" data-i18n="lwt.card.format">Student-produced live television · Season 1</div>
         </div>
         <div class="hero-card-item">
-          <div class="hero-card-label">Output</div>
-          <div class="hero-card-value">10 deliverables/week · ESPN, YouTube & social</div>
+          <div class="hero-card-label"><span data-i18n="proj.card.label.output">Output</span></div>
+          <div class="hero-card-value" data-i18n="lwt.card.output">10 deliverables/week · ESPN, YouTube & social</div>
         </div>
       </div>
     </aside>
@@ -548,7 +559,7 @@
 
 <main class="page">
   <section class="section" id="intro">
-    <div class="section-title">Show Intro</div>
+    <div class="section-title"><span data-i18n="proj.sec.intro">Show Intro</span></div>
     <p class="section-text" style="margin-bottom:1.2rem;">
       Motion graphics intro created in After Effects — designed, built, and delivered as part of the show's full visual package.
     </p>
@@ -565,7 +576,7 @@
   </section>
 
   <section class="section" id="overview">
-    <div class="section-title">Project Overview</div>
+    <div class="section-title"><span data-i18n="proj.sec.overview">Project Overview</span></div>
     <p class="section-text">
       <em>Live With TY</em> was part of a live television workflow where timing, energy, and clarity had to carry from production into the final edit. As Chief Editor, I helped shape the finished episode and contributed to the post-production quality of a program recognized by NATAS.
     </p>
@@ -574,7 +585,7 @@
   <section class="section">
     <div class="two-col">
       <div>
-        <div class="section-title">What I Did</div>
+        <div class="section-title"><span data-i18n="proj.sec.whatidid">What I Did</span></div>
         <div class="bullet-list">
           <div class="bullet">
             <span class="bullet-dot"></span>
@@ -600,23 +611,23 @@
       </div>
 
       <div>
-        <div class="section-title">Project Details</div>
+        <div class="section-title"><span data-i18n="proj.sec.details">Project Details</span></div>
         <div class="info-grid">
           <div class="info-card">
-            <div class="info-card-label">Category</div>
-            <div class="info-card-value">Live Television</div>
+            <div class="info-card-label"><span data-i18n="proj.detail.category">Category</span></div>
+            <div class="info-card-value" data-i18n="lwt.detail.cat">Live Television</div>
           </div>
           <div class="info-card">
-            <div class="info-card-label">Year</div>
+            <div class="info-card-label"><span data-i18n="proj.detail.year">Year</span></div>
             <div class="info-card-value">2024</div>
           </div>
           <div class="info-card">
-            <div class="info-card-label">Context</div>
-            <div class="info-card-value">BUTV live television program</div>
+            <div class="info-card-label"><span data-i18n="proj.detail.context">Context</span></div>
+            <div class="info-card-value" data-i18n="lwt.detail.ctx">BUTV live television program</div>
           </div>
           <div class="info-card">
-            <div class="info-card-label">Primary Strengths</div>
-            <div class="info-card-value">Chief editing, broadcast pacing, sports/entertainment workflow</div>
+            <div class="info-card-label"><span data-i18n="proj.detail.strengths">Primary Strengths</span></div>
+            <div class="info-card-value" data-i18n="lwt.detail.str">Chief editing, broadcast pacing, sports/entertainment workflow</div>
           </div>
         </div>
       </div>
@@ -624,14 +635,14 @@
   </section>
 
   <section class="section">
-    <div class="section-title">Why This Project Matters</div>
+    <div class="section-title"><span data-i18n="proj.sec.why">Why This Project Matters</span></div>
     <p class="section-text">
       This project matters because it shows that I can work beyond set logistics and into editorial execution. It demonstrates judgment in pacing, continuity, and final delivery, all inside a broadcast environment where the finished product has to feel energetic and clean.
     </p>
   </section>
 
   <section class="section" id="media">
-    <div class="section-title">Selected Media</div>
+    <div class="section-title"><span data-i18n="proj.sec.media">Selected Media</span></div>
     <div class="media-grid">
 
       <div class="media-card">
@@ -651,7 +662,7 @@
   </section>
 
   <section class="section" id="episodes">
-    <div class="section-title">Hot Takes with Ty — Short Form Segments</div>
+    <div class="section-title"><span data-i18n="proj.sec.shortseg">Hot Takes with Ty — Short Form Segments</span></div>
     <p class="section-text" style="margin-bottom:1.4rem;">
       Weekly short-form sports commentary segments edited and formatted for YouTube and social media as part of the 10-deliverable-per-week workflow.
     </p>
@@ -740,22 +751,30 @@
   <section class="section">
     <div class="cta-strip">
       <div class="cta-copy">
-        <div class="cta-title">Continue browsing</div>
-        <div class="cta-text">
+        <div class="cta-title"><span data-i18n="proj.cta.browse">Continue browsing</span></div>
+        <div class="cta-text" data-i18n="lwt.cta.text">
           Return to the production page to view more broadcast, narrative, and television production work.
         </div>
       </div>
-      <a class="btn-primary" href="../recruiter.html">Back to Production</a>
+      <a class="btn-primary" href="../recruiter.html"><span data-i18n="proj.cta.btn">Back to Production</span></a>
     </div>
   </section>
 </main>
 
 <footer>
   <div class="footer-bottom">
-    <span>© 2026 Sofia González Irigoyen · Project Detail Page</span>
-    <a href="../recruiter.html">← Back to Production</a>
+    <span><span data-i18n="proj.footer"><span data-i18n="proj.footer">© 2026 Sofia González Irigoyen · Project Detail Page</span></span></span>
+    <a href="../recruiter.html" data-i18n="proj.nav.back.prod">← Back to Production</a>
   </div>
 </footer>
 
+
+<script>
+if (typeof sgI18n !== 'undefined') {
+  sgI18n.buildSwitcher(document.getElementById('nav-lang'));
+  sgI18n.applyPage();
+  document.addEventListener('sg:langchange', () => sgI18n.applyPage());
+}
+</script>
 </body>
 </html>
