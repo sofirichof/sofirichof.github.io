@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"><!-- lang updated by sgI18n -->
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="description" content="Portfolio of Sofia González Irigoyen — bilingual producer with broadcast, film, and live television experience."/>
 <title>Sofia González Irigoyen | Producer Portfolio</title>
+<link rel="alternate" hreflang="en" href="recruiter.html"/>
+<link rel="alternate" hreflang="es" href="recruiter.html?lang=es"/>
+<link rel="alternate" hreflang="x-default" href="recruiter.html"/>
+<script src="translations.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
@@ -949,6 +953,31 @@
     .row-arrow { display: none; }
   }
 
+  /* ── Language switcher (nav) ── */
+  .sg-lang-switcher {
+    display: flex;
+    gap: 0;
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 4px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .sg-lang-btn {
+    background: transparent;
+    border: 0;
+    color: rgba(255,255,255,.46);
+    font-family: var(--sans);
+    font-size: .65rem;
+    font-weight: 800;
+    letter-spacing: .14em;
+    padding: .34rem .72rem;
+    cursor: pointer;
+    transition: background .18s, color .18s;
+  }
+  .sg-lang-btn + .sg-lang-btn { border-left: 1px solid rgba(255,255,255,.18); }
+  .sg-lang-btn:hover { background: rgba(255,255,255,.09); color: #fff; }
+  .sg-lang-btn.active { background: rgba(229,9,20,.8); color: #fff; }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: .001ms !important;
@@ -974,13 +1003,16 @@
   <div class="nav-left">
     <a href="#billboard" class="nav-logo" aria-label="Sofia home">SOFIA</a>
     <ul class="nav-links">
-      <li><a href="#lolomo">Work</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#lolomo" data-i18n="nav.work">Work</a></li>
+      <li><a href="#about" data-i18n="nav.about">About</a></li>
+      <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+      <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
     </ul>
   </div>
-  <a class="profile-link" href="index.html?profiles=1">Switch Profile</a>
+  <div style="display:flex;align-items:center;gap:.75rem;">
+    <div id="nav-lang"></div>
+    <a class="profile-link" href="index.html?profiles=1" data-i18n="nav.switch">Switch Profile</a>
+  </div>
 </nav>
 
 <main>
@@ -990,19 +1022,19 @@
     <div id="bill-slides-bg" class="bill-slides-bg"></div>
     <div class="bill-overlay"></div>
     <div class="bill-content">
-      <div class="bill-kicker"><span class="series-mark">P</span><span>PRODUCTION PROFILE</span></div>
+      <div class="bill-kicker"><span class="series-mark">P</span><span data-i18n="rec.kicker">PRODUCTION PROFILE</span></div>
       <div class="bill-badge bill-slide-fade" id="bill-badge">Featured Profile</div>
       <h1 class="bill-title bill-slide-fade" id="hero-title"></h1>
       <div class="meta-line bill-slide-fade" id="bill-meta" aria-label="Project details"></div>
       <div class="reel-toggle" role="tablist" aria-label="Portfolio reel">
-        <button class="reel-btn active" type="button" role="tab" aria-selected="true" data-reel-button="broadcast">Broadcast & TV</button>
-        <button class="reel-btn" type="button" role="tab" aria-selected="false" data-reel-button="film">Film & Narrative</button>
+        <button class="reel-btn active" type="button" role="tab" aria-selected="true" data-reel-button="broadcast" data-i18n="rec.toggle.b">Broadcast & TV</button>
+        <button class="reel-btn" type="button" role="tab" aria-selected="false" data-reel-button="film" data-i18n="rec.toggle.f">Film & Narrative</button>
       </div>
       <p class="bill-desc bill-slide-fade" id="bill-desc"></p>
       <div class="bill-actions">
         <button class="btn-play bill-slide-fade" id="bill-watch-btn" type="button" style="display:none"><span class="icon" aria-hidden="true">▶</span>Watch</button>
         <a href="#" class="btn-info bill-slide-fade" id="bill-info-btn"><span class="icon" aria-hidden="true">i</span>More Info</a>
-        <a href="#contact" class="btn-info subtle bill-slide-fade" id="bill-resume-btn"><span class="icon" aria-hidden="true">✉</span>Contact Me</a>
+        <a href="#contact" class="btn-info subtle bill-slide-fade" id="bill-resume-btn"><span class="icon" aria-hidden="true">✉</span><span data-i18n="btn.contactMe">Contact Me</span></a>
       </div>
       <div class="bill-indicators" id="bill-indicators" aria-label="Featured projects"></div>
     </div>
@@ -1012,11 +1044,11 @@
 
   <section class="info-section" id="about">
     <div class="section-inner">
-      <h2 class="section-row-title">About Sofia</h2>
+      <h2 class="section-row-title" data-i18n="rec.about.h">About Sofia</h2>
       <div class="about-grid">
         <div class="about-text">
-          <p>I'm a film and television producer finishing a BS in Film & Television Production at Boston University, with a second major in Advertising and an August 2026 graduation date. I've produced SAG-AFTRA short films, worked as a segment producer at Telemundo 52, gone on set in Santiago for a live variety show, and produced three seasons of Bay State TV Drama.</p>
-          <p>Skilled in studio, live-shot, and on-location production with hands-on experience in broadcast, SAG-AFTRA projects, multi-camera formats, and large-scale crews. Seeking associate producer, coordinator, and assistant roles in broadcast, network, or production companies.</p>
+          <p data-i18n="rec.about.p1">I'm a film and television producer finishing a BS in Film & Television Production at Boston University, with a second major in Advertising and an August 2026 graduation date. I've produced SAG-AFTRA short films, worked as a segment producer at Telemundo 52, gone on set in Santiago for a live variety show, and produced three seasons of Bay State TV Drama.</p>
+          <p data-i18n="rec.about.p2">Skilled in studio, live-shot, and on-location production with hands-on experience in broadcast, SAG-AFTRA projects, multi-camera formats, and large-scale crews. Seeking associate producer, coordinator, and assistant roles in broadcast, network, or production companies.</p>
           <div class="skills" aria-label="Skills">
             <span class="skill">Production Management</span>
             <span class="skill">DaVinci Resolve</span>
@@ -1031,10 +1063,10 @@
           </div>
         </div>
         <div class="sidebar-list" aria-label="Highlights">
-          <div class="sidebar-item"><div class="si-org">NATAS · 2024</div><div class="si-title">University Sports Program Award</div><div class="si-desc">Chief Editor, Live With TY Season 1</div></div>
-          <div class="sidebar-item"><div class="si-org">IFFBoston · 2026</div><div class="si-title">Student Film Showcase</div><div class="si-desc">Film selected for screening at Somerville Theater</div></div>
-          <div class="sidebar-item"><div class="si-org">Redstone Film Festival · 2026</div><div class="si-title">Best Picture</div><div class="si-desc">BU Department of Film and Television student film festival</div></div>
-          <div class="sidebar-item"><div class="si-org">AdLab · Spring 2026</div><div class="si-title">Video Producer · Above & Beyond Award</div><div class="si-desc">Country's largest student-run advertising agency</div></div>
+          <div class="sidebar-item"><div class="si-org" data-i18n="rec.hl1.org">NATAS · 2024</div><div class="si-title" data-i18n="rec.hl1.title">University Sports Program Award</div><div class="si-desc" data-i18n="rec.hl1.desc">Chief Editor, Live With TY Season 1</div></div>
+          <div class="sidebar-item"><div class="si-org" data-i18n="rec.hl2.org">IFFBoston · 2026</div><div class="si-title" data-i18n="rec.hl2.title">Student Film Showcase</div><div class="si-desc" data-i18n="rec.hl2.desc">Film selected for screening at Somerville Theater</div></div>
+          <div class="sidebar-item"><div class="si-org" data-i18n="rec.hl3.org">Redstone Film Festival · 2026</div><div class="si-title" data-i18n="rec.hl3.title">Best Picture</div><div class="si-desc" data-i18n="rec.hl3.desc">BU Department of Film and Television student film festival</div></div>
+          <div class="sidebar-item"><div class="si-org" data-i18n="rec.hl4.org">AdLab · Spring 2026</div><div class="si-title" data-i18n="rec.hl4.title">Video Producer · Above & Beyond Award</div><div class="si-desc" data-i18n="rec.hl4.desc">Country's largest student-run advertising agency</div></div>
         </div>
       </div>
     </div>
@@ -1042,12 +1074,12 @@
 
   <section class="info-section" id="skills">
     <div class="section-inner">
-      <h2 class="section-row-title">Production Toolkit</h2>
-      <p class="skills-intro">A practical view of the tools, workflows, and on-set muscles behind the work above.</p>
+      <h2 class="section-row-title" data-i18n="rec.skills.h">Production Toolkit</h2>
+      <p class="skills-intro" data-i18n="rec.skills.intro">A practical view of the tools, workflows, and on-set muscles behind the work above.</p>
       <div class="skills-page-grid">
         <div class="skill-panel">
-          <div class="skill-panel-title">Producing & Coordination</div>
-          <div class="skill-panel-text">Budget-aware production management, scheduling, talent coordination, and set communication across scripted, live, and documentary workflows.</div>
+          <div class="skill-panel-title" data-i18n="rec.sp1.title">Producing & Coordination</div>
+          <div class="skill-panel-text" data-i18n="rec.sp1.text">Budget-aware production management, scheduling, talent coordination, and set communication across scripted, live, and documentary workflows.</div>
           <div class="skill-tags">
             <span class="skill">Production Management</span>
             <span class="skill">Movie Magic Scheduling</span>
@@ -1058,8 +1090,8 @@
           </div>
         </div>
         <div class="skill-panel">
-          <div class="skill-panel-title">Broadcast & Live TV</div>
-          <div class="skill-panel-text">Comfortable in fast-moving live and live-on-tape environments, from guest coordination to control-room timing and segment support.</div>
+          <div class="skill-panel-title" data-i18n="rec.sp2.title">Broadcast & Live TV</div>
+          <div class="skill-panel-text" data-i18n="rec.sp2.text">Comfortable in fast-moving live and live-on-tape environments, from guest coordination to control-room timing and segment support.</div>
           <div class="skill-tags">
             <span class="skill">Live Broadcast</span>
             <span class="skill">Multi-cam Studio</span>
@@ -1070,8 +1102,8 @@
           </div>
         </div>
         <div class="skill-panel">
-          <div class="skill-panel-title">Post & Creative Tools</div>
-          <div class="skill-panel-text">Editing, finishing, graphics, and visual development tools used across shorts, broadcast packages, social deliverables, and portfolio media.</div>
+          <div class="skill-panel-title" data-i18n="rec.sp3.title">Post & Creative Tools</div>
+          <div class="skill-panel-text" data-i18n="rec.sp3.text">Editing, finishing, graphics, and visual development tools used across shorts, broadcast packages, social deliverables, and portfolio media.</div>
           <div class="skill-tags">
             <span class="skill">DaVinci Resolve</span>
             <span class="skill">Adobe Premiere</span>
@@ -1084,8 +1116,8 @@
           </div>
         </div>
         <div class="skill-panel">
-          <div class="skill-panel-title">Communication & Digital</div>
-          <div class="skill-panel-text">Bilingual production communication, platform publishing, client feedback loops, and digital asset management for media teams.</div>
+          <div class="skill-panel-title" data-i18n="rec.sp4.title">Communication & Digital</div>
+          <div class="skill-panel-text" data-i18n="rec.sp4.text">Bilingual production communication, platform publishing, client feedback loops, and digital asset management for media teams.</div>
           <div class="skill-tags">
             <span class="skill">Native English</span>
             <span class="skill">Native Spanish</span>
@@ -1098,25 +1130,25 @@
         </div>
       </div>
       <div class="tool-strip" aria-label="Core tools">
-        <div class="tool-tile"><div class="tool-name">DaVinci Resolve</div><div class="tool-type">Editing / color / finishing</div></div>
-        <div class="tool-tile"><div class="tool-name">Movie Magic</div><div class="tool-type">Scheduling & budgeting</div></div>
-        <div class="tool-tile"><div class="tool-name">Dalet + Latakoo</div><div class="tool-type">Broadcast workflows</div></div>
-        <div class="tool-tile"><div class="tool-name">Adobe Suite</div><div class="tool-type">Premiere, AE, Photoshop</div></div>
+        <div class="tool-tile"><div class="tool-name">DaVinci Resolve</div><div class="tool-type" data-i18n="rec.tool1.type">Editing / color / finishing</div></div>
+        <div class="tool-tile"><div class="tool-name">Movie Magic</div><div class="tool-type" data-i18n="rec.tool2.type">Scheduling & budgeting</div></div>
+        <div class="tool-tile"><div class="tool-name">Dalet + Latakoo</div><div class="tool-type" data-i18n="rec.tool3.type">Broadcast workflows</div></div>
+        <div class="tool-tile"><div class="tool-name">Adobe Suite</div><div class="tool-type" data-i18n="rec.tool4.type">Premiere, AE, Photoshop</div></div>
       </div>
     </div>
   </section>
 
   <section class="info-section" id="contact">
     <div class="section-inner">
-      <h2 class="section-row-title">Contact</h2>
+      <h2 class="section-row-title" data-i18n="rec.contact.h">Contact</h2>
       <div class="contact-grid">
         <div class="contact-text">
-          <p>I'm graduating in August 2026 and looking for my first full-time role in broadcast, network, or production. If your team needs a bilingual producer who can move between story, set, edit, and live environments, I'd love to talk.</p>
-          <p><a href="resume.pdf" class="btn-play" download><span aria-hidden="true">↓</span>Download Resume</a></p>
+          <p data-i18n="rec.contact.p1">I'm graduating in August 2026 and looking for my first full-time role in broadcast, network, or production. If your team needs a bilingual producer who can move between story, set, edit, and live environments, I'd love to talk.</p>
+          <p><a href="resume.pdf" class="btn-play" download><span aria-hidden="true">↓</span><span data-i18n="btn.resume">Download Resume</span></a></p>
         </div>
         <div class="contact-links">
-          <a href="mailto:sofiagi@bu.edu" class="clink"><span class="clink-label">Email</span><span>sofiagi@bu.edu</span><span aria-hidden="true">↗</span></a>
-          <a href="https://www.linkedin.com/in/sofia-gonzalez-irigoyen-/" target="_blank" rel="noreferrer" class="clink"><span class="clink-label">LinkedIn</span><span>sofia-gonzalez-irigoyen</span><span aria-hidden="true">↗</span></a>
+          <a href="mailto:sofiagi@bu.edu" class="clink"><span class="clink-label" data-i18n="rec.contact.email">Email</span><span>sofiagi@bu.edu</span><span aria-hidden="true">↗</span></a>
+          <a href="https://www.linkedin.com/in/sofia-gonzalez-irigoyen-/" target="_blank" rel="noreferrer" class="clink"><span class="clink-label" data-i18n="rec.contact.li">LinkedIn</span><span>sofia-gonzalez-irigoyen</span><span aria-hidden="true">↗</span></a>
         </div>
       </div>
     </div>
@@ -1125,8 +1157,8 @@
 
 <footer>
   <div class="footer-bottom">
-    <span>© 2026 Sofia González Irigoyen · Boston, MA</span>
-    <a href="#billboard">Back to Top</a>
+    <span data-i18n="footer.copy">© 2026 Sofia González Irigoyen · Boston, MA</span>
+    <a href="#billboard" data-i18n="btn.backToTop">Back to Top</a>
   </div>
 </footer>
 
@@ -1169,15 +1201,15 @@ const film = [
 
 const rowConfigs = {
   broadcast: [
-    { id:"row-live", title:"Live Television", key:"live" },
-    { id:"row-tv-b", title:"TV Drama", key:"tv" },
-    { id:"row-international-b", title:"International & Bilingual Production", key:"international" },
+    { id:"row-live", titleKey:"rec.row.live", key:"live" },
+    { id:"row-tv-b", titleKey:"rec.row.tv", key:"tv" },
+    { id:"row-international-b", titleKey:"rec.row.intl", key:"international" },
   ],
   film: [
-    { id:"row-narrative", title:"Narrative & Drama", key:"genre-narrative" },
-    { id:"row-doc-genre", title:"Documentary", key:"genre-doc" },
-    { id:"row-comedy", title:"Comedy", key:"genre-comedy" },
-    { id:"row-other", title:"Music Video & Other", key:"genre-other" },
+    { id:"row-narrative", titleKey:"rec.row.narrative", key:"genre-narrative" },
+    { id:"row-doc-genre", titleKey:"rec.row.doc", key:"genre-doc" },
+    { id:"row-comedy", titleKey:"rec.row.comedy", key:"genre-comedy" },
+    { id:"row-other", titleKey:"rec.row.other", key:"genre-other" },
   ],
 };
 
@@ -1286,30 +1318,28 @@ function setTextAfterIcon(element, text) {
 }
 
 function heroWatchLabel(project) {
-  if (project.cat.includes("Broadcast")) return "Watch Segment";
-  if (project.cat.includes("TV Drama")) return "Watch Episode";
-  if (project.cat.includes("Documentary")) return "View Project";
-  if (project.youtubeId) return "Watch Film";
-  return "View Project";
+  const tFn = typeof sgI18n !== 'undefined' ? sgI18n.t.bind(sgI18n) : k => k;
+  if (project.cat.includes("Broadcast")) return tFn("btn.watchSegment");
+  if (project.cat.includes("TV Drama")) return tFn("btn.watchEpisode");
+  if (project.cat.includes("Documentary")) return tFn("btn.viewProject");
+  if (project.youtubeId) return tFn("btn.watchFilm");
+  return tFn("btn.viewProject");
 }
 
 function isExternalVideoUrl(url) {
   return /vimeo\.com|youtu\.be|youtube\.com/i.test(String(url || ""));
 }
 
-const introSlide = {
-  isIntro: true,
-  broadcast: {
+function introSlideData(reelType) {
+  const t = typeof sgI18n !== 'undefined' ? sgI18n.t.bind(sgI18n) : k => k;
+  const meta = `<span class="match">98% match</span><span>BU '26</span><span class="rating">TV-14</span><span>Broadcast</span><span>Film</span><span>EN / ES / FR</span>`;
+  return {
+    isIntro: true,
     title: "SOFIA\nGONZÁLEZ\nIRIGOYEN",
-    meta: `<span class="match">98% match</span><span>BU '26</span><span class="rating">TV-14</span><span>Broadcast</span><span>Film</span><span>EN / ES / FR</span>`,
-    desc: "Broadcast producer with experience at Telemundo 52 / NBCUniversal, Zona Latina in Santiago, and BU's live television program. Comfortable in fast-moving, live environments.",
-  },
-  film: {
-    title: "SOFIA\nGONZÁLEZ\nIRIGOYEN",
-    meta: `<span class="match">98% match</span><span>BU '26</span><span class="rating">TV-14</span><span>Broadcast</span><span>Film</span><span>EN / ES / FR</span>`,
-    desc: "Narrative producer with SAG-AFTRA shorts, three seasons of scripted TV drama, and documentary work. I build shoots that run on time and sets where people actually want to be.",
-  },
-};
+    meta: meta,
+    desc: t(reelType === 'broadcast' ? 'rec.intro.b.desc' : 'rec.intro.f.desc'),
+  };
+}
 
 function allSlides(reelType) {
   return [{ isIntro: true }, ...featuredFor(reelType)];
@@ -1332,9 +1362,10 @@ function goToSlide(index) {
   });
 
   carouselFadeTimer = setTimeout(() => {
+    const tFn = typeof sgI18n !== 'undefined' ? sgI18n.t.bind(sgI18n) : k => k;
     if (s.isIntro) {
-      const intro = introSlide[activeReel];
-      document.getElementById("bill-badge").textContent = activeReel === "broadcast" ? "TV & FILM" : "Film & Narrative Profile";
+      const intro = introSlideData(activeReel);
+      document.getElementById("bill-badge").textContent = tFn(activeReel === "broadcast" ? "rec.badge.tv" : "rec.badge.film");
       document.getElementById("hero-title").innerHTML = intro.title.replace(/\n/g, "<br>");
       document.getElementById("bill-meta").innerHTML = intro.meta;
       document.getElementById("bill-desc").textContent = intro.desc;
@@ -1342,7 +1373,7 @@ function goToSlide(index) {
       const infoBtn = document.getElementById("bill-info-btn");
       infoBtn.href = "#lolomo";
       infoBtn.querySelector(".icon").textContent = "▶";
-      setTextAfterIcon(infoBtn, "View Work");
+      setTextAfterIcon(infoBtn, tFn("btn.viewWork"));
       document.getElementById("bill-resume-btn").style.display = "";
     } else {
       const p = s;
@@ -1372,7 +1403,7 @@ function goToSlide(index) {
       const infoBtn = document.getElementById("bill-info-btn");
       infoBtn.href = p.detailsUrl || "#";
       infoBtn.querySelector(".icon").textContent = "i";
-      setTextAfterIcon(infoBtn, "More Info");
+      setTextAfterIcon(infoBtn, tFn("btn.moreInfo"));
       document.getElementById("bill-resume-btn").style.display = "none";
     }
 
@@ -1399,8 +1430,9 @@ function buildCarousel(reelType) {
 
   const total = featured.length + 1; // +1 for intro
   const indicators = document.getElementById("bill-indicators");
+  const tFnDot = typeof sgI18n !== 'undefined' ? sgI18n.t.bind(sgI18n) : k => k;
   indicators.innerHTML = Array.from({ length: total }, (_, i) =>
-    `<button class="bill-dot" type="button" data-slide="${i}" aria-label="${i === 0 ? "Intro" : `Featured project ${i}`}"></button>`
+    `<button class="bill-dot" type="button" data-slide="${i}" aria-label="${i === 0 ? tFnDot('aria.intro') : `${tFnDot('aria.featured')} ${i}`}"></button>`
   ).join("");
   indicators.querySelectorAll(".bill-dot").forEach(dot => {
     dot.addEventListener("click", () => {
@@ -1510,21 +1542,23 @@ function makeTile(project, reelType, rowKey, index) {
 function renderLolomo(reelType) {
   const data = reelType === "broadcast" ? broadcast : film;
   const rows = rowConfigs[reelType];
+  const tFn = typeof sgI18n !== 'undefined' ? sgI18n.t.bind(sgI18n) : k => k;
   lolomo.innerHTML = rows.map(row => {
     const items = data.filter(project => project.rows.includes(row.key));
     if (!items.length) return "";
+    const rowTitle = tFn(row.titleKey);
     return `
       <div class="row">
         <div class="row-header">
-          <h2 class="row-title">${row.title}</h2>
+          <h2 class="row-title">${escapeHtml(rowTitle)}</h2>
         </div>
-        <button class="row-arrow" type="button" data-scroll-row="${row.id}" data-dir="-1" aria-label="Scroll ${row.title} left">‹</button>
+        <button class="row-arrow" type="button" data-scroll-row="${row.id}" data-dir="-1" aria-label="${escapeHtml(tFn('aria.scrollLeft'))}">‹</button>
         <div class="row-scroller" id="${row.id}">
           <div class="row-track">
             ${items.map((project, index) => makeTile(project, reelType, row.key, index)).join("")}
           </div>
         </div>
-        <button class="row-arrow" type="button" data-scroll-row="${row.id}" data-dir="1" aria-label="Scroll ${row.title} right">›</button>
+        <button class="row-arrow" type="button" data-scroll-row="${row.id}" data-dir="1" aria-label="${escapeHtml(tFn('aria.scrollRight'))}">›</button>
       </div>
     `;
   }).join("");
@@ -1640,6 +1674,7 @@ function mediaMarkup(tile) {
 }
 
 function buildHoverCard(tile) {
+  const tFn = typeof sgI18n !== 'undefined' ? sgI18n.t.bind(sgI18n) : k => k;
   const rawTitle = tile.dataset.title || "";
   const title = escapeHtml(rawTitle);
   const role = escapeHtml(tile.dataset.role);
@@ -1666,11 +1701,11 @@ function buildHoverCard(tile) {
       <div class="hover-tags">
         <span class="hover-tag">${year}</span>
         <span class="hover-tag">${cat}</span>
-        <span class="hover-tag status">${isWatchable ? "Playable" : "Details"}</span>
+        <span class="hover-tag status">${isWatchable ? tFn("hover.playable") : tFn("hover.details")}</span>
       </div>
       <div class="${ctaClass}">
-        ${youtubeId ? `<button class="btn-primary" type="button" data-play-btn aria-label="Play ${title}">▶ Play</button>` : ""}
-        ${detailsUrl ? `<a href="${detailsUrl}" class="${isExternalWatch ? "btn-primary" : "btn-info"}" ${isExternalWatch ? `target="_blank" rel="noopener noreferrer"` : ""} aria-label="${isExternalWatch ? `Watch ${title}` : `More info about ${title}`}">${isExternalWatch ? "▶ Watch" : "More Info"}</a>` : ""}
+        ${youtubeId ? `<button class="btn-primary" type="button" data-play-btn aria-label="Play ${title}">${tFn("btn.play")}</button>` : ""}
+        ${detailsUrl ? `<a href="${detailsUrl}" class="${isExternalWatch ? "btn-primary" : "btn-info"}" ${isExternalWatch ? `target="_blank" rel="noopener noreferrer"` : ""} aria-label="${isExternalWatch ? `Watch ${title}` : `More info about ${title}`}">${isExternalWatch ? tFn("btn.watch") : tFn("btn.moreInfo")}</a>` : ""}
       </div>
     </div>
   `;
@@ -1815,6 +1850,17 @@ document.getElementById("billboard").addEventListener("mouseleave", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+  /* i18n bootstrap */
+  if (typeof sgI18n !== 'undefined') {
+    sgI18n.buildSwitcher(document.getElementById('nav-lang'));
+    sgI18n.applyPage();
+    document.addEventListener('sg:langchange', () => {
+      sgI18n.applyPage();
+      buildCarousel(activeReel);
+      renderLolomo(activeReel);
+    });
+  }
+
   buildCarousel("broadcast");
   renderLolomo("broadcast");
   const heroVideo = document.getElementById("bill-video");

@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"><!-- lang updated by sgI18n -->
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Sofia González Irigoyen</title>
+<link rel="alternate" hreflang="en" href="index.html"/>
+<link rel="alternate" hreflang="es" href="index.html?lang=es"/>
+<link rel="alternate" hreflang="x-default" href="index.html"/>
+<script src="translations.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
   :root {
@@ -172,15 +176,46 @@
     border: 1px solid rgba(255,255,255,.18);
   }
   .dc-btn.secondary:hover { background: rgba(255,255,255,.18); transform: translateY(-1px); }
+
+  /* ── Language switcher ─────────────────────────────── */
+  .sg-lang-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.8rem;
+  }
+  .sg-lang-switcher {
+    display: flex;
+    gap: 0;
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .sg-lang-btn {
+    background: transparent;
+    border: 0;
+    color: rgba(255,255,255,.5);
+    font-family: var(--sans);
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .16em;
+    padding: .38rem .9rem;
+    cursor: pointer;
+    transition: background .18s, color .18s;
+  }
+  .sg-lang-btn + .sg-lang-btn {
+    border-left: 1px solid rgba(255,255,255,.2);
+  }
+  .sg-lang-btn:hover { background: rgba(255,255,255,.1); color: #fff; }
+  .sg-lang-btn.active { background: rgba(229,9,20,.85); color: #fff; }
 </style>
 </head>
 <body>
 
 <div id="tap-screen" onclick="startIntro()">
   <div class="tap-prompt">
-    <div class="tap-logo">Sofia's Portfolio</div>
+    <div class="tap-logo" data-i18n="idx.tapLogo">Sofia's Portfolio</div>
     <div class="tap-ring">▶</div>
-    <div class="tap-hint">Tap anywhere to start</div>
+    <div class="tap-hint" data-i18n="idx.tapHint">Tap anywhere to start</div>
   </div>
 </div>
 
@@ -190,35 +225,36 @@
 </div>
 
 <div id="profile-screen">
-  <h2 class="ps-heading">WHO'S WATCHING?</h2>
-  <p class="ps-sub">Choose the version of Sofia's work you want to browse</p>
+  <h2 class="ps-heading" data-i18n="idx.heading">WHO'S WATCHING?</h2>
+  <p class="ps-sub" data-i18n="idx.sub">Choose the version of Sofia's work you want to browse</p>
+  <div class="sg-lang-row" id="lang-row"></div>
   <div class="profiles">
 
-    <a href="recruiter.html" class="profile-card">
+    <a href="recruiter.html" data-profile-link="recruiter.html" class="profile-card">
       <div class="profile-avatar">
         <img src="YOUR-IMAGE-1.png" alt="Production" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
         <div class="fallback">🎬</div>
       </div>
-      <span class="profile-name">Production</span>
+      <span class="profile-name" data-i18n="idx.production">Production</span>
     </a>
 
-    <a href="agency.html" class="profile-card">
+    <a href="agency.html" data-profile-link="agency.html" class="profile-card">
       <div class="profile-avatar">
         <img src="YOUR-IMAGE-3.png" alt="Advertising" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
         <div class="fallback">📋</div>
       </div>
-      <span class="profile-name">Advertising</span>
+      <span class="profile-name" data-i18n="idx.advertising">Advertising</span>
     </a>
 
-    <a href="director.html" class="profile-card">
+    <a href="director.html" data-profile-link="director.html" class="profile-card">
       <div class="profile-avatar">
         <img src="YOUR-IMAGE-2.png" alt="Collaborators" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
         <div class="fallback">🎥</div>
       </div>
-      <span class="profile-name">Collaborators</span>
+      <span class="profile-name" data-i18n="idx.collaborators">Collaborators</span>
     </a>
 
-    <a href="stalker.html" class="profile-card deep-cut-profile locked" id="dc-card">
+    <a href="stalker.html" data-profile-link="stalker.html" class="profile-card deep-cut-profile locked" id="dc-card">
       <div class="profile-avatar">
         <img src="YOUR-IMAGE-5.png" alt="Stalker" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
         <div class="fallback">👀</div>
@@ -234,6 +270,11 @@
   const INTRO_DURATION = 5200;
   const DC_KEY = 'sofiaDeepCutUnlocked';
   let dcTimer  = null;
+
+  /* ── i18n bootstrap ── */
+  sgI18n.buildSwitcher(document.getElementById('lang-row'));
+  sgI18n.applyPage();
+  document.addEventListener('sg:langchange', () => sgI18n.applyPage());
 
   if (new URLSearchParams(window.location.search).get('profiles') === '1') {
     document.getElementById('tap-screen').style.display = 'none';
@@ -283,7 +324,7 @@
   function unlockDeepCut() {
     dcCard.classList.remove('locked');
     dcCard.classList.add('unlocked');
-    dcName.textContent = 'you found me';
+    dcName.textContent = sgI18n.t('idx.found');
   }
 
   if (localStorage.getItem(DC_KEY) === 'true') {

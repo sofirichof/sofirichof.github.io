@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"><!-- lang updated by sgI18n -->
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="description" content="Sofia González Irigoyen — freelance producer for hire. Working on something? Send me your script."/>
 <title>Sofia González Irigoyen | Collaborators</title>
+<link rel="alternate" hreflang="en" href="director.html"/>
+<link rel="alternate" hreflang="es" href="director.html?lang=es"/>
+<link rel="alternate" hreflang="x-default" href="director.html"/>
+<script src="translations.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;0,800;1,400&display=swap" rel="stylesheet"/>
@@ -532,6 +536,13 @@
     *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
     #bill-video { display: none; }
   }
+
+  /* ── Language switcher ── */
+  .sg-lang-switcher { display:flex; gap:0; border:1px solid rgba(255,255,255,.18); border-radius:4px; overflow:hidden; flex-shrink:0; }
+  .sg-lang-btn { background:transparent; border:0; color:rgba(255,255,255,.46); font-family:var(--sans); font-size:.65rem; font-weight:800; letter-spacing:.14em; padding:.34rem .72rem; cursor:pointer; transition:background .18s,color .18s; }
+  .sg-lang-btn+.sg-lang-btn { border-left:1px solid rgba(255,255,255,.18); }
+  .sg-lang-btn:hover { background:rgba(255,255,255,.09); color:#fff; }
+  .sg-lang-btn.active { background:rgba(229,9,20,.8); color:#fff; }
 </style>
 </head>
 <body>
@@ -541,12 +552,15 @@
     <a href="index.html" class="nav-logo">SOFIA</a>
     <ul class="nav-links">
       <li><a href="#lolomo">Credits</a></li>
-      <li><a href="#about">About</a></li>
+      <li><a href="#about" data-i18n="nav.about">About</a></li>
       <li><a href="#send-script">Send Script</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
     </ul>
   </div>
-  <a class="profile-link" href="index.html?profiles=1">Switch Profile</a>
+  <div style="display:flex;align-items:center;gap:.75rem;">
+    <div id="nav-lang"></div>
+    <a class="profile-link" href="index.html?profiles=1" data-i18n="nav.switch">Switch Profile</a>
+  </div>
 </nav>
 
 <section id="billboard">
@@ -554,19 +568,19 @@
   <video id="bill-video" src="media/hero.mp4" autoplay muted loop playsinline preload="metadata"></video>
   <div class="bill-overlay"></div>
   <div class="bill-content">
-    <div class="bill-kicker"><span class="series-mark">C</span><span>Collaborators · Freelance Producer</span></div>
+    <div class="bill-kicker"><span class="series-mark">C</span><span data-i18n="dir.kicker">Collaborators · Freelance Producer</span></div>
     <h1 class="bill-title">SOFIA<br>GONZÁLEZ<br>IRIGOYEN</h1>
-    <p class="bill-tagline">"The person you call when you need a guy."</p>
+    <p class="bill-tagline" data-i18n="dir.tagline">"The person you call when you need a guy."</p>
     <div class="meta-line">
-      <span class="match">Available Now</span>
+      <span class="match" data-i18n="dir.meta.avail">Available Now</span>
       <span class="rating">SAG-AFTRA</span>
       <span>Narrative</span>
       <span>Documentary</span>
       <span>EN / ES / FR</span>
     </div>
     <div class="bill-actions">
-      <a href="#send-script" class="btn-play">✉ Send Me Your Script</a>
-      <a href="#lolomo" class="btn-info">▾ View Credits</a>
+      <a href="#send-script" class="btn-play" data-i18n="dir.actions.script">✉ Send Me Your Script</a>
+      <a href="#lolomo" class="btn-info" data-i18n="dir.actions.credits">▾ View Credits</a>
     </div>
   </div>
 </section>
@@ -575,8 +589,8 @@
 
   <div class="row">
     <div class="row-header">
-      <h2 class="row-title">In Development</h2>
-      <span class="row-note">Current projects</span>
+      <h2 class="row-title" data-i18n="dir.row.dev">In Development</h2>
+      <span class="row-note" data-i18n="dir.row.dev.note">Current projects</span>
     </div>
     <button class="row-arrow" type="button" data-dir="-1" aria-label="Scroll In Development left">‹</button>
   <div class="row-scroller" id="scroller-dev">
@@ -587,8 +601,8 @@
 
   <div class="row">
     <div class="row-header">
-      <h2 class="row-title">Produced</h2>
-      <span class="row-note">Producer credits</span>
+      <h2 class="row-title" data-i18n="dir.row.prod">Produced</h2>
+      <span class="row-note" data-i18n="dir.row.prod.note">Producer credits</span>
     </div>
     <button class="row-arrow" type="button" data-dir="-1" aria-label="Scroll Produced left">‹</button>
   <div class="row-scroller" id="scroller-produced">
@@ -599,8 +613,8 @@
 
   <div class="row">
     <div class="row-header">
-      <h2 class="row-title">On Set</h2>
-      <span class="row-note">AD, script supervision & department credits</span>
+      <h2 class="row-title" data-i18n="dir.row.onset">On Set</h2>
+      <span class="row-note" data-i18n="dir.row.onset.note">AD, script supervision & department credits</span>
     </div>
     <button class="row-arrow" type="button" data-dir="-1" aria-label="Scroll On Set left">‹</button>
   <div class="row-scroller" id="scroller-onset">
@@ -614,20 +628,20 @@
 <!-- ── SEND ME YOUR SCRIPT ── -->
 <section class="script-section" id="send-script">
   <div class="script-inner">
-    <div class="script-eyebrow">▶ &nbsp;Open to Projects</div>
-    <h2 class="script-title">WORKING ON<br>SOMETHING?</h2>
-    <p class="script-copy">Send me your script. Whether you're in development, pre-production, or still figuring out what it is — I want to hear about it. I work best with people who take the craft seriously and need someone who will too.</p>
-    <a href="mailto:sofiagi@bu.edu" class="btn-script">Send Me Your Script →</a>
+    <div class="script-eyebrow" data-i18n="dir.script.eyebrow">▶ &nbsp;Open to Projects</div>
+    <h2 class="script-title" data-i18n-html="dir.script.title">WORKING ON<br>SOMETHING?</h2>
+    <p class="script-copy" data-i18n="dir.script.copy">Send me your script. Whether you're in development, pre-production, or still figuring out what it is — I want to hear about it. I work best with people who take the craft seriously and need someone who will too.</p>
+    <a href="mailto:sofiagi@bu.edu" class="btn-script" data-i18n="dir.script.btn">Send Me Your Script →</a>
   </div>
 </section>
 
 <section class="info-section" id="about">
   <div class="section-inner">
-    <h2 class="section-title">About Sofia</h2>
+    <h2 class="section-title" data-i18n="dir.about.h">About Sofia</h2>
     <div class="about-grid">
       <div class="about-text">
-        <p>I'm a film and television producer finishing a BS in Film & Television Production at Boston University, graduating August 2026. I've produced SAG-AFTRA shorts, three seasons of scripted TV drama, and have been on set in roles from 1st AD to script supervisor to executive production assistant on a documentary.</p>
-        <p>Skilled in studio, live-shot, and on-location production. I'm drawn to projects with something real to say and collaborators who care about every detail. If you're a director, screenwriter, or DP looking for a producer who will prep obsessively, protect your vision, and keep the set moving — reach out.</p>
+        <p data-i18n="dir.about.p1">I'm a film and television producer finishing a BS in Film & Television Production at Boston University, graduating August 2026. I've produced SAG-AFTRA shorts, three seasons of scripted TV drama, and have been on set in roles from 1st AD to script supervisor to executive production assistant on a documentary.</p>
+        <p data-i18n="dir.about.p2">Skilled in studio, live-shot, and on-location production. I'm drawn to projects with something real to say and collaborators who care about every detail. If you're a director, screenwriter, or DP looking for a producer who will prep obsessively, protect your vision, and keep the set moving — reach out.</p>
         <div class="skills">
           <span class="skill">Production Management</span>
           <span class="skill">SAG-AFTRA Micro-Budget</span>
@@ -642,24 +656,24 @@
       </div>
       <div class="sidebar-list">
         <div class="sidebar-item">
-          <div class="si-org">IFFBoston · 2026</div>
-          <div class="si-title">Student Film Showcase</div>
-          <div class="si-desc">Si Solamente selected for screening at Somerville Theater</div>
+          <div class="si-org" data-i18n="dir.hl1.org">IFFBoston · 2026</div>
+          <div class="si-title" data-i18n="dir.hl1.title">Student Film Showcase</div>
+          <div class="si-desc" data-i18n="dir.hl1.desc">Si Solamente selected for screening at Somerville Theater</div>
         </div>
         <div class="sidebar-item">
-          <div class="si-org">Redstone Film Festival · 2026</div>
-          <div class="si-title">Best Picture</div>
-          <div class="si-desc">BU Department of Film & Television student film festival</div>
+          <div class="si-org" data-i18n="dir.hl2.org">Redstone Film Festival · 2026</div>
+          <div class="si-title" data-i18n="dir.hl2.title">Best Picture</div>
+          <div class="si-desc" data-i18n="dir.hl2.desc">BU Department of Film & Television student film festival</div>
         </div>
         <div class="sidebar-item">
-          <div class="si-org">NATAS · 2024</div>
-          <div class="si-title">University Sports Program Award</div>
-          <div class="si-desc">Chief Editor, Live With TY Season 1</div>
+          <div class="si-org" data-i18n="dir.hl3.org">NATAS · 2024</div>
+          <div class="si-title" data-i18n="dir.hl3.title">University Sports Program Award</div>
+          <div class="si-desc" data-i18n="dir.hl3.desc">Chief Editor, Live With TY Season 1</div>
         </div>
         <div class="sidebar-item">
-          <div class="si-org">AdLab · Spring 2026</div>
-          <div class="si-title">Above & Beyond Award</div>
-          <div class="si-desc">Country's largest student-run advertising agency</div>
+          <div class="si-org" data-i18n="dir.hl4.org">AdLab · Spring 2026</div>
+          <div class="si-title" data-i18n="dir.hl4.title">Above & Beyond Award</div>
+          <div class="si-desc" data-i18n="dir.hl4.desc">Country's largest student-run advertising agency</div>
         </div>
       </div>
     </div>
@@ -668,15 +682,15 @@
 
 <section class="info-section" id="contact">
   <div class="section-inner">
-    <h2 class="section-title">Contact</h2>
+    <h2 class="section-title" data-i18n="dir.contact.h">Contact</h2>
     <div class="contact-grid">
       <div class="contact-text">
-        <p>Graduating August 2026 and available for freelance producing work now. If you're working on something — a short, a feature, a doc, anything narrative — send it over. I'm serious about the work and easy to be around.</p>
-        <p><a href="General Resume Sofía González Irigoyen.pdf" class="btn-play" download style="display:inline-flex;margin-top:.5rem;">↓ &nbsp;Download Resume</a></p>
+        <p data-i18n="dir.contact.p1">Graduating August 2026 and available for freelance producing work now. If you're working on something — a short, a feature, a doc, anything narrative — send it over. I'm serious about the work and easy to be around.</p>
+        <p><a href="General Resume Sofía González Irigoyen.pdf" class="btn-play" download style="display:inline-flex;margin-top:.5rem;" data-i18n="btn.resume">↓ &nbsp;Download Resume</a></p>
       </div>
       <div class="contact-links">
-        <a href="mailto:sofiagi@bu.edu" class="clink"><span class="clink-label">Email</span><span>sofiagi@bu.edu</span><span>↗</span></a>
-        <a href="https://www.linkedin.com/in/sofia-gonzalez-irigoyen-/" target="_blank" rel="noreferrer" class="clink"><span class="clink-label">LinkedIn</span><span>sofia-gonzalez-irigoyen</span><span>↗</span></a>
+        <a href="mailto:sofiagi@bu.edu" class="clink"><span class="clink-label" data-i18n="rec.contact.email">Email</span><span>sofiagi@bu.edu</span><span>↗</span></a>
+        <a href="https://www.linkedin.com/in/sofia-gonzalez-irigoyen-/" target="_blank" rel="noreferrer" class="clink"><span class="clink-label" data-i18n="rec.contact.li">LinkedIn</span><span>sofia-gonzalez-irigoyen</span><span>↗</span></a>
         <a href="https://www.instagram.com/soulblind.film/" target="_blank" rel="noreferrer" class="clink"><span class="clink-label">Soul Blind</span><span>@soulblind.film</span><span>↗</span></a>
       </div>
     </div>
@@ -685,8 +699,8 @@
 
 <footer>
   <div class="footer-bottom">
-    <span>© 2026 Sofia González Irigoyen · Boston, MA</span>
-    <a href="index.html?profiles=1">← Switch Profile</a>
+    <span data-i18n="footer.copy">© 2026 Sofia González Irigoyen · Boston, MA</span>
+    <a href="index.html?profiles=1" data-i18n="nav.switch">Switch Profile</a>
   </div>
 </footer>
 
@@ -772,17 +786,20 @@ function thumbMarkup(project) {
 
 // ── Render rows ───────────────────────────────────────
 function renderDevRow() {
+  const tFn = typeof sgI18n !== 'undefined' ? sgI18n.t.bind(sgI18n) : k => k;
   const track = document.getElementById("track-dev");
-  track.innerHTML = devProjects.map(p => `
+  track.innerHTML = devProjects.map(p => {
+    const badgeLabel = tFn('dir.badge.' + p.status) || escHtml(p.statusLabel);
+    return `
     <div class="dev-tile" data-url="${escHtml(p.detailsUrl||"")}" data-youtube="${escHtml(cleanId(p.youtubeId))}">
       ${p.image ? `<img src="${escHtml(p.image)}" alt="${escHtml(p.title)}" loading="lazy">` : `<div class="poster-fallback" style="font-size:2.2rem;">${escHtml(p.title)}</div>`}
       <div class="dev-tile-body">
-        <div class="dev-badge ${p.status}">${escHtml(p.statusLabel)}</div>
+        <div class="dev-badge ${p.status}">${escHtml(badgeLabel)}</div>
         <div class="dev-tile-title">${escHtml(p.title)}</div>
         <div class="dev-tile-role">${escHtml(p.role)} · ${escHtml(p.cat)}</div>
       </div>
     </div>
-  `).join("");
+  `}).join("");
 }
 
 function renderRow(trackId, projects) {
@@ -873,6 +890,16 @@ document.querySelectorAll(".row-arrow").forEach(btn => {
     scroller.scrollBy({ left: scroller.clientWidth * .8 * Number(btn.dataset.dir), behavior: "smooth" });
   });
 });
+
+// ── i18n bootstrap ────────────────────────────────────────────
+if (typeof sgI18n !== 'undefined') {
+  sgI18n.buildSwitcher(document.getElementById('nav-lang'));
+  sgI18n.applyPage();
+  document.addEventListener('sg:langchange', () => {
+    sgI18n.applyPage();
+    renderDevRow(); // re-render dev badges in new language
+  });
+}
 </script>
 </body>
 </html>
