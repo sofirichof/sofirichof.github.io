@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"><!-- lang updated by sgI18n -->
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bird&#39;s Eye View | Sofia González Irigoyen</title>
+  <link rel="alternate" hreflang="en" href="birds-eye-view.html"/>
+  <link rel="alternate" hreflang="es" href="birds-eye-view.html?lang=es"/>
+  <link rel="alternate" hreflang="x-default" href="birds-eye-view.html"/>
+  <script src="../translations.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
   <style>
     :root{
@@ -408,21 +412,28 @@
       .section-title{font-size:1.2rem;}
       .info-grid{grid-template-columns:1fr;}
     }
+
+    /* ── Language switcher ── */
+    .sg-lang-switcher{display:flex;gap:0;border:1px solid rgba(255,255,255,.18);border-radius:4px;overflow:hidden;flex-shrink:0;}
+    .sg-lang-btn{background:transparent;border:0;color:rgba(255,255,255,.46);font-family:var(--sans);font-size:.65rem;font-weight:800;letter-spacing:.14em;padding:.34rem .72rem;cursor:pointer;transition:background .18s,color .18s;}
+    .sg-lang-btn+.sg-lang-btn{border-left:1px solid rgba(255,255,255,.18);}
+    .sg-lang-btn:hover{background:rgba(255,255,255,.09);color:#fff;}
+    .sg-lang-btn.active{background:rgba(229,9,20,.8);color:#fff;}
   </style>
 </head>
 <body>
 
 <nav>
   <div class="nav-left">
-    <a href="../index.html" class="nav-logo">Sofia's Portfolio</a>
+    <a href="../index.html" class="nav-logo" data-i18n="proj.nav.logo">Sofia's Portfolio</a>
     <ul class="nav-links">
       <li><a href="../recruiter.html">Production</a></li>
       <li><a href="#overview">Overview</a></li>
       <li><a href="#media">Media</a></li>
     </ul>
   </div>
-  <div class="nav-right">
-    <a href="../recruiter.html">← Back to Production</a>
+  <div class="nav-right" style="display:flex;align-items:center;gap:.75rem;"><div id="nav-lang"></div>
+    <a href="../recruiter.html" data-i18n="proj.nav.back.prod">← Back to Production</a>
   </div>
 </nav>
 
@@ -434,7 +445,7 @@
 
   <div class="hero-inner">
     <div>
-      <div class="eyebrow">Drama Short</div>
+      <div class="eyebrow" data-i18n="bev.eyebrow">Drama Short</div>
       <h1 class="hero-title">BIRD'S EYE<br>VIEW</h1>
       <p class="hero-sub">
         Drama short produced and edited at Boston University. Dual producer-editor role — from shoot logistics to final cut.
@@ -454,23 +465,23 @@
     </div>
 
     <aside class="hero-card">
-      <div class="hero-card-title">Project Snapshot</div>
+      <div class="hero-card-title" data-i18n="proj.card.snapshot">Project Snapshot</div>
       <div class="hero-card-grid">
         <div class="hero-card-item">
-          <div class="hero-card-label">Role</div>
+          <div class="hero-card-label"><span data-i18n="proj.card.label.role">Role</span></div>
           <div class="hero-card-value">Producer &amp; Editor</div>
         </div>
         <div class="hero-card-item">
-          <div class="hero-card-label">Organization</div>
+          <div class="hero-card-label"><span data-i18n="proj.card.label.org">Organization</span></div>
           <div class="hero-card-value">Boston University</div>
         </div>
         <div class="hero-card-item">
-          <div class="hero-card-label">Format</div>
-          <div class="hero-card-value">Drama short film</div>
+          <div class="hero-card-label"><span data-i18n="proj.card.label.format">Format</span></div>
+          <div class="hero-card-value" data-i18n="bev.card.format">Drama short film</div>
         </div>
         <div class="hero-card-item">
-          <div class="hero-card-label">Focus</div>
-          <div class="hero-card-value">Producing, editing, short-form storytelling</div>
+          <div class="hero-card-label"><span data-i18n="proj.card.label.focus">Focus</span></div>
+          <div class="hero-card-value" data-i18n="bev.card.focus">Producing, editing, short-form storytelling</div>
         </div>
       </div>
     </aside>
@@ -479,7 +490,7 @@
 
 <main class="page">
   <section class="section" id="overview">
-    <div class="section-title">Project Overview</div>
+    <div class="section-title"><span data-i18n="proj.sec.overview">Project Overview</span></div>
     <p class="section-text">
       <em>Bird's Eye View</em> reflects a dual role that asked me to think both on set and in the edit. Producing and editing the project gave me a clearer view of how choices made during production shape what is possible in post.
     </p>
@@ -488,7 +499,7 @@
   <section class="section">
     <div class="two-col">
       <div>
-        <div class="section-title">What I Did</div>
+        <div class="section-title"><span data-i18n="proj.sec.whatidid">What I Did</span></div>
         <div class="bullet-list">
           
           <div class="bullet">
@@ -511,23 +522,23 @@
       </div>
 
       <div>
-        <div class="section-title">Project Details</div>
+        <div class="section-title"><span data-i18n="proj.sec.details">Project Details</span></div>
         <div class="info-grid">
           <div class="info-card">
-            <div class="info-card-label">Category</div>
-            <div class="info-card-value">Narrative / Drama</div>
+            <div class="info-card-label"><span data-i18n="proj.detail.category">Category</span></div>
+            <div class="info-card-value" data-i18n="bev.detail.cat">Narrative / Drama</div>
           </div>
           <div class="info-card">
-            <div class="info-card-label">Year</div>
+            <div class="info-card-label"><span data-i18n="proj.detail.year">Year</span></div>
             <div class="info-card-value">2024</div>
           </div>
           <div class="info-card">
-            <div class="info-card-label">Context</div>
-            <div class="info-card-value">Boston University short film production</div>
+            <div class="info-card-label"><span data-i18n="proj.detail.context">Context</span></div>
+            <div class="info-card-value" data-i18n="bev.detail.ctx">Boston University short film production</div>
           </div>
           <div class="info-card">
-            <div class="info-card-label">Primary Strengths</div>
-            <div class="info-card-value">Producer-editor perspective, narrative structure, practical execution</div>
+            <div class="info-card-label"><span data-i18n="proj.detail.strengths">Primary Strengths</span></div>
+            <div class="info-card-value" data-i18n="bev.detail.str">Producer-editor perspective, narrative structure, practical execution</div>
           </div>
         </div>
       </div>
@@ -535,14 +546,14 @@
   </section>
 
   <section class="section">
-    <div class="section-title">Dual Role</div>
+    <div class="section-title"><span data-i18n="proj.sec.dual">Dual Role</span></div>
     <p class="section-text">
       Producer and editor on the same project — coverage decisions on set mapped directly to editorial choices in post. The kind of dual-role experience that makes both phases faster and tighter.
     </p>
   </section>
 
   <section class="section" id="media">
-    <div class="section-title">Selected Media</div>
+    <div class="section-title"><span data-i18n="proj.sec.media">Selected Media</span></div>
     <div class="media-grid">
 
       <div class="media-card">
@@ -564,22 +575,30 @@
   <section class="section">
     <div class="cta-strip">
       <div class="cta-copy">
-        <div class="cta-title">Continue browsing</div>
-        <div class="cta-text">
+        <div class="cta-title"><span data-i18n="proj.cta.browse">Continue browsing</span></div>
+        <div class="cta-text" data-i18n="bev.cta.text">
           Return to the production page to view more broadcast, narrative, and television production work.
         </div>
       </div>
-      <a class="btn-primary" href="../recruiter.html">Back to Production</a>
+      <a class="btn-primary" href="../recruiter.html"><span data-i18n="proj.cta.btn">Back to Production</span></a>
     </div>
   </section>
 </main>
 
 <footer>
   <div class="footer-bottom">
-    <span>© 2026 Sofia González Irigoyen · Project Detail Page</span>
-    <a href="../recruiter.html">← Back to Production</a>
+    <span><span data-i18n="proj.footer"><span data-i18n="proj.footer">© 2026 Sofia González Irigoyen · Project Detail Page</span></span></span>
+    <a href="../recruiter.html" data-i18n="proj.nav.back.prod">← Back to Production</a>
   </div>
 </footer>
 
+
+<script>
+if (typeof sgI18n !== 'undefined') {
+  sgI18n.buildSwitcher(document.getElementById('nav-lang'));
+  sgI18n.applyPage();
+  document.addEventListener('sg:langchange', () => sgI18n.applyPage());
+}
+</script>
 </body>
 </html>

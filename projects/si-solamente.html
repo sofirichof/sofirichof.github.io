@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"><!-- lang updated by sgI18n -->
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Si Solamente | Sofia González Irigoyen</title>
+  <link rel="alternate" hreflang="en" href="si-solamente.html"/>
+  <link rel="alternate" hreflang="es" href="si-solamente.html?lang=es"/>
+  <link rel="alternate" hreflang="x-default" href="si-solamente.html"/>
+  <script src="../translations.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
   <style>
     :root{
@@ -531,21 +535,28 @@
       .info-grid{grid-template-columns:1fr;}
       .press-grid{grid-template-columns:1fr;}
     }
+
+    /* ── Language switcher ── */
+    .sg-lang-switcher{display:flex;gap:0;border:1px solid rgba(255,255,255,.18);border-radius:4px;overflow:hidden;flex-shrink:0;}
+    .sg-lang-btn{background:transparent;border:0;color:rgba(255,255,255,.46);font-family:var(--sans);font-size:.65rem;font-weight:800;letter-spacing:.14em;padding:.34rem .72rem;cursor:pointer;transition:background .18s,color .18s;}
+    .sg-lang-btn+.sg-lang-btn{border-left:1px solid rgba(255,255,255,.18);}
+    .sg-lang-btn:hover{background:rgba(255,255,255,.09);color:#fff;}
+    .sg-lang-btn.active{background:rgba(229,9,20,.8);color:#fff;}
   </style>
 </head>
 <body>
 
 <nav>
   <div class="nav-left">
-    <a href="../index.html" class="nav-logo">Sofia's Portfolio</a>
+    <a href="../index.html" class="nav-logo" data-i18n="proj.nav.logo">Sofia's Portfolio</a>
     <ul class="nav-links">
       <li><a href="../recruiter.html">Production</a></li>
       <li><a href="#overview">Overview</a></li>
       <li><a href="#gallery">Gallery</a></li>
     </ul>
   </div>
-  <div class="nav-right">
-    <a href="../recruiter.html">← Back to Production</a>
+  <div class="nav-right" style="display:flex;align-items:center;gap:.75rem;"><div id="nav-lang"></div>
+    <a href="../recruiter.html" data-i18n="proj.nav.back.prod">← Back to Production</a>
   </div>
 </nav>
 
@@ -557,9 +568,9 @@
 
   <div class="hero-inner">
     <div>
-      <div class="eyebrow">Narrative Short</div>
+      <div class="eyebrow" data-i18n="ss.eyebrow">Narrative Short</div>
       <h1 class="hero-title">SI<br>SOLAMENTE</h1>
-      <p class="hero-sub">
+      <p class="hero-sub" data-i18n="ss.sub">
         SAG-AFTRA micro-budget short film. 5 shoot days, 8 locations, 10-person cast, 30-person crew — produced at Boston University, 2026.
       </p>
 
@@ -577,23 +588,23 @@
     </div>
 
     <aside class="hero-card">
-      <div class="hero-card-title">Project Snapshot</div>
+      <div class="hero-card-title" data-i18n="proj.card.snapshot">Project Snapshot</div>
       <div class="hero-card-grid">
         <div class="hero-card-item">
-          <div class="hero-card-label">Role</div>
+          <div class="hero-card-label"><span data-i18n="proj.card.label.role">Role</span></div>
           <div class="hero-card-value">Producer</div>
         </div>
         <div class="hero-card-item">
-          <div class="hero-card-label">Organization</div>
+          <div class="hero-card-label"><span data-i18n="proj.card.label.org">Organization</span></div>
           <div class="hero-card-value">Boston University</div>
         </div>
         <div class="hero-card-item">
-          <div class="hero-card-label">Format</div>
-          <div class="hero-card-value">SAG-AFTRA Micro-Budget narrative short</div>
+          <div class="hero-card-label"><span data-i18n="proj.card.label.format">Format</span></div>
+          <div class="hero-card-value" data-i18n="ss.card.format">SAG-AFTRA Micro-Budget narrative short</div>
         </div>
         <div class="hero-card-item">
-          <div class="hero-card-label">Focus</div>
-          <div class="hero-card-value">Budgeting, compliance, cast/crew logistics, creative coordination</div>
+          <div class="hero-card-label"><span data-i18n="proj.card.label.focus">Focus</span></div>
+          <div class="hero-card-value" data-i18n="ss.card.focus">Budgeting, compliance, cast/crew logistics, creative coordination</div>
         </div>
       </div>
     </aside>
@@ -602,62 +613,62 @@
 
 <main class="page">
   <section class="section" id="overview">
-    <div class="section-title">Project Overview</div>
-    <p class="section-text">
-      <em>Si Solamente</em> is a narrative short that represents my interest in story-driven production and my ability to manage the structure around a scripted project. As producer, my role centered on keeping the production organized, moving the project forward, and supporting the conditions needed for the creative work to happen well.
+    <div class="section-title"><span data-i18n="proj.sec.overview">Project Overview</span></div>
+    <p class="section-text" data-i18n="ss.overview">
+      Si Solamente is a narrative short that represents my interest in story-driven production and my ability to manage the structure around a scripted project. As producer, my role centered on keeping the production organized, moving the project forward, and supporting the conditions needed for the creative work to happen well.
     </p>
   </section>
 
   <section class="section">
     <div class="two-col">
       <div>
-        <div class="section-title">What I Did</div>
+        <div class="section-title"><span data-i18n="proj.sec.whatidid">What I Did</span></div>
         <div class="bullet-list">
           <div class="bullet">
             <span class="bullet-dot"></span>
-            <span>Developed and managed an $8K production budget while keeping departments aligned within micro-budget constraints.</span>
+            <span data-i18n="ss.b1">Developed and managed an $8K production budget while keeping departments aligned within micro-budget constraints.</span>
           </div>
           <div class="bullet">
             <span class="bullet-dot"></span>
-            <span>Produced a 5-day shoot across 8 locations in compliance with SAG-AFTRA Micro-Budget and child labor requirements.</span>
+            <span data-i18n="ss.b2">Produced a 5-day shoot across 8 locations in compliance with SAG-AFTRA Micro-Budget and child labor requirements.</span>
           </div>
           <div class="bullet">
             <span class="bullet-dot"></span>
-            <span>Managed logistics for a 10-person cast, including out-of-state talent, and coordinated a 30-person crew.</span>
+            <span data-i18n="ss.b3">Managed logistics for a 10-person cast, including out-of-state talent, and coordinated a 30-person crew.</span>
           </div>
           <div class="bullet">
             <span class="bullet-dot"></span>
-            <span>Kept departments aligned and shoot days on schedule across a dense 8-location production week.</span>
+            <span data-i18n="ss.b4">Kept departments aligned and shoot days on schedule across a dense 8-location production week.</span>
           </div>
         </div>
       </div>
 
       <div>
-        <div class="section-title">Project Details</div>
+        <div class="section-title"><span data-i18n="proj.sec.details">Project Details</span></div>
         <div class="info-grid">
           <div class="info-card">
-            <div class="info-card-label">Category</div>
-            <div class="info-card-value">Narrative / Drama</div>
+            <div class="info-card-label"><span data-i18n="proj.detail.category">Category</span></div>
+            <div class="info-card-value" data-i18n="ss.detail.cat">Narrative / Drama</div>
           </div>
           <div class="info-card">
-            <div class="info-card-label">Year</div>
+            <div class="info-card-label"><span data-i18n="proj.detail.year">Year</span></div>
             <div class="info-card-value">2026</div>
           </div>
           <div class="info-card">
-            <div class="info-card-label">Context</div>
-            <div class="info-card-value">SAG-AFTRA Micro-Budget short film</div>
+            <div class="info-card-label"><span data-i18n="proj.detail.context">Context</span></div>
+            <div class="info-card-value" data-i18n="ss.detail.ctx">SAG-AFTRA Micro-Budget short film</div>
           </div>
           <div class="info-card">
-            <div class="info-card-label">Primary Strengths</div>
-            <div class="info-card-value">Budgeting, logistics, compliance, scripted workflow</div>
+            <div class="info-card-label"><span data-i18n="proj.detail.strengths">Primary Strengths</span></div>
+            <div class="info-card-value" data-i18n="ss.detail.str">Budgeting, logistics, compliance, scripted workflow</div>
           </div>
           <div class="info-card">
-            <div class="info-card-label">Production Scale</div>
-            <div class="info-card-value">$8K budget · 5 shoot days · 8 locations</div>
+            <div class="info-card-label"><span data-i18n="proj.detail.scale">Production Scale</span></div>
+            <div class="info-card-value" data-i18n="ss.detail.scale">$8K budget · 5 shoot days · 8 locations</div>
           </div>
           <div class="info-card">
-            <div class="info-card-label">Team</div>
-            <div class="info-card-value">10-person cast · 30-person crew</div>
+            <div class="info-card-label"><span data-i18n="proj.detail.team">Team</span></div>
+            <div class="info-card-value" data-i18n="ss.detail.team">10-person cast · 30-person crew</div>
           </div>
         </div>
       </div>
@@ -665,9 +676,9 @@
   </section>
 
   <section class="section">
-    <div class="section-title">Production Scope</div>
+    <div class="section-title"><span data-i18n="proj.sec.scope">Production Scope</span></div>
     <p class="section-text">
-      SAG-AFTRA Micro-Budget. $8K budget. 5 shoot days. 8 locations. 10-person cast (including out-of-state talent). 30-person crew. Child labor compliance. Full producer credit from prep through delivery.
+      <span data-i18n="ss.scope">SAG-AFTRA Micro-Budget. $8K budget. 5 shoot days. 8 locations. 10-person cast (including out-of-state talent). 30-person crew. Child labor compliance. Full producer credit from prep through delivery.</span>
     </p>
   </section>
 
@@ -676,38 +687,38 @@
     <div class="press-grid">
       <a class="press-card" href="https://www.bu.edu/articles/2026/redstone-film-festival/" target="_blank" rel="noopener noreferrer">
         <div>
-          <div class="press-kicker">BU Today · April 2026</div>
-          <div class="press-title">Redstone Film Festival First Place</div>
+          <div class="press-kicker" data-i18n="ss.press.p1.k">BU Today · April 2026</div>
+          <div class="press-title" data-i18n="ss.press.p1.t">Redstone Film Festival First Place</div>
           <div class="press-desc">Boston University coverage of <em>Si Solamente</em> winning first place at COM's Redstone Film Festival, with Sofia named as producer.</div>
         </div>
-        <div class="press-link">Read Article ↗</div>
+        <div class="press-link" data-i18n="proj.press.read">Read Article ↗</div>
       </a>
 
       <a class="press-card" href="https://www.imdb.com/title/tt41548591/" target="_blank" rel="noopener noreferrer">
         <div>
-          <div class="press-kicker">IMDb</div>
-          <div class="press-title">Official Film Listing</div>
+          <div class="press-kicker" data-i18n="ss.press.p2.k">IMDb</div>
+          <div class="press-title" data-i18n="ss.press.p2.t">Official Film Listing</div>
           <div class="press-desc">IMDb listing for the 2026 short drama, crediting Kerlin Campos as writer/director and Sofía González Irigoyen as producer.</div>
         </div>
-        <div class="press-link">View IMDb ↗</div>
+        <div class="press-link" data-i18n="proj.press.imdb">View IMDb ↗</div>
       </a>
 
       <a class="press-card" href="https://www.instagram.com/reels/DXPeMQ-jFLU/" target="_blank" rel="noopener noreferrer">
         <div>
-          <div class="press-kicker">Instagram Reel</div>
-          <div class="press-title">Festival / Press Moment</div>
+          <div class="press-kicker" data-i18n="ss.press.p3.k">Instagram Reel</div>
+          <div class="press-title" data-i18n="ss.press.p3.t">Festival / Press Moment</div>
           <div class="press-desc">Social video connected to the film's public life, useful for showing the project beyond the page.</div>
         </div>
-        <div class="press-link">Watch Reel ↗</div>
+        <div class="press-link" data-i18n="proj.press.reel">Watch Reel ↗</div>
       </a>
 
       <a class="press-card" href="https://letterboxd.com/sofirichof/film/si-solamente/" target="_blank" rel="noopener noreferrer">
         <div>
-          <div class="press-kicker">Letterboxd</div>
-          <div class="press-title">Review Us on Letterboxd!</div>
+          <div class="press-kicker" data-i18n="ss.press.p4.k">Letterboxd</div>
+          <div class="press-title" data-i18n="ss.press.p4.t">Review Us on Letterboxd!</div>
           <div class="press-desc">Seen the film? Leave a review on Letterboxd — every log helps the film reach more people.</div>
         </div>
-        <div class="press-link">Open Letterboxd ↗</div>
+        <div class="press-link" data-i18n="proj.press.lbox">Open Letterboxd ↗</div>
       </a>
     </div>
   </section>
@@ -723,7 +734,7 @@
         poster="../assets/si-solamente/poster/si-solamente-poster.jpg"
       ></video>
       <div class="poster-copy">
-        <div class="section-title">Si Solamente Press Materials</div>
+        <div class="section-title"><span data-i18n="proj.sec.pressmat">Si Solamente Press Materials</span></div>
         <p>
           The press kit includes the official poster, film stills, and behind-the-scenes photography. Together, the materials show both the finished visual world of the film and the scale of the production behind it.
         </p>
@@ -732,7 +743,7 @@
   </section>
 
   <section class="section">
-    <div class="section-title">Film Stills</div>
+    <div class="section-title"><span data-i18n="proj.sec.stills">Film Stills</span></div>
     <div class="gallery-row">
       <div class="gallery-card"><img src="../assets/si-solamente/stills/SiSo_Still1.jpg" alt="Si Solamente still 1"/><div class="gallery-caption">Kitchen-table scene still.</div></div>
       <div class="gallery-card"><img src="../assets/si-solamente/stills/SiSo_Still11.jpg" alt="Si Solamente still 11"/><div class="gallery-caption">Close-up character still.</div></div>
@@ -743,7 +754,7 @@
   </section>
 
   <section class="section">
-    <div class="section-title">Behind the Scenes</div>
+    <div class="section-title"><span data-i18n="proj.sec.bts">Behind the Scenes</span></div>
     <div class="gallery-row">
       <div class="gallery-card"><img src="../assets/si-solamente/bts/dsc03331.jpg" alt="Si Solamente behind the scenes exterior setup"/><div class="gallery-caption">Exterior setup and crew staging.</div></div>
       <div class="gallery-card"><img src="../assets/si-solamente/bts/dsc03370.jpg" alt="Si Solamente behind the scenes bedroom setup"/><div class="gallery-caption">Interior lighting and production setup.</div></div>
@@ -759,22 +770,30 @@
   <section class="section">
     <div class="cta-strip">
       <div class="cta-copy">
-        <div class="cta-title">Continue browsing</div>
-        <div class="cta-text">
+        <div class="cta-title"><span data-i18n="proj.cta.browse">Continue browsing</span></div>
+        <div class="cta-text" data-i18n="ss.cta.text">
           Go back to the production page to view more broadcast, narrative, and television production work.
         </div>
       </div>
-      <a class="btn-primary" href="../recruiter.html">Back to Production</a>
+      <a class="btn-primary" href="../recruiter.html"><span data-i18n="proj.cta.btn">Back to Production</span></a>
     </div>
   </section>
 </main>
 
 <footer>
   <div class="footer-bottom">
-    <span>© 2026 Sofia González Irigoyen · Project Detail Page</span>
-    <a href="../recruiter.html">← Back to Production</a>
+    <span><span data-i18n="proj.footer"><span data-i18n="proj.footer">© 2026 Sofia González Irigoyen · Project Detail Page</span></span></span>
+    <a href="../recruiter.html" data-i18n="proj.nav.back.prod">← Back to Production</a>
   </div>
 </footer>
 
+
+<script>
+if (typeof sgI18n !== 'undefined') {
+  sgI18n.buildSwitcher(document.getElementById('nav-lang'));
+  sgI18n.applyPage();
+  document.addEventListener('sg:langchange', () => sgI18n.applyPage());
+}
+</script>
 </body>
 </html>
