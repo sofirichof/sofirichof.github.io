@@ -115,6 +115,7 @@
 
       /* ── Agency — hero ────────────────────── */
       'ag.kicker':          'ADVERTISING PROFILE',
+      'ag.hero.title':      'ADVERTISING',
       'ag.intro.desc':      'Producer and advertising student working across branded content, social video, and campaign production. I bring a production eye to the creative process and a creative instinct to set.',
       'ag.meta.tag1':       'AdLab · BU',
       'ag.meta.tag2':       'Branded Content',
@@ -447,6 +448,7 @@
 
       /* ── Agency — hero ────────────────────── */
       'ag.kicker':          'PERFIL DE PUBLICIDAD',
+      'ag.hero.title':      'PUBLICIDAD',
       'ag.intro.desc':      'Productora y estudiante de publicidad trabajando en contenido de marca, video social y producción de campaña. Aporto una mirada de producción al proceso creativo y un instinto creativo al set.',
       'ag.meta.tag1':       'AdLab · BU',
       'ag.meta.tag2':       'Contenido de Marca',
