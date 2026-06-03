@@ -1217,7 +1217,7 @@ const hoverSummaries = {
   "Acceso Total - Hollywood Premiere": "Field interview and entertainment coverage from the Telemundo 52 / NBCUniversal internship.",
   "Acceso Total - Independence Days": "Spanish-language cultural segment produced for Acceso Total during the Telemundo internship.",
   "Live With TY": "NATAS-recognized university sports episode shaped through chief editing and broadcast pacing.",
-  "Zona de Estrellas": "Live variety television experience from an international production placement in Santiago, Chile.",
+  "Zona de Estrellas": "Live farándula entertainment experience from an international production placement in Santiago, Chile.",
   "Sabores": "Lifestyle television production support from the Zona Latina / TVI America placement.",
   "Bay State - Seasons 48-50": "Multi-season scripted TV producing in a live-on-tape, three-camera studio workflow.",
   "Si Solamente": "SAG-AFTRA micro-budget short with a 5-day, 8-location production footprint.",
@@ -1245,6 +1245,14 @@ const heroBadges = {
   "The Stories We Tell Ourselves": "Featured Short",
   "Pajuyuk Ancestral Knowledge": "Festival Recognized"
 };
+
+// ── i18n helper ─────────────────────────────
+function tVal(prefix, val) {
+  if (typeof sgI18n === 'undefined') return val;
+  const key = prefix + val;
+  const result = sgI18n.t(key);
+  return result !== key ? result : val;
+}
 
 // ── Carousel ────────────────────────────────
 let carouselIndex = 0;
@@ -1381,8 +1389,8 @@ function goToSlide(index) {
       document.getElementById("hero-title").textContent = p.title;
       document.getElementById("bill-meta").innerHTML =
         `<span class="match">${escapeHtml(p.year)}</span>` +
-        `<span>${escapeHtml(p.cat)}</span>` +
-        `<span>${escapeHtml(p.role)}</span>`;
+        `<span>${escapeHtml(tVal('cat.', p.cat))}</span>` +
+        `<span>${escapeHtml(tVal('role.', p.role))}</span>`;
       const descKey = 'hs.' + p.title;
       const descTranslated = tFn(descKey) !== descKey ? tFn(descKey) : (hoverSummaries[p.title] || `${p.role} — ${p.org || p.cat}`);
       document.getElementById("bill-desc").textContent = descTranslated;
@@ -1534,7 +1542,7 @@ function makeTile(project, reelType, rowKey, index) {
       ${tileThumbMarkup(project)}
       <div class="tile-caption">
         <div class="tile-title">${escapeHtml(project.title)}</div>
-        <div class="tile-role">${escapeHtml(project.role)}</div>
+        <div class="tile-role">${escapeHtml(tVal('role.', project.role))}</div>
       </div>
     </article>
   `;
@@ -1678,10 +1686,10 @@ function buildHoverCard(tile) {
   const tFn = typeof sgI18n !== 'undefined' ? sgI18n.t.bind(sgI18n) : k => k;
   const rawTitle = tile.dataset.title || "";
   const title = escapeHtml(rawTitle);
-  const role = escapeHtml(tile.dataset.role);
+  const role = escapeHtml(tVal('role.', tile.dataset.role));
   const org = escapeHtml(tile.dataset.org);
   const year = escapeHtml(tile.dataset.year);
-  const cat = escapeHtml(tile.dataset.cat);
+  const cat = escapeHtml(tVal('cat.', tile.dataset.cat));
   const preview = tile.dataset.preview;
   const youtubeId = tile.dataset.youtubeId;
   const detailsUrl = escapeHtml(tile.dataset.detailsUrl);
