@@ -128,6 +128,26 @@
       'ag.row.spec.note':   'Solo and mock campaign work',
       'ag.row.ai.note':     'Spec social motion ads exploring product atmosphere, brand mood, and AI-assisted visual world-building.',
 
+      /* ── Agency — hero actions & stats ───── */
+      'ag.btn.viewClient':      '▶ View Client Work',
+      'ag.btn.specWork':        'Spec Campaigns',
+      'ag.stat.cw.label':       'Client Work',
+      'ag.stat.cw.val':         'Capital One, MassDOT, Affordable Art Fair',
+      'ag.stat.fmt.label':      'Formats',
+      'ag.stat.fmt.val':        '9:16 social, 1:1 cable, 4:5 paid/social',
+      'ag.stat.focus.label':    'Focus',
+      'ag.stat.focus.val':      'Agency Production · Branded Content · Campaign Execution',
+      'ag.row.clientwork':      'AdLab Client Work',
+
+      /* ── Agency — about skill tags ────────── */
+      'ag.skill.branded':       'Branded Content',
+      'ag.skill.socialvid':     'Social Video Production',
+      'ag.skill.onset':         'On-Set Coordination',
+      'ag.skill.campaign':      'Campaign Execution',
+      'ag.skill.clientfacing':  'Client-Facing Creative',
+      'ag.skill.planning':      'Production Planning',
+      'ag.skill.bilingual':     'Spanish / English',
+
       /* ── Agency — toolkit ─────────────────── */
       'ag.toolkit.h':       'Agency Toolkit',
       'ag.tp1.title':       'Concept Development',
@@ -241,7 +261,7 @@
       'hs.Acceso Total - Hollywood Premiere':        'Field interview and entertainment coverage from the Telemundo 52 / NBCUniversal internship.',
       'hs.Acceso Total - Independence Days':         'Spanish-language cultural segment produced for Acceso Total during the Telemundo internship.',
       'hs.Live With TY':                             'NATAS-recognized university sports episode shaped through chief editing and broadcast pacing.',
-      'hs.Zona de Estrellas':                        'Live variety television experience from an international production placement in Santiago, Chile.',
+      'hs.Zona de Estrellas':                        'Live farándula entertainment experience from an international production placement in Santiago, Chile.',
       'hs.Sabores':                                  'Lifestyle television production support from the Zona Latina / TVI America placement.',
       'hs.Bay State - Seasons 48-50':                'Multi-season scripted TV producing in a live-on-tape, three-camera studio workflow.',
       'hs.Si Solamente':                             'SAG-AFTRA micro-budget short with a 5-day, 8-location production footprint.',
@@ -259,6 +279,38 @@
       'hs.Growing Pains':                            'Script supervision credit supporting continuity, scene tracking, and clear communication between departments.',
       'hs.Chameleon':                                'Script supervision credit focused on continuity, script tracking, and production organization.',
       'hs.Aftershock':                               'Second assistant camera credit supporting camera department workflow and on-set technical coordination.',
+
+      /* ── Project roles (recruiter carousel) ── */
+      'role.Interviewer':               'Interviewer',
+      'role.Segment Producer':          'Segment Producer',
+      'role.Chief Editor':              'Chief Editor',
+      'role.Production Assistant':      'Production Assistant',
+      'role.Producer':                  'Producer',
+      'role.Producer & Editor':         'Producer & Editor',
+      'role.Exec. Production Assistant':'Exec. Production Assistant',
+      'role.Solo Project':              'Solo Project',
+      'role.Director & Editor':         'Director & Editor',
+      'role.1st AD':                    '1st AD',
+      'role.1st Assistant Director':    '1st Assistant Director',
+      'role.Script Supervisor':         'Script Supervisor',
+      'role.2nd AC':                    '2nd AC',
+
+      /* ── Project categories (recruiter carousel) ── */
+      'cat.Broadcast · Entertainment':          'Broadcast · Entertainment',
+      'cat.Broadcast · Cultural Segment':       'Broadcast · Cultural Segment',
+      'cat.Broadcast · Sports · NATAS Award':   'Broadcast · Sports · NATAS Award',
+      'cat.Live Variety · Santiago, Chile':     'Live Farándula · Santiago, Chile',
+      'cat.TV Drama · Multi-camera':            'TV Drama · Multi-camera',
+      'cat.Narrative Short · Drama · 15 min':   'Narrative Short · Drama · 15 min',
+      'cat.Documentary · 18 min':               'Documentary · 18 min',
+      'cat.Drama Short · 5 min':                'Drama Short · 5 min',
+      'cat.Rom-Com Short · 3 min':              'Rom-Com Short · 3 min',
+      'cat.Narrative Documentary · 5 min':      'Narrative Documentary · 5 min',
+      'cat.Comedy Short · 5 min':               'Comedy Short · 5 min',
+      'cat.Cinematography Exercise':            'Cinematography Exercise',
+      'cat.Music Video · 8 min':                'Music Video · 8 min',
+      'cat.Narrative Short':                    'Narrative Short',
+      'cat.Narrative Short · Spanish-language': 'Narrative Short · Spanish-language',
 
       /* ══ PROJECT DETAIL PAGES — shared chrome (EN) ══ */
       'proj.nav.logo':"Sofia's Portfolio",'proj.nav.production':"Production",'proj.nav.overview':"Overview",'proj.nav.media':"Media",'proj.nav.gallery':"Gallery",'proj.nav.back.prod':"← Back to Production",
@@ -461,6 +513,26 @@
       'ag.row.spec.note':   'Trabajo de campañas en solitario y simuladas',
       'ag.row.ai.note':     'Anuncios de movimiento social de práctica explorando atmósfera de producto, estado de marca y construcción de mundo visual asistida por IA.',
 
+      /* ── Agency — hero actions & stats ───── */
+      'ag.btn.viewClient':      '▶ Ver Trabajo con Clientes',
+      'ag.btn.specWork':        'Campañas Spec',
+      'ag.stat.cw.label':       'Trabajo con Clientes',
+      'ag.stat.cw.val':         'Capital One, MassDOT, Affordable Art Fair',
+      'ag.stat.fmt.label':      'Formatos',
+      'ag.stat.fmt.val':        '9:16 social, 1:1 cable, 4:5 pagado/social',
+      'ag.stat.focus.label':    'Enfoque',
+      'ag.stat.focus.val':      'Producción en Agencia · Contenido de Marca · Ejecución de Campaña',
+      'ag.row.clientwork':      'Trabajo con Clientes AdLab',
+
+      /* ── Agency — about skill tags ────────── */
+      'ag.skill.branded':       'Contenido de Marca',
+      'ag.skill.socialvid':     'Producción de Video Social',
+      'ag.skill.onset':         'Coordinación en Set',
+      'ag.skill.campaign':      'Ejecución de Campaña',
+      'ag.skill.clientfacing':  'Creativo Orientado al Cliente',
+      'ag.skill.planning':      'Planificación de Producción',
+      'ag.skill.bilingual':     'Español / Inglés',
+
       /* ── Agency — toolkit ─────────────────── */
       'ag.toolkit.h':       'Herramientas de Agencia',
       'ag.tp1.title':       'Desarrollo de Concepto',
@@ -574,7 +646,7 @@
       'hs.Acceso Total - Hollywood Premiere':        'Entrevista en campo y cobertura de entretenimiento de la pasantía en Telemundo 52 / NBCUniversal.',
       'hs.Acceso Total - Independence Days':         'Segmento cultural en español producido para Acceso Total durante la pasantía en Telemundo.',
       'hs.Live With TY':                             'Episodio universitario de deportes reconocido por NATAS, conformado a través de edición en jefe y ritmo de broadcast.',
-      'hs.Zona de Estrellas':                        'Experiencia en televisión de variedades en vivo desde una pasantía internacional en Santiago, Chile.',
+      'hs.Zona de Estrellas':                        'Experiencia en farándula en vivo desde una pasantía internacional en Santiago, Chile.',
       'hs.Sabores':                                  'Apoyo en producción televisiva de estilo de vida desde la pasantía en Zona Latina / TVI America.',
       'hs.Bay State - Seasons 48-50':                'Producción de TV de ficción en múltiples temporadas con flujo de trabajo grabado en vivo y tres cámaras en estudio.',
       'hs.Si Solamente':                             'Cortometraje SAG-AFTRA de micro-presupuesto con una producción de 5 días y 8 locaciones.',
@@ -592,6 +664,38 @@
       'hs.Growing Pains':                            'Crédito de supervisión de guion apoyando continuidad, seguimiento de escenas y comunicación clara entre departamentos.',
       'hs.Chameleon':                                'Crédito de supervisión de guion enfocado en continuidad, seguimiento de guion y organización de producción.',
       'hs.Aftershock':                               'Crédito de segundo asistente de cámara apoyando el flujo del departamento de cámara y coordinación técnica en set.',
+
+      /* ── Project roles (recruiter carousel) ── */
+      'role.Interviewer':               'Entrevistadora',
+      'role.Segment Producer':          'Productora de Segmento',
+      'role.Chief Editor':              'Editora Principal',
+      'role.Production Assistant':      'Asistente de Producción',
+      'role.Producer':                  'Productora',
+      'role.Producer & Editor':         'Productora y Editora',
+      'role.Exec. Production Assistant':'Asistente de Producción Ejecutiva',
+      'role.Solo Project':              'Proyecto Individual',
+      'role.Director & Editor':         'Directora y Editora',
+      'role.1st AD':                    '1ª Asistente de Dirección',
+      'role.1st Assistant Director':    '1ª Asistente de Dirección',
+      'role.Script Supervisor':         'Supervisora de Guión',
+      'role.2nd AC':                    '2ª Cámara',
+
+      /* ── Project categories (recruiter carousel) ── */
+      'cat.Broadcast · Entertainment':          'Difusión · Entretenimiento',
+      'cat.Broadcast · Cultural Segment':       'Difusión · Segmento Cultural',
+      'cat.Broadcast · Sports · NATAS Award':   'Difusión · Deportes · Premio NATAS',
+      'cat.Live Variety · Santiago, Chile':     'Farándula en Vivo · Santiago, Chile',
+      'cat.TV Drama · Multi-camera':            'Drama de TV · Multicámara',
+      'cat.Narrative Short · Drama · 15 min':   'Cortometraje Narrativo · Drama · 15 min',
+      'cat.Documentary · 18 min':               'Documental · 18 min',
+      'cat.Drama Short · 5 min':                'Cortometraje de Drama · 5 min',
+      'cat.Rom-Com Short · 3 min':              'Comedia Romántica · 3 min',
+      'cat.Narrative Documentary · 5 min':      'Documental Narrativo · 5 min',
+      'cat.Comedy Short · 5 min':               'Cortometraje de Comedia · 5 min',
+      'cat.Cinematography Exercise':            'Ejercicio de Cinematografía',
+      'cat.Music Video · 8 min':                'Video Musical · 8 min',
+      'cat.Narrative Short':                    'Cortometraje Narrativo',
+      'cat.Narrative Short · Spanish-language': 'Cortometraje Narrativo · Español',
 
       /* ══════════════════════════════════════
          PROJECT DETAIL PAGES — shared chrome
