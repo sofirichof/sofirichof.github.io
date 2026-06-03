@@ -147,6 +147,23 @@
       'ag.contact.h':       'Contact',
       'ag.contact.p1':      "I'm graduating in August 2026 and looking for agency production roles — PA, junior producer, or content producer. If your team needs someone who can take a creative idea from brief to camera to delivery, I'd love to talk.",
 
+      /* ── Agency — card descriptions ───────── */
+      'ag.card.affirm':   'One of four edutainment-style vertical videos built for TikTok and Instagram.',
+      'ag.card.icebath':  'Social-first financial confidence concept using fast visual payoff and scroll-native pacing.',
+      'ag.card.vision':   'A short-form concept connecting planning, optimism, and being financially prepared.',
+      'ag.card.yoga':     'Edutainment deliverable designed for quick comprehension and platform-native humor.',
+      'ag.card.massdot':  'Cable-ready road-safety ad concept designed as a concise under-60-second public message.',
+      'ag.card.aaf':      '15-30 second 4:5 social ad for Instagram and Facebook.',
+      'ag.card.sagaftra': 'Single idea: To act is to be human. Slogan: Only Humans Can.',
+      'ag.card.traderjoe':'Single idea: We make adulting easy. Slogan: Joe is your man.',
+      'ag.card.ranch':    'Solo spec exercise — short-form product concept exploring lifestyle framing and visual pacing.',
+      'ag.card.merit':    'A soft atmospheric spec ad built around the perfume bottle and fragrance notes as visual world-building.',
+      'ag.card.bluebird': 'A short-form spec ad built around product mood, brand texture, and scroll-stopping visual atmosphere.',
+      'ag.card.bloom':    'A vertical spec ad built around wellness, product texture, and high-energy social-first motion.',
+
+      /* ── Stalker ──────────────────────────── */
+      'stk.hero.sub':     '"you found the stalker page. i genuinely don\'t know how you got here but i\'ve decided to be flattered. make yourself at home. i guess."',
+
       /* ── Director — hero ──────────────────── */
       'dir.kicker':         'Collaborators · Freelance Producer',
       'dir.tagline':        '"The person you call when you need a guy."',
@@ -461,6 +478,23 @@
       /* ── Agency — contact ─────────────────── */
       'ag.contact.h':       'Contacto',
       'ag.contact.p1':      'Me gradúo en agosto de 2026 y busco roles de producción en agencias — PA, productora junior o productora de contenido. Si tu equipo necesita a alguien que pueda llevar una idea creativa del brief a la cámara y a la entrega, me encantaría hablar.',
+
+      /* ── Agency — card descriptions ───────── */
+      'ag.card.affirm':   'Uno de cuatro videos verticales de estilo educativo-entretenimiento para TikTok e Instagram.',
+      'ag.card.icebath':  'Concepto de confianza financiera orientado a redes con impacto visual rápido y ritmo nativo de la plataforma.',
+      'ag.card.vision':   'Concepto de formato corto que conecta la planificación, el optimismo y la preparación financiera.',
+      'ag.card.yoga':     'Entregable de entretenimiento educativo diseñado para comprensión rápida y humor nativo de la plataforma.',
+      'ag.card.massdot':  'Concepto de anuncio de seguridad vial listo para cable, diseñado como un mensaje público conciso de menos de 60 segundos.',
+      'ag.card.aaf':      'Anuncio social de 15-30 segundos en formato 4:5 para Instagram y Facebook.',
+      'ag.card.sagaftra': 'Idea central: actuar es ser humano. Eslogan: Solo los humanos pueden.',
+      'ag.card.traderjoe':'Idea central: hacemos fácil la adultez. Eslogan: Joe es tu hombre.',
+      'ag.card.ranch':    'Ejercicio de práctica en solitario — concepto de producto de formato corto explorando encuadre de estilo de vida y ritmo visual.',
+      'ag.card.merit':    'Anuncio de práctica atmosférico y suave construido en torno al frasco de perfume y las notas de fragancia como construcción de mundo visual.',
+      'ag.card.bluebird': 'Anuncio de práctica de formato corto construido en torno al estado de marca, textura de producto y atmósfera visual que detiene el scroll.',
+      'ag.card.bloom':    'Anuncio vertical de práctica construido en torno al bienestar, textura de producto y movimiento de alta energía orientado a redes.',
+
+      /* ── Stalker ──────────────────────────── */
+      'stk.hero.sub':     '"encontraste la página de stalker. honestamente no sé cómo llegaste aquí pero he decidido sentirme halagada. ponte cómodo/a. supongo."',
 
       /* ── Director — hero ──────────────────── */
       'dir.kicker':         'Colaboradores · Productora Freelance',
