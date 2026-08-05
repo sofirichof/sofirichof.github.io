@@ -404,8 +404,15 @@
       box-shadow:0 0 70px rgba(229,9,20,.18);
     }
     .modal-content.vertical{width:min(480px,90vw);aspect-ratio:4/5;}
+    .modal-content.image{width:auto;height:auto;aspect-ratio:auto;max-width:92vw;max-height:86vh;background:transparent;border:0;box-shadow:none;}
+    .modal-content.image img{max-width:92vw;max-height:86vh;width:auto;height:auto;display:block;border:1px solid rgba(255,255,255,.14);}
     .modal-content iframe,
     .modal-content video{width:100%;height:100%;border:0;display:block;background:#000;object-fit:contain;}
+    .gallery-track{display:flex;gap:.6rem;width:max-content;align-items:stretch;}
+    .gallery-item{position:relative;flex:0 0 auto;width:clamp(190px,23vw,250px);height:clamp(210px,28vh,300px);padding:0;border:1px solid rgba(255,255,255,.08);border-radius:6px;overflow:hidden;background:#111;cursor:pointer;transition:transform .18s,border-color .18s;}
+    .gallery-item:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.28);}
+    .gallery-item img,.gallery-item video{height:100%;width:100%;display:block;object-fit:cover;}
+    .gallery-item .play-chip{left:.55rem;bottom:.55rem;min-width:28px;height:28px;padding:0 .5rem;font-size:.68rem;}
     .modal-close{
       position:absolute;
       top:-46px;
@@ -700,16 +707,6 @@
     <div class="scroller" id="scroller-ai">
       <div class="track">
 
-        <article class="campaign-card" data-video="media/ad/supergood/soul-cinema.mp4" data-orientation="vertical">
-          <div class="media vertical"><video src="media/ad/supergood/soul-cinema.mp4" poster="assets/ad/supergood/soul-cinema.jpg" autoplay muted loop playsinline preload="auto"></video><span class="play-chip">▶ Play</span></div>
-          <div class="card-body">
-            <div class="card-kicker">Supergood · AI Photoreal R&amp;D</div>
-            <div class="card-title">Soul Cinema Test</div>
-            <p class="card-desc">Self-directed R&amp;D pushing Higgsfield Soul Cinema toward photoreal footage — deliberately mimicking real-camera grain and exposure, then animated with Kling.</p>
-            <div class="tag-row"><span class="tag">Higgsfield</span><span class="tag">Kling</span><span class="tag">AI Photoreal</span><span class="tag">R&amp;D</span></div>
-          </div>
-        </article>
-
         <article class="campaign-card" data-video="media/ad/spec/merit-fragrance.mp4" data-orientation="vertical">
           <div class="media vertical"><video src="media/ad/spec/merit-fragrance.mp4" autoplay muted loop playsinline preload="auto"></video><span class="play-chip">▶ Play</span></div>
           <div class="card-body">
@@ -744,6 +741,55 @@
     </div>
     <button class="row-arrow" type="button" data-dir="1" aria-label="Scroll right">›</button>
   </section>
+  <section class="row" id="soul-cinema">
+    <div class="row-header">
+      <h2 class="row-title">Soul Cinema</h2>
+      <div class="row-note">Personal AI R&amp;D · 2026</div>
+    </div>
+    <div class="row-desc">Self-directed experiments pushing Higgsfield Soul Cinema toward photoreal footage — mimicking real-camera grain, exposure, and depth of field. Motion tests animated with Kling; stills straight from the model. Click any frame to enlarge.</div>
+    <button class="row-arrow" type="button" data-dir="-1" aria-label="Scroll left">‹</button>
+    <div class="scroller" id="scroller-soul">
+      <div class="track gallery-track">
+        <button class="gallery-item" type="button" data-video="media/ad/supergood/soul/c1.mp4"><video src="media/ad/supergood/soul/c1.mp4" poster="assets/ad/supergood/soul/c1.jpg" muted loop playsinline preload="metadata"></video><span class="play-chip">▶</span></button>
+        <button class="gallery-item" type="button" data-video="media/ad/supergood/soul/c2.mp4"><video src="media/ad/supergood/soul/c2.mp4" poster="assets/ad/supergood/soul/c2.jpg" muted loop playsinline preload="metadata"></video><span class="play-chip">▶</span></button>
+        <button class="gallery-item" type="button" data-video="media/ad/supergood/soul/c3.mp4"><video src="media/ad/supergood/soul/c3.mp4" poster="assets/ad/supergood/soul/c3.jpg" muted loop playsinline preload="metadata"></video><span class="play-chip">▶</span></button>
+        <button class="gallery-item" type="button" data-video="media/ad/supergood/soul/c4.mp4"><video src="media/ad/supergood/soul/c4.mp4" poster="assets/ad/supergood/soul/c4.jpg" muted loop playsinline preload="metadata"></video><span class="play-chip">▶</span></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s01.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s01.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s02.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s02.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s03.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s03.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s04.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s04.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s05.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s05.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s06.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s06.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s07.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s07.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s08.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s08.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s09.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s09.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s10.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s10.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s11.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s11.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s12.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s12.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s13.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s13.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s14.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s14.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s15.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s15.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s16.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s16.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s17.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s17.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s18.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s18.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s19.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s19.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s20.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s20.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s21.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s21.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s22.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s22.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s23.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s23.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s24.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s24.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s25.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s25.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s26.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s26.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s27.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s27.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s28.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s28.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s29.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s29.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s30.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s30.jpg" alt="Soul Cinema still"></button>
+        <button class="gallery-item" type="button" data-image="assets/ad/supergood/soul/s31.jpg"><img loading="lazy" src="assets/ad/supergood/soul/s31.jpg" alt="Soul Cinema still"></button>
+      </div>
+    </div>
+    <button class="row-arrow" type="button" data-dir="1" aria-label="Scroll right">›</button>
+  </section>
+
   <section class="case-section" id="strategy">
     <div class="case-inner">
       <h2 class="row-title" data-i18n="ag.toolkit.h">Agency Toolkit</h2>
@@ -848,8 +894,18 @@ function rotateHeroClip() {
 }
 
 function openLocalVideo(src, orientation) {
+  modalContent.classList.remove("image");
   modalContent.classList.toggle("vertical", orientation === "vertical");
   modalSlot.innerHTML = `<video src="${src}" controls autoplay playsinline></video>`;
+  modal.classList.add("active");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+}
+
+function openLocalImage(src) {
+  modalContent.classList.remove("vertical");
+  modalContent.classList.add("image");
+  modalSlot.innerHTML = `<img src="${src}" alt="Soul Cinema still">`;
   modal.classList.add("active");
   modal.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-open");
@@ -877,6 +933,17 @@ document.querySelectorAll(".campaign-card").forEach(card => {
   card.addEventListener("click", () => {
     if (card.dataset.video) openLocalVideo(card.dataset.video, card.dataset.orientation);
     if (card.dataset.youtube) openYoutube(card.dataset.youtube);
+  });
+});
+document.querySelectorAll(".gallery-item").forEach(item => {
+  const preview = item.querySelector("video");
+  if (preview) {
+    item.addEventListener("mouseenter", () => preview.play().catch(() => {}));
+    item.addEventListener("mouseleave", () => preview.pause());
+  }
+  item.addEventListener("click", () => {
+    if (item.dataset.image) openLocalImage(item.dataset.image);
+    else if (item.dataset.video) openLocalVideo(item.dataset.video);
   });
 });
 activeHeroVideo.play().catch(() => {});
