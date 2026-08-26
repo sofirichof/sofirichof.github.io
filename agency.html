@@ -945,7 +945,6 @@ let activeHeroVideo = document.getElementById("hero-video-a");
 let idleHeroVideo = document.getElementById("hero-video-b");
 
 function rotateHeroClip() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   heroClipIndex = (heroClipIndex + 1) % heroClips.length;
   idleHeroVideo.src = heroClips[heroClipIndex];
   idleHeroVideo.currentTime = 0;
