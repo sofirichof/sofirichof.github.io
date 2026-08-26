@@ -20,6 +20,7 @@
 
   #tap-screen {
     position:fixed; inset:0; z-index:200;
+    overflow:hidden;
     background:
       radial-gradient(circle at 50% 46%, rgba(229,9,20,.18), transparent 26%),
       linear-gradient(180deg,#050505 0%,#000 100%);
@@ -28,14 +29,27 @@
   }
   #tap-screen.fade-out { opacity:0; pointer-events:none; }
   .tap-prompt { display:flex; flex-direction:column; align-items:center; gap:1.5rem; animation:pulse 2s ease-in-out infinite; }
+  .tap-eyebrow {
+    font-family:var(--sans);
+    font-size:.66rem;
+    font-weight:800;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    color:var(--terra);
+    margin-bottom:-.55rem;
+    text-shadow:0 1px 6px rgba(0,0,0,.6);
+  }
   .tap-logo {
     font-family:var(--font);
-    font-size:clamp(2rem,7vw,4.6rem);
-    letter-spacing:.08em;
+    font-size:clamp(2.1rem,5.6vw,4.2rem);
+    letter-spacing:.06em;
+    line-height:.95;
     color:#fff;
     text-align:center;
     padding:0 1rem;
-    text-shadow:0 0 24px rgba(229,9,20,.45);
+    max-width:16ch;
+    text-wrap:balance;
+    text-shadow:0 0 26px rgba(229,9,20,.4), 0 4px 18px rgba(0,0,0,.65);
   }
   .tap-ring {
     width:84px; height:84px; border-radius:50%;
@@ -69,22 +83,36 @@
   @keyframes pulse { 0%,100%{opacity:.9;transform:scale(1);} 50%{opacity:1;transform:scale(1.04);} }
 
   .tap-wall {
-    position:absolute; inset:-8%; z-index:0;
-    display:grid; grid-template-columns:repeat(6,1fr); grid-template-rows:repeat(4,1fr);
-    gap:.6rem;
-    transform:rotate(-8deg) scale(1.15);
-    opacity:.28;
+    position:absolute; inset:-14% -16%; z-index:0;
+    perspective:1200px;
     pointer-events:none;
-    animation:wallDrift 50s ease-in-out infinite alternate;
   }
-  .tap-wall .tile { background-size:cover; background-position:center; border-radius:6px; }
-  .tap-wall .tile.v { background-position:center 22%; }
+  .wall-plane {
+    position:absolute; inset:0;
+    display:flex; gap:.6rem;
+    transform:rotateX(16deg) rotateZ(-8deg) scale(1.18);
+    opacity:.3;
+  }
+  .wall-col {
+    flex:1;
+    display:flex; flex-direction:column;
+    will-change:transform;
+    animation:wallUp var(--dur,64s) linear infinite;
+  }
+  .wall-col.down { animation-name:wallDown; }
+  .wall-col .tile {
+    flex:0 0 auto;
+    aspect-ratio:16/10;
+    margin-bottom:.6rem;
+    background-size:cover;
+    background-position:center;
+    border-radius:6px;
+  }
+  .wall-col .tile.v { background-position:center 22%; }
+  @keyframes wallUp   { from { transform:translateY(0); }    to { transform:translateY(-50%); } }
+  @keyframes wallDown { from { transform:translateY(-50%); } to { transform:translateY(0); } }
   @media (max-width:700px) {
-    .tap-wall { grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(6,1fr); }
-  }
-  @keyframes wallDrift {
-    from { transform:rotate(-8deg) scale(1.15) translateY(-1.2%); }
-    to   { transform:rotate(-8deg) scale(1.15) translateY(1.2%); }
+    .wall-col:nth-child(n+5) { display:none; }
   }
   #tap-screen::after {
     content:""; position:absolute; inset:0; z-index:1;
@@ -122,7 +150,7 @@
     .intro-skip { right:1rem; bottom:1.4rem; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .tap-wall, .tap-prompt { animation:none; }
+    .wall-col, .tap-prompt { animation:none; }
   }
 
   #intro-screen {
@@ -291,34 +319,95 @@
 <body>
 
 <div id="tap-screen" onclick="startIntro()" role="button" tabindex="0" aria-label="Start intro">
-  <div class="tap-wall" aria-hidden="true">
-    <div class="tile" style="background-image:url('assets/ad/supergood/soul-cinema.jpg')"></div>
-    <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still1.jpg')"></div>
-    <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-bts.jpg')"></div>
-    <div class="tile" style="background-image:url('assets/ad/supergood/milkpep-reel.jpg')"></div>
-    <div class="tile" style="background-image:url('assets/ad/supergood/soul/c4.jpg')"></div>
-    <div class="tile v" style="background-image:url('assets/ad/spec/merit-fragrance.jpg')"></div>
-    <div class="tile" style="background-image:url('assets/thumbs/acesso-total-hollywood-premiere.jpg')"></div>
-    <div class="tile" style="background-image:url('assets/ad/supergood/laundry-loft-comedy.jpg')"></div>
-    <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-business-banking-face.jpg')"></div>
-    <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still4.jpg')"></div>
-    <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-run-the-numbers.jpg')"></div>
-    <div class="tile v" style="background-image:url('assets/ad/spec/bluebird-hard-water.jpg')"></div>
-    <div class="tile v" style="background-image:url('assets/ad/spec/bloom-creatine.jpg')"></div>
-    <div class="tile v" style="background-image:url('assets/ad/supergood/realmvp-izzy.jpg')"></div>
-    <div class="tile v" style="background-image:url('assets/ad/supergood/realmvp-mendoza.jpg')"></div>
-    <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still11.jpg')"></div>
-    <div class="tile" style="background-image:url('assets/thumbs/acesso-total-independence-days.jpg')"></div>
-    <div class="tile" style="background-image:url('assets/ad/supergood/soul/c2.jpg')"></div>
-    <div class="tile" style="background-image:url('assets/ad/supergood/milkpep-ai-ad.jpg')"></div>
-    <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still5.jpg')"></div>
-    <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-psa.jpg')"></div>
-    <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-bloopers.jpg')"></div>
-    <div class="tile" style="background-image:url('assets/ad/supergood/soul/c3.jpg')"></div>
-    <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still8.jpg')"></div>
-  </div>
+  <div class="tap-wall" aria-hidden="true"><div class="wall-plane">
+    <div class="wall-col" style="--dur:62s">
+      <div class="tile" style="background-image:url('assets/ad/supergood/laundry-loft-comedy.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/sabores.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/realmvp-izzy.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still1.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/spec/merit-fragrance.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/acesso-total-hollywood-premiere.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/laundry-loft-comedy.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/sabores.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/realmvp-izzy.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still1.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/spec/merit-fragrance.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/acesso-total-hollywood-premiere.jpg')"></div>
+    </div>
+    <div class="wall-col down" style="--dur:74s">
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-business-banking-face.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still4.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/milkpep-reel.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/chameleon.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-psa.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/s01.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-business-banking-face.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still4.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/milkpep-reel.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/chameleon.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-psa.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/s01.jpg')"></div>
+    </div>
+    <div class="wall-col" style="--dur:58s">
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-run-the-numbers.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul-cinema.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/GrowingPains.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/realmvp-mendoza.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/pajuyuk.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/spec/bloom-creatine.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-run-the-numbers.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul-cinema.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/GrowingPains.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/realmvp-mendoza.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/pajuyuk.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/spec/bloom-creatine.jpg')"></div>
+    </div>
+    <div class="wall-col down" style="--dur:70s">
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still11.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-bts.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/si-solamente.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/milkpep-ai-ad.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/live-with-ty/bts-wall.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/Aftershock.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still11.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-bts.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/si-solamente.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/milkpep-ai-ad.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/live-with-ty/bts-wall.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/Aftershock.jpg')"></div>
+    </div>
+    <div class="wall-col" style="--dur:66s">
+      <div class="tile" style="background-image:url('assets/thumbs/acesso-total-independence-days.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/c2.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still8.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-bloopers.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/Vestidoparamama.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/s08.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/acesso-total-independence-days.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/c2.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still8.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-bloopers.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/Vestidoparamama.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/s08.jpg')"></div>
+    </div>
+    <div class="wall-col down" style="--dur:78s">
+      <div class="tile v" style="background-image:url('assets/ad/spec/bluebird-hard-water.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/c4.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still5.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/ByDesign.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/s20.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/c3.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/spec/bluebird-hard-water.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/c4.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still5.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/ByDesign.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/s20.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/c3.jpg')"></div>
+    </div>
+  </div></div>
   <div class="tap-prompt">
-    <div class="tap-logo" data-i18n="idx.tapLogo">Sofia Originals</div>
+    <div class="tap-eyebrow" data-i18n="idx.tapEyebrow">Now Streaming</div>
+    <div class="tap-logo" data-i18n="idx.tapLogo">Sofía González Irigoyen</div>
     <div class="tap-ring"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.3v13.4c0 .5.55.8.98.53l10.5-6.7a.63.63 0 0 0 0-1.06L8.98 4.77A.63.63 0 0 0 8 5.3z"/></svg></div>
     <div class="tap-hint" data-i18n="idx.tapHint">Tap anywhere to start</div>
   </div>
