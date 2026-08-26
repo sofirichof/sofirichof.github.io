@@ -38,19 +38,39 @@
     text-shadow:0 0 24px rgba(229,9,20,.45);
   }
   .tap-ring {
-    width:72px; height:72px; border-radius:50%;
-    border:2px solid rgba(255,255,255,.78);
-    background:var(--terra);
+    width:84px; height:84px; border-radius:50%;
+    border:2px solid rgba(255,255,255,.85);
+    background:radial-gradient(circle at 35% 28%, #ff3341, var(--terra) 58%, var(--terra-dark));
     display:flex; align-items:center; justify-content:center;
-    color:#fff; font-size:1.55rem;
-    box-shadow:0 0 34px rgba(229,9,20,.45);
+    box-shadow:
+      0 0 0 10px rgba(229,9,20,.1),
+      0 12px 42px rgba(229,9,20,.5),
+      inset 0 2px 8px rgba(255,255,255,.28),
+      inset 0 -8px 16px rgba(0,0,0,.32);
+    transition:transform .22s, box-shadow .22s;
   }
+  .tap-ring svg {
+    width:30px; height:30px; display:block;
+    margin-left:5px;
+    fill:#fff;
+    filter:drop-shadow(0 2px 5px rgba(0,0,0,.4));
+  }
+  #tap-screen:hover .tap-ring,
+  #tap-screen:focus-visible .tap-ring {
+    transform:scale(1.08);
+    box-shadow:
+      0 0 0 14px rgba(229,9,20,.16),
+      0 14px 52px rgba(229,9,20,.65),
+      inset 0 2px 8px rgba(255,255,255,.32),
+      inset 0 -8px 16px rgba(0,0,0,.32);
+  }
+  #tap-screen:focus-visible { outline:none; }
   .tap-hint { font-size:.78rem; letter-spacing:.25em; text-transform:uppercase; color:rgba(255,255,255,.78); }
   @keyframes pulse { 0%,100%{opacity:.9;transform:scale(1);} 50%{opacity:1;transform:scale(1.04);} }
 
   .tap-wall {
     position:absolute; inset:-8%; z-index:0;
-    display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(3,1fr);
+    display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(4,1fr);
     gap:.6rem;
     transform:rotate(-8deg) scale(1.3);
     opacity:.24;
@@ -269,21 +289,25 @@
 <div id="tap-screen" onclick="startIntro()" role="button" tabindex="0" aria-label="Start intro">
   <div class="tap-wall" aria-hidden="true">
     <div class="tile" style="background-image:url('assets/ad/supergood/laundry-loft-comedy.jpg')"></div>
-    <div class="tile" style="background-image:url('assets/ad/spec/merit-fragrance.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still4.jpg')"></div>
     <div class="tile" style="background-image:url('assets/ad/supergood/usbank-nfl-bts.jpg')"></div>
-    <div class="tile" style="background-image:url('assets/ad/supergood/milkpep-ai-ad.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/ad/spec/merit-fragrance.jpg')"></div>
     <div class="tile" style="background-image:url('assets/ad/supergood/usbank-run-the-numbers.jpg')"></div>
-    <div class="tile" style="background-image:url('assets/ad/supergood/soul-cinema.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/ad/supergood/usbank-nfl-business-banking.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still11.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/ad/supergood/milkpep-ai-ad.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/thumbs/acesso-total-hollywood-premiere.jpg')"></div>
     <div class="tile" style="background-image:url('assets/ad/supergood/realmvp-mendoza.jpg')"></div>
-    <div class="tile" style="background-image:url('assets/ad/spec/bluebird-hard-water.jpg')"></div>
-    <div class="tile" style="background-image:url('assets/ad/supergood/milkpep-reel.jpg')"></div>
-    <div class="tile" style="background-image:url('assets/ad/supergood/realmvp-izzy.jpg')"></div>
     <div class="tile" style="background-image:url('assets/ad/spec/bloom-creatine.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/ad/supergood/realmvp-izzy.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/ad/supergood/soul-cinema.jpg')"></div>
     <div class="tile" style="background-image:url('assets/ad/supergood/usbank-nfl-psa.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/thumbs/acesso-total-independence-days.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/ad/spec/bluebird-hard-water.jpg')"></div>
   </div>
   <div class="tap-prompt">
-    <div class="tap-logo" data-i18n="idx.tapLogo">Sofia's Portfolio</div>
-    <div class="tap-ring">▶</div>
+    <div class="tap-logo" data-i18n="idx.tapLogo">Sofia Originals</div>
+    <div class="tap-ring"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.3v13.4c0 .5.55.8.98.53l10.5-6.7a.63.63 0 0 0 0-1.06L8.98 4.77A.63.63 0 0 0 8 5.3z"/></svg></div>
     <div class="tap-hint" data-i18n="idx.tapHint">Tap anywhere to start</div>
   </div>
   <button class="tap-skip" id="tap-skip" data-i18n="idx.skipIntro">Skip Intro</button>

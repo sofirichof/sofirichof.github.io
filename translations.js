@@ -45,7 +45,7 @@
       'aria.closeVideo':   'Close video',
 
       /* ── Index ────────────────────────────── */
-      'idx.tapLogo':       "Sofia's Portfolio",
+      'idx.tapLogo':       'Sofia Originals',
       'idx.tapHint':       'Tap anywhere to start',
       'idx.heading':       "WHO'S WATCHING?",
       'idx.sub':           "Choose the version of Sofia's work you want to browse",
@@ -431,7 +431,7 @@
       'aria.closeVideo':   'Cerrar video',
 
       /* ── Index ────────────────────────────── */
-      'idx.tapLogo':       'Portafolio de Sofia',
+      'idx.tapLogo':       'Sofia Originals',
       'idx.tapHint':       'Toca para comenzar',
       'idx.heading':       '¿QUIÉN VE?',
       'idx.sub':           'Elige la versión del trabajo de Sofia que quieres explorar',
