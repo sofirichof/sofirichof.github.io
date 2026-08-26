@@ -254,7 +254,21 @@
       background:#111;
       overflow:hidden;
     }
-    .media.vertical{aspect-ratio:4/5;}
+    .media.vertical::before{
+      content:"";
+      position:absolute;
+      inset:-26px;
+      background-color:#0d0d0d;
+      background-image:var(--vposter,none);
+      background-size:cover;
+      background-position:center;
+      filter:blur(26px) brightness(.4);
+    }
+    .media.vertical video{
+      position:relative;
+      object-fit:contain;
+      background:transparent;
+    }
     .media video,
     .media img{
       width:100%;
@@ -403,7 +417,7 @@
       border:1px solid rgba(255,255,255,.14);
       box-shadow:0 0 70px rgba(229,9,20,.18);
     }
-    .modal-content.vertical{width:min(480px,90vw);aspect-ratio:4/5;}
+    .modal-content.vertical{height:min(82vh,860px);width:auto;max-width:90vw;aspect-ratio:9/16;}
     .modal-content.image{width:auto;height:auto;aspect-ratio:auto;max-width:92vw;max-height:86vh;background:transparent;border:0;box-shadow:none;}
     .modal-content.image img{max-width:92vw;max-height:86vh;width:auto;height:auto;display:block;border:1px solid rgba(255,255,255,.14);}
     .modal-content iframe,
@@ -763,7 +777,7 @@
         </article>
 
         <article class="campaign-card" data-video="media/ad/spec/merit-fragrance.mp4" data-orientation="vertical">
-          <div class="media vertical"><video src="media/ad/spec/merit-fragrance.mp4" autoplay muted loop playsinline preload="auto"></video><span class="play-chip">▶ Play</span></div>
+          <div class="media vertical"><video src="media/ad/spec/merit-fragrance.mp4" poster="assets/ad/spec/merit-fragrance.jpg" autoplay muted loop playsinline preload="auto"></video><span class="play-chip">▶ Play</span></div>
           <div class="card-body">
             <div class="card-kicker">Merit · Spec Social Motion</div>
             <div class="card-title">Merit Fragrance Spec Ad</div>
@@ -773,7 +787,7 @@
         </article>
 
         <article class="campaign-card" data-video="media/ad/spec/bluebird-hard-water.mp4" data-orientation="vertical">
-          <div class="media vertical"><video src="media/ad/spec/bluebird-hard-water.mp4" autoplay muted loop playsinline preload="auto"></video><span class="play-chip">▶ Play</span></div>
+          <div class="media vertical"><video src="media/ad/spec/bluebird-hard-water.mp4" poster="assets/ad/spec/bluebird-hard-water.jpg" autoplay muted loop playsinline preload="auto"></video><span class="play-chip">▶ Play</span></div>
           <div class="card-body">
             <div class="card-kicker">Bluebird Hard Water · Spec Social Motion</div>
             <div class="card-title">Bluebird Hard Water Spec Ad</div>
@@ -783,7 +797,7 @@
         </article>
 
         <article class="campaign-card" data-video="media/ad/spec/bloom-creatine.mp4" data-orientation="vertical">
-          <div class="media vertical"><video src="media/ad/spec/bloom-creatine.mp4" autoplay muted loop playsinline preload="auto"></video><span class="play-chip">▶ Play</span></div>
+          <div class="media vertical"><video src="media/ad/spec/bloom-creatine.mp4" poster="assets/ad/spec/bloom-creatine.jpg" autoplay muted loop playsinline preload="auto"></video><span class="play-chip">▶ Play</span></div>
           <div class="card-body">
             <div class="card-kicker">Bloom · Spec Social Motion</div>
             <div class="card-title">Bloom Creatine Spec Ad</div>
@@ -918,7 +932,10 @@ const heroClips = [
   "media/ad/capital-one/ice-bath.mp4",
   "media/ad/capital-one/yoga.mp4",
   "media/ad/mass-dot.mp4",
-  "media/ad/ranch-spec.mp4"
+  "media/ad/ranch-spec.mp4",
+  "media/ad/supergood/laundry-loft-comedy.mp4",
+  "media/ad/supergood/usbank-run-the-numbers.mp4",
+  "media/ad/supergood/realmvp-mendoza.mp4"
 ];
 let heroClipIndex = 0;
 let activeHeroVideo = document.getElementById("hero-video-a");
@@ -976,6 +993,10 @@ function closeModal() {
   modal.setAttribute("aria-hidden", "true");
   document.body.classList.remove("modal-open");
 }
+
+document.querySelectorAll(".media.vertical video[poster]").forEach(v => {
+  v.parentElement.style.setProperty("--vposter", `url("${v.getAttribute("poster")}")`);
+});
 
 document.querySelectorAll(".campaign-card").forEach(card => {
   const preview = card.querySelector(".media video");
