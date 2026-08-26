@@ -45,7 +45,8 @@
       'aria.closeVideo':   'Close video',
 
       /* ── Index ────────────────────────────── */
-      'idx.tapLogo':       'Sofia Originals',
+      'idx.tapLogo':       'Sofía González Irigoyen',
+      'idx.tapEyebrow':    'Now Streaming',
       'idx.tapHint':       'Tap anywhere to start',
       'idx.heading':       "WHO'S WATCHING?",
       'idx.sub':           "Choose the version of Sofia's work you want to browse",
@@ -431,7 +432,8 @@
       'aria.closeVideo':   'Cerrar video',
 
       /* ── Index ────────────────────────────── */
-      'idx.tapLogo':       'Sofia Originals',
+      'idx.tapLogo':       'Sofía González Irigoyen',
+      'idx.tapEyebrow':    'Ya disponible',
       'idx.tapHint':       'Toca para comenzar',
       'idx.heading':       '¿QUIÉN VE?',
       'idx.sub':           'Elige la versión del trabajo de Sofia que quieres explorar',
