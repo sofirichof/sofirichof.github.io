@@ -28,14 +28,27 @@
   }
   #tap-screen.fade-out { opacity:0; pointer-events:none; }
   .tap-prompt { display:flex; flex-direction:column; align-items:center; gap:1.5rem; animation:pulse 2s ease-in-out infinite; }
+  .tap-eyebrow {
+    font-family:var(--sans);
+    font-size:.66rem;
+    font-weight:800;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    color:var(--terra);
+    margin-bottom:-.55rem;
+    text-shadow:0 1px 6px rgba(0,0,0,.6);
+  }
   .tap-logo {
     font-family:var(--font);
-    font-size:clamp(2rem,7vw,4.6rem);
-    letter-spacing:.08em;
+    font-size:clamp(2.1rem,5.6vw,4.2rem);
+    letter-spacing:.06em;
+    line-height:.95;
     color:#fff;
     text-align:center;
     padding:0 1rem;
-    text-shadow:0 0 24px rgba(229,9,20,.45);
+    max-width:16ch;
+    text-wrap:balance;
+    text-shadow:0 0 26px rgba(229,9,20,.4), 0 4px 18px rgba(0,0,0,.65);
   }
   .tap-ring {
     width:84px; height:84px; border-radius:50%;
@@ -318,7 +331,8 @@
     <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still8.jpg')"></div>
   </div>
   <div class="tap-prompt">
-    <div class="tap-logo" data-i18n="idx.tapLogo">Sofia Originals</div>
+    <div class="tap-eyebrow" data-i18n="idx.tapEyebrow">Now Streaming</div>
+    <div class="tap-logo" data-i18n="idx.tapLogo">Sofía González Irigoyen</div>
     <div class="tap-ring"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.3v13.4c0 .5.55.8.98.53l10.5-6.7a.63.63 0 0 0 0-1.06L8.98 4.77A.63.63 0 0 0 8 5.3z"/></svg></div>
     <div class="tap-hint" data-i18n="idx.tapHint">Tap anywhere to start</div>
   </div>
