@@ -1297,7 +1297,7 @@ function handleSlideVideoError(video) {
 function setIntroVideoState(isIntro) {
   const heroVideo = document.getElementById("bill-video");
   if (!heroVideo) return;
-  if (isIntro && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if (isIntro) {
     heroVideo.play().catch(() => {});
     return;
   }
@@ -1309,7 +1309,7 @@ function syncActiveSlideMedia(activeIndex) {
     const isActive = i === activeIndex;
     media.classList.toggle("active", isActive);
     if (media.tagName !== "VIDEO") return;
-    if (isActive && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (isActive) {
       media.play().catch(() => {});
     } else {
       media.pause();
@@ -1725,7 +1725,7 @@ function buildHoverCard(tile) {
   hoverLayer.setAttribute("aria-hidden", "false");
 
   clearTimeout(hoverPreviewTimer);
-  if (preview && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if (preview) {
     hoverPreviewTimer = setTimeout(() => {
       if (currentHoverTile !== tile) return;
       const media = hoverLayer.querySelector("[data-hover-media]");
