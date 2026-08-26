@@ -53,6 +53,7 @@
       'idx.advertising':   'Advertising',
       'idx.collaborators': 'Collaborators',
       'idx.found':         'you found me',
+      'idx.skipIntro':     'Skip Intro',
 
       /* ── Recruiter — hero ─────────────────── */
       'rec.kicker':        'PRODUCTION PROFILE',
@@ -438,6 +439,7 @@
       'idx.advertising':   'Publicidad',
       'idx.collaborators': 'Colaboradores',
       'idx.found':         'me encontraste',
+      'idx.skipIntro':     'Saltar intro',
 
       /* ── Recruiter — hero ─────────────────── */
       'rec.kicker':        'PERFIL DE PRODUCCIÓN',
