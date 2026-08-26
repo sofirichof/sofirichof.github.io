@@ -30,9 +30,11 @@
   .tap-prompt { display:flex; flex-direction:column; align-items:center; gap:1.5rem; animation:pulse 2s ease-in-out infinite; }
   .tap-logo {
     font-family:var(--font);
-    font-size:clamp(2.5rem,7vw,4.6rem);
+    font-size:clamp(2rem,7vw,4.6rem);
     letter-spacing:.08em;
     color:#fff;
+    text-align:center;
+    padding:0 1rem;
     text-shadow:0 0 24px rgba(229,9,20,.45);
   }
   .tap-ring {
@@ -45,6 +47,59 @@
   }
   .tap-hint { font-size:.78rem; letter-spacing:.25em; text-transform:uppercase; color:rgba(255,255,255,.78); }
   @keyframes pulse { 0%,100%{opacity:.9;transform:scale(1);} 50%{opacity:1;transform:scale(1.04);} }
+
+  .tap-wall {
+    position:absolute; inset:-8%; z-index:0;
+    display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(3,1fr);
+    gap:.6rem;
+    transform:rotate(-8deg) scale(1.3);
+    opacity:.24;
+    pointer-events:none;
+    animation:wallDrift 50s ease-in-out infinite alternate;
+  }
+  .tap-wall .tile { background-size:cover; background-position:center; border-radius:6px; }
+  @keyframes wallDrift {
+    from { transform:rotate(-8deg) scale(1.3) translateY(-1.2%); }
+    to   { transform:rotate(-8deg) scale(1.3) translateY(1.2%); }
+  }
+  #tap-screen::after {
+    content:""; position:absolute; inset:0; z-index:1;
+    background:
+      radial-gradient(ellipse at center, transparent 26%, rgba(0,0,0,.9) 80%),
+      linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.6));
+    pointer-events:none;
+  }
+  .tap-prompt { position:relative; z-index:2; }
+  .tap-skip {
+    position:absolute; left:50%; transform:translateX(-50%); bottom:2.2rem; z-index:2;
+    background:rgba(0,0,0,.45);
+    border:1px solid rgba(255,255,255,.35);
+    color:rgba(255,255,255,.85);
+    font-family:var(--sans); font-weight:700; font-size:.7rem;
+    letter-spacing:.22em; text-transform:uppercase;
+    padding:.55rem 1.2rem; border-radius:999px;
+    cursor:pointer;
+    transition:background .18s, border-color .18s, color .18s;
+  }
+  .tap-skip:hover { background:rgba(255,255,255,.14); border-color:#fff; color:#fff; }
+  .intro-skip {
+    position:absolute; right:2rem; bottom:2.4rem; z-index:3;
+    background:rgba(20,20,20,.65);
+    border:1px solid rgba(255,255,255,.55);
+    color:#fff;
+    font-family:var(--sans); font-weight:700; font-size:.8rem;
+    letter-spacing:.14em; text-transform:uppercase;
+    padding:.7rem 1.5rem; border-radius:4px;
+    cursor:pointer;
+    transition:background .18s;
+  }
+  .intro-skip:hover { background:rgba(255,255,255,.22); }
+  @media (max-width:600px) {
+    .intro-skip { right:1rem; bottom:1.4rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tap-wall, .tap-prompt { animation:none; }
+  }
 
   #intro-screen {
     position:fixed; inset:0; z-index:100;
@@ -211,17 +266,33 @@
 </head>
 <body>
 
-<div id="tap-screen" onclick="startIntro()">
+<div id="tap-screen" onclick="startIntro()" role="button" tabindex="0" aria-label="Start intro">
+  <div class="tap-wall" aria-hidden="true">
+    <div class="tile" style="background-image:url('assets/ad/supergood/laundry-loft-comedy.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/ad/spec/merit-fragrance.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/ad/supergood/usbank-nfl-bts.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/ad/supergood/milkpep-ai-ad.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/ad/supergood/usbank-run-the-numbers.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/ad/supergood/soul-cinema.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/ad/supergood/realmvp-mendoza.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/ad/spec/bluebird-hard-water.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/ad/supergood/milkpep-reel.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/ad/supergood/realmvp-izzy.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/ad/spec/bloom-creatine.jpg')"></div>
+    <div class="tile" style="background-image:url('assets/ad/supergood/usbank-nfl-psa.jpg')"></div>
+  </div>
   <div class="tap-prompt">
     <div class="tap-logo" data-i18n="idx.tapLogo">Sofia's Portfolio</div>
     <div class="tap-ring">▶</div>
     <div class="tap-hint" data-i18n="idx.tapHint">Tap anywhere to start</div>
   </div>
+  <button class="tap-skip" id="tap-skip" data-i18n="idx.skipIntro">Skip Intro</button>
 </div>
 
 <div id="intro-screen">
-  <video id="intro-video" muted playsinline></video>
+  <video id="intro-video" muted playsinline preload="auto"></video>
   <div id="intro-fade"></div>
+  <button class="intro-skip" id="intro-skip" data-i18n="idx.skipIntro">Skip Intro</button>
 </div>
 
 <div id="profile-screen">
@@ -284,38 +355,87 @@
     startDeepCutTimer();
   }
 
+  // Preload the right intro video now so tapping plays instantly
+  const introVideoEl = document.getElementById('intro-video');
+  function introSrcForOrientation() {
+    return window.innerHeight > window.innerWidth ? 'media/vertical-intro.mp4' : 'media/intro.mp4';
+  }
+  if (new URLSearchParams(window.location.search).get('profiles') !== '1') {
+    introVideoEl.src = introSrcForOrientation();
+  }
+
+  let introStarted = false;
+  let introTimers = [];
+  let introAudio = null;
+
+  function showProfiles() {
+    document.getElementById('intro-screen').style.display = 'none';
+    const ps = document.getElementById('profile-screen');
+    ps.classList.add('active');
+    setTimeout(() => ps.classList.add('visible'), 50);
+    startDeepCutTimer();
+  }
+
+  function skipIntro(e) {
+    if (e) e.stopPropagation();
+    introTimers.forEach(clearTimeout);
+    introTimers = [];
+    introVideoEl.pause();
+    if (introAudio) introAudio.pause();
+    showProfiles();
+  }
+
   function startIntro() {
+    if (introStarted) return;
+    introStarted = true;
+
     const tap = document.getElementById('tap-screen');
     tap.classList.add('fade-out');
     setTimeout(() => tap.style.display = 'none', 500);
 
     const intro = document.getElementById('intro-screen');
-    const video = document.getElementById('intro-video');
+    const video = introVideoEl;
 
     // Use vertical video on portrait screens (phones held upright)
-    const isPortrait = window.innerHeight > window.innerWidth;
-    video.src = isPortrait ? 'media/vertical-intro.mp4' : 'media/intro.mp4';
+    const wanted = introSrcForOrientation();
+    if (!video.src.endsWith(wanted.split('/').pop())) video.src = wanted;
 
     intro.classList.add('active');
 
     video.play().then(() => {
-      const audio = new Audio("media/tada.mp3");
-      audio.volume = 0.8;
-      audio.play().catch(() => {});
+      introAudio = new Audio("media/tada.mp3");
+      introAudio.volume = 0.8;
+      introAudio.play().catch(() => {});
     }).catch(() => {});
 
-    setTimeout(() => {
+    introTimers.push(setTimeout(() => {
       document.getElementById('intro-fade').style.opacity = '1';
-    }, INTRO_DURATION - 800);
+    }, INTRO_DURATION - 800));
 
-    setTimeout(() => {
-      intro.style.display = 'none';
-      const ps = document.getElementById('profile-screen');
-      ps.classList.add('active');
-      setTimeout(() => ps.classList.add('visible'), 50);
-      startDeepCutTimer();
-    }, INTRO_DURATION + 100);
+    introTimers.push(setTimeout(showProfiles, INTRO_DURATION + 100));
   }
+
+  document.getElementById('tap-skip').addEventListener('click', e => {
+    e.stopPropagation();
+    introStarted = true;
+    const tap = document.getElementById('tap-screen');
+    tap.classList.add('fade-out');
+    setTimeout(() => tap.style.display = 'none', 500);
+    showProfiles();
+  });
+
+  document.getElementById('intro-skip').addEventListener('click', skipIntro);
+
+  document.addEventListener('keydown', e => {
+    const tap = document.getElementById('tap-screen');
+    const tapVisible = tap.style.display !== 'none' && !tap.classList.contains('fade-out');
+    if ((e.key === 'Enter' || e.key === ' ') && tapVisible) {
+      e.preventDefault();
+      startIntro();
+    } else if (e.key === 'Escape' && introStarted && document.getElementById('intro-screen').classList.contains('active') && document.getElementById('intro-screen').style.display !== 'none') {
+      skipIntro();
+    }
+  });
 
   // ── Deep Cut unlock flow ──────────────────────────────────────
   const dcCard = document.getElementById('dc-card');
