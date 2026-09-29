@@ -100,7 +100,7 @@ function frameObject(box,besidePanel){
  if(watch)$('#player').style.setProperty('--media-scale',scale);
 }
 function lockRoomToPoster(locked){
- document.querySelectorAll('#world a,#world button,.programme-controls button').forEach(el=>{if(el.closest('#entrance'))return;const onPoster=!!el.closest('#poster'),onEasterEgg=!!el.closest('.room-easter-eggs');el.inert=!entered||(albumOpen?!el.closest('#photo-album'):activeArt?el!==activeArt.element:(locked?!onPoster&&!onEasterEgg:(onPoster&&el.id!=='wall-guide'&&!onEasterEgg)));});
+ document.querySelectorAll('#world a,#world button,.programme-controls button').forEach(el=>{if(el.closest('#entrance'))return;const onPoster=!!el.closest('#poster');el.inert=!entered||(albumOpen?!el.closest('#photo-album'):activeArt?el!==activeArt.element:(locked?!onPoster:(onPoster&&el.id!=='wall-guide')));});
 }
 function leavePoster({focus=true}={}){
  if(document.body.dataset.view!=='guide')return;
@@ -341,8 +341,6 @@ $('#media-fit').addEventListener('click',()=>{
 });
 $('#close-project').addEventListener('click',()=>closeProject());
 $('#screen-action').addEventListener('click',()=>{if(channel.number===6)openDialog($('#contact-dialog'));else openProject(currentProject());});
-$('#supergood-poster').addEventListener('click',()=>tune(2));
-$('#telemundo-cap').addEventListener('click',()=>{const tv=channels.find(c=>c.number===4),index=tv.projects.findIndex(p=>p.title==='Acceso Total');if(index>=0)positions.set(4,index);tune(4);});
 $('#home-link').addEventListener('click',e=>{e.preventDefault();closeAlbum(false);closeArt(false);closeProject(false);hideDialogs();leavePoster({focus:false});setView('room');tune(1);});
 document.addEventListener('keydown',e=>{
  if(!entered||e.altKey||e.ctrlKey||e.metaKey||e.target.matches('input,textarea,select,[contenteditable=true]'))return;
