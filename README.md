@@ -193,7 +193,7 @@ Fresh-room checks: desktop room alignment, TV playback, Description/BTS switchin
 
 The guide and soft-pastel frame have traded places, putting the selectable guide beside the television. Hovering the album highlights its full illustrated shape, including its page edge; keyboard focus gives the same highlight. The record player also has a full-object hover highlight covering its lid and base. The record player opens the music panel.
 
-About is part of the room, accessible through the mirror and the guide’s Meet Sofía link. It no longer tunes away from the current channel or replaces its project thumbnail. Closing About restores the same TV selection. The six channels are Tonight, Film, Television, Advertising, Contact and Supergood; the guide, remote hints and scroll navigation use 01–06. The Supergood poster and Telemundo 52 cap are independent room overlays, leaving the approved room master untouched. The Supergood poster tunes channel 06; the cap is a keepsake that tunes the television to Acceso Total.
+About is part of the room, accessible through the mirror and the guide’s Meet Sofía link. It no longer tunes away from the current channel or replaces its project thumbnail. Closing About restores the same TV selection. The six channels are Tonight, Supergood, Film, Television, Advertising and Contact; the guide, remote hints and scroll navigation use 01–06. The Supergood poster and Telemundo 52 cap are independent room overlays, leaving the approved room master untouched. The Supergood poster tunes channel 06; the cap is a keepsake that tunes the television to Acceso Total.
 
 ## Music playback validation
 

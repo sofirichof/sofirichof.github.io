@@ -58,11 +58,11 @@ const featuredTitles=['Si Solamente','Acceso Total','The Stories We Tell Ourselv
 const selected=featuredTitles.map(t=>all.find(p=>p.title===t)).filter(Boolean);
 const channels=[
  {number:1,name:'Esta noche',english:'Tonight’s selection',subtitle:'Selected work',projects:selected},
- {number:2,name:'Cine',english:'Films',subtitle:'Independent stories',projects:all.filter(p=>p.category==='Film')},
- {number:3,name:'Televisión',english:'Television',subtitle:'On the air',projects:all.filter(p=>p.category==='Television')},
- {number:4,name:'Publicidad',english:'Advertising',subtitle:'Brands & ideas',projects:all.filter(p=>p.category==='Advertising')},
- {number:5,name:'Hola',english:'The next story',subtitle:'Get in touch',projects:[]},
- {number:6,name:'Supergood',english:'Supergood',subtitle:'Selected work',projects:all.filter(p=>/^p(?:2[1-9]|3[0-5])$/.test(p.id))}
+ {number:2,name:'Supergood',english:'Supergood',subtitle:'Selected work',projects:all.filter(p=>/^p(?:2[1-9]|3[0-5])$/.test(p.id))},
+ {number:3,name:'Cine',english:'Films',subtitle:'Independent stories',projects:all.filter(p=>p.category==='Film')},
+ {number:4,name:'Televisión',english:'Television',subtitle:'On the air',projects:all.filter(p=>p.category==='Television')},
+ {number:5,name:'Publicidad',english:'Advertising',subtitle:'Brands & ideas',projects:all.filter(p=>p.category==='Advertising')},
+ {number:6,name:'Hola',english:'The next story',subtitle:'Get in touch',projects:[]}
 ];
 const positions=new Map(channels.map(c=>[c.number,0]));
 let channel=channels[0],entered=false,digits='',digitTimer,transitionTimer,toastTimer,previousFocus=null,posterFilter=1,posterPage=0;
@@ -122,7 +122,7 @@ function renderScreen(){
   const label=button.querySelector('.key-label');if(label){label.dataset.i18n='key'+key[0].toUpperCase()+key.slice(1);label.textContent=t(label.dataset.i18n);}
  }
  $('#channel-osd').textContent=osd();$('#remote-display').textContent=osd();
- const action=t(channel.number===5?'sayHello':(p?.video||p?.youtube?'watch':'viewProject'));$('#screen-action').setAttribute('aria-label',action+(p?' — '+p.title:''));$('#screen-action .screen-action-label').textContent=action+' ↗';
+ const action=t(channel.number===6?'sayHello':(p?.video||p?.youtube?'watch':'viewProject'));$('#screen-action').setAttribute('aria-label',action+(p?' — '+p.title:''));$('#screen-action .screen-action-label').textContent=action+' ↗';
  document.querySelectorAll('.poster-channel').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.channel)===channel.number)));
 }
 function tune(number,{quiet=false,hash=true,fromScroll=false}={}){
@@ -215,7 +215,7 @@ function renderPosterProjects(){
 }
 function showPosterChannels(){poster.dataset.page='channels';$('#poster-channels').hidden=false;posterProjects.hidden=true;$('#poster-all').hidden=false;$('.poster-pagination').hidden=true;}
 function selectPosterChannel(c){
- if(c.number===5){leavePoster({focus:false});tune(5);openDialog($('#contact-dialog'));return;}
+ if(c.number===6){leavePoster({focus:false});tune(6);openDialog($('#contact-dialog'));return;}
  tune(c.number,{fromScroll:true});posterFilter=c.number;posterPage=0;renderPosterProjects();posterProjects.querySelector('button')?.focus({preventScroll:true});
 }
 channels.forEach(c=>{const button=document.createElement('button');button.className='poster-channel';button.dataset.channel=c.number;button.setAttribute('aria-label',pad(c.number)+' '+channelName(c));button.setAttribute('aria-pressed',String(c.number===1));const number=document.createElement('b');number.textContent=pad(c.number);const label=document.createElement('span');label.textContent=channelName(c).toUpperCase();button.append(number,label);$('#poster-channels').append(button);button.addEventListener('click',()=>selectPosterChannel(c));});
@@ -340,9 +340,9 @@ $('#media-fit').addEventListener('click',()=>{
  player.dataset.fit=contain?'contain':'cover';button.dataset.i18n=contain?'fillTvScreen':'viewFullFrame';button.textContent=t(button.dataset.i18n);fitEmbeddedVideo();
 });
 $('#close-project').addEventListener('click',()=>closeProject());
-$('#screen-action').addEventListener('click',()=>{if(channel.number===5)openDialog($('#contact-dialog'));else openProject(currentProject());});
-$('#supergood-poster').addEventListener('click',()=>tune(6));
-$('#telemundo-cap').addEventListener('click',()=>{const tv=channels.find(c=>c.number===3),index=tv.projects.findIndex(p=>p.title==='Acceso Total');if(index>=0)positions.set(3,index);tune(3);});
+$('#screen-action').addEventListener('click',()=>{if(channel.number===6)openDialog($('#contact-dialog'));else openProject(currentProject());});
+$('#supergood-poster').addEventListener('click',()=>tune(2));
+$('#telemundo-cap').addEventListener('click',()=>{const tv=channels.find(c=>c.number===4),index=tv.projects.findIndex(p=>p.title==='Acceso Total');if(index>=0)positions.set(4,index);tune(4);});
 $('#home-link').addEventListener('click',e=>{e.preventDefault();closeAlbum(false);closeArt(false);closeProject(false);hideDialogs();leavePoster({focus:false});setView('room');tune(1);});
 document.addEventListener('keydown',e=>{
  if(!entered||e.altKey||e.ctrlKey||e.metaKey||e.target.matches('input,textarea,select,[contenteditable=true]'))return;
@@ -489,7 +489,7 @@ function nextArt(delta){if(activeArt)openArt(artworks[(artworks.indexOf(activeAr
 $('#art-notes').addEventListener('toggle',()=>{if(activeArt)setView('art');});
 $('#previous-art').addEventListener('click',()=>nextArt(-1));$('#next-art').addEventListener('click',()=>nextArt(1));$('#close-art').addEventListener('click',()=>closeArt());
 $('#poster-art').addEventListener('click',()=>openArt(artworks[0]));
-$('#art-to-film').addEventListener('click',()=>{closeArt(false);const film=all.find(p=>p.title==='Si Solamente');if(film){positions.set(2,channels[1].projects.indexOf(film));tune(2);openProject(film);}});
+$('#art-to-film').addEventListener('click',()=>{closeArt(false);const film=all.find(p=>p.title==='Si Solamente');if(film){positions.set(3,channels[2].projects.indexOf(film));tune(3);openProject(film);}});
 // Reach the paintings through the guide on phones, where that wall begins offscreen.
 // The close view keeps all controls keyboard-accessible without moving focus off camera.
 $('#art-caption').addEventListener('keydown',e=>{
