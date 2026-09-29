@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The turntable · pixel study</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101a2b;color:#e5ecf7;font:15px/1.5 system-ui,sans-serif}main{max-width:1280px;margin:auto;padding:24px}header{display:flex;justify-content:space-between;gap:20px;align-items:baseline}h1{font-size:26px;margin:0}p{color:#b8c8df;max-width:70ch}a{color:inherit}.workspace{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:20px}canvas{width:100%;image-rendering:pixelated;aspect-ratio:8/5;background:repeating-conic-gradient(#23324b 0% 25%,#192940 0% 50%) 0 0/16px 16px;border:1px solid #657c9a}.controls{padding:16px;border:1px solid #657c9a}button{padding:10px 14px;color:#102440;background:#acc3e2;border:0;font:inherit;cursor:pointer}label{display:block;margin:12px 0}input[type=range]{width:100%;accent-color:#b4cceb}fieldset{border:0;padding:8px 0;margin:0}legend{font-weight:600}.note{font-size:12px}#state{font-size:13px;color:#b8c8df}a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #ffcc79;outline-offset:3px}@media(max-width:700px){main{padding:16px}.workspace{grid-template-columns:1fr}header{display:block}h1{font-size:22px}}
+</style></head><body><main>
+<header><h1>The turntable · pixel study</h1><a href="./">Return to the portfolio ↗</a></header>
+<p>The same player, separated into editable pixels. Preview the movement and switch layers on or off to see how it is built. This study is silent; the portfolio connects the movement to music playback.</p>
+<div class="workspace"><canvas id="study" width="640" height="400" aria-label="Layered pixel-art record player animation"></canvas><section class="controls" aria-label="Animation controls">
+<button id="play" aria-pressed="false" disabled>Preview animation</button><p id="state" role="status">Loading pixel layers…</p>
+<label for="progress">Needle position<input id="progress" type="range" min="0" max="100" value="0"></label>
+<fieldset id="layers"><legend>Visible layers</legend></fieldset>
+<p class="note">640 × 400 grid · 15 frames per second. Your device’s reduced-motion preference keeps this view still.</p>
+</section></div>
+<p class="note">Traced from the approved artwork, with hidden deck and groove pixels reconstructed beneath the arm. Individual transparent PNGs and their positions are in <a href="assets/turntable/manifest.json">the layer manifest</a>.</p>
+</main><script src="turntable-sprites.js?v=deck-frame-5"></script><script>
+(async()=>{const canvas=document.querySelector('#study'),button=document.querySelector('#play'),status=document.querySelector('#state');try{
+ const player=await NocheTurntable.create(canvas);player.setActive(true);button.disabled=false;status.textContent='Stopped · needle parked';
+ button.addEventListener('click',()=>{const playing=button.getAttribute('aria-pressed')!=='true';button.setAttribute('aria-pressed',String(playing));button.textContent=playing?'Stop animation':'Preview animation';player.setPlaying(playing);status.textContent=playing?'Playing · record turning':'Stopped · needle returning';});
+ document.querySelector('#progress').addEventListener('input',event=>player.setProgress(Number(event.target.value)/100));
+ for(const layer of player.data.layers){const label=document.createElement('label'),input=document.createElement('input');input.type='checkbox';input.checked=true;input.addEventListener('change',()=>player.setLayerVisible(layer.id,input.checked));label.append(input,' '+layer.id.replaceAll('-',' '));document.querySelector('#layers').append(label);}
+}catch{status.textContent='Pixel layers could not load. Open this page through the local preview server.'}})();
+</script></body></html>

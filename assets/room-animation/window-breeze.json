@@ -1,0 +1,530 @@
+{
+  "layer": "outside-night",
+  "sheet": "window-breeze.png",
+  "width": 116,
+  "height": 186,
+  "frames": [
+    {
+      "name": "Still",
+      "duration": 380,
+      "changedPixels": 0
+    },
+    {
+      "name": "Upper leaves catch",
+      "duration": 170,
+      "changedPixels": 10
+    },
+    {
+      "name": "Breeze moves down",
+      "duration": 190,
+      "changedPixels": 26
+    },
+    {
+      "name": "Several clusters stir",
+      "duration": 240,
+      "changedPixels": 63
+    },
+    {
+      "name": "Through the window",
+      "duration": 250,
+      "changedPixels": 87
+    },
+    {
+      "name": "Left pane catches",
+      "duration": 230,
+      "changedPixels": 85
+    },
+    {
+      "name": "A soft gust",
+      "duration": 240,
+      "changedPixels": 75
+    },
+    {
+      "name": "Upper leaves settle",
+      "duration": 210,
+      "changedPixels": 40
+    },
+    {
+      "name": "Lower leaves follow",
+      "duration": 200,
+      "changedPixels": 39
+    },
+    {
+      "name": "Last little stir",
+      "duration": 240,
+      "changedPixels": 8
+    },
+    {
+      "name": "Left pane settles",
+      "duration": 250,
+      "changedPixels": 10
+    },
+    {
+      "name": "Quiet again",
+      "duration": 260,
+      "changedPixels": 0
+    },
+    {
+      "name": "Still again",
+      "duration": 400,
+      "changedPixels": 0
+    }
+  ],
+  "detail": {
+    "x": 524,
+    "y": 0,
+    "width": 116,
+    "height": 108
+  },
+  "detailScale": 2,
+  "duration": 3260,
+  "sourceUnchanged": true,
+  "underpainting": "window-breeze-underpainting.png",
+  "maximumTipDisplacement": 1,
+  "anchoredStems": [
+    [
+      598,
+      88
+    ],
+    [
+      601,
+      86
+    ],
+    [
+      595,
+      7
+    ],
+    [
+      593,
+      38
+    ],
+    [
+      611,
+      55
+    ],
+    [
+      558,
+      84
+    ]
+  ],
+  "clusters": [
+    {
+      "name": "Lower left tip",
+      "points": [
+        [
+          599,
+          81
+        ],
+        [
+          598,
+          82
+        ],
+        [
+          599,
+          82
+        ],
+        [
+          597,
+          83
+        ],
+        [
+          598,
+          83
+        ],
+        [
+          599,
+          83
+        ],
+        [
+          597,
+          84
+        ],
+        [
+          598,
+          84
+        ],
+        [
+          599,
+          84
+        ],
+        [
+          598,
+          85
+        ],
+        [
+          599,
+          85
+        ],
+        [
+          595,
+          86
+        ],
+        [
+          596,
+          86
+        ],
+        [
+          597,
+          86
+        ],
+        [
+          598,
+          86
+        ],
+        [
+          599,
+          86
+        ],
+        [
+          596,
+          87
+        ],
+        [
+          597,
+          87
+        ],
+        [
+          598,
+          87
+        ],
+        [
+          599,
+          87
+        ]
+      ],
+      "anchor": [
+        598,
+        88
+      ]
+    },
+    {
+      "name": "Lower right tip",
+      "points": [
+        [
+          604,
+          80
+        ],
+        [
+          604,
+          81
+        ],
+        [
+          603,
+          82
+        ],
+        [
+          603,
+          83
+        ],
+        [
+          602,
+          84
+        ],
+        [
+          603,
+          84
+        ],
+        [
+          601,
+          85
+        ],
+        [
+          602,
+          85
+        ]
+      ],
+      "anchor": [
+        601,
+        86
+      ]
+    },
+    {
+      "name": "Upper hanging leaves",
+      "points": [
+        [
+          593,
+          8
+        ],
+        [
+          594,
+          8
+        ],
+        [
+          595,
+          8
+        ],
+        [
+          596,
+          8
+        ],
+        [
+          597,
+          8
+        ],
+        [
+          593,
+          9
+        ],
+        [
+          594,
+          9
+        ],
+        [
+          595,
+          9
+        ],
+        [
+          596,
+          9
+        ],
+        [
+          597,
+          9
+        ],
+        [
+          592,
+          10
+        ],
+        [
+          593,
+          10
+        ],
+        [
+          594,
+          10
+        ]
+      ],
+      "anchor": [
+        595,
+        7
+      ]
+    },
+    {
+      "name": "Middle hanging leaves",
+      "points": [
+        [
+          592,
+          39
+        ],
+        [
+          593,
+          39
+        ],
+        [
+          594,
+          39
+        ],
+        [
+          592,
+          40
+        ],
+        [
+          593,
+          40
+        ],
+        [
+          594,
+          40
+        ],
+        [
+          592,
+          41
+        ],
+        [
+          593,
+          41
+        ],
+        [
+          594,
+          41
+        ],
+        [
+          593,
+          42
+        ],
+        [
+          594,
+          42
+        ],
+        [
+          593,
+          43
+        ],
+        [
+          594,
+          43
+        ]
+      ],
+      "anchor": [
+        593,
+        38
+      ]
+    },
+    {
+      "name": "Lower hanging leaves",
+      "points": [
+        [
+          609,
+          56
+        ],
+        [
+          610,
+          56
+        ],
+        [
+          611,
+          56
+        ],
+        [
+          612,
+          56
+        ],
+        [
+          609,
+          57
+        ],
+        [
+          610,
+          57
+        ],
+        [
+          611,
+          57
+        ],
+        [
+          612,
+          57
+        ],
+        [
+          609,
+          58
+        ],
+        [
+          610,
+          58
+        ],
+        [
+          611,
+          58
+        ],
+        [
+          612,
+          58
+        ],
+        [
+          608,
+          59
+        ],
+        [
+          609,
+          59
+        ],
+        [
+          610,
+          59
+        ],
+        [
+          611,
+          59
+        ],
+        [
+          612,
+          59
+        ],
+        [
+          608,
+          60
+        ],
+        [
+          609,
+          60
+        ],
+        [
+          608,
+          61
+        ]
+      ],
+      "anchor": [
+        611,
+        55
+      ]
+    },
+    {
+      "name": "Left pane leaves",
+      "points": [
+        [
+          556,
+          85
+        ],
+        [
+          557,
+          85
+        ],
+        [
+          558,
+          85
+        ],
+        [
+          559,
+          85
+        ],
+        [
+          560,
+          85
+        ],
+        [
+          556,
+          86
+        ],
+        [
+          557,
+          86
+        ],
+        [
+          558,
+          86
+        ],
+        [
+          559,
+          86
+        ],
+        [
+          560,
+          86
+        ],
+        [
+          558,
+          87
+        ],
+        [
+          559,
+          87
+        ],
+        [
+          560,
+          87
+        ],
+        [
+          558,
+          88
+        ],
+        [
+          559,
+          88
+        ],
+        [
+          560,
+          88
+        ],
+        [
+          559,
+          89
+        ]
+      ],
+      "anchor": [
+        558,
+        84
+      ]
+    }
+  ]
+}

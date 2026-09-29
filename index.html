@@ -1,662 +1,188 @@
-<!DOCTYPE html>
-<html lang="en"><!-- lang updated by sgI18n -->
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Sofia González Irigoyen</title>
-<link rel="alternate" hreflang="en" href="index.html"/>
-<link rel="alternate" hreflang="es" href="index.html?lang=es"/>
-<link rel="alternate" hreflang="x-default" href="index.html"/>
-<script src="translations.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
-<style>
-  :root {
-    --bg:#0a0a0a; --bg2:#111; --bg3:#1a1a1a; --border:#2a2a2a;
-    --text:#fff; --muted:#999; --terra:#E50914; --terra-dark:#B20710;
-    --font:'Bebas Neue',sans-serif; --sans:'DM Sans','Helvetica Neue',Arial,sans-serif;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:var(--sans); min-height:100vh; overflow-x:hidden; }
-
-  #tap-screen {
-    position:fixed; inset:0; z-index:200;
-    overflow:hidden;
-    background:
-      radial-gradient(circle at 50% 46%, rgba(229,9,20,.18), transparent 26%),
-      linear-gradient(180deg,#050505 0%,#000 100%);
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    cursor:pointer; transition:opacity .5s;
-  }
-  #tap-screen.fade-out { opacity:0; pointer-events:none; }
-  .tap-prompt { display:flex; flex-direction:column; align-items:center; gap:1.5rem; animation:pulse 2s ease-in-out infinite; }
-  .tap-eyebrow {
-    font-family:var(--sans);
-    font-size:.66rem;
-    font-weight:800;
-    letter-spacing:.42em;
-    text-transform:uppercase;
-    color:var(--terra);
-    margin-bottom:-.55rem;
-    text-shadow:0 1px 6px rgba(0,0,0,.6);
-  }
-  .tap-logo {
-    font-family:var(--font);
-    font-size:clamp(2.1rem,5.6vw,4.2rem);
-    letter-spacing:.06em;
-    line-height:.95;
-    color:#fff;
-    text-align:center;
-    padding:0 1rem;
-    max-width:16ch;
-    text-wrap:balance;
-    text-shadow:0 0 26px rgba(229,9,20,.4), 0 4px 18px rgba(0,0,0,.65);
-  }
-  .tap-ring {
-    width:84px; height:84px; border-radius:50%;
-    border:2px solid rgba(255,255,255,.85);
-    background:radial-gradient(circle at 35% 28%, #ff3341, var(--terra) 58%, var(--terra-dark));
-    display:flex; align-items:center; justify-content:center;
-    box-shadow:
-      0 0 0 10px rgba(229,9,20,.1),
-      0 12px 42px rgba(229,9,20,.5),
-      inset 0 2px 8px rgba(255,255,255,.28),
-      inset 0 -8px 16px rgba(0,0,0,.32);
-    transition:transform .22s, box-shadow .22s;
-  }
-  .tap-ring svg {
-    width:30px; height:30px; display:block;
-    margin-left:5px;
-    fill:#fff;
-    filter:drop-shadow(0 2px 5px rgba(0,0,0,.4));
-  }
-  #tap-screen:hover .tap-ring,
-  #tap-screen:focus-visible .tap-ring {
-    transform:scale(1.08);
-    box-shadow:
-      0 0 0 14px rgba(229,9,20,.16),
-      0 14px 52px rgba(229,9,20,.65),
-      inset 0 2px 8px rgba(255,255,255,.32),
-      inset 0 -8px 16px rgba(0,0,0,.32);
-  }
-  #tap-screen:focus-visible { outline:none; }
-  .tap-hint { font-size:.78rem; letter-spacing:.25em; text-transform:uppercase; color:rgba(255,255,255,.78); }
-  @keyframes pulse { 0%,100%{opacity:.9;transform:scale(1);} 50%{opacity:1;transform:scale(1.04);} }
-
-  .tap-wall {
-    position:absolute; inset:-14% -16%; z-index:0;
-    perspective:1200px;
-    pointer-events:none;
-  }
-  .wall-plane {
-    position:absolute; inset:0;
-    display:flex; gap:.6rem;
-    transform:rotateX(16deg) rotateZ(-8deg) scale(1.18);
-    opacity:.3;
-  }
-  .wall-col {
-    flex:1;
-    display:flex; flex-direction:column;
-    will-change:transform;
-    animation:wallUp var(--dur,64s) linear infinite;
-  }
-  .wall-col.down { animation-name:wallDown; }
-  .wall-col .tile {
-    flex:0 0 auto;
-    aspect-ratio:16/10;
-    margin-bottom:.6rem;
-    background-size:cover;
-    background-position:center;
-    border-radius:6px;
-  }
-  .wall-col .tile.v { background-position:center 22%; }
-  @keyframes wallUp   { from { transform:translateY(0); }    to { transform:translateY(-50%); } }
-  @keyframes wallDown { from { transform:translateY(-50%); } to { transform:translateY(0); } }
-  @media (max-width:700px) {
-    .wall-col:nth-child(n+5) { display:none; }
-  }
-  #tap-screen::after {
-    content:""; position:absolute; inset:0; z-index:1;
-    background:
-      radial-gradient(ellipse at center, transparent 26%, rgba(0,0,0,.9) 80%),
-      linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.6));
-    pointer-events:none;
-  }
-  .tap-prompt { position:relative; z-index:2; }
-  .tap-skip {
-    position:absolute; left:50%; transform:translateX(-50%); bottom:2.2rem; z-index:2;
-    background:rgba(0,0,0,.45);
-    border:1px solid rgba(255,255,255,.35);
-    color:rgba(255,255,255,.85);
-    font-family:var(--sans); font-weight:700; font-size:.7rem;
-    letter-spacing:.22em; text-transform:uppercase;
-    padding:.55rem 1.2rem; border-radius:999px;
-    cursor:pointer;
-    transition:background .18s, border-color .18s, color .18s;
-  }
-  .tap-skip:hover { background:rgba(255,255,255,.14); border-color:#fff; color:#fff; }
-  .intro-skip {
-    position:absolute; right:2rem; bottom:2.4rem; z-index:3;
-    background:rgba(20,20,20,.65);
-    border:1px solid rgba(255,255,255,.55);
-    color:#fff;
-    font-family:var(--sans); font-weight:700; font-size:.8rem;
-    letter-spacing:.14em; text-transform:uppercase;
-    padding:.7rem 1.5rem; border-radius:4px;
-    cursor:pointer;
-    transition:background .18s;
-  }
-  .intro-skip:hover { background:rgba(255,255,255,.22); }
-  @media (max-width:600px) {
-    .intro-skip { right:1rem; bottom:1.4rem; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .wall-col, .tap-prompt { animation:none; }
-  }
-
-  #intro-screen {
-    position:fixed; inset:0; z-index:100;
-    background:#000;
-    display:none; align-items:center; justify-content:center;
-  }
-  #intro-screen.active { display:flex; }
-
-  /* landscape/desktop: letterbox so full video is visible */
-  #intro-video {
-    width:100%; height:100%;
-    object-fit:contain;
-    display:block;
-  }
-  /* portrait/mobile: fill the screen with the vertical video */
-  @media (orientation: portrait) {
-    #intro-video { object-fit:cover; }
-  }
-
-  #intro-fade { position:absolute; inset:0; background:#000; opacity:0; pointer-events:none; transition:opacity .8s ease; }
-
-  #profile-screen {
-    min-height:100vh;
-    display:none; flex-direction:column; align-items:center; justify-content:center;
-    padding:2rem;
-    background:linear-gradient(160deg,#0a0a0a 0%,#1a0000 100%);
-    opacity:0; transition:opacity .6s;
-  }
-  #profile-screen.active { display:flex; }
-  #profile-screen.visible { opacity:1; }
-
-  .ps-heading { font-family:var(--font); font-size:clamp(2rem,4vw,3rem); letter-spacing:.1em; color:var(--text); margin-bottom:.5rem; text-align:center; }
-  .ps-sub { font-size:.82rem; color:var(--muted); margin-bottom:3.5rem; text-align:center; letter-spacing:.08em; }
-
-  .profiles {
-    display:grid;
-    grid-template-columns: repeat(4, 120px);
-    gap:2.5rem;
-    justify-content:center;
-    max-width:780px;
-  }
-  .profile-card { display:flex; flex-direction:column; align-items:center; gap:.9rem; cursor:pointer; transition:transform .2s; text-decoration:none; }
-  .profile-card:hover { transform:scale(1.08); }
-  .profile-card:hover .profile-avatar { outline:3px solid #fff; }
-  .profile-card:hover .profile-name { color:#fff; }
-
-  .profile-avatar { width:120px; height:120px; border-radius:6px; overflow:hidden; outline:3px solid transparent; transition:outline .2s; background:var(--bg2); }
-  .profile-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
-  .profile-avatar .fallback { width:100%; height:100%; display:none; align-items:center; justify-content:center; font-size:3rem; }
-
-  .profile-name {
-    max-width:150px;
-    font-family:var(--font);
-    font-size:1rem;
-    line-height:1.15;
-    letter-spacing:.15em;
-    color:var(--muted);
-    text-align:center;
-    text-transform:uppercase;
-    transition:color .2s;
-  }
-
-  /* ── Mobile ── */
-  @media (max-width: 600px) {
-    .ps-sub { margin-bottom:2.5rem; }
-    .profiles {
-      grid-template-columns: repeat(2, 1fr);
-      gap:1.6rem 2rem;
-      max-width:320px;
-    }
-    .profile-avatar { width:100%; height:0; padding-bottom:100%; position:relative; }
-    .profile-avatar img,
-    .profile-avatar .fallback {
-      position:absolute; inset:0; width:100%; height:100%;
-    }
-  }
-  @media (max-width: 360px) {
-    .profiles { max-width:260px; gap:1.2rem 1.4rem; }
-  }
-
-  /* ── Deep Cut unlock ── */
-  .profile-avatar { position: relative; }
-  .deep-cut-profile.locked { cursor: default; }
-  .deep-cut-profile.locked:hover { transform: none; }
-  .deep-cut-profile.locked:hover .profile-avatar { outline-color: transparent; }
-  .deep-cut-profile.locked .profile-avatar img,
-  .deep-cut-profile.locked .profile-avatar .fallback { filter: grayscale(1); opacity: .45; }
-  .deep-cut-profile.locked .profile-name { color: rgba(255,255,255,.3); }
-  .dc-lock-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.32); border-radius: 6px; font-size: 1.4rem; }
-  .deep-cut-profile.unlocked .dc-lock-overlay { display: none; }
-  .dc-modal {
-    position: fixed; inset: 0; z-index: 300;
-    display: none; align-items: center; justify-content: center;
-    background: rgba(0,0,0,.82); backdrop-filter: blur(6px);
-  }
-  .dc-modal.active { display: flex; }
-  .dc-inner {
-    background: #141414;
-    border: 1px solid rgba(255,255,255,.12);
-    border-radius: 8px;
-    padding: 2.5rem 2rem;
-    max-width: 420px;
-    width: calc(100% - 3rem);
-    text-align: center;
-    box-shadow: 0 0 60px rgba(229,9,20,.2);
-  }
-  .dc-eyebrow {
-    font-size: .65rem; font-weight: 900; letter-spacing: .22em;
-    text-transform: uppercase; color: var(--terra); margin-bottom: 1rem;
-  }
-  .dc-title {
-    font-family: var(--font); font-size: 2.2rem; letter-spacing: .06em;
-    line-height: 1; color: #fff; margin-bottom: .85rem;
-  }
-  .dc-body {
-    font-size: .92rem; color: rgba(255,255,255,.68);
-    line-height: 1.7; margin-bottom: 1.75rem;
-  }
-  .dc-actions { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
-  .dc-btn {
-    padding: .65rem 1.35rem; border-radius: 4px; border: 0;
-    font-family: var(--sans); font-weight: 800; font-size: .84rem;
-    cursor: pointer; transition: transform .18s, background .18s; white-space: nowrap;
-  }
-  .dc-btn.primary { background: var(--terra); color: #fff; }
-  .dc-btn.primary:hover { background: var(--terra-dark); transform: translateY(-1px); }
-  .dc-btn.secondary {
-    background: rgba(255,255,255,.1); color: rgba(255,255,255,.82);
-    border: 1px solid rgba(255,255,255,.18);
-  }
-  .dc-btn.secondary:hover { background: rgba(255,255,255,.18); transform: translateY(-1px); }
-
-  /* ── Language switcher ─────────────────────────────── */
-  .sg-lang-row {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1.8rem;
-  }
-  .sg-lang-switcher {
-    display: flex;
-    gap: 0;
-    border: 1px solid rgba(255,255,255,.2);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .sg-lang-btn {
-    background: transparent;
-    border: 0;
-    color: rgba(255,255,255,.5);
-    font-family: var(--sans);
-    font-size: .68rem;
-    font-weight: 800;
-    letter-spacing: .16em;
-    padding: .38rem .9rem;
-    cursor: pointer;
-    transition: background .18s, color .18s;
-  }
-  .sg-lang-btn + .sg-lang-btn {
-    border-left: 1px solid rgba(255,255,255,.2);
-  }
-  .sg-lang-btn:hover { background: rgba(255,255,255,.1); color: #fff; }
-  .sg-lang-btn.active { background: rgba(229,9,20,.85); color: #fff; }
-</style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Noche y Media — Stay a little longer.</title>
+<meta name="description" content="The world of film, television and advertising of Sofía González Irigoyen, a Mexican producer and editor.">
+<meta name="theme-color" content="#14284b"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="style.css?v=room-events-1"><link rel="stylesheet" href="room-layout.css?v=vinyl-3">
+<link rel="stylesheet" href="music.css?v=vinyl-mixer-1">
+<link rel="stylesheet" href="room-audio.css?v=room-song-choice-2">
+<script src="room-sprites.js?v=room-layers-7" defer></script>
+<script src="room-guests.js?v=room-events-1" defer></script>
+<script src="room-events.js?v=room-events-1" defer></script>
+<script src="art-guest.js?v=art-painter-2" defer></script>
+<script src="turntable-sprites.js?v=deck-frame-5" defer></script>
+<script src="music.js?v=vinyl-3" defer></script>
+<script src="content.js?v=telemundo" defer></script><script src="i18n.js?v=room-events-1" defer></script><script src="art.js?v=vinyl-3" defer></script><script src="photography.js" defer></script><script src="bts.js?v=crew-photos" defer></script><script src="soundscape.js?v=melody-1" defer></script><script src="outside-sounds.js?v=street-pixels-2" defer></script><script src="room-textures.js?v=live-room-1" defer></script><script src="room-audio.js?v=room-song-choice-2" defer></script><script src="room-audio-controls.js?v=room-song-choice-2" defer></script><script src="app.js?v=room-events-1" defer></script>
 </head>
-<body>
-
-<div id="tap-screen" onclick="startIntro()" role="button" tabindex="0" aria-label="Start intro">
-  <div class="tap-wall" aria-hidden="true"><div class="wall-plane">
-    <div class="wall-col" style="--dur:62s">
-      <div class="tile" style="background-image:url('assets/ad/supergood/laundry-loft-comedy.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/thumbs/sabores.jpg')"></div>
-      <div class="tile v" style="background-image:url('assets/ad/supergood/realmvp-izzy.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still1.jpg')"></div>
-      <div class="tile v" style="background-image:url('assets/ad/spec/merit-fragrance.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/thumbs/acesso-total-hollywood-premiere.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/ad/supergood/laundry-loft-comedy.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/thumbs/sabores.jpg')"></div>
-      <div class="tile v" style="background-image:url('assets/ad/supergood/realmvp-izzy.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still1.jpg')"></div>
-      <div class="tile v" style="background-image:url('assets/ad/spec/merit-fragrance.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/thumbs/acesso-total-hollywood-premiere.jpg')"></div>
-    </div>
-    <div class="wall-col down" style="--dur:74s">
-      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-business-banking-face.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still4.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/ad/supergood/milkpep-reel.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/thumbs/chameleon.jpg')"></div>
-      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-psa.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/ad/supergood/soul/s01.jpg')"></div>
-      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-business-banking-face.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still4.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/ad/supergood/milkpep-reel.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/thumbs/chameleon.jpg')"></div>
-      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-psa.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/ad/supergood/soul/s01.jpg')"></div>
-    </div>
-    <div class="wall-col" style="--dur:58s">
-      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-run-the-numbers.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/ad/supergood/soul-cinema.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/thumbs/GrowingPains.jpg')"></div>
-      <div class="tile v" style="background-image:url('assets/ad/supergood/realmvp-mendoza.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/thumbs/pajuyuk.jpg')"></div>
-      <div class="tile v" style="background-image:url('assets/ad/spec/bloom-creatine.jpg')"></div>
-      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-run-the-numbers.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/ad/supergood/soul-cinema.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/thumbs/GrowingPains.jpg')"></div>
-      <div class="tile v" style="background-image:url('assets/ad/supergood/realmvp-mendoza.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/thumbs/pajuyuk.jpg')"></div>
-      <div class="tile v" style="background-image:url('assets/ad/spec/bloom-creatine.jpg')"></div>
-    </div>
-    <div class="wall-col down" style="--dur:70s">
-      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still11.jpg')"></div>
-      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-bts.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/thumbs/si-solamente.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/ad/supergood/milkpep-ai-ad.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/live-with-ty/bts-wall.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/thumbs/Aftershock.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still11.jpg')"></div>
-      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-bts.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/thumbs/si-solamente.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/ad/supergood/milkpep-ai-ad.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/live-with-ty/bts-wall.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/thumbs/Aftershock.jpg')"></div>
-    </div>
-    <div class="wall-col" style="--dur:66s">
-      <div class="tile" style="background-image:url('assets/thumbs/acesso-total-independence-days.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/ad/supergood/soul/c2.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still8.jpg')"></div>
-      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-bloopers.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/thumbs/Vestidoparamama.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/ad/supergood/soul/s08.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/thumbs/acesso-total-independence-days.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/ad/supergood/soul/c2.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still8.jpg')"></div>
-      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-bloopers.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/thumbs/Vestidoparamama.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/ad/supergood/soul/s08.jpg')"></div>
-    </div>
-    <div class="wall-col down" style="--dur:78s">
-      <div class="tile v" style="background-image:url('assets/ad/spec/bluebird-hard-water.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/ad/supergood/soul/c4.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still5.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/thumbs/ByDesign.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/ad/supergood/soul/s20.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/ad/supergood/soul/c3.jpg')"></div>
-      <div class="tile v" style="background-image:url('assets/ad/spec/bluebird-hard-water.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/ad/supergood/soul/c4.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still5.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/thumbs/ByDesign.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/ad/supergood/soul/s20.jpg')"></div>
-      <div class="tile" style="background-image:url('assets/ad/supergood/soul/c3.jpg')"></div>
-    </div>
-  </div></div>
-  <div class="tap-prompt">
-    <div class="tap-eyebrow" data-i18n="idx.tapEyebrow">Now Streaming</div>
-    <div class="tap-logo" data-i18n="idx.tapLogo">Sofía González Irigoyen</div>
-    <div class="tap-ring"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.3v13.4c0 .5.55.8.98.53l10.5-6.7a.63.63 0 0 0 0-1.06L8.98 4.77A.63.63 0 0 0 8 5.3z"/></svg></div>
-    <div class="tap-hint" data-i18n="idx.tapHint">Tap anywhere to start</div>
-  </div>
-  <button class="tap-skip" id="tap-skip" data-i18n="idx.skipIntro">Skip Intro</button>
-</div>
-
-<div id="intro-screen">
-  <video id="intro-video" muted playsinline preload="auto"></video>
-  <div id="intro-fade"></div>
-  <button class="intro-skip" id="intro-skip" data-i18n="idx.skipIntro">Skip Intro</button>
-</div>
-
-<div id="profile-screen">
-  <h2 class="ps-heading" data-i18n="idx.heading">WHO'S WATCHING?</h2>
-  <p class="ps-sub" data-i18n="idx.sub">Choose the version of Sofia's work you want to browse</p>
-  <div class="sg-lang-row" id="lang-row"></div>
-  <div class="profiles">
-
-    <a href="recruiter.html" data-profile-link="recruiter.html" class="profile-card">
-      <div class="profile-avatar">
-        <img src="YOUR-IMAGE-1.png" alt="Production" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-        <div class="fallback">🎬</div>
+<body data-view="room" class="not-entered">
+<a href="#poster" class="skip" id="skip-work" data-i18n="skipWork">Open the work index</a>
+<div class="language-switch" role="group" data-i18n-aria="language"><button data-language="es" lang="es" aria-label="Español" aria-pressed="false">ES</button><span aria-hidden="true">/</span><button data-language="en" lang="en" aria-label="English" aria-pressed="true">EN</button></div>
+<h1 class="sr-only">Noche y Media — Sofía González Irigoyen</h1>
+<main id="world" data-i18n-aria="roomLabel">
+  <div class="room-zoom" id="room-zoom"><div class="room-camera" id="camera"><div class="room-motion" id="room-motion"><div class="room-scene" id="scene">
+    <img class="room-art" id="room-art" src="assets/room-master.png" data-i18n-alt="roomAlt" fetchpriority="high">
+    <canvas class="room-art room-pixels" id="room-pixels" width="640" height="400" aria-hidden="true" hidden></canvas>
+    <canvas class="room-art room-events" id="room-events" width="640" height="400" aria-hidden="true"></canvas>
+    <section class="wall-guide" id="poster" data-i18n-aria="posterLabel" data-page="channels">
+      <div class="poster-heading"><span class="poster-small" data-i18n="presents">NOCHE Y MEDIA PRESENTS</span><strong data-i18n="guideHeading">AFTER HOURS
+TV GUIDE</strong><span class="poster-line"></span></div>
+      <nav id="poster-channels" data-i18n-aria="posterNav"></nav>
+      <div id="poster-projects" hidden></div>
+      <div class="poster-footer"><span class="poster-owner">SOFÍA GONZÁLEZ IRIGOYEN</span><button id="poster-all">ALL 46 PROGRAMMES ↗</button><div class="poster-pagination" hidden><button id="poster-back-channels" data-i18n="channelsBack">← CHANNELS</button><button id="poster-prev-page" data-i18n-aria="previousPage"><svg class="pixel-arrow pixel-arrow--left" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M6 0h2v2h2v2h2v4h-2v2H8v2H6V8H0V4h6Z"/></svg></button><span id="poster-page-count"></span><button id="poster-next-page" data-i18n-aria="nextPage"><svg class="pixel-arrow pixel-arrow--right" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M6 0h2v2h2v2h2v4h-2v2H8v2H6V8H0V4h6Z"/></svg></button></div><button id="poster-about" data-i18n="aboutGuide">MEET SOFÍA ↗</button><button id="poster-art" data-i18n="artGuide">EXPLORE THE ART ↗</button><button id="poster-photos" data-i18n="albumGuide">OPEN THE PHOTO ALBUM ↗</button><button id="leave-poster" hidden data-i18n="backRoom">↶ BACK TO THE ROOM</button><span class="poster-hint" data-i18n="tuneHint">01–05 · TYPE TO TUNE<br>SCROLL TO EXPLORE</span></div>
+      <button class="poster-hit" id="wall-guide" data-i18n-aria="lookPoster"></button>
+    </section>
+    <div id="art-wall" role="group" data-i18n-aria="artWall"></div>
+    <canvas id="art-guest" class="art-guest" width="30" height="45" aria-hidden="true" hidden></canvas>
+    <button id="album-object" class="album-object" data-i18n-aria="openAlbum"><svg class="object-highlight" viewBox="0 0 128 53" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M1 6 L106 1 L127 42 L127 49 L6 52 L2 43 Z"/></svg><span data-i18n="photography">PHOTOGRAPHY</span></button>
+    <button id="vinyl-object" class="vinyl-object" data-i18n-aria="openMusic" aria-haspopup="dialog" aria-controls="music-dialog"><svg class="object-highlight" viewBox="0 0 88 48" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M11 1 H79 L82 27 L87 30 V44 L1 47 V34 L9 30 Z"/></svg></button>
+    <section id="photo-album" class="photo-album" data-i18n-aria="photoAlbum" hidden>
+      <div class="album-spread">
+        <div class="album-page album-left">
+          <div class="album-running-head"><span data-i18n="photography">PHOTOGRAPHY</span><span id="album-chapter-title"></span></div>
+          <figure class="album-photo"><div class="album-mount"><img id="album-photo-left" alt=""><span class="album-photo-error" data-i18n="photoUnavailable" hidden>This photograph could not load.</span></div><figcaption><span id="album-caption-left"></span><span id="album-number-left"></span></figcaption></figure>
+        </div>
+        <div class="album-page album-right">
+          <div class="album-running-head"><span>SOFÍA GONZÁLEZ IRIGOYEN</span><span>N / M</span></div>
+          <figure class="album-photo" id="album-right-figure"><div class="album-mount"><img id="album-photo-right" alt=""><span class="album-photo-error" data-i18n="photoUnavailable" hidden>This photograph could not load.</span></div><figcaption><span id="album-caption-right"></span><span id="album-number-right"></span></figcaption></figure>
+          <div id="album-end" class="album-end" hidden><span aria-hidden="true">✳</span><p data-i18n="albumChapterEnd">END OF CHAPTER</p><small>SOFÍA GONZÁLEZ IRIGOYEN</small></div>
+        </div>
       </div>
-      <span class="profile-name" data-i18n="idx.production">Production</span>
-    </a>
-
-    <a href="agency.html" data-profile-link="agency.html" class="profile-card">
-      <div class="profile-avatar">
-        <img src="YOUR-IMAGE-3.png" alt="Advertising" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-        <div class="fallback">📋</div>
-      </div>
-      <span class="profile-name" data-i18n="idx.advertising">Advertising</span>
-    </a>
-
-    <a href="director.html" data-profile-link="director.html" class="profile-card">
-      <div class="profile-avatar">
-        <img src="YOUR-IMAGE-2.png" alt="Collaborators" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-        <div class="fallback">🎥</div>
-      </div>
-      <span class="profile-name" data-i18n="idx.collaborators">Collaborators</span>
-    </a>
-
-    <a href="stalker.html" data-profile-link="stalker.html" class="profile-card deep-cut-profile locked" id="dc-card">
-      <div class="profile-avatar">
-        <img src="YOUR-IMAGE-5.png" alt="Stalker" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-        <div class="fallback">👀</div>
-        <div class="dc-lock-overlay" aria-hidden="true">🔒</div>
-      </div>
-      <span class="profile-name" id="dc-card-name">Stay Out</span>
-    </a>
-
-  </div>
-</div>
-
-<script>
-  const INTRO_DURATION = 5200;
-  const DC_KEY = 'sofiaDeepCutUnlocked';
-  let dcTimer  = null;
-
-  /* ── i18n bootstrap ── */
-  sgI18n.buildSwitcher(document.getElementById('lang-row'));
-  sgI18n.applyPage();
-  document.addEventListener('sg:langchange', () => sgI18n.applyPage());
-
-  if (new URLSearchParams(window.location.search).get('profiles') === '1') {
-    document.getElementById('tap-screen').style.display = 'none';
-    const ps = document.getElementById('profile-screen');
-    ps.classList.add('active');
-    ps.classList.add('visible');
-    startDeepCutTimer();
-  }
-
-  // Preload the right intro video now so tapping plays instantly
-  const introVideoEl = document.getElementById('intro-video');
-  function introSrcForOrientation() {
-    return window.innerHeight > window.innerWidth ? 'media/vertical-intro.mp4' : 'media/intro.mp4';
-  }
-  if (new URLSearchParams(window.location.search).get('profiles') !== '1') {
-    introVideoEl.src = introSrcForOrientation();
-  }
-
-  let introStarted = false;
-  let introTimers = [];
-  let introAudio = null;
-
-  function showProfiles() {
-    document.getElementById('intro-screen').style.display = 'none';
-    const ps = document.getElementById('profile-screen');
-    ps.classList.add('active');
-    setTimeout(() => ps.classList.add('visible'), 50);
-    startDeepCutTimer();
-  }
-
-  function skipIntro(e) {
-    if (e) e.stopPropagation();
-    introTimers.forEach(clearTimeout);
-    introTimers = [];
-    introVideoEl.pause();
-    if (introAudio) introAudio.pause();
-    showProfiles();
-  }
-
-  function startIntro() {
-    if (introStarted) return;
-    introStarted = true;
-
-    const tap = document.getElementById('tap-screen');
-    tap.classList.add('fade-out');
-    setTimeout(() => tap.style.display = 'none', 500);
-
-    const intro = document.getElementById('intro-screen');
-    const video = introVideoEl;
-
-    // Use vertical video on portrait screens (phones held upright)
-    const wanted = introSrcForOrientation();
-    if (!video.src.endsWith(wanted.split('/').pop())) video.src = wanted;
-
-    intro.classList.add('active');
-
-    video.play().then(() => {
-      introAudio = new Audio("media/tada.mp3");
-      introAudio.volume = 0.8;
-      introAudio.play().catch(() => {});
-    }).catch(() => {});
-
-    introTimers.push(setTimeout(() => {
-      document.getElementById('intro-fade').style.opacity = '1';
-    }, INTRO_DURATION - 800));
-
-    introTimers.push(setTimeout(showProfiles, INTRO_DURATION + 100));
-  }
-
-  document.getElementById('tap-skip').addEventListener('click', e => {
-    e.stopPropagation();
-    introStarted = true;
-    const tap = document.getElementById('tap-screen');
-    tap.classList.add('fade-out');
-    setTimeout(() => tap.style.display = 'none', 500);
-    showProfiles();
-  });
-
-  document.getElementById('intro-skip').addEventListener('click', skipIntro);
-
-  document.addEventListener('keydown', e => {
-    const tap = document.getElementById('tap-screen');
-    const tapVisible = tap.style.display !== 'none' && !tap.classList.contains('fade-out');
-    if ((e.key === 'Enter' || e.key === ' ') && tapVisible) {
-      e.preventDefault();
-      startIntro();
-    } else if (e.key === 'Escape' && introStarted && document.getElementById('intro-screen').classList.contains('active') && document.getElementById('intro-screen').style.display !== 'none') {
-      skipIntro();
-    }
-  });
-
-  // ── Deep Cut unlock flow ──────────────────────────────────────
-  const dcCard = document.getElementById('dc-card');
-  const dcName  = document.getElementById('dc-card-name');
-
-  function unlockDeepCut() {
-    dcCard.classList.remove('locked');
-    dcCard.classList.add('unlocked');
-    dcName.textContent = sgI18n.t('idx.found');
-  }
-
-  if (localStorage.getItem(DC_KEY) === 'true') {
-    unlockDeepCut();
-  } else {
-    dcCard.addEventListener('click', e => {
-      if (dcCard.classList.contains('locked')) {
-        e.preventDefault();
-        const h = document.getElementById('dc-hint');
-        h.classList.add('active');
-        h.setAttribute('aria-hidden', 'false');
-        document.getElementById('dc-hint-ok').focus();
-      }
-    });
-  }
-
-  function showDeepCutModal() {
-    if (localStorage.getItem(DC_KEY) === 'true') return;
-    const m = document.getElementById('dc-modal');
-    m.classList.add('active');
-    m.setAttribute('aria-hidden', 'false');
-    document.getElementById('dc-stay').focus();
-  }
-
-  function startDeepCutTimer() {
-    if (localStorage.getItem(DC_KEY) === 'true') return;
-    clearTimeout(dcTimer);
-    dcTimer = setTimeout(showDeepCutModal, 40000);
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('dc-stay').addEventListener('click', () => {
-      const m = document.getElementById('dc-modal');
-      m.classList.remove('active');
-      m.setAttribute('aria-hidden', 'true');
-      if (localStorage.getItem(DC_KEY) !== 'true') {
-        clearTimeout(dcTimer);
-        dcTimer = setTimeout(showDeepCutModal, 300000);
-      }
-    });
-
-    document.getElementById('dc-unlock').addEventListener('click', () => {
-      localStorage.setItem(DC_KEY, 'true');
-      clearTimeout(dcTimer);
-      unlockDeepCut();
-      const m = document.getElementById('dc-modal');
-      m.classList.remove('active');
-      setTimeout(() => { window.location.href = 'stalker.html'; }, 300);
-    });
-
-    document.getElementById('dc-hint-ok').addEventListener('click', () => {
-      const h = document.getElementById('dc-hint');
-      h.classList.remove('active');
-      h.setAttribute('aria-hidden', 'true');
-    });
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-        if (document.getElementById('dc-modal').classList.contains('active')) document.getElementById('dc-stay').click();
-        if (document.getElementById('dc-hint').classList.contains('active')) document.getElementById('dc-hint-ok').click();
-      }
-    });
-  });
-
-</script>
-<div id="dc-modal" class="dc-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="dc-title">
-  <div class="dc-inner">
-    <div class="dc-eyebrow" data-i18n="dc.eyebrow">⏸ &nbsp;Are you still watching?</div>
-    <h2 class="dc-title" id="dc-title" data-i18n-html="dc.title">Are you still<br>watching?</h2>
-    <p class="dc-body" data-i18n="dc.body">You've made it past the portfolio layer. There's a less official cut if you want it.</p>
-    <div class="dc-actions">
-      <button id="dc-stay" class="dc-btn secondary" data-i18n="dc.stay">Stay Professional</button>
-      <button id="dc-unlock" class="dc-btn primary" data-i18n="dc.unlock">Show Me the Deep Cut</button>
+      <nav class="album-tabs" data-i18n-aria="albumChapters"><button data-album-chapter="0" aria-pressed="true" data-i18n="albumGraduations">GRADUATIONS</button><button data-album-chapter="1" aria-pressed="false" data-i18n="albumEvents">EVENTS</button><button data-album-chapter="2" aria-pressed="false" data-i18n="albumPortraits">PORTRAITS</button><button data-album-chapter="3" aria-pressed="false" data-i18n="albumOnSet">ON SET</button></nav>
+      <nav class="album-controls" data-i18n-aria="albumNavigation"><button id="album-prev" data-i18n-aria="albumPrevious"><svg class="pixel-arrow pixel-arrow--left" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M6 0h2v2h2v2h2v4h-2v2H8v2H6V8H0V4h6Z"/></svg></button><span id="album-page-count" aria-live="polite"></span><button id="album-next" data-i18n-aria="albumNext"><svg class="pixel-arrow pixel-arrow--right" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M6 0h2v2h2v2h2v4h-2v2H8v2H6V8H0V4h6Z"/></svg></button><button id="album-close" data-i18n="closeAlbum">CLOSE ALBUM ↶</button></nav>
+    </section>
+    <button class="mirror-object" id="mirror-object" data-i18n-aria="lookMirror"><span class="mirror-plane"><canvas id="mirror-portrait" width="576" height="1024" aria-hidden="true"></canvas><span class="mirror-glint"></span></span><span class="mirror-label">SOFÍA</span></button>
+    <canvas class="room-art mirror-frame-layer" id="mirror-frame" width="640" height="400" aria-hidden="true" hidden></canvas>
+    <a class="wordmark" id="home-link" href="#room" data-i18n-aria="home">NOCHE <i>y</i> MEDIA<span>SOFÍA GONZÁLEZ IRIGOYEN</span></a>
+    <div class="tv-screen" id="tv-screen" tabindex="-1">
+      <div class="picture" id="picture"></div><div id="player" class="player tv-player" hidden></div><div class="crt-lines" aria-hidden="true"></div>
+      <span id="channel-osd" class="channel-osd" aria-hidden="true">CH 01 · TONIGHT</span>
+      <div class="tuning-static" aria-hidden="true"></div>
+      <button id="screen-action" class="screen-action" aria-label="Watch current programme"><span class="screen-action-label">OPEN PROGRAMME ↗</span></button>
+      <span id="entry-digits" class="entry-digits" aria-hidden="true"></span>
+      <section id="entrance" class="entrance" aria-labelledby="entry-title">
+        <span class="entry-kicker" data-i18n="atHome">MAKE YOURSELF AT HOME</span><h2 id="entry-title">NOCHE<br>Y MEDIA</h2>
+        <button id="enter-sound" class="enter-button" data-i18n="switchOn">▶ SWITCH ON</button>
+        <button id="enter-quiet" class="enter-quiet" data-i18n="enterQuiet">ENTER WITHOUT SOUND</button>
+      </section>
     </div>
-  </div>
-</div>
-
-<div id="dc-hint" class="dc-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="dc-hint-title">
-  <div class="dc-inner">
-    <div class="dc-eyebrow" data-i18n="dc.hint.eyebrow">🔒 &nbsp;Profile Locked</div>
-    <h2 class="dc-title" id="dc-hint-title" data-i18n="dc.hint.title">Not Yet</h2>
-    <p class="dc-body" data-i18n="dc.hint.body">Some profiles only appear if you stay long enough.</p>
-    <div class="dc-actions">
-      <button id="dc-hint-ok" class="dc-btn primary" data-i18n="dc.hint.ok">Got it</button>
+    <nav class="bezel-controls" data-i18n-aria="tvControls">
+      <button id="remote-toggle" data-i18n-aria="pickRemote" aria-expanded="false" data-i18n-title="remoteTitle">R<span data-i18n="remoteShort">REMOTE</span></button>
+      <button id="guide-toggle" data-i18n-aria="openGuide" data-i18n-title="guideTitle">G<span data-i18n="guideShort">GUIDE</span></button>
+      <button id="sound-toggle" data-i18n-aria="sound" aria-pressed="false" data-i18n-title="soundTitle">♪<span>off</span></button>
+    </nav>
+  </div></div></div></div>
+  <aside class="remote" id="remote" data-i18n-aria="remote" hidden>
+    <div class="remote-head"><span>N / M</span><button id="close-remote" data-i18n-aria="putRemote">×</button></div>
+    <div class="remote-display" id="remote-display" aria-live="polite">CH 01 · TONIGHT</div>
+    <div class="channel-rocker"><button id="channel-down" data-i18n="channelDownText" data-i18n-aria="previousChannel">CH −</button><button id="channel-up" data-i18n="channelUpText" data-i18n-aria="nextChannel">CH +</button></div>
+    <div class="keypad" data-i18n-aria="channelNumbers"><button data-digit="1">1</button><button data-digit="2">2</button><button data-digit="3">3</button><button data-digit="4">4</button><button data-digit="5">5</button><button data-digit="6">6</button><button data-digit="7">7</button><button data-digit="8">8</button><button data-digit="9">9</button><button id="clear-digits" data-i18n-aria="clearChannel">C</button><button data-digit="0">0</button><button id="confirm-channel" data-i18n-aria="confirmChannel">OK</button></div>
+    <button id="remote-guide" class="remote-wide" data-i18n="tvGuide">TV GUIDE</button><button id="remote-music" class="remote-wide" data-i18n="openMusic">RECORD PLAYER ↗</button>
+    <button id="room-life-toggle" class="remote-wide" aria-pressed="true" data-i18n="roomLifeOn" disabled>ROOM LIFE · ON</button>
+    <p data-i18n="tuneHint">01–05 · TYPE TO TUNE
+SCROLL TO EXPLORE</p>
+  </aside>
+  <p id="status" class="sr-only" aria-live="polite"></p>
+</main>
+<nav class="programme-controls" data-i18n-aria="navigationControls">
+  <button id="zoom-in" data-i18n-aria="zoomIn" data-i18n-title="zoomIn" aria-keyshortcuts="ArrowUp"><svg class="pixel-arrow pixel-arrow--up" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M6 0h2v2h2v2h2v4h-2v2H8v2H6V8H0V4h6Z"/></svg></button>
+  <button id="previous-programme" data-i18n-aria="previousProgramme" data-i18n-title="previousProgramme" aria-keyshortcuts="ArrowLeft"><svg class="pixel-arrow pixel-arrow--left" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M6 0h2v2h2v2h2v4h-2v2H8v2H6V8H0V4h6Z"/></svg></button>
+  <button id="zoom-out" data-i18n-aria="zoomOut" data-i18n-title="zoomOut" aria-keyshortcuts="ArrowDown"><svg class="pixel-arrow pixel-arrow--down" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M6 0h2v2h2v2h2v4h-2v2H8v2H6V8H0V4h6Z"/></svg></button>
+  <button id="next-programme" data-i18n-aria="nextProgramme" data-i18n-title="nextProgramme" aria-keyshortcuts="ArrowRight"><svg class="pixel-arrow pixel-arrow--right" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M6 0h2v2h2v2h2v4h-2v2H8v2H6V8H0V4h6Z"/></svg></button>
+</nav>
+<aside id="art-caption" class="art-caption" aria-labelledby="art-title" hidden>
+  <span class="art-byline">SOFÍA GONZÁLEZ IRIGOYEN</span><h2 id="art-title"></h2>
+  <p id="art-medium" class="art-medium" hidden></p>
+  <details id="art-notes" hidden>
+    <summary data-i18n="artNotes">ABOUT THIS WORK</summary>
+    <div class="art-notes-body" tabindex="0" role="region" aria-labelledby="art-title">
+      <p id="art-description"></p>
+      <section id="art-process-section" hidden><h3 data-i18n="artProcess">PROCESS</h3><p id="art-process"></p></section>
+      <section id="art-context-section" hidden><h3 data-i18n="artInvestigation">THE INVESTIGATION</h3><p id="art-context"></p></section>
+      <p id="art-note-source" class="art-note-source" hidden></p>
+      <a id="art-source" target="_blank" rel="noopener noreferrer" data-i18n="artOriginalPost">Original post ↗</a>
     </div>
+  </details>
+  <button id="art-to-film" data-i18n="artWatchFilm" hidden>WATCH THE FILM ↗</button>
+  <div class="art-navigation"><button id="previous-art" data-i18n-aria="previousArt"><svg class="pixel-arrow pixel-arrow--left" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M6 0h2v2h2v2h2v4h-2v2H8v2H6V8H0V4h6Z"/></svg></button><span id="art-count"></span><button id="next-art" data-i18n-aria="nextArt"><svg class="pixel-arrow pixel-arrow--right" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M6 0h2v2h2v2h2v4h-2v2H8v2H6V8H0V4h6Z"/></svg></button><button id="close-art" data-i18n="backRoom">↶ BACK TO THE ROOM</button></div>
+</aside>
+<div id="journey" aria-hidden="true"></div>
+<aside id="project-panel" class="game-panel project-panel" aria-labelledby="project-title" hidden>
+  <div id="project-tabs" class="project-tabs" role="tablist" data-i18n-aria="projectSections" hidden>
+   <button id="project-description-tab" role="tab" aria-controls="project-description-panel" aria-selected="true" data-project-tab="description" data-i18n="descriptionTab">DESCRIPTION</button>
+   <button id="project-bts-tab" role="tab" aria-controls="project-bts-panel" aria-selected="false" tabindex="-1" data-project-tab="bts" data-i18n="btsTab">BTS</button>
   </div>
-</div>
-
-</body>
-</html>
+ <div id="project-panel-body" class="project-panel-body">
+ <button id="close-project" class="dialog-close" data-i18n-aria="backRoom">×</button>
+ <div class="panel-heading" data-i18n="nowPlaying">NOCHE Y MEDIA / ON THE TV</div>
+ <div class="project-copy">
+  <span id="project-category"></span><h2 id="project-title"></h2>
+  <div id="project-description-panel" role="tabpanel" aria-labelledby="project-description-tab" tabindex="0">
+   <p id="project-role"></p><p id="project-description"></p><p id="project-media-status" data-i18n="mediaFailed" role="status" hidden>This video couldn’t load here.</p>
+   <button id="media-fit" class="media-fit" data-i18n="viewFullFrame" hidden>View full frame ↗</button>
+   <a id="detail-link" data-i18n="credits" target="_blank" rel="noopener noreferrer">Full project &amp; credits ↗</a>
+   <a id="youtube-link" data-i18n="watchYouTube" target="_blank" rel="noopener noreferrer" hidden>Watch on YouTube ↗</a>
+  </div>
+  <div id="project-bts-panel" role="tabpanel" aria-labelledby="project-bts-tab" tabindex="0" hidden>
+   <div class="bts-navigation"><button id="bts-prev" data-i18n-aria="btsPrevious"><svg class="pixel-arrow pixel-arrow--left" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M6 0h2v2h2v2h2v4h-2v2H8v2H6V8H0V4h6Z"/></svg></button><span id="bts-count" aria-live="polite" aria-atomic="true"></span><button id="bts-next" data-i18n-aria="btsNext"><svg class="pixel-arrow pixel-arrow--right" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M6 0h2v2h2v2h2v4h-2v2H8v2H6V8H0V4h6Z"/></svg></button></div>
+   <figure class="bts-photo"><div class="bts-image"><img id="bts-photo" decoding="async" alt=""><p id="bts-error" data-i18n="photoUnavailable" hidden>This photograph could not load.</p></div><figcaption id="bts-caption"></figcaption></figure>
+   <div id="bts-thumbnails" class="bts-thumbnails" role="group" data-i18n-aria="btsGallery"></div>
+  </div>
+ </div>
+ </div>
+</aside>
+<dialog id="about-dialog" class="game-panel about-dialog" aria-labelledby="about-title"><button class="dialog-close" data-i18n-aria="closeAbout">×</button><div class="panel-language" role="group" data-i18n-aria="language"><button data-language="es" lang="es" aria-label="Español">ES</button><span aria-hidden="true">/</span><button data-language="en" lang="en" aria-label="English">EN</button></div><div class="about-image"><img src="https://sofirichof.github.io/archive/netflix/assets/si-solamente/bts/si-solamente-bts-87.jpg" data-i18n-alt="aboutAlt" loading="lazy"></div><div class="about-copy"><span data-i18n="aboutHeading">NOCHE Y MEDIA / SOFÍA</span><h2 id="about-title" data-i18n="aboutTitle">Hi, I’m Sofía.</h2><p data-i18n="aboutIntro">I’m a Mexican producer and editor working in film, television and advertising, in Spanish and English.</p><p data-i18n="aboutWork">By day, I’m the Junior AI Filmmaker &amp; Editor at Supergood. I also run Noche y Media Productions, creating space for stories that deserve to be seen, heard, and felt.</p><p data-i18n="aboutBackground">Born in Mexico City and raised between Miami and Mexico, I move between independent film, branded content and live television. I learned on the floors of Telemundo 52 in Los Angeles and TVI in Santiago.</p><p data-i18n="aboutFilms">I produced Si Solamente, winner of Best Picture at BU’s Redstone Film Festival, and represented Pajuyuk at its U.S. premiere at True/False.</p><div class="about-links"><a href="https://sofirichof.github.io/resume.pdf" target="_blank" rel="noopener noreferrer" data-i18n="resume">Résumé ↗</a><a href="https://www.linkedin.com/in/sofia-gonzalez-irigoyen-/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></div></div></dialog>
+<dialog id="contact-dialog" class="game-panel contact-dialog" aria-labelledby="contact-title"><button class="dialog-close" data-i18n-aria="closeContact">×</button><div class="panel-language" role="group" data-i18n-aria="language"><button data-language="es" lang="es" aria-label="Español">ES</button><span aria-hidden="true">/</span><button data-language="en" lang="en" aria-label="English">EN</button></div><span data-i18n="contactHeading">CH 05 / THE NEXT STORY</span><h2 id="contact-title" data-i18n="contactTitle">Shall we make something together?</h2><p data-i18n="contactPrompt">Have a film, a question, a story in mind?</p><a class="email" href="mailto:sofiagi@bu.edu">sofiagi@bu.edu ↗</a><a href="https://www.linkedin.com/in/sofia-gonzalez-irigoyen-/" target="_blank" rel="noopener noreferrer" data-i18n="findLinkedIn">Find me on LinkedIn ↗</a></dialog>
+<dialog id="music-dialog" class="vinyl-view" aria-labelledby="music-title">
+  <div class="vinyl-scene">
+    <img id="vinyl-art" class="vinyl-background" src="assets/vinyl-closeup-clean.png" data-i18n-alt="vinylAlt" loading="lazy">
+    <canvas id="vinyl-pixels" class="vinyl-background" width="640" height="400" aria-hidden="true" hidden></canvas>
+    <canvas id="vinyl-sprites" class="vinyl-background" width="640" height="400" aria-hidden="true" hidden></canvas>
+  </div>
+  <button id="close-music" class="dialog-close vinyl-return" data-i18n="musicReturn">↶ BACK TO THE ROOM</button>
+  <div class="vinyl-language" role="group" data-i18n-aria="language"><button data-language="es" lang="es" aria-label="Español">ES</button><span aria-hidden="true">/</span><button data-language="en" lang="en" aria-label="English">EN</button></div>
+  <section class="music-panel" aria-labelledby="music-title">
+    <nav class="music-tabs" data-i18n-aria="musicCollections"><button data-music-collection="recordings" aria-pressed="true" data-i18n="myRecordings">MY RECORDINGS</button><button data-music-collection="playlists" aria-pressed="false" data-i18n="myPlaylists">MY PLAYLISTS</button><button data-music-collection="sound" aria-pressed="false" data-i18n="roomSound">ROOM SOUND</button></nav>
+    <div class="music-panel-body">
+      <p class="music-kicker" data-i18n="musicKicker">NOCHE Y MEDIA / ON THE TURNTABLE</p>
+      <h2 id="music-title">SofiriChof</h2>
+      <p id="music-intro" class="music-intro"></p>
+    <section class="room-sound-settings" id="room-sound-settings" aria-labelledby="music-title" hidden>
+      <button id="room-sound-power" class="room-sound-button" aria-pressed="false" data-i18n="roomSoundEnable">TURN SOUND ON</button>
+      <div class="room-song-controls">
+        <label for="room-song" data-i18n="roomPlaylist">Room playlist</label>
+        <select id="room-song" aria-describedby="room-song-hint"><option value="auto" data-i18n="roomSongAuto">Automatic rotation</option></select>
+        <button id="room-song-toggle" class="room-sound-button" aria-pressed="false" data-i18n="roomSongPlay">PLAY MUSIC</button>
+        <p id="room-song-state" role="status"></p>
+        <p id="room-song-hint" data-i18n="roomSongHint">Choose a song to preview. Back in the room, it plays from the beginning once, then the regular rotation returns.</p>
+      </div>
+      <label for="room-sound-profile" data-i18n="outsideScene">Outside the window</label>
+      <select id="room-sound-profile"><option value="both" data-i18n="outsideBoth">Night & street</option><option value="night" data-i18n="outsideNight">Still night</option><option value="traffic" data-i18n="outsideStreet">Street outside</option><option value="off" data-i18n="outsideOff">Quiet outside</option></select>
+      <label for="mix-music"><span data-i18n="mixMusic">Music</span><output id="mix-music-value">100%</output></label><input id="mix-music" data-room-level="music" type="range" min="0" max="100" value="100">
+      <label for="mix-outside"><span data-i18n="mixOutside">Outside</span><output id="mix-outside-value">40%</output></label><input id="mix-outside" data-room-level="outside" type="range" min="0" max="100" value="40">
+      <label for="mix-foley"><span data-i18n="mixObjects">Objects</span><output id="mix-foley-value">55%</output></label><input id="mix-foley" data-room-level="foley" type="range" min="0" max="100" value="55">
+      <details class="room-sound-details"><summary data-i18n="mixDetails">Fine tune</summary>
+        <label for="mix-room"><span data-i18n="mixRoom">Room air</span><output id="mix-room-value">22%</output></label><input id="mix-room" data-room-level="room" type="range" min="0" max="100" value="22">
+        <label for="mix-crickets"><span data-i18n="mixCrickets">Crickets</span><output id="mix-crickets-value">65%</output></label><input id="mix-crickets" data-room-level="crickets" type="range" min="0" max="100" value="65">
+        <label for="mix-traffic"><span data-i18n="mixCars">Cars</span><output id="mix-traffic-value">55%</output></label><input id="mix-traffic" data-room-level="traffic" type="range" min="0" max="100" value="55">
+        <label for="mix-horns"><span data-i18n="mixHorns">Horns</span><output id="mix-horns-value">45%</output></label><input id="mix-horns" data-room-level="horns" type="range" min="0" max="100" value="45">
+        <label for="mix-chatter"><span data-i18n="mixChatter">Pixel chatter</span><output id="mix-chatter-value">38%</output></label><input id="mix-chatter" data-room-level="chatter" type="range" min="0" max="100" value="38">
+        <button id="room-sound-reset" class="room-sound-button" data-i18n="mixReset">RESET MIX</button>
+      </details>
+      <p id="room-sound-status" role="status" data-i18n="mixMuted">Sound is off.</p>
+    </section>
+      <div id="record-shelf" class="record-shelf"></div>
+      <a id="music-profile" class="music-profile" target="_blank" rel="noopener noreferrer"></a>
+      <section id="music-selection" class="music-selection" aria-labelledby="music-track-title" hidden>
+        <h3 id="music-track-title"></h3>
+        <div id="music-player" class="music-player"></div>
+        <p id="music-load-status" class="music-load-status" role="status" hidden></p>
+        <button id="music-retry" class="music-retry" data-i18n="musicRetry" hidden>RETRY PLAYER ↻</button>
+        <p id="music-listening-note" class="music-listening-note"></p>
+        <a id="music-source" class="music-source" target="_blank" rel="noopener noreferrer"></a>
+      </section>
+    </div>
+  </section>
+</dialog>
+<noscript><div class="noscript">This room needs JavaScript. <a href="https://sofirichof.github.io/">Visit Sofía’s portfolio</a>.</div></noscript>
+</body></html>
