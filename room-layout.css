@@ -35,7 +35,7 @@
 }
 
 /* Highlights trace the whole illustrated object; the master image is untouched. */
-#poster-channels { grid-template-rows:repeat(5,minmax(0,1fr)); }
+#poster-channels { grid-template-rows:repeat(6,minmax(0,1fr)); }
 .vinyl-object { position:absolute; left:21.25%; top:39.25%; width:13.75%; height:12%; z-index:3; clip-path:polygon(12.5% 0,90% 0,94% 56%,100% 62.5%,100% 94%,0 100%,0 71%,10% 62.5%); }
 .object-highlight { position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; opacity:0; transition:opacity .18s ease; overflow:visible; }
 .object-highlight path { fill:#afcffb24; stroke:#d5e6ff; stroke-width:1.5; stroke-linejoin:miter; vector-effect:non-scaling-stroke; }
@@ -46,3 +46,17 @@
 .not-entered .vinyl-object { visibility:hidden; }
 body:not([data-view=room]) .vinyl-object { pointer-events:none; }
 @media(prefers-reduced-motion:reduce) { .object-highlight { transition:none; } }
+
+/* Room keepsakes are lightweight overlays; the approved master illustration is unchanged. */
+.room-easter-eggs{position:absolute;inset:0;z-index:5;pointer-events:none}
+.room-easter-eggs button{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:auto;image-rendering:pixelated;transition:filter .16s ease,transform .16s ease}
+.supergood-poster{left:21.7%;top:11.5%;width:7.25%;height:13.5%;gap:2%;padding:2%;border:1px solid #b39c6f;background:linear-gradient(135deg,#f3e7c9,#d6c4a0 56%,#aa916b);box-shadow:2px 3px 0 #17130f,inset 0 0 0 2px #493d2d;color:#1a214b;text-shadow:0 1px #fff4d8;z-index:1}
+.supergood-poster img{display:block;width:70%;height:auto;max-height:70%;object-fit:contain;image-rendering:auto}
+.supergood-poster span{font:500 .72cqw/1 var(--mono);letter-spacing:.08em}
+.supergood-poster small{font:.62cqw/1 var(--pixel);color:#322c20}
+.telemundo-cap{left:80.5%;top:61.5%;width:8.4%;height:7.5%;padding:0;background:transparent;filter:drop-shadow(1px 2px 0 #0a0807b0);z-index:2}
+.telemundo-cap svg{width:100%;height:100%;overflow:visible}
+.entered[data-view=room] .room-easter-eggs button:is(:hover,:focus-visible){filter:drop-shadow(0 0 4px #f3d46c);transform:translateY(-2px)}
+.not-entered .room-easter-eggs{visibility:hidden}
+body:not([data-view=room]) .room-easter-eggs{visibility:hidden}
+@media(prefers-reduced-motion:reduce){.room-easter-eggs button{transition:none}}
