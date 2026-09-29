@@ -58,7 +58,7 @@ const featuredTitles=['Si Solamente','Acceso Total','The Stories We Tell Ourselv
 const selected=featuredTitles.map(t=>all.find(p=>p.title===t)).filter(Boolean);
 const channels=[
  {number:1,name:'Esta noche',english:'Tonight’s selection',subtitle:'Selected work',projects:selected},
- {number:2,name:'Supergood',english:'Supergood',subtitle:'Selected work',projects:all.filter(p=>/^p(?:2[1-9]|3[0-5])$/.test(p.id))},
+ {number:2,name:'Supergood',english:'Supergood',subtitle:'Selected work',projects:['p21','p22','p24','p25','p26','p27','p28','p29','p30','p40','p41','p42','p23'].map(id=>all.find(p=>p.id===id)).filter(Boolean)}, // Supergood work only; the campaign reel closes the channel
  {number:3,name:'Cine',english:'Films',subtitle:'Independent stories',projects:all.filter(p=>p.category==='Film')},
  {number:4,name:'Televisión',english:'Television',subtitle:'On the air',projects:all.filter(p=>p.category==='Television')},
  {number:5,name:'Publicidad',english:'Advertising',subtitle:'Brands & ideas',projects:all.filter(p=>p.category==='Advertising')},
@@ -312,13 +312,19 @@ function fitEmbeddedVideo(){
  player.style.setProperty('--embed-left',(1-width)*50+'%');player.style.setProperty('--embed-top',(1-height)*50+'%');
 }
 new ResizeObserver(fitEmbeddedVideo).observe($('#player'));
+// Horizontal videos fill the glass; a vertical video (or one flagged vertical) shows its full frame by default.
+function setFit(mode){
+ const player=$('#player'),button=$('#media-fit');player.dataset.fit=mode;
+ button.dataset.i18n=mode==='contain'?'fillTvScreen':'viewFullFrame';button.textContent=t(button.dataset.i18n);fitEmbeddedVideo();
+}
 function startPlayback(p){
- resetPlayer();sound.duck(true);const player=$('#player');player.hidden=false;player.dataset.fit='cover';$('#media-fit').hidden=false;$('#media-fit').dataset.i18n='viewFullFrame';$('#media-fit').textContent=t('viewFullFrame');
+ resetPlayer();sound.duck(true);const player=$('#player');player.hidden=false;$('#media-fit').hidden=false;setFit(p.vertical?'contain':'cover');
  if(p.youtube){
   const iframe=document.createElement('iframe');iframe.src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(p.youtube)+'?autoplay=1&rel=0&hl='+language;iframe.title=t('videoLabel',{title:p.title});iframe.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';iframe.allowFullscreen=true;player.append(iframe);fitEmbeddedVideo();
  }else if(p.video){
   const video=document.createElement('video');video.controls=true;video.playsInline=true;video.preload='metadata';video.poster=p.image||'';video.src=p.video;video.setAttribute('aria-label',t('videoLabel',{title:p.title}));
   video.addEventListener('error',()=>{if(video.isConnected)showMediaError(p);},{once:true});
+  video.addEventListener('loadedmetadata',()=>{if(video.isConnected&&activeProject===p&&video.videoHeight>video.videoWidth)setFit('contain');},{once:true});
   for(const event of ['ended','pause','play'])video.addEventListener(event,()=>{if(video.isConnected&&activeProject===p)sound.duck(event==='play');});player.append(video);
   video.play().catch(()=>{if(video.isConnected&&!video.error){sound.duck(false);const play=mediaButton(p);play.addEventListener('click',()=>play.remove(),{once:true});player.append(play);}});
  }
@@ -335,10 +341,7 @@ function openProject(p){
  // With no video, leave the thumbnail and its title on the television.
  $('#tv-screen').focus({preventScroll:true});
 }
-$('#media-fit').addEventListener('click',()=>{
- const player=$('#player'),button=$('#media-fit'),contain=player.dataset.fit!=='contain';
- player.dataset.fit=contain?'contain':'cover';button.dataset.i18n=contain?'fillTvScreen':'viewFullFrame';button.textContent=t(button.dataset.i18n);fitEmbeddedVideo();
-});
+$('#media-fit').addEventListener('click',()=>setFit($('#player').dataset.fit==='contain'?'cover':'contain'));
 $('#close-project').addEventListener('click',()=>closeProject());
 $('#screen-action').addEventListener('click',()=>{if(channel.number===6)openDialog($('#contact-dialog'));else openProject(currentProject());});
 $('#home-link').addEventListener('click',e=>{e.preventDefault();closeAlbum(false);closeArt(false);closeProject(false);hideDialogs();leavePoster({focus:false});setView('room');tune(1);});
