@@ -1,0 +1,61 @@
+{
+  "layer": "heart-large",
+  "sheet": "heart-reflection.png",
+  "width": 23,
+  "height": 35,
+  "frames": [
+    {
+      "name": "Still",
+      "duration": 260,
+      "changedPixels": 0
+    },
+    {
+      "name": "Light catches",
+      "duration": 160,
+      "changedPixels": 13
+    },
+    {
+      "name": "Upper ridge",
+      "duration": 140,
+      "changedPixels": 20
+    },
+    {
+      "name": "Left lobe",
+      "duration": 160,
+      "changedPixels": 23
+    },
+    {
+      "name": "Across the metal",
+      "duration": 180,
+      "changedPixels": 26
+    },
+    {
+      "name": "Lower ridge",
+      "duration": 180,
+      "changedPixels": 23
+    },
+    {
+      "name": "Softens",
+      "duration": 220,
+      "changedPixels": 17
+    },
+    {
+      "name": "Fades",
+      "duration": 240,
+      "changedPixels": 12
+    },
+    {
+      "name": "Still again",
+      "duration": 260,
+      "changedPixels": 0
+    }
+  ],
+  "detail": {
+    "x": 351,
+    "y": 24,
+    "width": 36,
+    "height": 46
+  },
+  "duration": 1800,
+  "sourceUnchanged": true
+}

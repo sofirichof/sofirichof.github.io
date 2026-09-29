@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Noche y Media · room music & atmosphere</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100svh;background:#111b2d;color:#e8dec8;font:16px/1.65 system-ui,sans-serif;display:grid;place-items:center;padding:24px}main{width:min(650px,100%)}.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#a7bdd9}h1{font:normal clamp(32px,6vw,54px)/1.12 Georgia,serif;margin:14px 0 22px}p{color:#b5c4d7}nav{display:flex;flex-wrap:wrap;gap:10px;margin:32px 0 24px}button{cursor:pointer;border:1px solid #7088a6;padding:12px 18px;background:transparent;color:inherit;font:inherit}button[aria-pressed=true]{background:#284c77;border-color:#b5cbea}button:focus-visible,a:focus-visible{outline:2px solid #ead5a3;outline-offset:4px}audio{display:block;width:100%;margin:24px 0}a{color:#c4d4eb}footer{border-top:1px solid #45607e;margin-top:34px;padding-top:22px;display:flex;gap:24px;justify-content:space-between;font-size:14px}#status{min-height:26px;font-size:14px}#description{min-height:52px}[hidden]{display:none!important}
+.mix{margin-top:28px;padding:24px;border:1px solid #45607e;background:#18253b}.mix h2{font:normal 26px Georgia,serif;margin:0 0 8px}.mix p{font-size:14px;margin:8px 0 20px}.mix-labels{display:grid;grid-template-columns:1fr 1fr;gap:16px 24px}.mix label{font-size:14px;color:#c4d4eb}.mix input{display:block;width:100%;accent-color:#9ab5d8;margin-top:8px}.foley{display:flex;flex-wrap:wrap;gap:8px}.foley button{padding:8px 12px;font-size:14px}.mix output{float:right;color:#e8dec8}.mix-actions{display:flex;align-items:center;gap:16px;margin:24px 0}#listen-mix{background:#284c77}#mix-status{font-size:13px;color:#b5c4d7}.mix h3{font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin:22px 0 12px}button:disabled{opacity:.55;cursor:wait}@media(max-width:460px){.mix-labels{grid-template-columns:1fr}.mix{padding:18px}footer{flex-wrap:wrap}}
+.outside-options{border:0;border-top:1px solid #45607e;padding:20px 0 0;margin:24px 0 0}.outside-options legend{font:normal 21px Georgia,serif;padding-top:24px}.outside-buttons{display:flex;flex-wrap:wrap;gap:8px}.outside-buttons button{font-size:14px;padding:9px 12px}.outside-options label:has(input:disabled){opacity:.45}.outside-options p{margin:12px 0 20px}.mix-actions{flex-wrap:wrap}#outside-only{font-size:14px;padding:10px 12px}
+</style></head><body><main>
+<div class="eyebrow">Noche y Media / original room music</div><h1 id="track-title">Window Lights</h1>
+<p id="description">A brighter little melody, gently moving keys, and soft bell-like answers.</p>
+<nav aria-label="Choose a room theme"><button data-track="2" aria-pressed="true">Window Lights · new</button><button data-track="3" aria-pressed="false">One More Page · new</button><button data-track="0" aria-pressed="false">Night Channel · original</button><button data-track="1" aria-pressed="false">After the Credits</button></nav>
+<audio id="preview" controls preload="metadata" aria-label="Room theme preview"></audio>
+<p id="status" role="status">Preparing the new theme…</p>
+<section class="mix" aria-labelledby="guitar-title" id="guitar-pulse">
+<h2 id="guitar-title">A medias de la noche - the inspo</h2>
+<p>The melody that inspired the name, carried by a soft pixel lead and a gentle guitar pulse. A first arrangement of the opening sung passages, with room to breathe between phrases. 1:39.</p>
+<audio id="guitar-preview" controls preload="metadata" aria-label="A medias de la noche pixel arrangement" src="assets/audio/a-medias-de-la-noche-8bit.mp3?v=melody-1"></audio>
+<a href="assets/audio/a-medias-de-la-noche-8bit.wav" download>Download the arrangement ↓</a>
+</section>
+<section class="mix" aria-labelledby="mix-title"><h2 id="mix-title">Listen to the room</h2><p>These sounds now live in the room. Use this page to audition them separately; the room’s saved mix is under Room sound on the record player.</p>
+<div class="mix-labels">
+<label for="music-level">Music <output id="music-value">100%</output><input id="music-level" type="range" min="0" max="100" value="100"></label>
+<label for="room-level">Room air <output id="room-value">22%</output><input id="room-level" data-mix="room" type="range" min="0" max="100" value="22"></label>
+<label for="outside-level">Outside atmosphere <output id="outside-value">40%</output><input id="outside-level" data-mix="outside" type="range" min="0" max="100" value="40"></label>
+<label for="foley-level">Object sounds <output id="foley-value">55%</output><input id="foley-level" data-mix="foley" type="range" min="0" max="100" value="55"></label>
+</div>
+<fieldset class="outside-options" id="outside-options"><legend>Beyond the window</legend><div class="outside-buttons" aria-label="Choose the outside atmosphere"><button data-outside="off" aria-pressed="false">Off</button><button data-outside="night" aria-pressed="true">Still night</button><button data-outside="traffic" aria-pressed="false">Street outside</button><button data-outside="both" aria-pressed="false">Both</button></div>
+<p id="outside-description">Soft cricket calls, answering from a little way outside. Long pauses between them.</p>
+<div class="mix-labels"><label for="crickets-level">Crickets <output id="crickets-value">65%</output><input id="crickets-level" data-mix="crickets" type="range" min="0" max="100" value="65"></label><label for="traffic-level">Passing cars <output id="traffic-value">55%</output><input id="traffic-level" data-mix="traffic" type="range" min="0" max="100" value="55" disabled></label><label for="horns-level">Distant horns <output id="horns-value">45%</output><input id="horns-level" data-mix="horns" type="range" min="0" max="100" value="45" disabled></label><label for="chatter-level">Pixel chatter <output id="chatter-value">38%</output><input id="chatter-level" data-mix="chatter" type="range" min="0" max="100" value="38" disabled></label></div>
+<h3>Hear each street sound</h3><div class="foley"><button data-exterior="traffic">Passing car</button><button data-exterior="horns">Soft honk</button><button data-exterior="chatter">Pixel chatter</button></div><p id="exterior-status" role="status">Play a single sound, even with the music paused. Chatter is wordless game-style voices.</p>
+</fieldset><div class="mix-actions"><button id="listen-mix" disabled>Listen to the mix</button><button id="outside-only" disabled>Outside only</button><span id="mix-status" role="status">Paused</span></div>
+<h3>Try the objects</h3><div class="foley"><button data-foley="remote">Remote button</button><button data-foley="tune">Change channel</button><button data-foley="album">Open the album</button><button data-foley="page">Turn a page</button></div>
+<p id="foley-status" role="status" aria-live="polite"></p>
+</section>
+<footer><a href="./?v=four-room-themes-1">Back to the room ↗</a><a id="download" hidden>Download this theme ↓</a></footer>
+</main><script src="soundscape.js?v=melody-1"></script><script src="outside-sounds.js?v=street-pixels-2"></script><script src="room-textures.js?v=live-room-1"></script><script src="room-sound-study.js?v=live-room-1"></script><script>
+const player=document.querySelector('#preview'),status=document.querySelector('#status'),cache=new Map();let selection=0;
+function wave(buffer){
+ const channels=buffer.numberOfChannels,frames=buffer.length,bytes=frames*channels*2,raw=new ArrayBuffer(44+bytes),view=new DataView(raw);
+ const text=(offset,value)=>{for(let i=0;i<value.length;i++)view.setUint8(offset+i,value.charCodeAt(i));};
+ text(0,'RIFF');view.setUint32(4,36+bytes,true);text(8,'WAVE');text(12,'fmt ');view.setUint32(16,16,true);view.setUint16(20,1,true);view.setUint16(22,channels,true);view.setUint32(24,buffer.sampleRate,true);view.setUint32(28,buffer.sampleRate*channels*2,true);view.setUint16(32,channels*2,true);view.setUint16(34,16,true);text(36,'data');view.setUint32(40,bytes,true);
+ let peak=0,sum=0;const data=Array.from({length:channels},(_,c)=>buffer.getChannelData(c));
+ for(let i=0;i<frames;i++)for(let c=0;c<channels;c++){const sample=data[c][i];if(!Number.isFinite(sample))throw new Error('Invalid sample');peak=Math.max(peak,Math.abs(sample));sum+=sample*sample;const value=Math.max(-1,Math.min(1,sample));view.setInt16(44+(i*channels+c)*2,Math.round(value*(value<0?32768:32767)),true);}
+ return{url:URL.createObjectURL(new Blob([raw],{type:'audio/wav'})),duration:buffer.duration,peak,rms:Math.sqrt(sum/(frames*channels))};
+}
+async function choose(index){
+ const token=++selection,track=nocheSound.tracks[index];player.pause();player.removeAttribute('src');player.load();document.querySelector('#download').hidden=true;
+ document.querySelectorAll('[data-track]').forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.track)===index)));
+ document.querySelector('#track-title').textContent=track.title;
+ document.querySelector('#description').textContent=track.description;
+ status.textContent='Preparing the theme…';document.body.dataset.state='rendering';document.querySelector('#listen-mix').disabled=true;document.querySelector('#outside-only').disabled=true;
+ try{
+  if(!cache.has(index))cache.set(index,nocheSound.renderPreview(index).then(wave));
+  const result=await cache.get(index);if(token!==selection)return;
+  player.src=result.url;const download=document.querySelector('#download');download.href=result.url;download.download=track.id+'.wav';download.hidden=false;
+  status.textContent='Ready to listen · '+Math.floor(result.duration/60)+':'+String(Math.floor(result.duration%60)).padStart(2,'0');
+  document.body.dataset.state='ready';document.body.dataset.track=track.id;document.body.dataset.peak=String(result.peak);document.body.dataset.rms=String(result.rms);document.body.dataset.duration=String(result.duration);document.querySelector('#listen-mix').disabled=false;document.querySelector('#outside-only').disabled=false;
+ }catch{if(token===selection){status.textContent='The preview could not load in this browser. Try the room’s music button.';document.body.dataset.state='error';cache.delete(index);}}
+}
+document.querySelectorAll('[data-track]').forEach(button=>button.addEventListener('click',()=>choose(Number(button.dataset.track))));
+const roomMix=window.roomSoundStudy,mixButton=document.querySelector('#listen-mix'),mixStatus=document.querySelector('#mix-status');
+const guitarPreview=document.querySelector('#guitar-preview');
+guitarPreview.addEventListener('play',()=>{player.pause();paused();});
+player.addEventListener('play',()=>guitarPreview.pause());
+const outsideNames={off:'Off',night:'Still night',traffic:'Street outside',both:'Crickets + street outside'};
+const outsideDescriptions={off:'Just the music and the room around you.',night:'Soft cricket calls, answering from a little way outside. Long pauses between them.',traffic:'Short pixel engines, occasional soft honks, and wordless conversation further down the street. Plenty of quiet between events.',both:'The same crickets you loved, with occasional cars, distant horns, and soft pixel chatter outside.'};
+function syncOutside(){
+ const mode=roomMix.outsideMode;
+ for(const button of document.querySelectorAll('[data-outside]'))button.setAttribute('aria-pressed',String(button.dataset.outside===mode));
+ document.querySelector('#outside-description').textContent=outsideDescriptions[mode];
+ document.querySelector('#crickets-level').disabled=!['night','both'].includes(mode);
+ for(const kind of ['traffic','horns','chatter'])document.querySelector('#'+kind+'-level').disabled=!['traffic','both'].includes(mode);
+ if(!player.paused)mixStatus.textContent=(player.volume===0?'Outside only':'Music + room')+' · '+outsideNames[mode];
+ document.body.dataset.outsideMode=mode;
+}
+for(const button of document.querySelectorAll('[data-outside]'))button.addEventListener('click',()=>{roomMix.setOutsideMode(button.dataset.outside);syncOutside();});
+document.addEventListener('noche:outside-state',event=>{const state=event.detail;document.body.dataset.outsideRunning=String(state.running);document.body.dataset.outsideActive=String(state.active);document.body.dataset.cricketCalls=String(state.crickets);document.body.dataset.carPasses=String(state.traffic);document.body.dataset.hornCalls=String(state.horns);document.body.dataset.chatterCalls=String(state.chatter);});
+function paused(){roomMix.setAmbient(false);mixButton.textContent='Listen to the mix';mixStatus.textContent='Paused';document.body.dataset.mix='paused';}
+player.addEventListener('pause',paused);player.addEventListener('ended',paused);
+player.addEventListener('play',async()=>{try{await roomMix.setAmbient(true);if(player.paused||document.hidden){paused();return;}mixButton.textContent='Pause the mix';syncOutside();document.body.dataset.mix='playing';}catch{mixStatus.textContent='Music is ready; room audio could not start.';}});
+mixButton.addEventListener('click',async()=>{if(!player.paused){player.pause();return;}try{await roomMix.ready();await player.play();}catch{mixStatus.textContent='Press play on the audio player to listen.';}});
+document.querySelector('#outside-only').addEventListener('click',async()=>{try{await roomMix.ready();player.volume=0;document.querySelector('#music-level').value='0';document.querySelector('#music-value').value='0%';if(roomMix.outsideMode==='off')roomMix.setOutsideMode('night');await player.play();syncOutside();}catch{mixStatus.textContent='Press play on the audio player to listen.';}});
+document.querySelector('#music-level').addEventListener('input',event=>{player.volume=Number(event.target.value)/100;document.querySelector('#music-value').value=event.target.value+'%';syncOutside();});
+for(const slider of document.querySelectorAll('[data-mix]'))slider.addEventListener('input',()=>{roomMix.setLevel(slider.dataset.mix,Number(slider.value)/100);document.querySelector('#'+slider.dataset.mix+'-value').value=slider.value+'%';});
+for(const button of document.querySelectorAll('[data-foley]'))button.addEventListener('click',async()=>{try{const result=await roomMix.play(button.dataset.foley);document.querySelector('#foley-status').textContent=result.muted?'Object sounds are muted — raise their slider to listen.':button.textContent;document.body.dataset.lastSound=button.dataset.foley;document.body.dataset.effectPeak=String(result.peak);document.body.dataset.effectRms=String(result.rms);document.body.dataset.effectState=result.state;}catch{document.querySelector('#foley-status').textContent='Sound could not start. Try pressing Listen to the mix, then the object again.';document.body.dataset.effectState='error';}});
+for(const button of document.querySelectorAll('[data-exterior]'))button.addEventListener('click',async()=>{try{const result=await roomMix.auditionOutside(button.dataset.exterior);document.querySelector('#exterior-status').textContent=result.muted?'This sound is muted — choose Street outside and raise its slider or Outside atmosphere.':button.textContent+' · one sound at your current outside volume';document.body.dataset.lastExterior=button.dataset.exterior;document.body.dataset.exteriorPeak=String(result.peak);document.body.dataset.exteriorState=result.state;}catch{document.querySelector('#exterior-status').textContent='Sound could not start. Press Listen to the mix, then try again.';document.body.dataset.exteriorState='error';}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){player.pause();guitarPreview.pause();}});
+choose(2);
+</script></body></html>

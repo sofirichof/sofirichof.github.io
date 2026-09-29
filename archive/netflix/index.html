@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en"><!-- lang updated by sgI18n -->
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sofia González Irigoyen</title>
+<link rel="alternate" hreflang="en" href="index.html"/>
+<link rel="alternate" hreflang="es" href="index.html?lang=es"/>
+<link rel="alternate" hreflang="x-default" href="index.html"/>
+<script src="translations.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg:#0a0a0a; --bg2:#111; --bg3:#1a1a1a; --border:#2a2a2a;
+    --text:#fff; --muted:#999; --terra:#E50914; --terra-dark:#B20710;
+    --font:'Bebas Neue',sans-serif; --sans:'DM Sans','Helvetica Neue',Arial,sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:var(--sans); min-height:100vh; overflow-x:hidden; }
+
+  #tap-screen {
+    position:fixed; inset:0; z-index:200;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 50% 46%, rgba(229,9,20,.18), transparent 26%),
+      linear-gradient(180deg,#050505 0%,#000 100%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    cursor:pointer; transition:opacity .5s;
+  }
+  #tap-screen.fade-out { opacity:0; pointer-events:none; }
+  .tap-prompt { display:flex; flex-direction:column; align-items:center; gap:1.5rem; animation:pulse 2s ease-in-out infinite; }
+  .tap-eyebrow {
+    font-family:var(--sans);
+    font-size:.66rem;
+    font-weight:800;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    color:var(--terra);
+    margin-bottom:-.55rem;
+    text-shadow:0 1px 6px rgba(0,0,0,.6);
+  }
+  .tap-logo {
+    font-family:var(--font);
+    font-size:clamp(2.1rem,5.6vw,4.2rem);
+    letter-spacing:.06em;
+    line-height:.95;
+    color:#fff;
+    text-align:center;
+    padding:0 1rem;
+    max-width:16ch;
+    text-wrap:balance;
+    text-shadow:0 0 26px rgba(229,9,20,.4), 0 4px 18px rgba(0,0,0,.65);
+  }
+  .tap-ring {
+    width:84px; height:84px; border-radius:50%;
+    border:2px solid rgba(255,255,255,.85);
+    background:radial-gradient(circle at 35% 28%, #ff3341, var(--terra) 58%, var(--terra-dark));
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:
+      0 0 0 10px rgba(229,9,20,.1),
+      0 12px 42px rgba(229,9,20,.5),
+      inset 0 2px 8px rgba(255,255,255,.28),
+      inset 0 -8px 16px rgba(0,0,0,.32);
+    transition:transform .22s, box-shadow .22s;
+  }
+  .tap-ring svg {
+    width:30px; height:30px; display:block;
+    margin-left:5px;
+    fill:#fff;
+    filter:drop-shadow(0 2px 5px rgba(0,0,0,.4));
+  }
+  #tap-screen:hover .tap-ring,
+  #tap-screen:focus-visible .tap-ring {
+    transform:scale(1.08);
+    box-shadow:
+      0 0 0 14px rgba(229,9,20,.16),
+      0 14px 52px rgba(229,9,20,.65),
+      inset 0 2px 8px rgba(255,255,255,.32),
+      inset 0 -8px 16px rgba(0,0,0,.32);
+  }
+  #tap-screen:focus-visible { outline:none; }
+  .tap-hint { font-size:.78rem; letter-spacing:.25em; text-transform:uppercase; color:rgba(255,255,255,.78); }
+  @keyframes pulse { 0%,100%{opacity:.9;transform:scale(1);} 50%{opacity:1;transform:scale(1.04);} }
+
+  .tap-wall {
+    position:absolute; inset:-14% -16%; z-index:0;
+    perspective:1200px;
+    pointer-events:none;
+  }
+  .wall-plane {
+    position:absolute; inset:0;
+    display:flex; gap:.6rem;
+    transform:rotateX(16deg) rotateZ(-8deg) scale(1.18);
+    opacity:.3;
+  }
+  .wall-col {
+    flex:1;
+    display:flex; flex-direction:column;
+    will-change:transform;
+    animation:wallUp var(--dur,64s) linear infinite;
+  }
+  .wall-col.down { animation-name:wallDown; }
+  .wall-col .tile {
+    flex:0 0 auto;
+    aspect-ratio:16/10;
+    margin-bottom:.6rem;
+    background-size:cover;
+    background-position:center;
+    border-radius:6px;
+  }
+  .wall-col .tile.v { background-position:center 22%; }
+  @keyframes wallUp   { from { transform:translateY(0); }    to { transform:translateY(-50%); } }
+  @keyframes wallDown { from { transform:translateY(-50%); } to { transform:translateY(0); } }
+  @media (max-width:700px) {
+    .wall-col:nth-child(n+5) { display:none; }
+  }
+  #tap-screen::after {
+    content:""; position:absolute; inset:0; z-index:1;
+    background:
+      radial-gradient(ellipse at center, transparent 26%, rgba(0,0,0,.9) 80%),
+      linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.6));
+    pointer-events:none;
+  }
+  .tap-prompt { position:relative; z-index:2; }
+  .tap-skip {
+    position:absolute; left:50%; transform:translateX(-50%); bottom:2.2rem; z-index:2;
+    background:rgba(0,0,0,.45);
+    border:1px solid rgba(255,255,255,.35);
+    color:rgba(255,255,255,.85);
+    font-family:var(--sans); font-weight:700; font-size:.7rem;
+    letter-spacing:.22em; text-transform:uppercase;
+    padding:.55rem 1.2rem; border-radius:999px;
+    cursor:pointer;
+    transition:background .18s, border-color .18s, color .18s;
+  }
+  .tap-skip:hover { background:rgba(255,255,255,.14); border-color:#fff; color:#fff; }
+  .intro-skip {
+    position:absolute; right:2rem; bottom:2.4rem; z-index:3;
+    background:rgba(20,20,20,.65);
+    border:1px solid rgba(255,255,255,.55);
+    color:#fff;
+    font-family:var(--sans); font-weight:700; font-size:.8rem;
+    letter-spacing:.14em; text-transform:uppercase;
+    padding:.7rem 1.5rem; border-radius:4px;
+    cursor:pointer;
+    transition:background .18s;
+  }
+  .intro-skip:hover { background:rgba(255,255,255,.22); }
+  @media (max-width:600px) {
+    .intro-skip { right:1rem; bottom:1.4rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wall-col, .tap-prompt { animation:none; }
+  }
+
+  #intro-screen {
+    position:fixed; inset:0; z-index:100;
+    background:#000;
+    display:none; align-items:center; justify-content:center;
+  }
+  #intro-screen.active { display:flex; }
+
+  /* landscape/desktop: letterbox so full video is visible */
+  #intro-video {
+    width:100%; height:100%;
+    object-fit:contain;
+    display:block;
+  }
+  /* portrait/mobile: fill the screen with the vertical video */
+  @media (orientation: portrait) {
+    #intro-video { object-fit:cover; }
+  }
+
+  #intro-fade { position:absolute; inset:0; background:#000; opacity:0; pointer-events:none; transition:opacity .8s ease; }
+
+  #profile-screen {
+    min-height:100vh;
+    display:none; flex-direction:column; align-items:center; justify-content:center;
+    padding:2rem;
+    background:linear-gradient(160deg,#0a0a0a 0%,#1a0000 100%);
+    opacity:0; transition:opacity .6s;
+  }
+  #profile-screen.active { display:flex; }
+  #profile-screen.visible { opacity:1; }
+
+  .ps-heading { font-family:var(--font); font-size:clamp(2rem,4vw,3rem); letter-spacing:.1em; color:var(--text); margin-bottom:.5rem; text-align:center; }
+  .ps-sub { font-size:.82rem; color:var(--muted); margin-bottom:3.5rem; text-align:center; letter-spacing:.08em; }
+
+  .profiles {
+    display:grid;
+    grid-template-columns: repeat(4, 120px);
+    gap:2.5rem;
+    justify-content:center;
+    max-width:780px;
+  }
+  .profile-card { display:flex; flex-direction:column; align-items:center; gap:.9rem; cursor:pointer; transition:transform .2s; text-decoration:none; }
+  .profile-card:hover { transform:scale(1.08); }
+  .profile-card:hover .profile-avatar { outline:3px solid #fff; }
+  .profile-card:hover .profile-name { color:#fff; }
+
+  .profile-avatar { width:120px; height:120px; border-radius:6px; overflow:hidden; outline:3px solid transparent; transition:outline .2s; background:var(--bg2); }
+  .profile-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
+  .profile-avatar .fallback { width:100%; height:100%; display:none; align-items:center; justify-content:center; font-size:3rem; }
+
+  .profile-name {
+    max-width:150px;
+    font-family:var(--font);
+    font-size:1rem;
+    line-height:1.15;
+    letter-spacing:.15em;
+    color:var(--muted);
+    text-align:center;
+    text-transform:uppercase;
+    transition:color .2s;
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 600px) {
+    .ps-sub { margin-bottom:2.5rem; }
+    .profiles {
+      grid-template-columns: repeat(2, 1fr);
+      gap:1.6rem 2rem;
+      max-width:320px;
+    }
+    .profile-avatar { width:100%; height:0; padding-bottom:100%; position:relative; }
+    .profile-avatar img,
+    .profile-avatar .fallback {
+      position:absolute; inset:0; width:100%; height:100%;
+    }
+  }
+  @media (max-width: 360px) {
+    .profiles { max-width:260px; gap:1.2rem 1.4rem; }
+  }
+
+  /* ── Deep Cut unlock ── */
+  .profile-avatar { position: relative; }
+  .deep-cut-profile.locked { cursor: default; }
+  .deep-cut-profile.locked:hover { transform: none; }
+  .deep-cut-profile.locked:hover .profile-avatar { outline-color: transparent; }
+  .deep-cut-profile.locked .profile-avatar img,
+  .deep-cut-profile.locked .profile-avatar .fallback { filter: grayscale(1); opacity: .45; }
+  .deep-cut-profile.locked .profile-name { color: rgba(255,255,255,.3); }
+  .dc-lock-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.32); border-radius: 6px; font-size: 1.4rem; }
+  .deep-cut-profile.unlocked .dc-lock-overlay { display: none; }
+  .dc-modal {
+    position: fixed; inset: 0; z-index: 300;
+    display: none; align-items: center; justify-content: center;
+    background: rgba(0,0,0,.82); backdrop-filter: blur(6px);
+  }
+  .dc-modal.active { display: flex; }
+  .dc-inner {
+    background: #141414;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 8px;
+    padding: 2.5rem 2rem;
+    max-width: 420px;
+    width: calc(100% - 3rem);
+    text-align: center;
+    box-shadow: 0 0 60px rgba(229,9,20,.2);
+  }
+  .dc-eyebrow {
+    font-size: .65rem; font-weight: 900; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--terra); margin-bottom: 1rem;
+  }
+  .dc-title {
+    font-family: var(--font); font-size: 2.2rem; letter-spacing: .06em;
+    line-height: 1; color: #fff; margin-bottom: .85rem;
+  }
+  .dc-body {
+    font-size: .92rem; color: rgba(255,255,255,.68);
+    line-height: 1.7; margin-bottom: 1.75rem;
+  }
+  .dc-actions { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
+  .dc-btn {
+    padding: .65rem 1.35rem; border-radius: 4px; border: 0;
+    font-family: var(--sans); font-weight: 800; font-size: .84rem;
+    cursor: pointer; transition: transform .18s, background .18s; white-space: nowrap;
+  }
+  .dc-btn.primary { background: var(--terra); color: #fff; }
+  .dc-btn.primary:hover { background: var(--terra-dark); transform: translateY(-1px); }
+  .dc-btn.secondary {
+    background: rgba(255,255,255,.1); color: rgba(255,255,255,.82);
+    border: 1px solid rgba(255,255,255,.18);
+  }
+  .dc-btn.secondary:hover { background: rgba(255,255,255,.18); transform: translateY(-1px); }
+
+  /* ── Language switcher ─────────────────────────────── */
+  .sg-lang-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.8rem;
+  }
+  .sg-lang-switcher {
+    display: flex;
+    gap: 0;
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .sg-lang-btn {
+    background: transparent;
+    border: 0;
+    color: rgba(255,255,255,.5);
+    font-family: var(--sans);
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .16em;
+    padding: .38rem .9rem;
+    cursor: pointer;
+    transition: background .18s, color .18s;
+  }
+  .sg-lang-btn + .sg-lang-btn {
+    border-left: 1px solid rgba(255,255,255,.2);
+  }
+  .sg-lang-btn:hover { background: rgba(255,255,255,.1); color: #fff; }
+  .sg-lang-btn.active { background: rgba(229,9,20,.85); color: #fff; }
+</style>
+</head>
+<body>
+
+<div id="tap-screen" onclick="startIntro()" role="button" tabindex="0" aria-label="Start intro">
+  <div class="tap-wall" aria-hidden="true"><div class="wall-plane">
+    <div class="wall-col" style="--dur:62s">
+      <div class="tile" style="background-image:url('assets/ad/supergood/laundry-loft-comedy.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/sabores.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/realmvp-izzy.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still1.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/spec/merit-fragrance.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/acesso-total-hollywood-premiere.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/laundry-loft-comedy.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/sabores.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/realmvp-izzy.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still1.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/spec/merit-fragrance.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/acesso-total-hollywood-premiere.jpg')"></div>
+    </div>
+    <div class="wall-col down" style="--dur:74s">
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-business-banking-face.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still4.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/milkpep-reel.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/chameleon.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-psa.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/s01.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-business-banking-face.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still4.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/milkpep-reel.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/chameleon.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-psa.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/s01.jpg')"></div>
+    </div>
+    <div class="wall-col" style="--dur:58s">
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-run-the-numbers.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul-cinema.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/GrowingPains.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/realmvp-mendoza.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/pajuyuk.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/spec/bloom-creatine.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-run-the-numbers.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul-cinema.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/GrowingPains.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/realmvp-mendoza.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/pajuyuk.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/spec/bloom-creatine.jpg')"></div>
+    </div>
+    <div class="wall-col down" style="--dur:70s">
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still11.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-bts.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/si-solamente.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/milkpep-ai-ad.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/live-with-ty/bts-wall.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/Aftershock.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still11.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-bts.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/si-solamente.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/milkpep-ai-ad.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/live-with-ty/bts-wall.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/Aftershock.jpg')"></div>
+    </div>
+    <div class="wall-col" style="--dur:66s">
+      <div class="tile" style="background-image:url('assets/thumbs/acesso-total-independence-days.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/c2.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still8.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-bloopers.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/Vestidoparamama.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/s08.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/acesso-total-independence-days.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/c2.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still8.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/supergood/usbank-nfl-bloopers.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/Vestidoparamama.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/s08.jpg')"></div>
+    </div>
+    <div class="wall-col down" style="--dur:78s">
+      <div class="tile v" style="background-image:url('assets/ad/spec/bluebird-hard-water.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/c4.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still5.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/ByDesign.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/s20.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/c3.jpg')"></div>
+      <div class="tile v" style="background-image:url('assets/ad/spec/bluebird-hard-water.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/c4.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/si-solamente/stills/SiSo_Still5.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/thumbs/ByDesign.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/s20.jpg')"></div>
+      <div class="tile" style="background-image:url('assets/ad/supergood/soul/c3.jpg')"></div>
+    </div>
+  </div></div>
+  <div class="tap-prompt">
+    <div class="tap-eyebrow" data-i18n="idx.tapEyebrow">Now Streaming</div>
+    <div class="tap-logo" data-i18n="idx.tapLogo">Sofía González Irigoyen</div>
+    <div class="tap-ring"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.3v13.4c0 .5.55.8.98.53l10.5-6.7a.63.63 0 0 0 0-1.06L8.98 4.77A.63.63 0 0 0 8 5.3z"/></svg></div>
+    <div class="tap-hint" data-i18n="idx.tapHint">Tap anywhere to start</div>
+  </div>
+  <button class="tap-skip" id="tap-skip" data-i18n="idx.skipIntro">Skip Intro</button>
+</div>
+
+<div id="intro-screen">
+  <video id="intro-video" muted playsinline preload="auto"></video>
+  <div id="intro-fade"></div>
+  <button class="intro-skip" id="intro-skip" data-i18n="idx.skipIntro">Skip Intro</button>
+</div>
+
+<div id="profile-screen">
+  <h2 class="ps-heading" data-i18n="idx.heading">WHO'S WATCHING?</h2>
+  <p class="ps-sub" data-i18n="idx.sub">Choose the version of Sofia's work you want to browse</p>
+  <div class="sg-lang-row" id="lang-row"></div>
+  <div class="profiles">
+
+    <a href="recruiter.html" data-profile-link="recruiter.html" class="profile-card">
+      <div class="profile-avatar">
+        <img src="YOUR-IMAGE-1.png" alt="Production" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="fallback">🎬</div>
+      </div>
+      <span class="profile-name" data-i18n="idx.production">Production</span>
+    </a>
+
+    <a href="agency.html" data-profile-link="agency.html" class="profile-card">
+      <div class="profile-avatar">
+        <img src="YOUR-IMAGE-3.png" alt="Advertising" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="fallback">📋</div>
+      </div>
+      <span class="profile-name" data-i18n="idx.advertising">Advertising</span>
+    </a>
+
+    <a href="director.html" data-profile-link="director.html" class="profile-card">
+      <div class="profile-avatar">
+        <img src="YOUR-IMAGE-2.png" alt="Collaborators" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="fallback">🎥</div>
+      </div>
+      <span class="profile-name" data-i18n="idx.collaborators">Collaborators</span>
+    </a>
+
+    <a href="stalker.html" data-profile-link="stalker.html" class="profile-card deep-cut-profile locked" id="dc-card">
+      <div class="profile-avatar">
+        <img src="YOUR-IMAGE-5.png" alt="Stalker" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="fallback">👀</div>
+        <div class="dc-lock-overlay" aria-hidden="true">🔒</div>
+      </div>
+      <span class="profile-name" id="dc-card-name">Stay Out</span>
+    </a>
+
+  </div>
+</div>
+
+<script>
+  const INTRO_DURATION = 5200;
+  const DC_KEY = 'sofiaDeepCutUnlocked';
+  let dcTimer  = null;
+
+  /* ── i18n bootstrap ── */
+  sgI18n.buildSwitcher(document.getElementById('lang-row'));
+  sgI18n.applyPage();
+  document.addEventListener('sg:langchange', () => sgI18n.applyPage());
+
+  if (new URLSearchParams(window.location.search).get('profiles') === '1') {
+    document.getElementById('tap-screen').style.display = 'none';
+    const ps = document.getElementById('profile-screen');
+    ps.classList.add('active');
+    ps.classList.add('visible');
+    startDeepCutTimer();
+  }
+
+  // Preload the right intro video now so tapping plays instantly
+  const introVideoEl = document.getElementById('intro-video');
+  function introSrcForOrientation() {
+    return window.innerHeight > window.innerWidth ? 'media/vertical-intro.mp4' : 'media/intro.mp4';
+  }
+  if (new URLSearchParams(window.location.search).get('profiles') !== '1') {
+    introVideoEl.src = introSrcForOrientation();
+  }
+
+  let introStarted = false;
+  let introTimers = [];
+  let introAudio = null;
+
+  function showProfiles() {
+    document.getElementById('intro-screen').style.display = 'none';
+    const ps = document.getElementById('profile-screen');
+    ps.classList.add('active');
+    setTimeout(() => ps.classList.add('visible'), 50);
+    startDeepCutTimer();
+  }
+
+  function skipIntro(e) {
+    if (e) e.stopPropagation();
+    introTimers.forEach(clearTimeout);
+    introTimers = [];
+    introVideoEl.pause();
+    if (introAudio) introAudio.pause();
+    showProfiles();
+  }
+
+  function startIntro() {
+    if (introStarted) return;
+    introStarted = true;
+
+    const tap = document.getElementById('tap-screen');
+    tap.classList.add('fade-out');
+    setTimeout(() => tap.style.display = 'none', 500);
+
+    const intro = document.getElementById('intro-screen');
+    const video = introVideoEl;
+
+    // Use vertical video on portrait screens (phones held upright)
+    const wanted = introSrcForOrientation();
+    if (!video.src.endsWith(wanted.split('/').pop())) video.src = wanted;
+
+    intro.classList.add('active');
+
+    video.play().then(() => {
+      introAudio = new Audio("media/tada.mp3");
+      introAudio.volume = 0.8;
+      introAudio.play().catch(() => {});
+    }).catch(() => {});
+
+    introTimers.push(setTimeout(() => {
+      document.getElementById('intro-fade').style.opacity = '1';
+    }, INTRO_DURATION - 800));
+
+    introTimers.push(setTimeout(showProfiles, INTRO_DURATION + 100));
+  }
+
+  document.getElementById('tap-skip').addEventListener('click', e => {
+    e.stopPropagation();
+    introStarted = true;
+    const tap = document.getElementById('tap-screen');
+    tap.classList.add('fade-out');
+    setTimeout(() => tap.style.display = 'none', 500);
+    showProfiles();
+  });
+
+  document.getElementById('intro-skip').addEventListener('click', skipIntro);
+
+  document.addEventListener('keydown', e => {
+    const tap = document.getElementById('tap-screen');
+    const tapVisible = tap.style.display !== 'none' && !tap.classList.contains('fade-out');
+    if ((e.key === 'Enter' || e.key === ' ') && tapVisible) {
+      e.preventDefault();
+      startIntro();
+    } else if (e.key === 'Escape' && introStarted && document.getElementById('intro-screen').classList.contains('active') && document.getElementById('intro-screen').style.display !== 'none') {
+      skipIntro();
+    }
+  });
+
+  // ── Deep Cut unlock flow ──────────────────────────────────────
+  const dcCard = document.getElementById('dc-card');
+  const dcName  = document.getElementById('dc-card-name');
+
+  function unlockDeepCut() {
+    dcCard.classList.remove('locked');
+    dcCard.classList.add('unlocked');
+    dcName.textContent = sgI18n.t('idx.found');
+  }
+
+  if (localStorage.getItem(DC_KEY) === 'true') {
+    unlockDeepCut();
+  } else {
+    dcCard.addEventListener('click', e => {
+      if (dcCard.classList.contains('locked')) {
+        e.preventDefault();
+        const h = document.getElementById('dc-hint');
+        h.classList.add('active');
+        h.setAttribute('aria-hidden', 'false');
+        document.getElementById('dc-hint-ok').focus();
+      }
+    });
+  }
+
+  function showDeepCutModal() {
+    if (localStorage.getItem(DC_KEY) === 'true') return;
+    const m = document.getElementById('dc-modal');
+    m.classList.add('active');
+    m.setAttribute('aria-hidden', 'false');
+    document.getElementById('dc-stay').focus();
+  }
+
+  function startDeepCutTimer() {
+    if (localStorage.getItem(DC_KEY) === 'true') return;
+    clearTimeout(dcTimer);
+    dcTimer = setTimeout(showDeepCutModal, 40000);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('dc-stay').addEventListener('click', () => {
+      const m = document.getElementById('dc-modal');
+      m.classList.remove('active');
+      m.setAttribute('aria-hidden', 'true');
+      if (localStorage.getItem(DC_KEY) !== 'true') {
+        clearTimeout(dcTimer);
+        dcTimer = setTimeout(showDeepCutModal, 300000);
+      }
+    });
+
+    document.getElementById('dc-unlock').addEventListener('click', () => {
+      localStorage.setItem(DC_KEY, 'true');
+      clearTimeout(dcTimer);
+      unlockDeepCut();
+      const m = document.getElementById('dc-modal');
+      m.classList.remove('active');
+      setTimeout(() => { window.location.href = 'stalker.html'; }, 300);
+    });
+
+    document.getElementById('dc-hint-ok').addEventListener('click', () => {
+      const h = document.getElementById('dc-hint');
+      h.classList.remove('active');
+      h.setAttribute('aria-hidden', 'true');
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        if (document.getElementById('dc-modal').classList.contains('active')) document.getElementById('dc-stay').click();
+        if (document.getElementById('dc-hint').classList.contains('active')) document.getElementById('dc-hint-ok').click();
+      }
+    });
+  });
+
+</script>
+<div id="dc-modal" class="dc-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="dc-title">
+  <div class="dc-inner">
+    <div class="dc-eyebrow" data-i18n="dc.eyebrow">⏸ &nbsp;Are you still watching?</div>
+    <h2 class="dc-title" id="dc-title" data-i18n-html="dc.title">Are you still<br>watching?</h2>
+    <p class="dc-body" data-i18n="dc.body">You've made it past the portfolio layer. There's a less official cut if you want it.</p>
+    <div class="dc-actions">
+      <button id="dc-stay" class="dc-btn secondary" data-i18n="dc.stay">Stay Professional</button>
+      <button id="dc-unlock" class="dc-btn primary" data-i18n="dc.unlock">Show Me the Deep Cut</button>
+    </div>
+  </div>
+</div>
+
+<div id="dc-hint" class="dc-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="dc-hint-title">
+  <div class="dc-inner">
+    <div class="dc-eyebrow" data-i18n="dc.hint.eyebrow">🔒 &nbsp;Profile Locked</div>
+    <h2 class="dc-title" id="dc-hint-title" data-i18n="dc.hint.title">Not Yet</h2>
+    <p class="dc-body" data-i18n="dc.hint.body">Some profiles only appear if you stay long enough.</p>
+    <div class="dc-actions">
+      <button id="dc-hint-ok" class="dc-btn primary" data-i18n="dc.hint.ok">Got it</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
