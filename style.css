@@ -81,11 +81,11 @@ body:has(dialog[open]) .language-switch{visibility:hidden}
 .programme-controls #zoom-in{grid-column:2;grid-row:1}.programme-controls #previous-programme{grid-column:1;grid-row:2}.programme-controls #zoom-out{grid-column:2;grid-row:2}.programme-controls #next-programme{grid-column:3;grid-row:2}
 .programme-controls button:disabled{opacity:.4;cursor:default}
 .room-zoom{position:absolute;inset:0;transform-origin:50% 50%;transition:transform .22s ease-out}
-.programme-controls button{display:grid;place-items:center;width:52px;height:52px;padding:0;border:1px solid #b4ba9e88;border-radius:5px;background:#151b17f5;color:#eef0da;font:30px/1 'DM Mono',monospace;box-shadow:0 3px 0 #080c09,0 5px 12px #060b0844,inset 0 1px 0 #e3e7c91a;transition:background .15s,transform .1s,box-shadow .1s}
+.programme-controls button{display:grid;grid-auto-rows:min-content;align-content:center;justify-items:center;row-gap:4px;width:52px;height:52px;padding:0 2px;border:1px solid #b4ba9e88;border-radius:5px;background:#151b17f5;color:#eef0da;font:30px/1 'DM Mono',monospace;box-shadow:0 3px 0 #080c09,0 5px 12px #060b0844,inset 0 1px 0 #e3e7c91a;transition:background .15s,transform .1s,box-shadow .1s}
 .programme-controls button:hover{background:#354131;border-color:#dbe2bd}.programme-controls button:active{transform:translateY(2px);box-shadow:0 1px 0 #080c09,inset 0 1px 0 #e3e7c91a}.programme-controls button span{pointer-events:none}
 .not-entered .programme-controls,body[data-view=guide] .programme-controls,body:has(dialog[open]) .programme-controls,body:has(#remote:not([hidden])) .programme-controls{visibility:hidden}
 body[data-view=watch] .project-panel{max-height:calc(100dvh - var(--project-top) - 166px - env(safe-area-inset-bottom,0px))}
-@media(max-width:600px){.programme-controls{right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:9px}.programme-controls button{width:48px;height:48px;font-size:28px}body[data-view=watch] .project-panel{bottom:calc(144px + env(safe-area-inset-bottom,0px));max-height:none}}
+@media(max-width:600px){.programme-controls{right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:9px}.programme-controls button{width:48px;height:48px;font-size:28px;row-gap:3px}.programme-controls .pixel-arrow{width:18px;height:18px}.programme-controls .key-label{font-size:9px}body[data-view=watch] .project-panel{bottom:calc(144px + env(safe-area-inset-bottom,0px));max-height:none}}
 @media(max-height:500px) and (min-width:601px){body[data-view=watch] .project-panel{bottom:calc(146px + env(safe-area-inset-bottom,0px));max-height:none}}
 /* On phones, let the BTS gallery use the space below the television. */
 @media(max-width:600px){
@@ -271,7 +271,8 @@ button:focus-visible,a:focus-visible { outline-color:var(--phosphor); }
 /* Whole grid steps rather than font-rendered arrow glyphs. */
 .pixel-arrow { display:inline-block; width:1em; height:1em; fill:currentColor; shape-rendering:crispEdges; vertical-align:middle; pointer-events:none; }
 .pixel-arrow--left { transform:rotate(180deg); }.pixel-arrow--up { transform:rotate(-90deg); }.pixel-arrow--down { transform:rotate(90deg); }
-.programme-controls .pixel-arrow { width:24px; height:24px; }
+.programme-controls .pixel-arrow { width:20px; height:20px; }
+.programme-controls .key-label{display:block;max-width:100%;overflow:hidden;font:10px/1 var(--pixel);letter-spacing:.05em;text-transform:uppercase;color:#c9d1ab;white-space:nowrap}
 .bts-navigation .pixel-arrow,.art-navigation .pixel-arrow { width:20px; height:20px; }
 .skip { background:#d1e0fb; color:#10203e; }
 .noscript { background:#14284b; }

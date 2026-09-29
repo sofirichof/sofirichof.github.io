@@ -32,7 +32,7 @@ window.NOCHE_COPY = {
  projectSections:['Secciones del proyecto','Project sections'],descriptionTab:['DESCRIPCIÓN','DESCRIPTION'],btsTab:['DETRÁS DE CÁMARAS','BTS'],
  btsPrevious:['Fotografía anterior del rodaje','Previous BTS photograph'],btsNext:['Siguiente fotografía del rodaje','Next BTS photograph'],
  btsGallery:['Fotografías detrás de cámaras','Behind-the-scenes photographs'],btsSelect:['Ver fotografía {number}: {caption}','View photo {number}: {caption}'],
- navigationControls:['Controles de navegación','Navigation controls'],zoomIn:['Acercar · ↑','Zoom in · ↑'],zoomOut:['Alejar · ↓','Zoom out · ↓'],zoomLevel:['Acercamiento: {percent} %','Zoom: {percent}%'],
+ navigationControls:['Controles de navegación','Navigation controls'],zoomIn:['Acercar · ↑','Zoom in · ↑'],keyZoomIn:['ACERCAR','ZOOM IN'],keyZoomOut:['ALEJAR','ZOOM OUT'],keyPreviousProgramme:['ANTERIOR','PREV'],keyNextProgramme:['SIGUIENTE','NEXT'],keyPreviousChannel:['CANAL −','CH −'],keyNextChannel:['CANAL +','CH +'],zoomOut:['Alejar · ↓','Zoom out · ↓'],zoomLevel:['Acercamiento: {percent} %','Zoom: {percent}%'],
  photography:['FOTOGRAFÍA','PHOTOGRAPHY'],photoAlbum:['Álbum de fotografías de Sofía','Sofía’s photo album'],
  openAlbum:['Abrir el álbum de fotografías','Open the photo album'],closeAlbum:['CERRAR ÁLBUM ↶','CLOSE ALBUM ↶'],
  albumGuide:['ABRIR EL ÁLBUM ↗','OPEN THE PHOTO ALBUM ↗'],albumGraduations:['GRADUACIONES','GRADUATIONS'],albumEvents:['EVENTOS','EVENTS'],

@@ -118,15 +118,22 @@
    return layer;
   };
   const clear=()=>{ctx.clearRect(0,0,canvas.width,canvas.height);canvas.dataset.visible='none';canvas.dataset.visiblePixels='0';};
-  const render=(spot,{frame=0,glow=0,opacity=1,lit=true}={})=>{
+  const renderAll=(entries,{lit=true}={})=>{
    lighting.checked=lit;
-   const id=spot.id+':'+lit+':'+glow+':'+frame;
-   if(!frames.has(id))frames.set(id,compose(spot,glow,frame));
-   if(frames.size>16)frames.delete(frames.keys().next().value);
-   ctx.clearRect(0,0,canvas.width,canvas.height);ctx.globalAlpha=opacity*(spot.opacity??1);
-   ctx.imageSmoothingEnabled=false;ctx.drawImage(frames.get(id),0,0);ctx.globalAlpha=1;
-   delete canvas.dataset.visiblePixels;canvas.dataset.visible=spot.id;canvas.dataset.frame=String(frame);canvas.dataset.glow=String(glow);
+   ctx.clearRect(0,0,canvas.width,canvas.height);ctx.imageSmoothingEnabled=false;
+   for(const {spot,state={}} of entries){
+    const {frame=0,glow=0,opacity=1}=state,id=spot.id+':'+lit+':'+glow+':'+frame;
+    if(!frames.has(id))frames.set(id,compose(spot,glow,frame));
+    if(frames.size>32)frames.delete(frames.keys().next().value);
+    ctx.globalAlpha=opacity*(spot.opacity??1);ctx.drawImage(frames.get(id),0,0);
+   }
+   ctx.globalAlpha=1;
+   const last=entries.at(-1);
+   delete canvas.dataset.visiblePixels;canvas.dataset.visible=entries.map(entry=>entry.spot.id).join(' ')||'none';
+   canvas.dataset.frame=String(last?.state?.frame??0);canvas.dataset.glow=String(last?.state?.glow??0);
   };
-  return {data,motionData,render,clear};
+  // Several visitors can share the transparent layer; each keeps its own frame, glow and fade.
+  const render=(spot,{lit=true,...state}={})=>renderAll([{spot,state}],{lit});
+  return {data,motionData,render,renderAll,clear};
  }};
 })();

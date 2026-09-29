@@ -118,6 +118,7 @@ function renderScreen(){
   const button=$('#'+direction+'-programme'),key=direction+(channel.projects.length<2?'Channel':'Programme');
   button.hidden=false;button.dataset.i18nAria=key;button.dataset.i18nTitle=key;
   button.setAttribute('aria-label',t(key));button.title=t(key);
+  const label=button.querySelector('.key-label');if(label){label.dataset.i18n='key'+key[0].toUpperCase()+key.slice(1);label.textContent=t(label.dataset.i18n);}
  }
  $('#channel-osd').textContent=osd();$('#remote-display').textContent=osd();
  const action=t(channel.number===5?'sayHello':(p?.video||p?.youtube?'watch':'viewProject'));$('#screen-action').setAttribute('aria-label',action+(p?' — '+p.title:''));$('#screen-action .screen-action-label').textContent=action+' ↗';

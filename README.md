@@ -14,7 +14,7 @@ No installation or build step is required. Switch on the television to enter wit
 
 ## Explore the room
 
-- **Random room life:** Smiski visits, the window breeze and the tin-heart glint now happen on the main site. Events wait 4–8 seconds after entering, then leave 14–30 seconds of quiet between appearances. Visitor movement and glow have separate random chances and start times: either can happen first, overlap, or skip a visit. Open **R → Room life** to turn them off; the choice is remembered. Events pause during films, artwork, the album, the guide, music, remote use and hidden tabs. Reduced motion leaves the room still. The painter still responds to opening an artwork.
+- **Random room life:** Smiski visits, the window breeze and the tin-heart glint happen on the main site, and at least two run at the same time. Three lanes share the room: two start 1.5–5.5 seconds after entering and refill within a second of finishing, and a third joins after 9–16 seconds, then every 14–30 seconds. Visitors never share a spot, a drawing or touching space (the TV peeker and presenter, or the lotus and ship, never appear together), and the same room animation never runs twice at once. Each visitor keeps its own movement and glow chances and start times. Open **R → Room life** to turn everything off; the choice is remembered. Events pause during films, artwork, the album, the guide, music, remote use and hidden tabs. Reduced motion leaves the room still. The painter still responds to opening an artwork.
 
 - **Researching thought bubble:** `room-study.html?v=smiski-thought-1&guest=researching&move=1` pauses typing for a pixel cloud with three dots, fades the cloud, then resumes typing. It shares the gesture’s stop/hide/reduced-motion handling and is included in random room visits.
 
@@ -206,4 +206,4 @@ The approved room has 43 object/surface layers plus four resting contact patches
 
 ## Room event checks
 
-Run `node tests/room-events.test.cjs`. It exercises independent effect choices across all visitor clips, both timing orders and overlap, one-event scheduling, quiet gaps, cleanup, view/tab changes, reduced motion, remembered controls and partial asset failures. `room-guests.js` supplies the same pixel rendering, room lighting and occlusion to the live site and study. `room-events.js` owns the live event lifecycle; it never rewrites the source artwork or changes audio permission.
+Run `node tests/room-events.test.cjs`. It exercises independent effect choices across all visitor clips, both timing orders and overlap, three-lane scheduling with at least two concurrent events and an occasional third, visitor spacing, cleanup, view/tab changes, reduced motion, remembered controls and partial asset failures. `room-guests.js` supplies the same pixel rendering, room lighting and occlusion to the live site and study. `room-events.js` owns the live event lifecycle; it never rewrites the source artwork or changes audio permission.
