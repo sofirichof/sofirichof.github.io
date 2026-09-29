@@ -552,5 +552,77 @@ window.PORTFOLIO = [
     "youtube": "",
     "detail": "https://sofirichof.github.io/archive/netflix/agency.html",
     "description": "A vertical spec ad built around wellness, product texture, and high-energy social-first motion."
+  },
+  {
+      "id": "p46",
+      "title": "Real MVP — CMC",
+      "category": "Advertising",
+      "role": "US Bank × NFL · Real MVP",
+      "year": "",
+      "image": "assets/ad/supergood/realmvp-cmc.jpg",
+      "video": "assets/media/supergood/realmvp-cmc.mp4",
+      "youtube": "",
+      "detail": "https://sofirichof.github.io/archive/netflix/agency.html",
+      "description": "Episode 1 of the Real MVP series with Christian McCaffrey, a 9:16 athlete story for US Bank × NFL social. Cut with Andrew Robertson: interview edit, name IDs, captions and the approved USB × NFL lockup."
+  },
+  {
+      "id": "p47",
+      "title": "Real MVP — JJ",
+      "category": "Advertising",
+      "role": "US Bank × NFL · Real MVP",
+      "year": "",
+      "image": "assets/ad/supergood/realmvp-jj.jpg",
+      "video": "assets/media/supergood/realmvp-jj.mp4",
+      "youtube": "",
+      "detail": "https://sofirichof.github.io/archive/netflix/agency.html",
+      "description": "Episode 1 of the Real MVP series with JJ of the 49ers, cut for US Bank × NFL social: interview edit, name IDs, captions and cutdowns for feed and Stories."
+  },
+  {
+      "id": "p48",
+      "title": "Real MVP — Kittle",
+      "category": "Advertising",
+      "role": "US Bank × NFL · Real MVP",
+      "year": "",
+      "image": "assets/ad/supergood/realmvp-kittle.jpg",
+      "video": "assets/media/supergood/realmvp-kittle.mp4",
+      "youtube": "",
+      "detail": "https://sofirichof.github.io/archive/netflix/agency.html",
+      "description": "Real MVP episode with George Kittle for US Bank × NFL social. Interview edit, name IDs and captions, with an audio pass so every version of the series sounds consistent."
+  },
+  {
+      "id": "p49",
+      "title": "Same Power",
+      "category": "Advertising",
+      "role": "US Bank × NFL · Branch screens",
+      "year": "",
+      "image": "assets/ad/supergood/signage-same-power.jpg",
+      "video": "assets/media/supergood/signage-same-power.mp4",
+      "youtube": "",
+      "detail": "https://sofirichof.github.io/archive/netflix/agency.html",
+      "description": "In-branch signage spot for US Bank × NFL, delivered in five formats: 16:9, 9:16, a 3840×1080 full wall and matched 2×1 wall halves, exported to the branch players’ 30 fps, 6.2 Mbps, silent spec."
+  },
+  {
+      "id": "p50",
+      "title": "Together",
+      "category": "Advertising",
+      "role": "US Bank × NFL · Branch screens",
+      "year": "",
+      "image": "assets/ad/supergood/signage-together.jpg",
+      "video": "assets/media/supergood/signage-together.mp4",
+      "youtube": "",
+      "detail": "https://sofirichof.github.io/archive/netflix/agency.html",
+      "description": "Second of three in-branch signage spots for US Bank × NFL, cut from the Together campaign and delivered across all five branch-screen formats."
+  },
+  {
+      "id": "p51",
+      "title": "Win As One",
+      "category": "Advertising",
+      "role": "US Bank × NFL · Branch screens",
+      "year": "",
+      "image": "assets/ad/supergood/signage-win-as-one.jpg",
+      "video": "assets/media/supergood/signage-win-as-one.mp4",
+      "youtube": "",
+      "detail": "https://sofirichof.github.io/archive/netflix/agency.html",
+      "description": "Third in-branch signage spot for US Bank × NFL, from the Win As One campaign, delivered across all five branch-screen formats with the approved lockup and disclosures."
   }
 ];

@@ -58,7 +58,7 @@ const featuredTitles=['Si Solamente','Acceso Total','The Stories We Tell Ourselv
 const selected=featuredTitles.map(t=>all.find(p=>p.title===t)).filter(Boolean);
 const channels=[
  {number:1,name:'Esta noche',english:'Tonight’s selection',subtitle:'Selected work',projects:selected},
- {number:2,name:'Supergood',english:'Supergood',subtitle:'Selected work',projects:['p21','p22','p24','p25','p26','p27','p28','p29','p30','p40','p41','p42','p23'].map(id=>all.find(p=>p.id===id)).filter(Boolean)}, // Supergood work only; the campaign reel closes the channel
+ {number:2,name:'Supergood',english:'Supergood',subtitle:'Selected work',projects:['p21','p22','p24','p46','p47','p48','p25','p26','p27','p28','p29','p30','p49','p50','p51','p40','p41','p42','p23'].map(id=>all.find(p=>p.id===id)).filter(Boolean)}, // Supergood work only; the campaign reel closes the channel
  {number:3,name:'Cine',english:'Films',subtitle:'Independent stories',projects:all.filter(p=>p.category==='Film')},
  {number:4,name:'Televisión',english:'Television',subtitle:'On the air',projects:all.filter(p=>p.category==='Television')},
  {number:5,name:'Publicidad',english:'Advertising',subtitle:'Brands & ideas',projects:all.filter(p=>p.category==='Advertising')},
