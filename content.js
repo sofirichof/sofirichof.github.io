@@ -575,7 +575,7 @@ window.PORTFOLIO = [
       "video": "assets/media/supergood/realmvp-jj.mp4",
       "youtube": "",
       "detail": "https://sofirichof.github.io/archive/netflix/agency.html",
-      "description": "Episode 1 of the Real MVP series with JJ of the 49ers, cut for US Bank × NFL social: interview edit, name IDs, captions and cutdowns for feed and Stories."
+      "description": "Episode 1 of the Real MVP series with JJ, cut for US Bank × NFL social: interview edit, name IDs, captions and cutdowns for feed and Stories."
   },
   {
       "id": "p48",
