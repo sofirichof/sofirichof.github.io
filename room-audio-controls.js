@@ -1,12 +1,9 @@
 (() => {
  const sound=window.nocheSound,panel=document.querySelector('#room-sound-settings');
  function text(key){return window.NOCHE_COPY[key]?.[document.documentElement.lang==='es'?0:1]||key;}
- const songPicker=document.querySelector('#room-song'),songToggle=document.querySelector('#room-song-toggle');
- for(const track of sound.tracks){const option=document.createElement('option');option.value=track.id;option.textContent=track.labelKey?text(track.labelKey):track.title;songPicker.append(option);}
+ const songToggle=document.querySelector('#room-song-toggle');
  function sync(){
   const settings=sound.settings,track=sound.currentTrack;
-  for(const option of songPicker.options){const item=sound.tracks.find(track=>track.id===option.value);option.textContent=item?(item.labelKey?text(item.labelKey):item.title):text('roomSongAuto');}
-  songPicker.value=sound.musicLoading?sound.requestedTrackId:(sound.musicEngine.selectionMode==='once'?track?.id:'auto');
   const playKey=sound.musicPlaying?'roomSongPause':'roomSongPlay';
   songToggle.dataset.i18n=playKey;songToggle.textContent=text(playKey);songToggle.setAttribute('aria-pressed',String(sound.musicPlaying));songToggle.disabled=sound.musicLoading;
   const songState=document.querySelector('#room-song-state');
@@ -23,7 +20,6 @@
   const toggle=document.querySelector('#sound-toggle');toggle.setAttribute('aria-pressed',String(sound.enabled));toggle.querySelector('span').textContent=text(sound.enabled?'soundOn':'soundOff');
   Object.assign(document.body.dataset,{audioEnabled:String(sound.enabled),audioProfile:settings.profile,audioDucked:String(sound.ducked),audioContext:sound.context?.state||'not-started',audioScene:sound.scene,audioMusicClock:String(!!sound.musicEngine.timer),audioTrack:track?.id||'',audioSongMode:sound.musicEngine.selectionMode||'auto',audioMusicPaused:String(sound.musicPaused),audioMusicPlaying:String(sound.musicPlaying)});
  }
- songPicker.addEventListener('change',()=>sound.chooseSong(songPicker.value));
  songToggle.addEventListener('click',()=>sound.toggleMusic());
  document.addEventListener('noche:language',sync);
  panel.querySelectorAll('[data-room-level]').forEach(input=>input.addEventListener('input',()=>sound.setLevel(input.dataset.roomLevel,Number(input.value)/100)));

@@ -51,7 +51,8 @@
   const url=new URL('assets/room-layers/manifest.json?v='+VERSION,document.baseURI);
   const response=await fetch(url);if(!response.ok)throw new Error('Room layers unavailable');
   const data=await response.json();
-  const load=async source=>{const image=new Image();image.src=source;await image.decode();return image;};
+  // Wait for the load event: image.decode() never settles while the page is hidden, which left phones without room life.
+  const load=source=>new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(new Error('Room layer unavailable: '+source));image.src=source;});
   const [layers,reference]=await Promise.all([
    Promise.all(data.layers.map(async layer=>{const source=new URL(layer.src,url);source.search='?v='+VERSION;return {...layer,surface:await load(source.href)};})),
    load(new URL(data.source,url).href)

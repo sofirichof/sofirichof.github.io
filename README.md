@@ -14,7 +14,7 @@ No installation or build step is required. Switch on the television to enter wit
 
 ## Explore the room
 
-- **Random room life:** Smiski visits, the window breeze and the tin-heart glint now happen on the main site. Events wait 4–8 seconds after entering, then leave 14–30 seconds of quiet between appearances. Visitor movement and glow have separate random chances and start times: either can happen first, overlap, or skip a visit. Open **R → Room life** to turn them off; the choice is remembered. Events pause during films, artwork, the album, the guide, music, remote use and hidden tabs. Reduced motion leaves the room still. The painter still responds to opening an artwork.
+- **Random room life:** Smiski visits, the window breeze and the tin-heart glint happen on the main site, and at least two run at the same time. Three lanes share the room: two start 1.5–5.5 seconds after entering and refill within a second of finishing, and a third joins after 9–16 seconds, then every 14–30 seconds. Visitors never share a spot, a drawing or touching space (the TV peeker and presenter, or the lotus and ship, never appear together), and the same room animation never runs twice at once. Each visitor keeps its own movement and glow chances and start times. Open **R → Room life** to turn everything off; the choice is remembered. Events pause during films, artwork, the album, the guide, music, remote use and hidden tabs. Reduced motion leaves the room still. The painter still responds to opening an artwork.
 
 - **Researching thought bubble:** `room-study.html?v=smiski-thought-1&guest=researching&move=1` pauses typing for a pixel cloud with three dots, fades the cloud, then resumes typing. It shares the gesture’s stop/hide/reduced-motion handling and is included in random room visits.
 
@@ -26,7 +26,7 @@ No installation or build step is required. Switch on the television to enter wit
 
 - **Tin-heart animation study:** open `room-study.html?v=heart-reflection-1` choose **Tin-heart reflection** in the Animation menu, then select **Replay reflection** to see a brief highlight travel over the metal. The enlarged detail, frame slider and Slow preview let you inspect it. It restores the approved still room exactly, stops when the study is hidden or its view changes, and uses still-frame inspection for reduced motion. The main portfolio also schedules this reflection as an occasional room event.
 
-- **The record player / V / remote’s Record Player button:** fades into an overhead view of the same walnut console. A translucent panel offers SofiriChof’s five public SoundCloud recordings and five personal Spotify playlists, with links to the full profiles. Select a title, then use the provider’s player to listen. Back to the Room or Escape fades back and stops playback. ES / EN changes the music interface without replacing the selected player.
+- **The record player / V / remote’s Record Player button:** fades into an overhead view of the same walnut console. A translucent panel has four tabs. **My recordings** lists SofiriChof’s five public SoundCloud recordings in Sofía’s chosen order (Soledad y el Mar first, Alfonsina y el Mar fourth, Instrumental fifth) followed by three YouTube performances (the Rises the Moon cover video, Just Fine, Dust in the Wind); every row shows its real publish date read from SoundCloud or YouTube, and links go to both profiles. **Room music** lists the five pieces composed for the room in the same list style, with a bilingual description and a “composed for this room” line; selecting one plays it on the room’s turntable once, then the regular rotation returns, and the play/pause and status controls sit under the list. **My playlists** keeps the five Spotify playlists. **Room sound** holds only the ambience settings: outside-the-window scene, mix levels and fine tuning. Select a title, then use the provider’s player to listen; YouTube embeds report play, pause and progress to the animated turntable. Back to the Room or Escape fades back and stops playback. ES / EN changes the interface without replacing the selected player.
 - **Editable player animation:** the close-up is rendered from seven transparent pixel layers. The record rotates, light stays fixed, and the tonearm travels and parks in response to music events. Small cream and blue pixel music notes float upward while it spins, then fade out when playback stops. Open `animation-study.html` to inspect and test the silent animation independently. See `pixel-source/README.md` for editing and the current playback validation limitation.
 
 - **The poster / G button:** the camera moves toward the actual paper. Select a channel, then a printed project title. Six programmes appear per page; the printed arrows turn pages. “All 46 programmes” includes the full collection. “Back to the room” or Escape returns to the television.
@@ -54,7 +54,7 @@ On small screens, the television is framed more closely and the G button brings 
 
 ## Files and editing
 
-- `music.js`: the public SoundCloud recordings and Spotify playlist selection, verified against Sofía’s supplied profiles.
+- `music.js`: the public SoundCloud recordings, YouTube performances and Spotify playlist selection with publish dates, verified against Sofía’s profiles on 2026-09-28/29. Room pieces are listed from `soundscape.js` at run time; their descriptions live in `i18n.js` under `roomTrack_*`.
 - `music.css`: overhead music view, fade and responsive translucent panel.
 - `turntable-sprites.js`, `assets/turntable/`: animated renderer and seven editable PNG layers with their coordinate manifest.
 - `animation-study.html`: silent animation preview and layer inspection.
@@ -184,14 +184,14 @@ The interface uses midnight blue, slate blue and pale blue highlights inspired b
 
 The new master was generated from scratch and approved by Sofía. The console follows the original room’s long walnut record cabinet, with the record player and TV on one continuous top. The rug combines her R6 wine-red palette, R9 navy/red motifs and R3 cream border; the chair throw follows T3’s yellow, blue and muted pink plaid. The silver tin/calla-lily mirror, hearts, sun-and-moon ornament, stained glass and lantern remain defining elements. Keep the approved illustration intact when adjusting interface placement.
 
-The record player is illustrated in the room. Its separate music environment and SoundCloud connection are still pending; it is not currently an interactive destination. Random ambience events also remain deferred.
+The record player opens the music panel described above. Random ambience events run on the main site.
 
 
 Fresh-room checks: desktop room alignment, TV playback, Description/BTS switching, mirror portrait masking, guide pagination, pixel-to-original artwork, album chapter/page changes, and ES/EN switching passed. All local asset references and edited JavaScript syntax were checked. A fresh phone visual check remains pending because the browser’s viewport override did not change its reported dimensions; prior phone checks above apply to the earlier room.
 
 ## Room objects and About
 
-The guide and soft-pastel frame have traded places, putting the selectable guide beside the television. Hovering the album highlights its full illustrated shape, including its page edge; keyboard focus gives the same highlight. The record player also has a full-object hover highlight covering its lid and base. The record player’s future music room is still pending, so its highlight is visual only.
+The guide and soft-pastel frame have traded places, putting the selectable guide beside the television. Hovering the album highlights its full illustrated shape, including its page edge; keyboard focus gives the same highlight. The record player also has a full-object hover highlight covering its lid and base. The record player opens the music panel.
 
 About is part of the room, accessible through the mirror and the guide’s Meet Sofía link. It no longer tunes away from the current channel or replaces its project thumbnail. Closing About restores the same TV selection. The five channels are Tonight, Film, Television, Advertising and Contact; the guide, remote hints and scroll navigation use 01–05.
 
@@ -206,4 +206,4 @@ The approved room has 43 object/surface layers plus four resting contact patches
 
 ## Room event checks
 
-Run `node tests/room-events.test.cjs`. It exercises independent effect choices across all visitor clips, both timing orders and overlap, one-event scheduling, quiet gaps, cleanup, view/tab changes, reduced motion, remembered controls and partial asset failures. `room-guests.js` supplies the same pixel rendering, room lighting and occlusion to the live site and study. `room-events.js` owns the live event lifecycle; it never rewrites the source artwork or changes audio permission.
+Run `node tests/room-events.test.cjs`. It exercises independent effect choices across all visitor clips, both timing orders and overlap, three-lane scheduling with at least two concurrent events and an occasional third, visitor spacing, cleanup, view/tab changes, reduced motion, remembered controls and partial asset failures. `room-guests.js` supplies the same pixel rendering, room lighting and occlusion to the live site and study. `room-events.js` owns the live event lifecycle; it never rewrites the source artwork or changes audio permission.

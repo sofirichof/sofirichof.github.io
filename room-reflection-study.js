@@ -21,7 +21,7 @@
    const url=new URL('assets/room-animation/'+definition.file+'.json?v='+VERSION,document.baseURI);
    const response=await fetch(url);if(!response.ok)throw new Error('Animation frames unavailable');
    const data=await response.json(),sheet=new Image();
-   sheet.src=new URL(data.sheet+'?v='+VERSION,url).href;await sheet.decode();
+   await new Promise((resolve,reject)=>{sheet.onload=resolve;sheet.onerror=reject;sheet.src=new URL(data.sheet+'?v='+VERSION,url).href;});
    const frames=data.frames.map((frame,index)=>{
     const canvas=document.createElement('canvas');canvas.width=data.width;canvas.height=data.height;
     const ctx=canvas.getContext('2d');ctx.imageSmoothingEnabled=false;
@@ -29,7 +29,7 @@
     return canvas;
    });
    let underpainting=null;
-   if(data.underpainting){underpainting=new Image();underpainting.src=new URL(data.underpainting+'?v='+VERSION,url).href;await underpainting.decode();}
+   if(data.underpainting){underpainting=new Image();await new Promise((resolve,reject)=>{underpainting.onload=resolve;underpainting.onerror=reject;underpainting.src=new URL(data.underpainting+'?v='+VERSION,url).href;});}
    return {...definition,data,frames,underpainting};
   }));
   let active=studies[0],data=active.data,frames=active.frames;

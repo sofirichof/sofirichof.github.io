@@ -41,17 +41,22 @@ function testPlans(){
  console.log('PASS: all 14 poses support independently randomized effects, either order, overlap, skipped effects, and clean resting ends.');
 }
 function testDirector(){
- const {Director}=boot(),time=clock();let allowed=true,active=false,played=0,cleared=0,painted=0;const waits=[];
+ const {Director,LANES}=boot(),time=clock();let allowed=true,played=0,cleared=0,painted=0,maxActive=0;const active=new Set(),samples=[];
+ assert.equal(LANES.length,3);
  const director=new Director({clock:time,random:random(),allowed:()=>allowed,
-  select:()=>{assert(!active,'Events cannot overlap');active=true;played++;return {id:'test',duration:800};},
-  paint:()=>{assert(active);painted++;},clear:()=>{active=false;cleared++;},publish:s=>{if(s.state==='waiting')waits.push(s.delay);}});
- director.sync();director.sync();assert.equal(time.tasks.size,1,'Repeated state sync must not duplicate timers');
- time.advance(8100);assert(played>0&&painted>0);assert(!active);assert.equal(time.tasks.size,1,'Only a quiet timeout between events');
- assert(waits[0]>=4000&&waits[0]<=8000);assert(waits[1]>=14000&&waits[1]<=30000);
- allowed=false;director.sync();assert.equal(time.tasks.size,0);const stopped=played;time.advance(60000);assert.equal(played,stopped);
- allowed=true;director.sync();time.advance(4000);assert.equal(played,stopped,'Return begins with a fresh wait');time.advance(4000);allowed=false;director.sync();assert(!active);assert.equal(time.tasks.size,0);
- allowed=true;director.sync();time.advance(180000);assert(played>5);assert(cleared>=played-1);director.stop();assert.equal(time.tasks.size,0);
- console.log('PASS: one finite event, quiet gaps, cancellation without stale timers, and fresh waits after returning.');
+  select:list=>{assert.deepEqual(new Set(list.map(e=>e.id)),active,'Director reports the events already sharing the room');const event={id:'e'+(++played),duration:5000};active.add(event.id);return event;},
+  paint:frames=>{painted++;assert.equal(frames.length,active.size,'Every active event is painted each frame');maxActive=Math.max(maxActive,frames.length);},
+  clear:e=>{active.delete(e.id);cleared++;}});
+ director.sync();director.sync();assert.equal(time.tasks.size,3,'One timer per lane; repeated state sync must not duplicate timers');
+ time.advance(6000);assert(active.size>=2,'Two events share the room shortly after entering');assert(painted>0);
+ for(let t=0;t<180000;t+=250){time.advance(250);samples.push(active.size);}
+ const under=samples.filter(n=>n<2).length/samples.length;
+ assert(under<.25,'At least two events are active nearly all the time, got '+under.toFixed(2)+' below');
+ assert(samples.some(n=>n===3),'A third occasional event joins');assert.equal(maxActive,3);assert(!samples.some(n=>n>3));
+ allowed=false;director.sync();assert.equal(time.tasks.size,0);assert.equal(active.size,0,'Stopping clears every active event');const stopped=played;time.advance(60000);assert.equal(played,stopped);
+ allowed=true;director.sync();time.advance(1000);assert.equal(played,stopped,'Return begins with a short fresh wait');time.advance(6000);assert(active.size>=2);allowed=false;director.sync();assert.equal(active.size,0);assert.equal(time.tasks.size,0);
+ allowed=true;director.sync();time.advance(30000);director.stop();assert.equal(time.tasks.size,0);assert.equal(active.size,0);assert.equal(cleared,played);
+ console.log('PASS: three lanes keep at least two finite events running, a third joins occasionally, painting covers every active event, and stopping leaves no stale timers or visitors.');
 }
 async function testIntegration({failGuests=false,failAnimations=false}={}){
  const time=clock(),els=new Map(),get=id=>{if(!els.has(id))els.set(id,new Element());return els.get(id);};
@@ -61,11 +66,15 @@ async function testIntegration({failGuests=false,failAnimations=false}={}){
  const media=new Element();media.matches=false;const window=Object.assign(new Element(),time);const storage=new Map(),observations=[];
  get('#remote').hidden=true;
  let spot=null;const visits=[],renderStates=[],overrides=new Map();
- const renderer={data:placements,motionData:{animations:clips},render:(s,state)=>{spot=s.id;visits.push(s.id);renderStates.push(state);},clear:()=>{spot=null;}};
+ let concurrent=0;const box=s=>({x:s.x,y:s.y,w:placements.sprites[s.sprite][0].length,h:placements.sprites[s.sprite].length});
+ const apart=(a,b)=>a.x+a.w+4<=b.x||b.x+b.w+4<=a.x||a.y+a.h+4<=b.y||b.y+b.h+4<=a.y;
+ const renderAll=entries=>{concurrent=Math.max(concurrent,entries.length);for(let i=0;i<entries.length;i++)for(let j=i+1;j<entries.length;j++){assert.notEqual(entries[i].spot.id,entries[j].spot.id);assert(apart(box(entries[i].spot),box(entries[j].spot)),'Visitors never touch: '+entries[i].spot.id+' & '+entries[j].spot.id);}
+  spot=entries.at(-1)?.spot.id??null;for(const {spot:s,state} of entries){visits.push(s.id);renderStates.push(state);}};
+ const renderer={data:placements,motionData:{animations:clips},renderAll,render:(s,state)=>renderAll([{spot:s,state}]),clear:()=>{spot=null;}};
  const context={window,document,innerWidth:640,innerHeight:400,URL,Math:Object.assign(Object.create(Math),{random:random()}),matchMedia:()=>media,
   NocheGuestPixels:{create:async()=>{if(failGuests)throw Error('Missing visitors');return renderer;}},
   localStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v)},
-  Image:class{decode(){return Promise.resolve();}},MutationObserver:class{constructor(fn){observations.push(fn);}observe(){}},
+  Image:class{set src(value){this.href=value;Promise.resolve().then(()=>this.onload?.());}get src(){return this.href;}},MutationObserver:class{constructor(fn){observations.push(fn);}observe(){}},
   fetch:async url=>{if(failAnimations)throw Error('Missing animation');return {ok:true,json:async()=>JSON.parse(fs.readFileSync(path.join(root,new URL(url).pathname)))}}};
  window.NOCHE_COPY=Object.fromEntries(['roomLifeOn','roomLifeOff','roomLifeReduced','roomLifeUnavailable'].map(k=>[k,[k+' ES',k+' EN']]));
  const layers=JSON.parse(fs.readFileSync(path.join(root,'assets/room-layers/manifest.json'))).layers;
@@ -74,7 +83,7 @@ async function testIntegration({failGuests=false,failAnimations=false}={}){
  const state=get('#room-events').dataset,toggle=get('#room-life-toggle'),changed=()=>observations.forEach(fn=>fn());
  if(failGuests&&failAnimations){assert(toggle.disabled);assert.equal(state.state,'unavailable');assert.equal(time.tasks.size,0);return;}
  assert.equal(state.state,'waiting');assert(!toggle.disabled);
- time.advance(360000);if(!failGuests){assert(visits.length>0);assert(!visits.includes('painter'),'Painter only appears on artwork opening');assert(renderStates.some(s=>s.frame>0));assert(renderStates.some(s=>s.glow>0));}
+ time.advance(360000);if(!failGuests){assert(visits.length>0);assert(concurrent>=2,'Two visitors appear together');assert(!visits.includes('painter'),'Painter only appears on artwork opening');assert(renderStates.some(s=>s.frame>0));assert(renderStates.some(s=>s.glow>0));}
  for(const view of ['art','tv','album','mirror','poster']){document.body.dataset.view=view;changed();assert.equal(time.tasks.size,0);assert.equal(spot,null);assert.equal(overrides.size,0);document.body.dataset.view='room';changed();assert.equal(state.state,'waiting');}
  get('#remote').hidden=false;changed();assert.equal(state.state,'paused');toggle.fire('click');assert.equal(storage.get('noche-room-life-v1'),'off');get('#remote').hidden=true;changed();time.advance(60000);assert.equal(time.tasks.size,0);
  toggle.fire('click');assert.equal(storage.get('noche-room-life-v1'),'on');assert.equal(state.state,'waiting');

@@ -12,7 +12,7 @@
 <p class="note">640 × 400 grid · 15 frames per second. Your device’s reduced-motion preference keeps this view still.</p>
 </section></div>
 <p class="note">Traced from the approved artwork, with hidden deck and groove pixels reconstructed beneath the arm. Individual transparent PNGs and their positions are in <a href="assets/turntable/manifest.json">the layer manifest</a>.</p>
-</main><script src="turntable-sprites.js?v=deck-frame-5"></script><script>
+</main><script src="turntable-sprites.js?v=deck-frame-5-load"></script><script>
 (async()=>{const canvas=document.querySelector('#study'),button=document.querySelector('#play'),status=document.querySelector('#state');try{
  const player=await NocheTurntable.create(canvas);player.setActive(true);button.disabled=false;status.textContent='Stopped · needle parked';
  button.addEventListener('click',()=>{const playing=button.getAttribute('aria-pressed')!=='true';button.setAttribute('aria-pressed',String(playing));button.textContent=playing?'Stop animation':'Preview animation';player.setPlaying(playing);status.textContent=playing?'Playing · record turning':'Stopped · needle returning';});

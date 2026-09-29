@@ -12,8 +12,8 @@ body.scene-fading::after { opacity:1; pointer-events:auto; }
 .vinyl-background { position:absolute; inset:0; width:100%; height:100%; display:block; image-rendering:pixelated; }
 .music-panel { position:absolute; top:122px; right:26px; bottom:26px; width:min(38vw,510px); border:1px solid #a4badd77; background:#112441e8; box-shadow:4px 5px #090f1b99; }
 .music-panel-body { height:100%; padding:23px; overflow:auto; scrollbar-width:thin; scrollbar-color:#8ba8cf #1b2b46; overscroll-behavior:contain; }
-.music-tabs { position:absolute; bottom:100%; left:-1px; right:-1px; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:4px; }
-.music-tabs button { min-height:48px; padding:10px 6px; font:17px/1.15 var(--pixel); white-space:normal; background:#233958; border:1px solid #9aafd27a; color:#dce8fc; }
+.music-tabs { position:absolute; bottom:100%; left:-1px; right:-1px; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:4px; }
+.music-tabs button { min-height:48px; padding:10px 4px; font:15px/1.15 var(--pixel); white-space:normal; background:#233958; border:1px solid #9aafd27a; color:#dce8fc; }
 .music-tabs button[aria-pressed=true] { background:#9db6d7; color:#102440; border-bottom-color:#9db6d7; }
 .music-kicker { margin:0 0 7px; font:10px/1.3 var(--mono); letter-spacing:.12em; color:#a6bad8; }
 .music-panel h2 { margin:0 0 10px; font:38px/1 var(--pixel); font-weight:400; }
@@ -25,6 +25,11 @@ body.scene-fading::after { opacity:1; pointer-events:auto; }
 .record-choice>span { min-width:0; }
 .record-choice strong { display:block; font:24px/1 var(--pixel); font-weight:400; }
 .record-choice small { display:block; margin-top:4px; font:13px/1.2 var(--pixel); color:#adc1dd; }
+.record-choice .record-date { margin-top:3px; font-size:12px; color:#8fa8cb; letter-spacing:.04em; }
+.room-music-controls { margin-top:18px; border-top:1px solid #9bb1d166; padding-top:16px; }
+.room-music-controls #room-song-state { margin:12px 0 6px; font:18px/1.3 var(--pixel); color:#e3ebfa; }
+.room-music-controls #room-song-hint { margin:0; font:12px/1.6 var(--sans,sans-serif); color:#b3c8e8; }
+.music-profile + .music-profile { margin-left:18px; }
 .music-profile { display:inline-block; margin:14px 0 0; font:15px/1.3 var(--pixel); }
 .music-selection { margin-top:22px; border-top:1px solid #9bb1d166; padding-top:18px; }
 .music-selection h3 { margin:0 0 12px; font:22px/1.1 var(--pixel); font-weight:400; }
@@ -47,7 +52,7 @@ body.scene-fading::after { opacity:1; pointer-events:auto; }
  .vinyl-scene { width:170vw; height:106.25vw; left:0; top:18px; transform:translateX(-8%); }
  .music-panel { top:calc(43dvh + 38px); left:12px; right:12px; bottom:12px; width:auto; }
  .music-panel-body { padding:18px; }
- .music-tabs button { font-size:16px; padding:10px 5px; }
+ .music-tabs button { font-size:13px; padding:10px 3px; }
  .music-panel h2 { font-size:30px; }
  .record-choice strong { font-size:23px; }
  .music-intro { font-size:10px; }
