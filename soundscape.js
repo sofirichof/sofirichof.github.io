@@ -11,7 +11,7 @@
         {id:'after-the-credits',title:'After the Credits',bpm:64,beats:64,description:'Warm plucked synth tones, a slower melody, and a little more room between the notes.'},
         {id:'window-lights',title:'Window Lights',bpm:76,beats:64,description:'A brighter little melody, gently moving keys, and soft bell-like answers.'},
         {id:'one-more-page',title:'One More Page',bpm:66,beats:72,description:'A slow three-beat sway, low warm keys, and a melody that gradually opens up.'},
-        {id:'guitar-pulse',title:'A medias de la noche - the inspo',labelKey:'guitarAccompaniment',src:'assets/audio/a-medias-de-la-noche-8bit.mp3?v=melody-1',auto:false,description:'A pixel lead follows the sung melody, with soft guitar strums and space between phrases.'}
+        {id:'guitar-pulse',title:'A medias de la noche - the inspo',labelKey:'guitarAccompaniment',listed:false,src:'assets/audio/a-medias-de-la-noche-8bit.mp3?v=melody-1',auto:false,description:'A pixel lead follows the sung melody, with soft guitar strums and space between phrases.'}
       ];
     }
     async enable(value) {
