@@ -78,7 +78,8 @@
   const loadAnimation=async file=>{
    const url=new URL('assets/room-animation/'+file+'.json?v=room-events-1',document.baseURI),response=await fetch(url);
    if(!response.ok)throw new Error('Room animation unavailable');
-   const data=await response.json(),image=new Image();image.src=new URL(data.sheet,url).href;await image.decode();
+   const data=await response.json(),image=new Image();
+   await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=()=>reject(new Error('Room animation sheet unavailable'));image.src=new URL(data.sheet,url).href;});
    const frames=data.frames.map((_,index)=>{const c=document.createElement('canvas');c.width=data.width;c.height=data.height;const ctx=c.getContext('2d');ctx.imageSmoothingEnabled=false;ctx.drawImage(image,index*data.width,0,data.width,data.height,0,0,data.width,data.height);return c;});
    return {id:file,kind:'room',data,frames,duration:data.duration,lastPaint:''};
   };

@@ -90,7 +90,7 @@
   const response=await fetch(manifest);if(!response.ok)throw new Error('Pixel layers unavailable');
   const data=await response.json();
   const layers=await Promise.all(data.layers.map(async layer=>{
-   const surface=new Image(),url=new URL(layer.src,manifest);url.search='?v=deck-frame-5';surface.src=url;await surface.decode();return {...layer,surface};
+   const surface=new Image(),url=new URL(layer.src,manifest);url.search='?v=deck-frame-5';await new Promise((resolve,reject)=>{surface.onload=resolve;surface.onerror=()=>reject(new Error('Turntable layer unavailable'));surface.src=url;});return {...layer,surface};
   }));
   return new PixelTurntable(canvas,data,layers);
  }};

@@ -74,7 +74,7 @@ async function testIntegration({failGuests=false,failAnimations=false}={}){
  const context={window,document,innerWidth:640,innerHeight:400,URL,Math:Object.assign(Object.create(Math),{random:random()}),matchMedia:()=>media,
   NocheGuestPixels:{create:async()=>{if(failGuests)throw Error('Missing visitors');return renderer;}},
   localStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v)},
-  Image:class{decode(){return Promise.resolve();}},MutationObserver:class{constructor(fn){observations.push(fn);}observe(){}},
+  Image:class{set src(value){this.href=value;Promise.resolve().then(()=>this.onload?.());}get src(){return this.href;}},MutationObserver:class{constructor(fn){observations.push(fn);}observe(){}},
   fetch:async url=>{if(failAnimations)throw Error('Missing animation');return {ok:true,json:async()=>JSON.parse(fs.readFileSync(path.join(root,new URL(url).pathname)))}}};
  window.NOCHE_COPY=Object.fromEntries(['roomLifeOn','roomLifeOff','roomLifeReduced','roomLifeUnavailable'].map(k=>[k,[k+' ES',k+' EN']]));
  const layers=JSON.parse(fs.readFileSync(path.join(root,'assets/room-layers/manifest.json'))).layers;

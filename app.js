@@ -554,30 +554,42 @@ $('.album-spread').addEventListener('touchend',e=>{if(!albumTouch)return;const d
 
 // The record player opens another view of the same console. Providers retain their own players.
 const musicDialog=$('#music-dialog'),musicCatalog=window.NOCHE_MUSIC;
+// The room's own pieces are listed like the recordings; choosing one plays it on the room's turntable.
+function roomMusicGroup(){return {items:sound.tracks.map(track=>({id:track.id,title:track.labelKey?t(track.labelKey):track.title,noteKey:'roomTrack_'+track.id}))};}
+function musicGroup(){return musicCollection==='room'?roomMusicGroup():musicCatalog[musicCollection];}
+function roomTrackId(){return sound.musicLoading?sound.requestedTrackId:sound.currentTrack?.id;}
+function formatPublished(iso){return new Intl.DateTimeFormat(language==='es'?'es-MX':'en-US',{day:'numeric',month:'short',year:'numeric'}).format(new Date(iso+'T12:00:00'));}
+function musicDuck(collection){sound.duck(collection!=='sound'&&collection!=='room','record');}
 function renderMusicCopy(){
- const isMix=musicCollection==='sound',group=musicCatalog[musicCollection],langIndex=language==='es'?0:1;
- $('#music-title').textContent=isMix?t('roomSound'):musicCollection==='recordings'?'SofiriChof':t('myPlaylists');
- $('#music-intro').textContent=t(isMix?'roomSoundIntro':musicCollection==='recordings'?'recordingsIntro':'playlistsIntro');
- $('#room-sound-settings').hidden=!isMix;$('#record-shelf').hidden=isMix;$('#music-profile').hidden=isMix;
- $('#music-selection').hidden=isMix||musicSelected<0;
+ const isMix=musicCollection==='sound',isRoom=musicCollection==='room',group=musicGroup(),langIndex=language==='es'?0:1;
+ $('#music-title').textContent=isMix?t('roomSound'):isRoom?t('roomMusic'):musicCollection==='recordings'?'SofiriChof':t('myPlaylists');
+ $('#music-intro').textContent=t(isMix?'roomSoundIntro':isRoom?'roomMusicIntro':musicCollection==='recordings'?'recordingsIntro':'playlistsIntro');
+ $('#room-sound-settings').hidden=!isMix;$('#record-shelf').hidden=isMix;$('#music-profile').hidden=isMix||isRoom;$('#music-profile-alt').hidden=musicCollection!=='recordings';
+ $('#room-music-controls').hidden=!isRoom;
+ $('#music-selection').hidden=isMix||isRoom||musicSelected<0;
  document.querySelectorAll('[data-music-collection]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.musicCollection===musicCollection)));
  const shelf=$('#record-shelf');shelf.replaceChildren();
  if(isMix)return;
  group.items.forEach((item,index)=>{
   const button=document.createElement('button');button.className='record-choice';button.dataset.musicIndex=index;
-  button.setAttribute('aria-pressed',String(index===musicSelected));button.title=item.publishedTitle||item.title;
+  button.setAttribute('aria-pressed',String(isRoom?item.id===roomTrackId():index===musicSelected));button.title=item.publishedTitle||item.title;
+  if(isRoom)button.dataset.trackId=item.id;
   const n=document.createElement('b');n.textContent=pad(index+1);n.setAttribute('aria-hidden','true');
   const label=document.createElement('span'),title=document.createElement('strong');title.textContent=item.title;label.append(title);
-  if(item.note){const note=document.createElement('small');note.textContent=item.note[langIndex];label.append(note);}
+  if(item.note||item.noteKey){const note=document.createElement('small');note.textContent=item.noteKey?t(item.noteKey):item.note[langIndex];label.append(note);}
+  if(item.published||isRoom){const date=document.createElement('small');date.className='record-date';date.textContent=isRoom?t('roomComposed'):formatPublished(item.published);label.append(date);}
   button.append(n,label);shelf.append(button);
  });
- const profile=$('#music-profile');profile.href=group.profile;profile.textContent=t(musicCollection==='recordings'?'recordingsProfile':'playlistsProfile');
- $('#music-selection').hidden=musicSelected<0;
- if(musicSelected>=0){
-  const item=group.items[musicSelected],provider=musicCollection==='recordings'?'SoundCloud':'Spotify';
+ if(!isRoom){
+  const profile=$('#music-profile');profile.href=group.profile;profile.textContent=t(musicCollection==='recordings'?'recordingsProfile':'playlistsProfile');
+  if(group.youtubeProfile){const alt=$('#music-profile-alt');alt.href=group.youtubeProfile;alt.textContent=t('youtubeProfile');}
+ }
+ $('#music-selection').hidden=isRoom||musicSelected<0;
+ if(!isRoom&&musicSelected>=0){
+  const item=group.items[musicSelected],provider=item.youtube?'YouTube':musicCollection==='recordings'?'SoundCloud':'Spotify';
   $('#music-track-title').textContent=item.publishedTitle||item.title;
-  $('#music-source').href=item.url;$('#music-source').textContent=t(musicCollection==='recordings'?'openSoundcloud':'openSpotify');
-  $('#music-listening-note').textContent=t(musicCollection==='recordings'?'soundcloudNote':'spotifyNote');
+  $('#music-source').href=item.url;$('#music-source').textContent=t(item.youtube?'openYoutube':musicCollection==='recordings'?'openSoundcloud':'openSpotify');
+  $('#music-listening-note').textContent=t(item.youtube?'youtubeNote':musicCollection==='recordings'?'soundcloudNote':'spotifyNote');
   const iframe=$('#music-player iframe');if(iframe)iframe.title=t('musicEmbed',{provider,title:item.title});
  }
  const status=$('#music-load-status');if(!status.hidden)status.textContent=t(status.dataset.message||'musicLoading');
@@ -629,12 +641,21 @@ function musicIframe(url,provider,item){
  frame.src=url;$('#music-player').append(frame);return frame;
 }
 async function selectMusic(index){
- const group=musicCatalog[musicCollection],item=group?.items[index];if(!item)return;
+ const group=musicGroup(),item=group?.items[index];if(!item)return;
+ if(musicCollection==='room'){musicSelected=index;sound.chooseSong(item.id);renderMusicCopy();return;}
  stopMusicPlayer();musicSelected=index;renderMusicCopy();const token=musicToken;
  musicStatus('musicLoading');
  musicReadyTimer=setTimeout(()=>{if(token===musicToken&&musicDialog.open)musicStatus('musicSlow');},20000);
  const selection=$('#music-selection');selection.scrollIntoView({block:'nearest',behavior:motionReduce.matches?'instant':'smooth'});
- if(musicCollection==='recordings'){
+ if(item.youtube){
+  const frame=musicIframe('https://www.youtube-nocookie.com/embed/'+encodeURIComponent(item.youtube)+'?'+new URLSearchParams({enablejsapi:'1',rel:'0',playsinline:'1',hl:language,origin:location.origin}),'YouTube',item);
+  frame.dataset.youtube='1';
+  frame.addEventListener('load',()=>{
+   if(token!==musicToken)return;musicStatus(null);
+   const post=message=>frame.contentWindow?.postMessage(JSON.stringify({...message,id:1,channel:'widget'}),'*');
+   post({event:'listening'});post({event:'command',func:'addEventListener',args:['onStateChange']});
+  });
+ }else if(musicCollection==='recordings'){
   const frame=musicIframe('https://w.soundcloud.com/player/?'+new URLSearchParams({url:item.url,auto_play:'false',color:'#7e9fcf',show_comments:'false',show_reposts:'false',show_teaser:'false',visual:'false'}),'SoundCloud',item);
   const SC=await soundcloudReady();if(token!==musicToken||!musicDialog.open)return;
   if(!SC){musicStatus('musicControlsUnavailable');return;}
@@ -663,7 +684,7 @@ function openMusic(){
  document.body.classList.add('scene-fading');
  setTimeout(()=>{
   musicDialog.classList.remove('is-leaving');musicSelected=-1;renderMusicCopy();
-  openDialog(musicDialog,'music');sound.duck(musicCollection!=='sound','record');prepareTurntable();
+  openDialog(musicDialog,'music');musicDuck(musicCollection);prepareTurntable();
   document.body.classList.remove('scene-fading');
   musicDialog.querySelector('[data-music-collection="'+musicCollection+'"]').focus({preventScroll:true});
   musicChanging=false;
@@ -688,15 +709,24 @@ $('#vinyl-object').addEventListener('click',openMusic);$('#remote-music').addEve
 $('#record-shelf').addEventListener('click',event=>{const button=event.target.closest('[data-music-index]');if(button)selectMusic(Number(button.dataset.musicIndex));});
 $('#music-retry').addEventListener('click',()=>{if(musicSelected>=0)selectMusic(musicSelected);});
 document.querySelectorAll('[data-music-collection]').forEach(button=>button.addEventListener('click',()=>{
- const next=button.dataset.musicCollection;if(next===musicCollection)return;stopMusicPlayer();musicCollection=next;musicSelected=-1;renderMusicCopy();sound.duck(next!=='sound','record');$('.music-panel-body').scrollTop=0;
+ const next=button.dataset.musicCollection;if(next===musicCollection)return;stopMusicPlayer();musicCollection=next;musicSelected=-1;renderMusicCopy();musicDuck(next);$('.music-panel-body').scrollTop=0;
 }));
 document.addEventListener('visibilitychange',()=>{
  musicDialog.classList.toggle('music-paused-by-tab',document.hidden);
- if(document.hidden){try{scWidget?.pause();spotifyController?.pause();}catch{}}
+ if(document.hidden){try{scWidget?.pause();spotifyController?.pause();$('#music-player iframe[data-youtube]')?.contentWindow?.postMessage(JSON.stringify({event:'command',func:'pauseVideo',args:[],id:1,channel:'widget'}),'*');}catch{}}
+});
+// YouTube's embed reports playback through postMessage once asked to listen.
+window.addEventListener('message',event=>{
+ const frame=$('#music-player iframe[data-youtube]');if(!frame||event.source!==frame.contentWindow)return;
+ let data;try{data=typeof event.data==='string'?JSON.parse(event.data):event.data;}catch{return;}
+ const info=data?.info;if(!info)return;
+ if(typeof info.playerState==='number')musicState(info.playerState===1);
+ if(info.duration>0&&typeof info.currentTime==='number')pixelTurntable?.setProgress(info.currentTime/info.duration);
 });
 function syncRoomTurntable(){
- if(musicCollection!=='sound'||!musicDialog.open||musicDialog.classList.contains('is-leaving'))return;
+ if((musicCollection!=='sound'&&musicCollection!=='room')||!musicDialog.open||musicDialog.classList.contains('is-leaving'))return;
  musicState(sound.musicPlaying);
+ if(musicCollection==='room'){const current=roomTrackId();document.querySelectorAll('#record-shelf [data-track-id]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.trackId===current)));}
  const track=sound.currentTrack?.id||'';
  if(musicDialog.dataset.roomTrack!==track){musicDialog.dataset.roomTrack=track;pixelTurntable?.setProgress(0);}
 }
