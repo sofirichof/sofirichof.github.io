@@ -555,7 +555,8 @@ $('.album-spread').addEventListener('touchend',e=>{if(!albumTouch)return;const d
 // The record player opens another view of the same console. Providers retain their own players.
 const musicDialog=$('#music-dialog'),musicCatalog=window.NOCHE_MUSIC;
 // The room's own pieces are listed like the recordings; choosing one plays it on the room's turntable.
-function roomMusicGroup(){return {items:sound.tracks.map(track=>({id:track.id,title:track.labelKey?t(track.labelKey):track.title,noteKey:'roomTrack_'+track.id}))};}
+// Unfinished pieces stay out of the list (listed:false) but keep their engine entry.
+function roomMusicGroup(){return {items:sound.tracks.filter(track=>track.listed!==false).map(track=>({id:track.id,title:track.labelKey?t(track.labelKey):track.title,noteKey:'roomTrack_'+track.id}))};}
 function musicGroup(){return musicCollection==='room'?roomMusicGroup():musicCatalog[musicCollection];}
 function roomTrackId(){return sound.musicLoading?sound.requestedTrackId:sound.currentTrack?.id;}
 function formatPublished(iso){return new Intl.DateTimeFormat(language==='es'?'es-MX':'en-US',{day:'numeric',month:'short',year:'numeric'}).format(new Date(iso+'T12:00:00'));}
