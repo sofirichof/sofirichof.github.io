@@ -24,6 +24,22 @@
     <img class="room-art" id="room-art" src="assets/room-master.png" data-i18n-alt="roomAlt" fetchpriority="high">
     <canvas class="room-art room-pixels" id="room-pixels" width="640" height="400" aria-hidden="true" hidden></canvas>
     <canvas class="room-art room-events" id="room-events" width="640" height="400" aria-hidden="true"></canvas>
+    <div class="room-easter-eggs" role="group" data-i18n-aria="roomKeepsakes">
+      <button id="supergood-poster" class="supergood-poster" type="button" data-i18n-aria="supergoodPoster">
+        <img src="assets/easter-eggs/supergood-mark.png" alt="" aria-hidden="true">
+        <span data-i18n="supergoodPosterLabel">SUPERGOOD</span><small>CH 06</small>
+      </button>
+      <button id="telemundo-cap" class="telemundo-cap" type="button" data-i18n-aria="telemundoCap">
+        <svg viewBox="0 0 64 40" aria-hidden="true" focusable="false" shape-rendering="crispEdges">
+          <path fill="#080b13" d="M7 23h4v-5h4v-5h6V9h7V7h17v2h7v4h6v5h4v7h-7v4H13v-2H7z"/>
+          <path fill="#151d37" d="M11 21h4v-5h6v-4h6V9h17v2h7v4h6v5h4v4H51v3H14v-2h-3z"/>
+          <path fill="#253254" d="M14 27h36v2H14z"/>
+          <path fill="#e43347" d="M25 13h12v3h-4v7h-4v-7h-4z"/>
+          <path fill="#f4eee1" d="M39 16h7v2h-5v2h4v2h-4v2h5v2h-7z"/>
+        </svg>
+        <span class="sr-only" data-i18n="telemundoCap">Telemundo 52 cap · tune to Acceso Total</span>
+      </button>
+    </div>
     <section class="wall-guide" id="poster" data-i18n-aria="posterLabel" data-page="channels">
       <div class="poster-heading"><span class="poster-small" data-i18n="presents">NOCHE Y MEDIA PRESENTS</span><strong data-i18n="guideHeading">AFTER HOURS
 TV GUIDE</strong><span class="poster-line"></span></div>

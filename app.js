@@ -61,7 +61,8 @@ const channels=[
  {number:2,name:'Cine',english:'Films',subtitle:'Independent stories',projects:all.filter(p=>p.category==='Film')},
  {number:3,name:'Televisión',english:'Television',subtitle:'On the air',projects:all.filter(p=>p.category==='Television')},
  {number:4,name:'Publicidad',english:'Advertising',subtitle:'Brands & ideas',projects:all.filter(p=>p.category==='Advertising')},
- {number:5,name:'Hola',english:'The next story',subtitle:'Get in touch',projects:[]}
+ {number:5,name:'Hola',english:'The next story',subtitle:'Get in touch',projects:[]},
+ {number:6,name:'Supergood',english:'Supergood',subtitle:'Selected work',projects:all.filter(p=>/^p(?:2[1-9]|3[0-5])$/.test(p.id))}
 ];
 const positions=new Map(channels.map(c=>[c.number,0]));
 let channel=channels[0],entered=false,digits='',digitTimer,transitionTimer,toastTimer,previousFocus=null,posterFilter=1,posterPage=0;
@@ -99,7 +100,7 @@ function frameObject(box,besidePanel){
  if(watch)$('#player').style.setProperty('--media-scale',scale);
 }
 function lockRoomToPoster(locked){
- document.querySelectorAll('#world a,#world button,.programme-controls button').forEach(el=>{if(el.closest('#entrance'))return;const onPoster=!!el.closest('#poster');el.inert=!entered||(albumOpen?!el.closest('#photo-album'):activeArt?el!==activeArt.element:(locked?!onPoster:(onPoster&&el.id!=='wall-guide')));});
+ document.querySelectorAll('#world a,#world button,.programme-controls button').forEach(el=>{if(el.closest('#entrance'))return;const onPoster=!!el.closest('#poster'),onEasterEgg=!!el.closest('.room-easter-eggs');el.inert=!entered||(albumOpen?!el.closest('#photo-album'):activeArt?el!==activeArt.element:(locked?!onPoster&&!onEasterEgg:(onPoster&&el.id!=='wall-guide'&&!onEasterEgg)));});
 }
 function leavePoster({focus=true}={}){
  if(document.body.dataset.view!=='guide')return;
@@ -125,7 +126,7 @@ function renderScreen(){
  document.querySelectorAll('.poster-channel').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.channel)===channel.number)));
 }
 function tune(number,{quiet=false,hash=true,fromScroll=false}={}){
- const next=channels.find(c=>c.number===number);if(!next){$('#remote-display').textContent=t('channelPrefix')+' 01–05';announce(t('chooseChannel'));clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#remote-display').textContent=osd(),1500);return;}
+ const next=channels.find(c=>c.number===number);if(!next){$('#remote-display').textContent=t('channelPrefix')+' 01–06';announce(t('chooseChannel'));clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#remote-display').textContent=osd(),1500);return;}
  const wasWatching=!!activeProject;if(wasWatching&&!next.projects.length)closeProject(false);
  channel=next;if(entered&&!fromScroll)scrollToChannel(number);clearTimeout(transitionTimer);if(!quiet){$('#tv-screen').classList.add('tuning');sound.tune();}
  renderScreen();if(hash&&entered)setHash('channel-'+pad(number));announce(t('channelWord')+' '+pad(number)+', '+channelName(next)+(currentProject()?'. '+currentProject().title:''));
@@ -340,6 +341,8 @@ $('#media-fit').addEventListener('click',()=>{
 });
 $('#close-project').addEventListener('click',()=>closeProject());
 $('#screen-action').addEventListener('click',()=>{if(channel.number===5)openDialog($('#contact-dialog'));else openProject(currentProject());});
+$('#supergood-poster').addEventListener('click',()=>tune(6));
+$('#telemundo-cap').addEventListener('click',()=>{const tv=channels.find(c=>c.number===3),index=tv.projects.findIndex(p=>p.title==='Acceso Total');if(index>=0)positions.set(3,index);tune(3);});
 $('#home-link').addEventListener('click',e=>{e.preventDefault();closeAlbum(false);closeArt(false);closeProject(false);hideDialogs();leavePoster({focus:false});setView('room');tune(1);});
 document.addEventListener('keydown',e=>{
  if(!entered||e.altKey||e.ctrlKey||e.metaKey||e.target.matches('input,textarea,select,[contenteditable=true]'))return;
