@@ -17,15 +17,22 @@
  image.addEventListener('load',drawCap,{once:true});
  image.addEventListener('error',()=>{cap.hidden=true;},{once:true});
  if(image.complete)drawCap();
- const sticker=document.querySelector('#supergood-keepsake'),mark=new Image();
+ const print=document.querySelector('#supergood-keepsake'),mark=new Image();
  mark.addEventListener('load',()=>{
-  const ctx=sticker.querySelector('canvas').getContext('2d');
-  if(!ctx){sticker.hidden=true;return;}
-  ctx.save();ctx.beginPath();ctx.arc(7,7,6.8,0,Math.PI*2);ctx.clip();
-  // A single still from Sofía's existing brand asset; exclude its lower slogan.
-  ctx.drawImage(mark,30,12,180,180,0,0,14,14);ctx.restore();
-  sticker.classList.add('pixels-ready');
+  const ctx=print.querySelector('canvas').getContext('2d');
+  if(!ctx){print.hidden=true;return;}
+  // A warm paper print between the Escher and Si Solamente frames.
+  // All geometry stays on the room pixel grid.
+  ctx.fillStyle='#23190f';ctx.fillRect(3,3,33,35);
+  ctx.fillStyle='#88734d';ctx.fillRect(1,1,34,36);
+  ctx.fillStyle='#d6c49d';ctx.fillRect(1,0,32,35);
+  ctx.fillStyle='#efe0bd';ctx.fillRect(2,1,30,32);
+  ctx.save();ctx.beginPath();ctx.arc(17,16,13,0,Math.PI*2);ctx.clip();
+  ctx.drawImage(mark,30,12,180,180,4,3,26,26);ctx.restore();
+  ctx.fillStyle='rgba(141,88,27,.18)';ctx.fillRect(4,3,26,26);
+  ctx.fillStyle='#ac9672';ctx.fillRect(2,33,31,2);
+  print.classList.add('pixels-ready');
  },{once:true});
- mark.addEventListener('error',()=>{sticker.hidden=true;},{once:true});
+ mark.addEventListener('error',()=>{print.hidden=true;},{once:true});
  mark.src='sig/badge-240.gif';
 })();

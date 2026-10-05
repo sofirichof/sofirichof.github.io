@@ -48,20 +48,20 @@ body:not([data-view=room]) .vinyl-object { pointer-events:none; }
 @media(prefers-reduced-motion:reduce) { .object-highlight { transition:none; } }
 
 /* Registered against the assembled scene, including art, guide and visitors.
-   Sticker: centre drawer, (336,248) at 14px. Cap: throw-covered arm, (574,201).
+   Print: between Escher and Si Solamente, (237,30) at 36 × 38px. Cap: throw-covered arm, (574,201).
    The chair guest occupies (519,234)-(547,269), well clear of the cap. */
 .room-keepsake{position:absolute;z-index:3;padding:0;border:0;background:transparent;line-height:0}
 .room-keepsake canvas,.room-keepsake img{display:block;image-rendering:pixelated;pointer-events:none}
-.keepsake-sticker{left:51.71875%;top:60.75%;width:3.75%;height:6%;display:grid;place-items:center;visibility:hidden}
-.keepsake-sticker.pixels-ready{visibility:visible}
-.keepsake-sticker canvas{width:58.333333%;height:58.333333%;filter:brightness(.65) saturate(.72)}
+.keepsake-print{left:37.03125%;top:7.5%;width:5.625%;height:9.5%;visibility:hidden}
+.keepsake-print.pixels-ready{visibility:visible}
+.keepsake-print canvas{width:100%;height:100%;filter:brightness(.83) saturate(.8)}
 .keepsake-cap{left:89.6875%;top:50.25%;width:8.4375%;height:9%}
 .keepsake-cap img,.keepsake-cap canvas{position:absolute;inset:0;width:100%;height:100%}
 .keepsake-cap canvas{visibility:hidden}
 .keepsake-cap.pixels-ready img{visibility:hidden}
 .keepsake-cap.pixels-ready canvas{visibility:visible}
 .room-keepsake:is(:hover,:focus-visible) canvas{filter:drop-shadow(1px 0 #c6dcff) drop-shadow(-1px 0 #c6dcff)}
-.keepsake-sticker:is(:hover,:focus-visible) canvas{filter:brightness(.75) saturate(.72) drop-shadow(1px 0 #c6dcff)}
+.keepsake-print:is(:hover,:focus-visible) canvas{filter:brightness(.75) saturate(.72) drop-shadow(1px 0 #c6dcff)}
 .room-keepsake:focus-visible{outline:1px dashed #c6dcff;outline-offset:2px}
 .not-entered .room-keepsake,body:not([data-view=room]) .room-keepsake{visibility:hidden}
 .not-entered .room-keepsake canvas,body:not([data-view=room]) .room-keepsake canvas{visibility:hidden}

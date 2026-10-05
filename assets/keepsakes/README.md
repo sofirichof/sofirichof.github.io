@@ -3,7 +3,7 @@
 Independent decorative overlays; neither the room master nor Sofía’s artwork is modified.
 
 - `telemundo-cap.png`: generated decorative sprite using the built-in image-generation tool, based on Sofía’s supplied Telemundo 52 cap photograph and the assembled room screenshot. It is not portfolio artwork. Runtime samples it to 54 × 36 room pixels, positioned at (574, 201) on the blanket-covered chair arm. This leaves the chair visitor’s (519–547, 234–269) area clear.
-- The Supergood sticker samples a still of the existing `sig/badge-240.gif`, excluding its lower slogan. The source is untouched. The sticker is 14 × 14 room pixels at (336, 248), on the console drawer, inside a larger keyboard-accessible target.
+- The Supergood wall print samples a still of the existing `sig/badge-240.gif`, excluding its lower slogan. The source is untouched. The warm paper print is 36 × 38 room pixels at (237, 30), between the Escher and Si Solamente frames. Its logo is sampled at 26 × 26 pixels and it is a keyboard-accessible channel shortcut.
 - Both use the existing channels: Supergood 02 and Television 04 / Acceso Total. They follow the existing view locks and do not animate.
 
 ## Generation prompt
