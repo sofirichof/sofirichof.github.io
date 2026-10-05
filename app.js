@@ -344,6 +344,16 @@ function openProject(p){
 $('#media-fit').addEventListener('click',()=>setFit($('#player').dataset.fit==='contain'?'cover':'contain'));
 $('#close-project').addEventListener('click',()=>closeProject());
 $('#screen-action').addEventListener('click',()=>{if(channel.number===6)openDialog($('#contact-dialog'));else openProject(currentProject());});
+// Keepsakes select the existing work; channel numbers stay owned by the guide.
+$('#supergood-keepsake').addEventListener('click',()=>{
+ const station=channels.find(c=>c.english==='Supergood');
+ if(station){tune(station.number);$('#screen-action').focus({preventScroll:true});}
+});
+$('#telemundo-keepsake').addEventListener('click',()=>{
+ const station=channels.find(c=>c.english==='Television');
+ const index=station?.projects.findIndex(p=>p.title==='Acceso Total')??-1;
+ if(index>=0){positions.set(station.number,index);tune(station.number);$('#screen-action').focus({preventScroll:true});}
+});
 $('#home-link').addEventListener('click',e=>{e.preventDefault();closeAlbum(false);closeArt(false);closeProject(false);hideDialogs();leavePoster({focus:false});setView('room');tune(1);});
 document.addEventListener('keydown',e=>{
  if(!entered||e.altKey||e.ctrlKey||e.metaKey||e.target.matches('input,textarea,select,[contenteditable=true]'))return;
