@@ -1,5 +1,7 @@
 // Each pair is [Spanish, English]. Original film, campaign and brand names stay unchanged.
 window.NOCHE_COPY = {
+ supergoodKeepsake:['Calcomanía de Supergood · canal 02','Supergood sticker · channel 02'],
+ telemundoKeepsake:['Mi gorra de Telemundo 52 · ver Acceso Total','My Telemundo 52 cap · explore Acceso Total'],
  roomLifeOn:['VIDA EN LA SALA · SÍ','ROOM LIFE · ON'],roomLifeOff:['VIDA EN LA SALA · NO','ROOM LIFE · OFF'],
  roomLifeReduced:['SALA SIN MOVIMIENTO','STILL ROOM'],roomLifeUnavailable:['ANIMACIONES NO DISPONIBLES','ROOM LIFE UNAVAILABLE'],
  roomPlaylist:['Música de la sala','Room playlist'],roomSongAuto:['Rotación automática','Automatic rotation'],guitarAccompaniment:['A medias de la noche - the inspo','A medias de la noche - the inspo'],
