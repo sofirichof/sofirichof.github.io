@@ -218,3 +218,7 @@ Walked the whole room at 375 × 812 (portrait) and 812 × 375 (landscape), in En
 
 Stylesheet version tags in `index.html` were bumped (`phone-5`) so phones pick up the new CSS. Everything else listed above rendered correctly on phones already. Checked again at 1024 × 768 afterwards; the desktop guide also fits now and the watch view is unchanged.
 
+### Follow-up: About and Contact on phones (2026-10-14)
+
+Sofía's iPhone showed About with a large empty band above the mirror. The phone camera was zooming the room *out* (to about 0.77×) to fit the mirror in the strip above the panel, so the room no longer covered the viewport. `frameObject` in `app.js` now never zooms out past the cover scale on phones, and About/Contact may slide the room's bottom edge up under the panel (the panel hides that area). Contact uses the same framing as About on phones (the TV sits in the strip above the panel, with the room's channel drift disabled for that view). The About panel is 68dvh and Contact 66dvh on phones, and the wordmark hides while either panel is open. Checked at 375 × 812 and 390 × 664 in both panels, plus the watch view, guide and desktop About/Contact. Version tags are now `phone-11`.
+

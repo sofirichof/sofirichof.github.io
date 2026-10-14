@@ -79,6 +79,7 @@ function setView(view){
  else if(view==='art'&&activeArt)frameObject(window.NocheArtGuest?.boundsFor(activeArt.box)||activeArt.box,false);
  else if(view==='watch')frameObject({x:.356,y:.271,w:.219,h:.228},true);
  else if(view==='about')frameObject({x:.621875,y:.0475,w:.1375,h:.305},true);
+ else if(view==='screen'&&innerWidth<=600)frameObject({x:.356,y:.271,w:.219,h:.228},true); // phones: keep the TV in the strip above the contact panel
  else if(view==='album')frameObject(innerWidth<=600?{x:.353,y:.225,w:.267,h:.58}:{x:.245,y:.635,w:.51,h:.36},false);
  else $('#camera').style.transform='';
 }
@@ -89,13 +90,15 @@ function frameObject(box,besidePanel){
  const space=besidePanel&&!phone?innerWidth-panelWidth-40:innerWidth;
  const artView=document.body.dataset.view==='art';
  const artFooter=artView?$('#art-caption').offsetHeight+36:0;
- const availableH=artView?innerHeight-artFooter-85:besidePanel&&phone?innerHeight*(watch?.46:.26):innerHeight-100;
+ const availableH=artView?innerHeight-artFooter-85:besidePanel&&phone?innerHeight*(watch?.46:document.body.dataset.view==='screen'?.34:.26):innerHeight-100;
  const fitScale=Math.min((space-48)/(w*box.w),availableH/(h*box.h),artView?8:6);
- const scale=document.body.dataset.view==='album'?Math.max(fitScale,innerWidth/w,innerHeight/h):fitScale;
+ const coverScale=Math.max(innerWidth/w,innerHeight/h);
+ const scale=document.body.dataset.view==='album'||(phone&&besidePanel)?Math.max(fitScale,coverScale):fitScale; // never zoom out past cover: a shrunken room leaves an empty band above the mirror/TV on phones
  let tx=space/2-x*scale,ty=(artView?(innerHeight-artFooter+30)/2:besidePanel&&phone?innerHeight*(watch?.31:.15):innerHeight/2)-y*scale;
  const bx=scene.offsetLeft-w/2,by=scene.offsetTop-h/2;
  tx=Math.max(innerWidth-(bx+w)*scale,Math.min(-bx*scale,tx));
- ty=Math.max(innerHeight-(by+h)*scale,Math.min(-by*scale,ty));
+ const slack=phone&&besidePanel&&!watch?innerHeight*.5:0; // the About/Contact panel covers the lower half, so the room may slide up past it
+ ty=Math.max(innerHeight-slack-(by+h)*scale,Math.min(-by*scale,ty));
  $('#camera').style.transform=`translate(${tx}px,${ty}px) scale(${scale})`;
  if(watch)$('#player').style.setProperty('--media-scale',scale);
 }
