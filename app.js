@@ -87,14 +87,14 @@ function frameObject(box,besidePanel){
  const scene=$('#scene'),w=scene.offsetWidth,h=scene.offsetHeight;
  const x=scene.offsetLeft-w/2+w*(box.x+box.w/2),y=scene.offsetTop-h/2+h*(box.y+box.h/2);
  const phone=innerWidth<=600,watch=document.body.dataset.view==='watch',panelWidth=watch?Math.min(innerWidth*.32,440):Math.min(innerWidth*(innerWidth<=900?.51:.44),640);
- const space=besidePanel&&!phone?innerWidth-panelWidth-40:innerWidth;
- const artView=document.body.dataset.view==='art';
- const artFooter=artView?$('#art-caption').offsetHeight+36:0;
- const availableH=artView?innerHeight-artFooter-85:besidePanel&&phone?innerHeight*(watch?.46:document.body.dataset.view==='screen'?.34:.26):innerHeight-100;
+ const artView=document.body.dataset.view==='art',shortLandscape=innerHeight<=500&&innerWidth>600,artSide=artView&&shortLandscape; // short landscape: the caption sits beside the artwork, not under it
+ const space=artSide?innerWidth-$('#art-caption').offsetWidth-36:besidePanel&&!phone?innerWidth-panelWidth-40:innerWidth;
+ const artFooter=artView&&!artSide?$('#art-caption').offsetHeight+36:0;
+ const availableH=artView?innerHeight-artFooter-(artSide?40:85):besidePanel&&phone?innerHeight*(watch?.46:document.body.dataset.view==='screen'?.34:.26):innerHeight-(shortLandscape?30:100);
  const fitScale=Math.min((space-48)/(w*box.w),availableH/(h*box.h),artView?8:6);
  const coverScale=Math.max(innerWidth/w,innerHeight/h);
  const scale=document.body.dataset.view==='album'||(phone&&besidePanel)?Math.max(fitScale,coverScale):fitScale; // never zoom out past cover: a shrunken room leaves an empty band above the mirror/TV on phones
- let tx=space/2-x*scale,ty=(artView?(innerHeight-artFooter+30)/2:besidePanel&&phone?innerHeight*(watch?.31:.15):innerHeight/2)-y*scale;
+ let tx=space/2-x*scale,ty=(artSide?innerHeight/2:artView?(innerHeight-artFooter+30)/2:besidePanel&&phone?innerHeight*(watch?.31:.15):innerHeight/2)-y*scale;
  const bx=scene.offsetLeft-w/2,by=scene.offsetTop-h/2;
  tx=Math.max(innerWidth-(bx+w)*scale,Math.min(-bx*scale,tx));
  const slack=phone&&besidePanel&&!watch?innerHeight*.5:0; // the About/Contact panel covers the lower half, so the room may slide up past it
@@ -213,7 +213,7 @@ function renderPosterProjects(){
  const list=posterList(),pages=Math.ceil(list.length/6);posterPage=clamp(posterPage,0,pages-1);
  poster.dataset.page='projects';$('#poster-channels').hidden=true;posterProjects.hidden=false;posterProjects.replaceChildren();
  $('#poster-all').hidden=true;$('.poster-pagination').hidden=false;
- list.slice(posterPage*6,posterPage*6+6).forEach((p,i)=>{const button=document.createElement('button');button.className='poster-project';button.dataset.id=p.id;const n=document.createElement('b');n.textContent=pad(posterPage*6+i+1);const title=document.createElement('span');title.textContent=p.title;button.append(n,title);posterProjects.append(button);});
+ list.slice(posterPage*6,posterPage*6+6).forEach((p,i)=>{const button=document.createElement('button');button.className='poster-project';button.dataset.id=p.id;button.setAttribute('aria-label',pad(posterPage*6+i+1)+' '+p.title);const n=document.createElement('b');n.textContent=pad(posterPage*6+i+1);const title=document.createElement('span');title.textContent=p.title;button.append(n,title);posterProjects.append(button);});
  $('#poster-page-count').textContent=(posterPage+1)+' / '+pages;$('#poster-prev-page').disabled=posterPage===0;$('#poster-next-page').disabled=posterPage===pages-1;
 }
 function showPosterChannels(){poster.dataset.page='channels';$('#poster-channels').hidden=false;posterProjects.hidden=true;$('#poster-all').hidden=false;$('.poster-pagination').hidden=true;}

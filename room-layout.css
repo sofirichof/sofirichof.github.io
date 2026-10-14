@@ -29,7 +29,7 @@
 .album-object:focus-visible { outline:none; filter:drop-shadow(0 0 2px #c6dcff); }
 
 @media(max-width:600px) {
- .wordmark { top:18.8%; }
+ .wordmark { top:16.4%; } /* clear of the TV frame on phones */
  .bezel-controls button { font-size:1.4cqw; }
  .bezel-controls button span { font-size:.58cqw; }
 }
