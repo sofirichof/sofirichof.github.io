@@ -187,7 +187,7 @@ The new master was generated from scratch and approved by Sofía. The console fo
 The record player opens the music panel described above. Random ambience events run on the main site.
 
 
-Fresh-room checks: desktop room alignment, TV playback, Description/BTS switching, mirror portrait masking, guide pagination, pixel-to-original artwork, album chapter/page changes, and ES/EN switching passed. All local asset references and edited JavaScript syntax were checked. A fresh phone visual check remains pending because the browser’s viewport override did not change its reported dimensions; prior phone checks above apply to the earlier room.
+Fresh-room checks: desktop room alignment, TV playback, Description/BTS switching, mirror portrait masking, guide pagination, pixel-to-original artwork, album chapter/page changes, and ES/EN switching passed. All local asset references and edited JavaScript syntax were checked. The fresh phone check was done on 2026-10-14 (see “Phone check and fixes” below).
 
 ## Room objects and About
 
@@ -207,3 +207,14 @@ The approved room has 43 object/surface layers plus four resting contact patches
 ## Room event checks
 
 Run `node tests/room-events.test.cjs`. It exercises independent effect choices across all visitor clips, both timing orders and overlap, three-lane scheduling with at least two concurrent events and an occasional third, visitor spacing, cleanup, view/tab changes, reduced motion, remembered controls and partial asset failures. `room-guests.js` supplies the same pixel rendering, room lighting and occlusion to the live site and study. `room-events.js` owns the live event lifecycle; it never rewrites the source artwork or changes audio permission.
+
+## Phone check and fixes (2026-10-14)
+
+Walked the whole room at 375 × 812 (portrait) and 812 × 375 (landscape), in English and Spanish, with every video muted: entry, room, guide channels and programme pages, watching a film, Description and BTS tabs, About, the art wall, the photo album, Contact, the remote and the music panel. Three things were broken:
+
+- **Guide channel page overflowed at every size.** Since the sixth channel (Supergood) was added, the heading, six channel rows and footer no longer fit the poster, so the rows were squeezed to about 8px and drew over each other on desktop as well as phones. The channel page now uses a smaller heading and a tighter footer, the rows keep their text height (`#poster-channels` in `room-layout.css`), and phones hide the owner line. The programme page is unchanged.
+- **Short landscape phones: the wordmark covered the TV screen.** It now sits in the top-left corner of the viewport (`room-layout.css`, which owns the wordmark position).
+- **Short landscape phones: the watch panel collapsed to about 100px** between the fixed top offset and the two-row programme controls. The controls become a single row of four, and the Description and BTS panels run from below the language switch to above the controls, scrolling inside.
+
+Stylesheet version tags in `index.html` were bumped (`phone-5`) so phones pick up the new CSS. Everything else listed above rendered correctly on phones already. Checked again at 1024 × 768 afterwards; the desktop guide also fits now and the watch view is unchanged.
+
