@@ -64,11 +64,13 @@ async function testIntegration({failGuests=false,failAnimations=false}={}){
  let entered=true;document.body=new Element();document.body.classList={contains:()=>entered};document.body.dataset.view='room';
  document.querySelector=id=>id==='dialog[open]'?null:get(id);document.querySelectorAll=()=>[];document.createElement=()=>new Element();
  const media=new Element();media.matches=false;const window=Object.assign(new Element(),time);const storage=new Map(),observations=[];
- get('#remote').hidden=true;
+ get('#remote').hidden=true;const remoteRect={left:400,top:0,right:640,bottom:400,width:240,height:400};get('#remote').getBoundingClientRect=()=>remoteRect;
+ const behindRemote=b=>Math.max(0,Math.min(b.x+b.w,remoteRect.right)-Math.max(b.x,remoteRect.left))*Math.max(0,Math.min(b.y+b.h,remoteRect.bottom)-Math.max(b.y,remoteRect.top))/(b.w*b.h);
  let spot=null;const visits=[],renderStates=[],overrides=new Map();
  let concurrent=0;const box=s=>({x:s.x,y:s.y,w:placements.sprites[s.sprite][0].length,h:placements.sprites[s.sprite].length});
  const apart=(a,b)=>a.x+a.w+4<=b.x||b.x+b.w+4<=a.x||a.y+a.h+4<=b.y||b.y+b.h+4<=a.y;
  const renderAll=entries=>{concurrent=Math.max(concurrent,entries.length);for(let i=0;i<entries.length;i++)for(let j=i+1;j<entries.length;j++){assert.notEqual(entries[i].spot.id,entries[j].spot.id);assert(apart(box(entries[i].spot),box(entries[j].spot)),'Visitors never touch: '+entries[i].spot.id+' & '+entries[j].spot.id);}
+  if(!get('#remote').hidden)for(const {spot:s} of entries)assert(behindRemote(box(s))<=.25,'Visitors stay out from behind the open remote: '+s.id);
   spot=entries.at(-1)?.spot.id??null;for(const {spot:s,state} of entries){visits.push(s.id);renderStates.push(state);}};
  const renderer={data:placements,motionData:{animations:clips},renderAll,render:(s,state)=>renderAll([{spot:s,state}]),clear:()=>{spot=null;}};
  const context={window,document,innerWidth:640,innerHeight:400,URL,Math:Object.assign(Object.create(Math),{random:random()}),matchMedia:()=>media,
@@ -85,7 +87,7 @@ async function testIntegration({failGuests=false,failAnimations=false}={}){
  assert.equal(state.state,'waiting');assert(!toggle.disabled);
  time.advance(360000);if(!failGuests){assert(visits.length>0);assert(concurrent>=2,'Two visitors appear together');assert(!visits.includes('painter'),'Painter only appears on artwork opening');assert(renderStates.some(s=>s.frame>0));assert(renderStates.some(s=>s.glow>0));}
  for(const view of ['art','tv','album','mirror','poster']){document.body.dataset.view=view;changed();assert.equal(time.tasks.size,0);assert.equal(spot,null);assert.equal(overrides.size,0);document.body.dataset.view='room';changed();assert.equal(state.state,'waiting');}
- get('#remote').hidden=false;changed();assert.equal(state.state,'paused');toggle.fire('click');assert.equal(storage.get('noche-room-life-v1'),'off');get('#remote').hidden=true;changed();time.advance(60000);assert.equal(time.tasks.size,0);
+ get('#remote').hidden=false;changed();assert.equal(state.state,'waiting','Picking up the remote keeps room life running');const before=visits.length;time.advance(30000);assert(state.state==='playing','Events keep playing while the remote is open');if(!failGuests)assert(visits.length>before,'New visitors still arrive with the remote open');assert(overrides.size===0||!overrides.has('outside-night'),'The window breeze stays off while the remote covers the window');toggle.fire('click');assert.equal(storage.get('noche-room-life-v1'),'off');get('#remote').hidden=true;changed();time.advance(60000);assert.equal(time.tasks.size,0);
  toggle.fire('click');assert.equal(storage.get('noche-room-life-v1'),'on');assert.equal(state.state,'waiting');
  document.hidden=true;document.fire('visibilitychange');assert.equal(time.tasks.size,0);document.hidden=false;document.fire('visibilitychange');assert.equal(state.state,'waiting');
  media.matches=true;media.fire('change');assert(toggle.disabled);assert.equal(time.tasks.size,0);assert.equal(overrides.size,0);media.matches=false;media.fire('change');assert(!toggle.disabled);
@@ -93,4 +95,4 @@ async function testIntegration({failGuests=false,failAnimations=false}={}){
  window.fire('pagehide');assert.equal(time.tasks.size,0);window.fire('pageshow');assert.equal(state.state,'waiting');
  entered=false;changed();assert.equal(time.tasks.size,0);assert.equal(spot,null);assert.equal(overrides.size,0);
 }
-(async()=>{testPlans();testDirector();await testIntegration();await testIntegration({failGuests:true});await testIntegration({failAnimations:true});await testIntegration({failGuests:true,failAnimations:true});console.log('PASS: room/view/tab lifecycle, saved toggle, translation, reduced motion, painter exclusion, partial asset failures, and cleared layers.');})().catch(error=>{console.error(error);process.exitCode=1;});
+(async()=>{testPlans();testDirector();await testIntegration();await testIntegration({failGuests:true});await testIntegration({failAnimations:true});await testIntegration({failGuests:true,failAnimations:true});console.log('PASS: room/view/tab lifecycle, open remote, saved toggle, translation, reduced motion, painter exclusion, partial asset failures, and cleared layers.');})().catch(error=>{console.error(error);process.exitCode=1;});
