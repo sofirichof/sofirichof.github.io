@@ -87,9 +87,12 @@
   const guests=loaded[0].status==='fulfilled'?loaded[0].value:null;
   const animations=loaded.slice(1).filter(result=>result.status==='fulfilled').map(result=>result.value);
   let bag=[],visitorBag=[],lastVisitor=null,lastKind=null,lastPaint='';
+  // The open remote panel is opaque: whatever sits behind it counts as out of view, so new visitors pick spots the viewer can see.
+  const remote=document.querySelector('#remote');
+  const covered=(left,top,w,h)=>{if(!remote||remote.hidden)return 0;const c=remote.getBoundingClientRect();return Math.max(0,Math.min(left+w,c.right)-Math.max(left,c.left))*Math.max(0,Math.min(top+h,c.bottom)-Math.max(top,c.top));};
   const visibleInRoom=box=>{
    const r=scene.getBoundingClientRect(),left=r.left+box.x/640*r.width,top=r.top+box.y/400*r.height,w=box.width/640*r.width,h=box.height/400*r.height;
-   const visible=Math.max(0,Math.min(innerWidth,left+w)-Math.max(0,left))*Math.max(0,Math.min(innerHeight,top+h)-Math.max(0,top));
+   const visible=Math.max(0,Math.min(innerWidth,left+w)-Math.max(0,left))*Math.max(0,Math.min(innerHeight,top+h)-Math.max(0,top))-covered(left,top,w,h);
    return w>0&&h>0&&visible/(w*h)>.75;
   };
   const box=spot=>({x:spot.x,y:spot.y,width:guests.data.sprites[spot.sprite][0].length,height:guests.data.sprites[spot.sprite].length});
@@ -116,7 +119,7 @@
    if(kind==='guest')return chooseGuest(activeGuests);
    const animation=animations.find(animation=>animation.id===kind);animation.lastPaint='';return animation;
   };
-  const allowed=()=>enabled&&!motion.matches&&!document.hidden&&!pageHidden&&document.body.classList.contains('entered')&&document.body.dataset.view==='room'&&!document.querySelector('dialog[open]')&&document.querySelector('#remote').hidden;
+  const allowed=()=>enabled&&!motion.matches&&!document.hidden&&!pageHidden&&document.body.classList.contains('entered')&&document.body.dataset.view==='room'&&!document.querySelector('dialog[open]');
   const paint=frames=>{
    const visitors=[];
    for(const {event,elapsed} of frames){
@@ -147,7 +150,6 @@
   };
   toggle.addEventListener('click',()=>{enabled=!enabled;try{localStorage.setItem(key,enabled?'on':'off');}catch{}sync();});
   const observer=new MutationObserver(sync);observer.observe(document.body,{attributes:true,attributeFilter:['data-view','class']});
-  observer.observe(document.querySelector('#remote'),{attributes:true,attributeFilter:['hidden']});
   for(const dialog of document.querySelectorAll('dialog'))observer.observe(dialog,{attributes:true,attributeFilter:['open']});
   document.addEventListener('visibilitychange',sync);document.addEventListener('noche:language',sync);motion.addEventListener('change',sync);
   window.addEventListener('pagehide',()=>{pageHidden=true;director.stop();});window.addEventListener('pageshow',()=>{pageHidden=false;sync();});

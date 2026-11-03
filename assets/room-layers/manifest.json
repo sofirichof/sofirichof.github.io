@@ -2,6 +2,7 @@
   "width": 640,
   "height": 400,
   "source": "../room-master.png",
+  "grid": "../../pixel-source/room-grid.png",
   "sourceSha256": "52d09a241f95d5085c36993e1db3179d2c21f81f1c5a8cce77fa04008e28f1d8",
   "gridSha256": "273d810eef7fa13a092ee7c9a717489ad46dfa0e7ef15ce2259c36fe088dbaa5",
   "pixelMatch": true,

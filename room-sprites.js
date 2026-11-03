@@ -1,18 +1,18 @@
-/* Registered room pixels. Still composition is verified against the reference. */
+/* Registered room pixels. Still composition is verified against the frozen 640 x 400 grid the layers were cut from (pixel-source/room-grid.png). The 1586 x 992 master is only used for display: browsers shrink it with different nearest-neighbour sampling (Firefox differs from Chrome on most pixels), so comparing against the scaled master failed there and disabled room life. */
 (() => {
- const VERSION='room-layers-7';
+ const VERSION='room-layers-9';
  class RoomPixels {
-  constructor(canvas,data,layers,reference){
-   this.canvas=canvas;this.context=canvas.getContext('2d');this.data=data;this.layers=layers;
+  constructor(canvas,data,layers,reference,grid=null){
+   this.canvas=canvas;this.context=canvas.getContext('2d');this.data=data;this.layers=layers;this.grid=grid;
    this.reference=reference;this.mode='layered';this.selected=layers[0].id;this.split=.5;this.frameOverrides=new Map();
    canvas.width=data.width;canvas.height=data.height;this.render();
    const original=document.createElement('canvas');original.width=data.width;original.height=data.height;
-   const ctx=original.getContext('2d');ctx.imageSmoothingEnabled=false;ctx.drawImage(reference,0,0,data.width,data.height);
+   const ctx=original.getContext('2d');ctx.imageSmoothingEnabled=false;ctx.drawImage(grid||reference,0,0,data.width,data.height);
    const expected=ctx.getImageData(0,0,data.width,data.height).data;
    const actual=this.context.getImageData(0,0,data.width,data.height).data;
    let differences=0;
    for(let i=0;i<expected.length;i+=4)if(expected[i]!==actual[i]||expected[i+1]!==actual[i+1]||expected[i+2]!==actual[i+2]||expected[i+3]!==actual[i+3])differences++;
-   this.pixelDifferences=differences;canvas.dataset.pixelDifferences=String(differences);
+   this.pixelDifferences=differences;canvas.dataset.pixelDifferences=String(differences);canvas.dataset.comparedTo=grid?'grid':'master';
    canvas.dataset.layers=String(layers.length);canvas.dataset.renderer='layered';canvas.dataset.state='ready';
   }
   exportReference(){
@@ -53,10 +53,11 @@
   const data=await response.json();
   // Wait for the load event: image.decode() never settles while the page is hidden, which left phones without room life.
   const load=source=>new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(new Error('Room layer unavailable: '+source));image.src=source;});
-  const [layers,reference]=await Promise.all([
+  const [layers,reference,grid]=await Promise.all([
    Promise.all(data.layers.map(async layer=>{const source=new URL(layer.src,url);source.search='?v='+VERSION;return {...layer,surface:await load(source.href)};})),
-   load(new URL(data.source,url).href)
+   load(new URL(data.source,url).href),
+   data.grid?load((()=>{const g=new URL(data.grid,url);g.search='?v='+VERSION;return g.href;})()).catch(()=>null):null
   ]);
-  return new RoomPixels(canvas,data,layers,reference);
+  return new RoomPixels(canvas,data,layers,reference,grid);
  }};
 })();

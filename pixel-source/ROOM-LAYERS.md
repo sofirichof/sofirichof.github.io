@@ -19,7 +19,7 @@ The overhead record player already has its separate animation system. The small 
 ## Edit and rebuild
 
 - Edit individual files in `assets/room-layers/` with a one-pixel pencil. Preserve dimensions and registration.
-- `room-grid.png` freezes the exact original 640 × 400 canvas exported through the study’s download link. Keeping this grid avoids resampling differences between the browser and offline image tools.
+- `room-grid.png` freezes the exact original 640 × 400 canvas exported through the study’s download link. Keeping this grid avoids resampling differences between the browser and offline image tools. The site verifies its assembled layers against this grid too (manifest `grid`), not against the master shrunk in the browser: Firefox samples the 1586 × 992 master differently from Chrome, so that comparison failed there, fell back to the flat picture and never created room life.
 - `trace-room.py` contains the initial source polygons. `room-mask-refinements.json` overrides them with tighter polygons or pixel-row spans. It writes `room-regions.json` as a record of those masks, plus the PNGs and manifest.
 - `room_underpainting.py` reconstructs the four prepared backdrops and separates their contact patches. It uses Pillow and NumPy; these are build-time tools, not website dependencies.
 - Run `python3 pixel-source/trace-room.py` to rebuild. This overwrites manual edits to extracted PNGs. Back up any painted layers first.
@@ -53,7 +53,7 @@ See `ANIMATION-RESEARCH.md` for the primary-source research, proposed animation 
 
 The initial wait is 4–8 seconds; later gaps are 14–30 seconds. A visitor stays 11–16 seconds. Its movement has an 86% chance and glow a separate 68% chance. Each start is drawn independently within that visit, leaving room for its full duration and a quiet exit. Neither clock waits for the other: movement can precede glow, glow can precede movement, they can overlap, and either or both can be skipped. Glow independently varies brightness (5–8), duration (3.8–6.6 seconds), rise (24–36%) and hold (8–18%). Eyes, props and shadows retain their room-lit colors.
 
-The remote's **Room life** switch saves its on/off preference locally. Events clear when a film, artwork, album, guide, dialog or remote is opened, or the document is hidden. Returning starts a fresh wait. Page restoration cannot replay stale events. Reduced motion disables automatic room events. This does not change audio permission or playback. Failed optional assets leave the remaining event types available.
+The remote's **Room life** switch saves its on/off preference locally. Events clear when a film, artwork, album, guide or dialog is opened, or the document is hidden; the open remote only hides its own area from new visitors. Returning starts a fresh wait. Page restoration cannot replay stale events. Reduced motion disables automatic room events. This does not change audio permission or playback. Failed optional assets leave the remaining event types available.
 
 Visitor art, halos, Zs and thought bubbles occupy a transparent overlay; the shared renderer never writes the room canvas. Breeze and heart frames temporarily replace only their registered layer and restore it on completion or cancellation. The original image and 47 base-layer files remain unchanged. New room events still need their own masks, hidden-surface repairs and approved frame studies before joining this system.
 
